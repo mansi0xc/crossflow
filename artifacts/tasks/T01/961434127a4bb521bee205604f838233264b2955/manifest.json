@@ -1,0 +1,56 @@
+{
+  "task": "T01",
+  "status": "DONE_RESEARCH_INPUT_FREEZE",
+  "sourceCommit": "961434127a4bb521bee205604f838233264b2955",
+  "recordedAt": "2026-09-22T20:20:49.192036+00:00",
+  "environment": "SYNTHETIC",
+  "requirements": [
+    "R08",
+    "R09",
+    "R20"
+  ],
+  "sourceFiles": {
+    "research/economics/scenario-spec.md": "465d9d509516e81d4e93814806ae4757f0f403d95710addb792c6478fd44c4a0",
+    "research/economics/scenarios.json": "e268bcf55736c5bc17f98a7c42d2b56e3ef4f0e099d4eb4ab26f5bbbc155d037",
+    "research/economics/split-manifest.json": "898cb972ad12754433e74bdb3463c833b510f76af97e99411606385ef57d0c7c",
+    "scripts/check-scenarios.py": "0f82f7d0da624fbec64ec446a47d617b059d45d9596c8e8b6f4de2696ed718f7",
+    "tests/economics/test_scenarios.py": "2799ffbf45efdb37aca97efc3d6ad65c5241f55dc1a71a4685582b39027ac04b"
+  },
+  "suiteSha256": "f8ce9388d0280a9faa92327d9f341fc9f265f22cc271f25f4d106ae60d7b59e7",
+  "scenarios": 20,
+  "train": 12,
+  "holdout": 8,
+  "referencePortfolios": 41,
+  "intentionalAdmissionRejections": 5,
+  "testsPassed": 20,
+  "testsFailed": 0,
+  "checks": [
+    {
+      "command": "python3 scripts/check-scenarios.py",
+      "exit": 0,
+      "output": "scenario-checker.log"
+    },
+    {
+      "command": "python3 -m unittest discover -s tests/economics -v",
+      "exit": 0,
+      "output": "scenario-tests.log"
+    }
+  ],
+  "independentReviewer": "foundation_review",
+  "reviewStatus": "Independent T01 PASS; T02 REWORK separate",
+  "limits": [
+    "No optimization, held-out performance, economic savings or on-chain execution has been measured.",
+    "Research feasibility is not on-chain executability; T02 value and oracle guards must be applied uniformly later."
+  ],
+  "newMoneySpent": 0,
+  "transactionsSubmitted": 0,
+  "independentEvidence": {
+    "independent-review.md": "9a7088d42e6740dcc22b51b3c8995c882bb34b29df0a0cd5d43f400f817569ae",
+    "review-source-hashes.json": "592f7ba980e55a47a86c1a516b24eb229facd709e3714b305d103bed7999b1b6",
+    "review-probes.py": "90b65cd1d95cb20be7eb208fc38e2f95258a50a1baffab3f24845c3a7e02f3f2",
+    "independent-probes.log": "f7378fe2b7464aec77972a4dfa4b4025d26b50e137dad1f309c1f8c6dc4a74cf",
+    "independent-checker.log": "15f699005940159c0b14b1a81ed7066c9aece13e465197e5c2ef175633ff26b2",
+    "independent-tests.log": "1d4b62a08cd02cf946bc6bc87e543cc3330ff62eb6c062eaf453dabc6c112828"
+  },
+  "updatedAt": "2026-09-22T20:22:54.041742+00:00"
+}

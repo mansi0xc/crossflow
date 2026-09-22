@@ -1,0 +1,12 @@
+{
+  "/private/tmp/crossflow-t01-stage/research/economics/scenario-spec.md": "465d9d509516e81d4e93814806ae4757f0f403d95710addb792c6478fd44c4a0",
+  "/private/tmp/crossflow-t01-stage/research/economics/scenarios.json": "e268bcf55736c5bc17f98a7c42d2b56e3ef4f0e099d4eb4ab26f5bbbc155d037",
+  "/private/tmp/crossflow-t01-stage/research/economics/split-manifest.json": "898cb972ad12754433e74bdb3463c833b510f76af97e99411606385ef57d0c7c",
+  "/private/tmp/crossflow-t01-stage/scripts/check-scenarios.py": "0f82f7d0da624fbec64ec446a47d617b059d45d9596c8e8b6f4de2696ed718f7",
+  "/private/tmp/crossflow-t01-stage/tests/economics/test_scenarios.py": "2799ffbf45efdb37aca97efc3d6ad65c5241f55dc1a71a4685582b39027ac04b",
+  "/private/tmp/crossflow-t02-stage/docs/spec/threat-model.md": "3845e17c1f154154a92036bd2c84b4701fd694aac03d866796838108c850048a",
+  "/private/tmp/crossflow-t02-stage/docs/spec/wire-vectors.json": "1f8444d65f8105f21b55d64fe7e35cd6c61e675dbcc112fa002df2ceef9454df",
+  "/private/tmp/crossflow-t02-stage/docs/spec/intent-contract.md": "61716b8d4bc52a6ef7a0aec7c809e12091b359974b8a4d32f8f95b74aa574496",
+  "/private/tmp/crossflow-t02-stage/docs/spec/settlement-accounting.md": "a761c538d7b02aa1810fa9ece2af30a9d8c619953e26c61d3bca41fb5a8ec2a5",
+  "/private/tmp/crossflow-t02-stage/docs/spec/check-wire-vectors.py": "b92d5ff4ca6d1dc681aefeeaaff79736aca477a6c650e7814af6bdc4a6fffa59"
+}

@@ -1,0 +1,25 @@
+test_bool_amount (test_scenarios.ScenarioChecks) ... ok
+test_cash_fee_conservation (test_scenarios.ScenarioChecks) ... ok
+test_duplicate_account (test_scenarios.ScenarioChecks) ... ok
+test_duplicate_scenario (test_scenarios.ScenarioChecks) ... ok
+test_float_amount (test_scenarios.ScenarioChecks) ... ok
+test_frozen_suite (test_scenarios.ScenarioChecks) ... ok
+test_hash_tampering (test_scenarios.ScenarioChecks) ... ok
+test_impossible_range (test_scenarios.ScenarioChecks) ... ok
+test_infeasible_rejection_not_silent_success (test_scenarios.ScenarioChecks) ... ok
+test_manifest_hash_tampering (test_scenarios.ScenarioChecks) ... ok
+test_missing_cost (test_scenarios.ScenarioChecks) ... ok
+test_missing_split_case (test_scenarios.ScenarioChecks) ... ok
+test_overlapping_splits (test_scenarios.ScenarioChecks) ... ok
+test_price_guard_mutation (test_scenarios.ScenarioChecks) ... ok
+test_reference_reserve_understatement (test_scenarios.ScenarioChecks) ... ok
+test_rent_not_recurring (test_scenarios.ScenarioChecks) ... ok
+test_unlabelled_synthetic (test_scenarios.ScenarioChecks) ... ok
+test_zero_depth (test_scenarios.ScenarioChecks) ... ok
+test_zero_holdings_valid_noop_is_separate (test_scenarios.ScenarioChecks) ... ok
+test_zero_trade_cannot_meet_progress (test_scenarios.ScenarioChecks) ... ok
+
+----------------------------------------------------------------------
+Ran 20 tests in 0.023s
+
+OK

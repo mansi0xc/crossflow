@@ -1,6 +1,6 @@
 # CrossFlow roadmap
 
-All work is planned; phase gates are not passed.
+Execution started: T00 preflight is complete; T01/T02 are active. All phase gates remain unpassed until their full acceptance evidence exists.
 
 | Phase | Outcome | Gate |
 |---|---|---|

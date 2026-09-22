@@ -25,18 +25,19 @@ These waves are dependency levels, not dates. A higher-wave independent path may
 | 0 | T00 | Integration lead: evidence, access, stack and zero-spend feasibility |
 | 1 | T01, T02 | Economics scenarios; protocol/schema specification |
 | 2 | T03, T04 | Economic opportunity experiment; reproducible workspace |
-| 3 | T05, T11, T14 | Thin funded intent; plan validation; oracle interface |
-| 4 | T06, T12, T15 | Thin settlement/recovery; baseline engines; conditional Pyth |
-| 5 | T07, T08, T13, T18, T23 | Lifecycle; arithmetic/assets; allocation; UI shell; deployment tooling |
-| 6 | T09, T10, T21 | Atomic batch; controlled venue; held-out economics |
-| 7 | T16, T20 | Residual integration; receipt/recovery flow |
-| 8 | T17, T32 | Adversarial composed money-path suite; API and batch orchestration |
-| 9 | T19, T22 | Exact approval flow; independent financial/security integration review |
-| 10 | T24 | Complete public devnet workflow |
-| 11 | T25, T26, T27, T29 | Optional DBC; resilience; accessible UI; evidence-based claims |
-| 12 | T28 | Repeated operation and bounded transaction measurements |
-| 13 | T30 | Frozen release rehearsal |
-| 14 | T31 | Submission-ready package and human handoff |
+| 3 | T11, T14 | Plan validation; fixture oracle interface and guard |
+| 4 | T05, T12, T15 | Thin funded intent after oracle guard; baseline engines; conditional Pyth |
+| 5 | T06, T13 | Thin settlement/recovery; allocation and comparisons |
+| 6 | T07, T08, T18, T21, T23 | Lifecycle, arithmetic/assets, UI shell, held-out economics, deployment tooling |
+| 7 | T09, T10 | Atomic batch; controlled venue |
+| 8 | T16, T20 | Residual integration; receipt/recovery flow |
+| 9 | T17, T32 | Adversarial composed money-path suite; API and batch orchestration |
+| 10 | T19, T22 | Exact approval flow; independent financial/security integration review |
+| 11 | T24 | Complete public devnet workflow |
+| 12 | T25, T26, T27, T29 | Optional DBC; resilience; accessible UI; evidence-based claims |
+| 13 | T28 | Repeated operation and bounded transaction measurements |
+| 14 | T30 | Frozen release rehearsal |
+| 15 | T31 | Submission-ready package and human handoff |
 
 The economic spike T03 must pass the master plan's opportunity gate before substantial expansion beyond the thin slice. The work calendar should protect the 25 September 2026 19:30 IST internal readiness target and 26 September 01:30 IST official deadline, subject to T00 verification. Exclude DBC at the master plan's cutoff if it lacks complete evidence. Package whatever is genuinely implemented; do not conceal failures to meet a deadline.
 
@@ -104,7 +105,7 @@ The economic spike T03 must pass the master plan's opportunity gate before subst
 
 ### T05 — Fund one selected portfolio slice through the real local stack
 
-**Phase / dependencies / owner / effort:** 1 / T04 / protocol implementer, reviewed by protocol reviewer / 3–4 hours. **Requirements:** R03, R04, R06, R12.
+**Phase / dependencies / owner / effort:** 1 / T04, T14 / protocol implementer, reviewed by protocol reviewer / 3–4 hours. **Requirements:** R03, R04, R06, R12.
 
 **Files:** `programs/crossflow/src/intent.rs`, `programs/crossflow/src/funding.rs`, `programs/crossflow/src/config.rs`, `packages/client/src/fund.ts`, `tests/program/funding.test.ts`, `scripts/demo-local.ts`.
 

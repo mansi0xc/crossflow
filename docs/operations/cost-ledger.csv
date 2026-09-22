@@ -1,7 +1,8 @@
 item,new_money_spent,currency,status,limit_or_expiry,fallback
 Local build and tests,0,USD,used,Local disk and machine capacity,Stop temporary processes after checks
 Solana devnet RPC,0,USD,read-access-verified,Public endpoint no SLA; obey limits,Local validator
-Solana devnet faucet,0,USD,two-requests-failed,Funding prerequisite unresolved,Official free faucet later; no purchases
-Pyth Pro,0,USD,excluded-by-user,No trial credential or entitlement used,Explicit fixture oracle
+Solana devnet faucet,0,USD,two-requests-failed,Historical attempts failed; prerequisite now resolved by existing authorized wallet,No purchases
+Pyth Pro,0,USD,deferred-by-user,No credential or entitlement used; revisit after core setup,Explicit fixture oracle
 Public hosting,0,USD,not-provisioned,No account or quota verified,Local demo and recorded video
 Mainnet,0,USD,prohibited,No mainnet writes permitted,None
+Existing CLI devnet wallet,0,USD,funded-read-only-verified,20.95376933 devnet SOL at 2026-09-22T15:16:47Z; actual deployment cost gate pending,No mainnet or purchases

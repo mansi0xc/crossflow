@@ -65,7 +65,7 @@ The first thin slice must exercise funding, settlement/rejection and refund befo
 
 ## 2. Calendar, critical path and budget
 
-The published deadline is **25 September 2026, 16:00 Eastern Time**, equivalent to **26 September 2026, 01:30 IST**. Recheck the [official Stocklana page](https://hackathons.solana.com/hackathons/stocklana) at execution start; preserve the applicable rules in evidence. Planning was resumed at approximately 10:30 IST on 22 September. The schedule below assumes an 11:00 IST execution start, leaving about 86.5 hours; it must be rebased if execution starts later. These are elapsed-time targets, not a demand for anyone to work without rest. Parallel agents can shorten independent work, but cannot remove dependency checks.
+The published deadline is **25 September 2026, 16:00 Eastern Time**, equivalent to **26 September 2026, 01:30 IST**. Recheck the [official Stocklana page](https://hackathons.solana.com/hackathons/stocklana) at execution start; preserve the applicable rules in evidence. Planning was resumed at approximately 10:30 IST on 22 September. The schedule below was the initial target. By 23 September 01:50 IST, T00 was complete, T01 input freeze was independently accepted, T03 was active, and T02 was in rework for an internal-cross pricing gap. The 22 September 23:00 IST G0 target was missed; the 23 September 08:00 IST G1 target is at risk. Rebase after resolving T02/T03; neither gate is passed by this schedule update. These are elapsed-time targets, not a demand for anyone to work without rest. Parallel agents can shorten independent work, but cannot remove dependency checks.
 
 | Latest target, IST | Required evidence | If missed |
 |---|---|---|

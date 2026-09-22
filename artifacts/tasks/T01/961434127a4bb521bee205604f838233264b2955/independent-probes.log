@@ -1,0 +1,6 @@
+Independent policy/mandate/funding preimages and 35 mutations PASS
+Independent numeric-input probes and 2480 small allocation/conservation/permutation cases PASS
+Independent split/hashes and all 41 reference cash/value conservation checks PASS; optimizer_runs=0
+T01 tiny-01/a reference VF 25000000 VO 23000000 loss_bps 800 T02 200bps pass False
+Cross-price counterexample: buyer $1000 cash -> $989 cash + 1 share at $10 reference; seller $1000 cash +1 share -> $1011 cash. Buyer value loss=0.1%, seller gains; both pass 2% value guard although internal cross price is 10% above reference. Broad raw bounds can permit both outputs.
+Source hashes saved: 10
