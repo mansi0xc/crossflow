@@ -1,0 +1,3495 @@
+{
+  "schema_version": 1,
+  "suite_id": "crossflow-synthetic-v1",
+  "seed": 22092026,
+  "created_before_optimizer": true,
+  "evaluation_contract": {
+    "objective": "recurring_execution_cost_plus_stock_target_penalty",
+    "tracking_penalty_bps": 5,
+    "tie_break": [
+      "stock_target_error_micro_usd",
+      "stock_turnover_micro_usd",
+      "lexicographic_final_stock_raw_by_account_id"
+    ],
+    "stock_grid_step_raw": 1,
+    "max_joint_grid_candidates": 729,
+    "shared_cost_allocation": "integer_residual_lots_then_fee_largest_remainder_by_account_id",
+    "bounds_after_venue_costs": true,
+    "reject_infeasible_baselines": true
+  },
+  "generation": "Hand-constructed cases; seed reserved for later deterministic sensitivity sampling, not an assertion of random representativeness.",
+  "scenarios": [
+    {
+      "id": "opposite-01",
+      "category": "opposite_flow",
+      "split": "train",
+      "provenance": {
+        "kind": "synthetic",
+        "license": "CC0-1.0",
+        "source": "Original CrossFlow test fixture, constructed without observed market data",
+        "is_market_evidence": false
+      },
+      "assets": [
+        {
+          "id": "STOCK_A",
+          "decimals": 0,
+          "price_micro_usd_per_raw": 10000000,
+          "provenance": "synthetic_fixture_not_issuer_backed"
+        },
+        {
+          "id": "STOCK_B",
+          "decimals": 0,
+          "price_micro_usd_per_raw": 20000000,
+          "provenance": "synthetic_fixture_not_issuer_backed"
+        },
+        {
+          "id": "CASH",
+          "decimals": 6,
+          "price_micro_usd_per_raw": 1,
+          "provenance": "synthetic_fixture_not_issuer_backed"
+        }
+      ],
+      "accounts": [
+        {
+          "id": "a",
+          "initial_raw": {
+            "STOCK_A": 0,
+            "STOCK_B": 0,
+            "CASH": 1000000000
+          },
+          "target_raw": {
+            "STOCK_A": 5,
+            "STOCK_B": 0
+          },
+          "final_bounds_raw": {
+            "STOCK_A": {
+              "min": 4,
+              "max": 6
+            },
+            "STOCK_B": {
+              "min": 0,
+              "max": 0
+            },
+            "CASH": {
+              "min": 0,
+              "max": 2000000000
+            }
+          },
+          "min_error_reduction_bps": 5000,
+          "max_stock_error_micro_usd": 30000000,
+          "max_turnover_micro_usd": 1000000000,
+          "cost_debit_budget_micro_usd": 20000000,
+          "reference": {
+            "final_raw": {
+              "STOCK_A": 5,
+              "STOCK_B": 0,
+              "CASH": 930000000
+            },
+            "cost_debit_micro_usd": 20000000,
+            "expected_feasible": true,
+            "expected_failures": []
+          }
+        },
+        {
+          "id": "b",
+          "initial_raw": {
+            "STOCK_A": 10,
+            "STOCK_B": 0,
+            "CASH": 1000000000
+          },
+          "target_raw": {
+            "STOCK_A": 6,
+            "STOCK_B": 0
+          },
+          "final_bounds_raw": {
+            "STOCK_A": {
+              "min": 5,
+              "max": 7
+            },
+            "STOCK_B": {
+              "min": 0,
+              "max": 0
+            },
+            "CASH": {
+              "min": 0,
+              "max": 2000000000
+            }
+          },
+          "min_error_reduction_bps": 5000,
+          "max_stock_error_micro_usd": 30000000,
+          "max_turnover_micro_usd": 1000000000,
+          "cost_debit_budget_micro_usd": 20000000,
+          "reference": {
+            "final_raw": {
+              "STOCK_A": 6,
+              "STOCK_B": 0,
+              "CASH": 1020000000
+            },
+            "cost_debit_micro_usd": 20000000,
+            "expected_feasible": true,
+            "expected_failures": []
+          }
+        },
+        {
+          "id": "c",
+          "initial_raw": {
+            "STOCK_A": 0,
+            "STOCK_B": 2,
+            "CASH": 1000000000
+          },
+          "target_raw": {
+            "STOCK_A": 0,
+            "STOCK_B": 2
+          },
+          "final_bounds_raw": {
+            "STOCK_A": {
+              "min": 0,
+              "max": 0
+            },
+            "STOCK_B": {
+              "min": 2,
+              "max": 2
+            },
+            "CASH": {
+              "min": 0,
+              "max": 2000000000
+            }
+          },
+          "min_error_reduction_bps": 0,
+          "max_stock_error_micro_usd": 1,
+          "max_turnover_micro_usd": 1000000000,
+          "cost_debit_budget_micro_usd": 20000000,
+          "reference": {
+            "final_raw": {
+              "STOCK_A": 0,
+              "STOCK_B": 2,
+              "CASH": 980000000
+            },
+            "cost_debit_micro_usd": 20000000,
+            "expected_feasible": true,
+            "expected_failures": []
+          }
+        }
+      ],
+      "cost_model": {
+        "external_by_asset": {
+          "STOCK_A": {
+            "half_spread_bps": 10,
+            "venue_fee_bps": 5,
+            "impact_bps_at_depth": 20,
+            "depth_micro_usd": 1000000000,
+            "fixed_order_fee_micro_usd": 1000
+          },
+          "STOCK_B": {
+            "half_spread_bps": 10,
+            "venue_fee_bps": 5,
+            "impact_bps_at_depth": 20,
+            "depth_micro_usd": 1000000000,
+            "fixed_order_fee_micro_usd": 1000
+          }
+        },
+        "internal_fee_bps": 0,
+        "protocol_fee_bps": 0,
+        "network": {
+          "sol_price_micro_usd": 150000000,
+          "lamports_per_signature": 5000,
+          "priority_lamports_per_transaction": 1000,
+          "signatures_per_transaction": 1,
+          "independent_transactions_per_active_owner": 1,
+          "batch_funding_transactions_per_owner": 1,
+          "batch_settlement_transactions": 1,
+          "batch_cleanup_transactions_per_owner": 0,
+          "retry_probability_bps": 100,
+          "max_retries": 1
+        },
+        "waiting": {
+          "independent_seconds": 0,
+          "batch_seconds": 30,
+          "opportunity_bps_per_hour": 1
+        },
+        "recoverable_rent": {
+          "lamports_per_owner": 3000000,
+          "lamports_batch_shared": 2000000,
+          "treatment": "upfront_deposit_excluded_from_recurring_cost_report_separately"
+        }
+      },
+      "price_observation": {
+        "as_of_unix": 1790089200,
+        "observation_unix": 1790089200,
+        "max_age_seconds": 60,
+        "confidence_bps": 5,
+        "max_confidence_bps": 100,
+        "execution_price_shock_bps": {
+          "STOCK_A": 0,
+          "STOCK_B": 0
+        },
+        "max_price_deviation_bps": 100
+      },
+      "batch_min_participants": 2,
+      "expected_admission": "accept",
+      "expected_rejection_reasons": [],
+      "expected_qualitative_case": "Hand-enumerable one-stock opportunity candidate: independent minimal movements can leave a residual that cooperative adjustment might remove; benefit is unmeasured."
+    },
+    {
+      "id": "all-buy-01",
+      "category": "all_buy",
+      "split": "train",
+      "provenance": {
+        "kind": "synthetic",
+        "license": "CC0-1.0",
+        "source": "Original CrossFlow test fixture, constructed without observed market data",
+        "is_market_evidence": false
+      },
+      "assets": [
+        {
+          "id": "STOCK_A",
+          "decimals": 0,
+          "price_micro_usd_per_raw": 10000000,
+          "provenance": "synthetic_fixture_not_issuer_backed"
+        },
+        {
+          "id": "STOCK_B",
+          "decimals": 0,
+          "price_micro_usd_per_raw": 20000000,
+          "provenance": "synthetic_fixture_not_issuer_backed"
+        },
+        {
+          "id": "CASH",
+          "decimals": 6,
+          "price_micro_usd_per_raw": 1,
+          "provenance": "synthetic_fixture_not_issuer_backed"
+        }
+      ],
+      "accounts": [
+        {
+          "id": "a",
+          "initial_raw": {
+            "STOCK_A": 0,
+            "STOCK_B": 0,
+            "CASH": 1000000000
+          },
+          "target_raw": {
+            "STOCK_A": 5,
+            "STOCK_B": 0
+          },
+          "final_bounds_raw": {
+            "STOCK_A": {
+              "min": 4,
+              "max": 6
+            },
+            "STOCK_B": {
+              "min": 0,
+              "max": 0
+            },
+            "CASH": {
+              "min": 0,
+              "max": 2000000000
+            }
+          },
+          "min_error_reduction_bps": 5000,
+          "max_stock_error_micro_usd": 30000000,
+          "max_turnover_micro_usd": 1000000000,
+          "cost_debit_budget_micro_usd": 20000000,
+          "reference": {
+            "final_raw": {
+              "STOCK_A": 5,
+              "STOCK_B": 0,
+              "CASH": 930000000
+            },
+            "cost_debit_micro_usd": 20000000,
+            "expected_feasible": true,
+            "expected_failures": []
+          }
+        },
+        {
+          "id": "b",
+          "initial_raw": {
+            "STOCK_A": 0,
+            "STOCK_B": 0,
+            "CASH": 1000000000
+          },
+          "target_raw": {
+            "STOCK_A": 4,
+            "STOCK_B": 0
+          },
+          "final_bounds_raw": {
+            "STOCK_A": {
+              "min": 3,
+              "max": 5
+            },
+            "STOCK_B": {
+              "min": 0,
+              "max": 0
+            },
+            "CASH": {
+              "min": 0,
+              "max": 2000000000
+            }
+          },
+          "min_error_reduction_bps": 5000,
+          "max_stock_error_micro_usd": 30000000,
+          "max_turnover_micro_usd": 1000000000,
+          "cost_debit_budget_micro_usd": 20000000,
+          "reference": {
+            "final_raw": {
+              "STOCK_A": 4,
+              "STOCK_B": 0,
+              "CASH": 940000000
+            },
+            "cost_debit_micro_usd": 20000000,
+            "expected_feasible": true,
+            "expected_failures": []
+          }
+        }
+      ],
+      "cost_model": {
+        "external_by_asset": {
+          "STOCK_A": {
+            "half_spread_bps": 10,
+            "venue_fee_bps": 5,
+            "impact_bps_at_depth": 20,
+            "depth_micro_usd": 1000000000,
+            "fixed_order_fee_micro_usd": 1000
+          },
+          "STOCK_B": {
+            "half_spread_bps": 10,
+            "venue_fee_bps": 5,
+            "impact_bps_at_depth": 20,
+            "depth_micro_usd": 1000000000,
+            "fixed_order_fee_micro_usd": 1000
+          }
+        },
+        "internal_fee_bps": 0,
+        "protocol_fee_bps": 0,
+        "network": {
+          "sol_price_micro_usd": 150000000,
+          "lamports_per_signature": 5000,
+          "priority_lamports_per_transaction": 1000,
+          "signatures_per_transaction": 1,
+          "independent_transactions_per_active_owner": 1,
+          "batch_funding_transactions_per_owner": 1,
+          "batch_settlement_transactions": 1,
+          "batch_cleanup_transactions_per_owner": 0,
+          "retry_probability_bps": 100,
+          "max_retries": 1
+        },
+        "waiting": {
+          "independent_seconds": 0,
+          "batch_seconds": 30,
+          "opportunity_bps_per_hour": 1
+        },
+        "recoverable_rent": {
+          "lamports_per_owner": 3000000,
+          "lamports_batch_shared": 2000000,
+          "treatment": "upfront_deposit_excluded_from_recurring_cost_report_separately"
+        }
+      },
+      "price_observation": {
+        "as_of_unix": 1790089200,
+        "observation_unix": 1790089200,
+        "max_age_seconds": 60,
+        "confidence_bps": 5,
+        "max_confidence_bps": 100,
+        "execution_price_shock_bps": {
+          "STOCK_A": 0,
+          "STOCK_B": 0
+        },
+        "max_price_deviation_bps": 100
+      },
+      "batch_min_participants": 2,
+      "expected_admission": "accept",
+      "expected_rejection_reasons": [],
+      "expected_qualitative_case": "Same-direction residual: no internal stock crossing; extra batch overhead may lose."
+    },
+    {
+      "id": "no-overlap-01",
+      "category": "no_overlap",
+      "split": "train",
+      "provenance": {
+        "kind": "synthetic",
+        "license": "CC0-1.0",
+        "source": "Original CrossFlow test fixture, constructed without observed market data",
+        "is_market_evidence": false
+      },
+      "assets": [
+        {
+          "id": "STOCK_A",
+          "decimals": 0,
+          "price_micro_usd_per_raw": 10000000,
+          "provenance": "synthetic_fixture_not_issuer_backed"
+        },
+        {
+          "id": "STOCK_B",
+          "decimals": 0,
+          "price_micro_usd_per_raw": 20000000,
+          "provenance": "synthetic_fixture_not_issuer_backed"
+        },
+        {
+          "id": "CASH",
+          "decimals": 6,
+          "price_micro_usd_per_raw": 1,
+          "provenance": "synthetic_fixture_not_issuer_backed"
+        }
+      ],
+      "accounts": [
+        {
+          "id": "a",
+          "initial_raw": {
+            "STOCK_A": 0,
+            "STOCK_B": 0,
+            "CASH": 1000000000
+          },
+          "target_raw": {
+            "STOCK_A": 5,
+            "STOCK_B": 0
+          },
+          "final_bounds_raw": {
+            "STOCK_A": {
+              "min": 5,
+              "max": 5
+            },
+            "STOCK_B": {
+              "min": 0,
+              "max": 0
+            },
+            "CASH": {
+              "min": 0,
+              "max": 2000000000
+            }
+          },
+          "min_error_reduction_bps": 5000,
+          "max_stock_error_micro_usd": 1,
+          "max_turnover_micro_usd": 1000000000,
+          "cost_debit_budget_micro_usd": 20000000,
+          "reference": {
+            "final_raw": {
+              "STOCK_A": 5,
+              "STOCK_B": 0,
+              "CASH": 930000000
+            },
+            "cost_debit_micro_usd": 20000000,
+            "expected_feasible": true,
+            "expected_failures": []
+          }
+        },
+        {
+          "id": "b",
+          "initial_raw": {
+            "STOCK_A": 0,
+            "STOCK_B": 0,
+            "CASH": 1000000000
+          },
+          "target_raw": {
+            "STOCK_A": 0,
+            "STOCK_B": 3
+          },
+          "final_bounds_raw": {
+            "STOCK_A": {
+              "min": 0,
+              "max": 0
+            },
+            "STOCK_B": {
+              "min": 3,
+              "max": 3
+            },
+            "CASH": {
+              "min": 0,
+              "max": 2000000000
+            }
+          },
+          "min_error_reduction_bps": 5000,
+          "max_stock_error_micro_usd": 1,
+          "max_turnover_micro_usd": 1000000000,
+          "cost_debit_budget_micro_usd": 20000000,
+          "reference": {
+            "final_raw": {
+              "STOCK_A": 0,
+              "STOCK_B": 3,
+              "CASH": 920000000
+            },
+            "cost_debit_micro_usd": 20000000,
+            "expected_feasible": true,
+            "expected_failures": []
+          }
+        }
+      ],
+      "cost_model": {
+        "external_by_asset": {
+          "STOCK_A": {
+            "half_spread_bps": 10,
+            "venue_fee_bps": 5,
+            "impact_bps_at_depth": 20,
+            "depth_micro_usd": 1000000000,
+            "fixed_order_fee_micro_usd": 1000
+          },
+          "STOCK_B": {
+            "half_spread_bps": 10,
+            "venue_fee_bps": 5,
+            "impact_bps_at_depth": 20,
+            "depth_micro_usd": 1000000000,
+            "fixed_order_fee_micro_usd": 1000
+          }
+        },
+        "internal_fee_bps": 0,
+        "protocol_fee_bps": 0,
+        "network": {
+          "sol_price_micro_usd": 150000000,
+          "lamports_per_signature": 5000,
+          "priority_lamports_per_transaction": 1000,
+          "signatures_per_transaction": 1,
+          "independent_transactions_per_active_owner": 1,
+          "batch_funding_transactions_per_owner": 1,
+          "batch_settlement_transactions": 1,
+          "batch_cleanup_transactions_per_owner": 0,
+          "retry_probability_bps": 100,
+          "max_retries": 1
+        },
+        "waiting": {
+          "independent_seconds": 0,
+          "batch_seconds": 30,
+          "opportunity_bps_per_hour": 1
+        },
+        "recoverable_rent": {
+          "lamports_per_owner": 3000000,
+          "lamports_batch_shared": 2000000,
+          "treatment": "upfront_deposit_excluded_from_recurring_cost_report_separately"
+        }
+      },
+      "price_observation": {
+        "as_of_unix": 1790089200,
+        "observation_unix": 1790089200,
+        "max_age_seconds": 60,
+        "confidence_bps": 5,
+        "max_confidence_bps": 100,
+        "execution_price_shock_bps": {
+          "STOCK_A": 0,
+          "STOCK_B": 0
+        },
+        "max_price_deviation_bps": 100
+      },
+      "batch_min_participants": 2,
+      "expected_admission": "accept",
+      "expected_rejection_reasons": [],
+      "expected_qualitative_case": "Disjoint stock orders cannot cross; exact mandates prevent adjustment."
+    },
+    {
+      "id": "asymmetric-01",
+      "category": "asymmetric",
+      "split": "train",
+      "provenance": {
+        "kind": "synthetic",
+        "license": "CC0-1.0",
+        "source": "Original CrossFlow test fixture, constructed without observed market data",
+        "is_market_evidence": false
+      },
+      "assets": [
+        {
+          "id": "STOCK_A",
+          "decimals": 0,
+          "price_micro_usd_per_raw": 10000000,
+          "provenance": "synthetic_fixture_not_issuer_backed"
+        },
+        {
+          "id": "STOCK_B",
+          "decimals": 0,
+          "price_micro_usd_per_raw": 20000000,
+          "provenance": "synthetic_fixture_not_issuer_backed"
+        },
+        {
+          "id": "CASH",
+          "decimals": 6,
+          "price_micro_usd_per_raw": 1,
+          "provenance": "synthetic_fixture_not_issuer_backed"
+        }
+      ],
+      "accounts": [
+        {
+          "id": "a",
+          "initial_raw": {
+            "STOCK_A": 0,
+            "STOCK_B": 0,
+            "CASH": 5000000000
+          },
+          "target_raw": {
+            "STOCK_A": 30,
+            "STOCK_B": 0
+          },
+          "final_bounds_raw": {
+            "STOCK_A": {
+              "min": 29,
+              "max": 31
+            },
+            "STOCK_B": {
+              "min": 0,
+              "max": 0
+            },
+            "CASH": {
+              "min": 0,
+              "max": 6000000000
+            }
+          },
+          "min_error_reduction_bps": 5000,
+          "max_stock_error_micro_usd": 30000000,
+          "max_turnover_micro_usd": 1000000000,
+          "cost_debit_budget_micro_usd": 20000000,
+          "reference": {
+            "final_raw": {
+              "STOCK_A": 30,
+              "STOCK_B": 0,
+              "CASH": 4680000000
+            },
+            "cost_debit_micro_usd": 20000000,
+            "expected_feasible": true,
+            "expected_failures": []
+          }
+        },
+        {
+          "id": "b",
+          "initial_raw": {
+            "STOCK_A": 10,
+            "STOCK_B": 0,
+            "CASH": 1000000000
+          },
+          "target_raw": {
+            "STOCK_A": 6,
+            "STOCK_B": 0
+          },
+          "final_bounds_raw": {
+            "STOCK_A": {
+              "min": 5,
+              "max": 7
+            },
+            "STOCK_B": {
+              "min": 0,
+              "max": 0
+            },
+            "CASH": {
+              "min": 0,
+              "max": 2000000000
+            }
+          },
+          "min_error_reduction_bps": 5000,
+          "max_stock_error_micro_usd": 30000000,
+          "max_turnover_micro_usd": 1000000000,
+          "cost_debit_budget_micro_usd": 20000000,
+          "reference": {
+            "final_raw": {
+              "STOCK_A": 6,
+              "STOCK_B": 0,
+              "CASH": 1020000000
+            },
+            "cost_debit_micro_usd": 20000000,
+            "expected_feasible": true,
+            "expected_failures": []
+          }
+        }
+      ],
+      "cost_model": {
+        "external_by_asset": {
+          "STOCK_A": {
+            "half_spread_bps": 10,
+            "venue_fee_bps": 5,
+            "impact_bps_at_depth": 20,
+            "depth_micro_usd": 1000000000,
+            "fixed_order_fee_micro_usd": 1000
+          },
+          "STOCK_B": {
+            "half_spread_bps": 10,
+            "venue_fee_bps": 5,
+            "impact_bps_at_depth": 20,
+            "depth_micro_usd": 1000000000,
+            "fixed_order_fee_micro_usd": 1000
+          }
+        },
+        "internal_fee_bps": 0,
+        "protocol_fee_bps": 0,
+        "network": {
+          "sol_price_micro_usd": 150000000,
+          "lamports_per_signature": 5000,
+          "priority_lamports_per_transaction": 1000,
+          "signatures_per_transaction": 1,
+          "independent_transactions_per_active_owner": 1,
+          "batch_funding_transactions_per_owner": 1,
+          "batch_settlement_transactions": 1,
+          "batch_cleanup_transactions_per_owner": 0,
+          "retry_probability_bps": 100,
+          "max_retries": 1
+        },
+        "waiting": {
+          "independent_seconds": 0,
+          "batch_seconds": 30,
+          "opportunity_bps_per_hour": 1
+        },
+        "recoverable_rent": {
+          "lamports_per_owner": 3000000,
+          "lamports_batch_shared": 2000000,
+          "treatment": "upfront_deposit_excluded_from_recurring_cost_report_separately"
+        }
+      },
+      "price_observation": {
+        "as_of_unix": 1790089200,
+        "observation_unix": 1790089200,
+        "max_age_seconds": 60,
+        "confidence_bps": 5,
+        "max_confidence_bps": 100,
+        "execution_price_shock_bps": {
+          "STOCK_A": 0,
+          "STOCK_B": 0
+        },
+        "max_price_deviation_bps": 100
+      },
+      "batch_min_participants": 2,
+      "expected_admission": "accept",
+      "expected_rejection_reasons": [],
+      "expected_qualitative_case": "Dominant buyer can overwhelm the smaller seller; per-account outcomes matter."
+    },
+    {
+      "id": "tight-01",
+      "category": "tight_bands",
+      "split": "train",
+      "provenance": {
+        "kind": "synthetic",
+        "license": "CC0-1.0",
+        "source": "Original CrossFlow test fixture, constructed without observed market data",
+        "is_market_evidence": false
+      },
+      "assets": [
+        {
+          "id": "STOCK_A",
+          "decimals": 0,
+          "price_micro_usd_per_raw": 10000000,
+          "provenance": "synthetic_fixture_not_issuer_backed"
+        },
+        {
+          "id": "STOCK_B",
+          "decimals": 0,
+          "price_micro_usd_per_raw": 20000000,
+          "provenance": "synthetic_fixture_not_issuer_backed"
+        },
+        {
+          "id": "CASH",
+          "decimals": 6,
+          "price_micro_usd_per_raw": 1,
+          "provenance": "synthetic_fixture_not_issuer_backed"
+        }
+      ],
+      "accounts": [
+        {
+          "id": "a",
+          "initial_raw": {
+            "STOCK_A": 0,
+            "STOCK_B": 0,
+            "CASH": 1000000000
+          },
+          "target_raw": {
+            "STOCK_A": 5,
+            "STOCK_B": 0
+          },
+          "final_bounds_raw": {
+            "STOCK_A": {
+              "min": 5,
+              "max": 5
+            },
+            "STOCK_B": {
+              "min": 0,
+              "max": 0
+            },
+            "CASH": {
+              "min": 0,
+              "max": 2000000000
+            }
+          },
+          "min_error_reduction_bps": 5000,
+          "max_stock_error_micro_usd": 1,
+          "max_turnover_micro_usd": 1000000000,
+          "cost_debit_budget_micro_usd": 20000000,
+          "reference": {
+            "final_raw": {
+              "STOCK_A": 5,
+              "STOCK_B": 0,
+              "CASH": 930000000
+            },
+            "cost_debit_micro_usd": 20000000,
+            "expected_feasible": true,
+            "expected_failures": []
+          }
+        },
+        {
+          "id": "b",
+          "initial_raw": {
+            "STOCK_A": 10,
+            "STOCK_B": 0,
+            "CASH": 1000000000
+          },
+          "target_raw": {
+            "STOCK_A": 6,
+            "STOCK_B": 0
+          },
+          "final_bounds_raw": {
+            "STOCK_A": {
+              "min": 6,
+              "max": 6
+            },
+            "STOCK_B": {
+              "min": 0,
+              "max": 0
+            },
+            "CASH": {
+              "min": 0,
+              "max": 2000000000
+            }
+          },
+          "min_error_reduction_bps": 5000,
+          "max_stock_error_micro_usd": 1,
+          "max_turnover_micro_usd": 1000000000,
+          "cost_debit_budget_micro_usd": 20000000,
+          "reference": {
+            "final_raw": {
+              "STOCK_A": 6,
+              "STOCK_B": 0,
+              "CASH": 1020000000
+            },
+            "cost_debit_micro_usd": 20000000,
+            "expected_feasible": true,
+            "expected_failures": []
+          }
+        }
+      ],
+      "cost_model": {
+        "external_by_asset": {
+          "STOCK_A": {
+            "half_spread_bps": 10,
+            "venue_fee_bps": 5,
+            "impact_bps_at_depth": 20,
+            "depth_micro_usd": 1000000000,
+            "fixed_order_fee_micro_usd": 1000
+          },
+          "STOCK_B": {
+            "half_spread_bps": 10,
+            "venue_fee_bps": 5,
+            "impact_bps_at_depth": 20,
+            "depth_micro_usd": 1000000000,
+            "fixed_order_fee_micro_usd": 1000
+          }
+        },
+        "internal_fee_bps": 0,
+        "protocol_fee_bps": 0,
+        "network": {
+          "sol_price_micro_usd": 150000000,
+          "lamports_per_signature": 5000,
+          "priority_lamports_per_transaction": 1000,
+          "signatures_per_transaction": 1,
+          "independent_transactions_per_active_owner": 1,
+          "batch_funding_transactions_per_owner": 1,
+          "batch_settlement_transactions": 1,
+          "batch_cleanup_transactions_per_owner": 0,
+          "retry_probability_bps": 100,
+          "max_retries": 1
+        },
+        "waiting": {
+          "independent_seconds": 0,
+          "batch_seconds": 30,
+          "opportunity_bps_per_hour": 1
+        },
+        "recoverable_rent": {
+          "lamports_per_owner": 3000000,
+          "lamports_batch_shared": 2000000,
+          "treatment": "upfront_deposit_excluded_from_recurring_cost_report_separately"
+        }
+      },
+      "price_observation": {
+        "as_of_unix": 1790089200,
+        "observation_unix": 1790089200,
+        "max_age_seconds": 60,
+        "confidence_bps": 5,
+        "max_confidence_bps": 100,
+        "execution_price_shock_bps": {
+          "STOCK_A": 0,
+          "STOCK_B": 0
+        },
+        "max_price_deviation_bps": 100
+      },
+      "batch_min_participants": 2,
+      "expected_admission": "accept",
+      "expected_rejection_reasons": [],
+      "expected_qualitative_case": "Exact stock outputs leave no cooperative degrees of freedom; C must not claim adjustment savings."
+    },
+    {
+      "id": "infeasible-01",
+      "category": "no_feasible_trades",
+      "split": "train",
+      "provenance": {
+        "kind": "synthetic",
+        "license": "CC0-1.0",
+        "source": "Original CrossFlow test fixture, constructed without observed market data",
+        "is_market_evidence": false
+      },
+      "assets": [
+        {
+          "id": "STOCK_A",
+          "decimals": 0,
+          "price_micro_usd_per_raw": 10000000,
+          "provenance": "synthetic_fixture_not_issuer_backed"
+        },
+        {
+          "id": "STOCK_B",
+          "decimals": 0,
+          "price_micro_usd_per_raw": 20000000,
+          "provenance": "synthetic_fixture_not_issuer_backed"
+        },
+        {
+          "id": "CASH",
+          "decimals": 6,
+          "price_micro_usd_per_raw": 1,
+          "provenance": "synthetic_fixture_not_issuer_backed"
+        }
+      ],
+      "accounts": [
+        {
+          "id": "a",
+          "initial_raw": {
+            "STOCK_A": 0,
+            "STOCK_B": 0,
+            "CASH": 1000000000
+          },
+          "target_raw": {
+            "STOCK_A": 5,
+            "STOCK_B": 0
+          },
+          "final_bounds_raw": {
+            "STOCK_A": {
+              "min": 5,
+              "max": 5
+            },
+            "STOCK_B": {
+              "min": 0,
+              "max": 0
+            },
+            "CASH": {
+              "min": 0,
+              "max": 2000000000
+            }
+          },
+          "min_error_reduction_bps": 5000,
+          "max_stock_error_micro_usd": 1,
+          "max_turnover_micro_usd": 0,
+          "cost_debit_budget_micro_usd": 20000000,
+          "reference": {
+            "final_raw": {
+              "STOCK_A": 5,
+              "STOCK_B": 0,
+              "CASH": 930000000
+            },
+            "cost_debit_micro_usd": 20000000,
+            "expected_feasible": false,
+            "expected_failures": [
+              "turnover"
+            ]
+          }
+        },
+        {
+          "id": "b",
+          "initial_raw": {
+            "STOCK_A": 10,
+            "STOCK_B": 0,
+            "CASH": 1000000000
+          },
+          "target_raw": {
+            "STOCK_A": 6,
+            "STOCK_B": 0
+          },
+          "final_bounds_raw": {
+            "STOCK_A": {
+              "min": 5,
+              "max": 7
+            },
+            "STOCK_B": {
+              "min": 0,
+              "max": 0
+            },
+            "CASH": {
+              "min": 0,
+              "max": 2000000000
+            }
+          },
+          "min_error_reduction_bps": 5000,
+          "max_stock_error_micro_usd": 30000000,
+          "max_turnover_micro_usd": 1000000000,
+          "cost_debit_budget_micro_usd": 20000000,
+          "reference": {
+            "final_raw": {
+              "STOCK_A": 6,
+              "STOCK_B": 0,
+              "CASH": 1020000000
+            },
+            "cost_debit_micro_usd": 20000000,
+            "expected_feasible": true,
+            "expected_failures": []
+          }
+        }
+      ],
+      "cost_model": {
+        "external_by_asset": {
+          "STOCK_A": {
+            "half_spread_bps": 10,
+            "venue_fee_bps": 5,
+            "impact_bps_at_depth": 20,
+            "depth_micro_usd": 1000000000,
+            "fixed_order_fee_micro_usd": 1000
+          },
+          "STOCK_B": {
+            "half_spread_bps": 10,
+            "venue_fee_bps": 5,
+            "impact_bps_at_depth": 20,
+            "depth_micro_usd": 1000000000,
+            "fixed_order_fee_micro_usd": 1000
+          }
+        },
+        "internal_fee_bps": 0,
+        "protocol_fee_bps": 0,
+        "network": {
+          "sol_price_micro_usd": 150000000,
+          "lamports_per_signature": 5000,
+          "priority_lamports_per_transaction": 1000,
+          "signatures_per_transaction": 1,
+          "independent_transactions_per_active_owner": 1,
+          "batch_funding_transactions_per_owner": 1,
+          "batch_settlement_transactions": 1,
+          "batch_cleanup_transactions_per_owner": 0,
+          "retry_probability_bps": 100,
+          "max_retries": 1
+        },
+        "waiting": {
+          "independent_seconds": 0,
+          "batch_seconds": 30,
+          "opportunity_bps_per_hour": 1
+        },
+        "recoverable_rent": {
+          "lamports_per_owner": 3000000,
+          "lamports_batch_shared": 2000000,
+          "treatment": "upfront_deposit_excluded_from_recurring_cost_report_separately"
+        }
+      },
+      "price_observation": {
+        "as_of_unix": 1790089200,
+        "observation_unix": 1790089200,
+        "max_age_seconds": 60,
+        "confidence_bps": 5,
+        "max_confidence_bps": 100,
+        "execution_price_shock_bps": {
+          "STOCK_A": 0,
+          "STOCK_B": 0
+        },
+        "max_price_deviation_bps": 100
+      },
+      "batch_min_participants": 2,
+      "expected_admission": "reject",
+      "expected_rejection_reasons": [
+        "infeasible_mandate"
+      ],
+      "expected_qualitative_case": "Required progress/exact output contradict zero turnover; reject without settlement."
+    },
+    {
+      "id": "expensive-01",
+      "category": "expensive_liquidity",
+      "split": "train",
+      "provenance": {
+        "kind": "synthetic",
+        "license": "CC0-1.0",
+        "source": "Original CrossFlow test fixture, constructed without observed market data",
+        "is_market_evidence": false
+      },
+      "assets": [
+        {
+          "id": "STOCK_A",
+          "decimals": 0,
+          "price_micro_usd_per_raw": 10000000,
+          "provenance": "synthetic_fixture_not_issuer_backed"
+        },
+        {
+          "id": "STOCK_B",
+          "decimals": 0,
+          "price_micro_usd_per_raw": 20000000,
+          "provenance": "synthetic_fixture_not_issuer_backed"
+        },
+        {
+          "id": "CASH",
+          "decimals": 6,
+          "price_micro_usd_per_raw": 1,
+          "provenance": "synthetic_fixture_not_issuer_backed"
+        }
+      ],
+      "accounts": [
+        {
+          "id": "a",
+          "initial_raw": {
+            "STOCK_A": 0,
+            "STOCK_B": 0,
+            "CASH": 1000000000
+          },
+          "target_raw": {
+            "STOCK_A": 5,
+            "STOCK_B": 0
+          },
+          "final_bounds_raw": {
+            "STOCK_A": {
+              "min": 4,
+              "max": 6
+            },
+            "STOCK_B": {
+              "min": 0,
+              "max": 0
+            },
+            "CASH": {
+              "min": 0,
+              "max": 2000000000
+            }
+          },
+          "min_error_reduction_bps": 5000,
+          "max_stock_error_micro_usd": 30000000,
+          "max_turnover_micro_usd": 1000000000,
+          "cost_debit_budget_micro_usd": 20000000,
+          "reference": {
+            "final_raw": {
+              "STOCK_A": 5,
+              "STOCK_B": 0,
+              "CASH": 930000000
+            },
+            "cost_debit_micro_usd": 20000000,
+            "expected_feasible": true,
+            "expected_failures": []
+          }
+        },
+        {
+          "id": "b",
+          "initial_raw": {
+            "STOCK_A": 10,
+            "STOCK_B": 0,
+            "CASH": 1000000000
+          },
+          "target_raw": {
+            "STOCK_A": 6,
+            "STOCK_B": 0
+          },
+          "final_bounds_raw": {
+            "STOCK_A": {
+              "min": 5,
+              "max": 7
+            },
+            "STOCK_B": {
+              "min": 0,
+              "max": 0
+            },
+            "CASH": {
+              "min": 0,
+              "max": 2000000000
+            }
+          },
+          "min_error_reduction_bps": 5000,
+          "max_stock_error_micro_usd": 30000000,
+          "max_turnover_micro_usd": 1000000000,
+          "cost_debit_budget_micro_usd": 20000000,
+          "reference": {
+            "final_raw": {
+              "STOCK_A": 6,
+              "STOCK_B": 0,
+              "CASH": 1020000000
+            },
+            "cost_debit_micro_usd": 20000000,
+            "expected_feasible": true,
+            "expected_failures": []
+          }
+        }
+      ],
+      "cost_model": {
+        "external_by_asset": {
+          "STOCK_A": {
+            "half_spread_bps": 50,
+            "venue_fee_bps": 5,
+            "impact_bps_at_depth": 200,
+            "depth_micro_usd": 100000000,
+            "fixed_order_fee_micro_usd": 1000
+          },
+          "STOCK_B": {
+            "half_spread_bps": 10,
+            "venue_fee_bps": 5,
+            "impact_bps_at_depth": 20,
+            "depth_micro_usd": 1000000000,
+            "fixed_order_fee_micro_usd": 1000
+          }
+        },
+        "internal_fee_bps": 0,
+        "protocol_fee_bps": 0,
+        "network": {
+          "sol_price_micro_usd": 150000000,
+          "lamports_per_signature": 5000,
+          "priority_lamports_per_transaction": 1000,
+          "signatures_per_transaction": 1,
+          "independent_transactions_per_active_owner": 1,
+          "batch_funding_transactions_per_owner": 1,
+          "batch_settlement_transactions": 1,
+          "batch_cleanup_transactions_per_owner": 0,
+          "retry_probability_bps": 100,
+          "max_retries": 1
+        },
+        "waiting": {
+          "independent_seconds": 0,
+          "batch_seconds": 30,
+          "opportunity_bps_per_hour": 1
+        },
+        "recoverable_rent": {
+          "lamports_per_owner": 3000000,
+          "lamports_batch_shared": 2000000,
+          "treatment": "upfront_deposit_excluded_from_recurring_cost_report_separately"
+        }
+      },
+      "price_observation": {
+        "as_of_unix": 1790089200,
+        "observation_unix": 1790089200,
+        "max_age_seconds": 60,
+        "confidence_bps": 5,
+        "max_confidence_bps": 100,
+        "execution_price_shock_bps": {
+          "STOCK_A": 0,
+          "STOCK_B": 0
+        },
+        "max_price_deviation_bps": 100
+      },
+      "batch_min_participants": 2,
+      "expected_admission": "accept",
+      "expected_rejection_reasons": [],
+      "expected_qualitative_case": "Thin synthetic venue tests impact sensitivity; no inference about real equity depth."
+    },
+    {
+      "id": "noise-01",
+      "category": "price_disturbance",
+      "split": "train",
+      "provenance": {
+        "kind": "synthetic",
+        "license": "CC0-1.0",
+        "source": "Original CrossFlow test fixture, constructed without observed market data",
+        "is_market_evidence": false
+      },
+      "assets": [
+        {
+          "id": "STOCK_A",
+          "decimals": 0,
+          "price_micro_usd_per_raw": 10000000,
+          "provenance": "synthetic_fixture_not_issuer_backed"
+        },
+        {
+          "id": "STOCK_B",
+          "decimals": 0,
+          "price_micro_usd_per_raw": 20000000,
+          "provenance": "synthetic_fixture_not_issuer_backed"
+        },
+        {
+          "id": "CASH",
+          "decimals": 6,
+          "price_micro_usd_per_raw": 1,
+          "provenance": "synthetic_fixture_not_issuer_backed"
+        }
+      ],
+      "accounts": [
+        {
+          "id": "a",
+          "initial_raw": {
+            "STOCK_A": 0,
+            "STOCK_B": 0,
+            "CASH": 1000000000
+          },
+          "target_raw": {
+            "STOCK_A": 5,
+            "STOCK_B": 0
+          },
+          "final_bounds_raw": {
+            "STOCK_A": {
+              "min": 4,
+              "max": 6
+            },
+            "STOCK_B": {
+              "min": 0,
+              "max": 0
+            },
+            "CASH": {
+              "min": 0,
+              "max": 2000000000
+            }
+          },
+          "min_error_reduction_bps": 5000,
+          "max_stock_error_micro_usd": 30000000,
+          "max_turnover_micro_usd": 1000000000,
+          "cost_debit_budget_micro_usd": 20000000,
+          "reference": {
+            "final_raw": {
+              "STOCK_A": 5,
+              "STOCK_B": 0,
+              "CASH": 930000000
+            },
+            "cost_debit_micro_usd": 20000000,
+            "expected_feasible": true,
+            "expected_failures": []
+          }
+        },
+        {
+          "id": "b",
+          "initial_raw": {
+            "STOCK_A": 10,
+            "STOCK_B": 0,
+            "CASH": 1000000000
+          },
+          "target_raw": {
+            "STOCK_A": 6,
+            "STOCK_B": 0
+          },
+          "final_bounds_raw": {
+            "STOCK_A": {
+              "min": 5,
+              "max": 7
+            },
+            "STOCK_B": {
+              "min": 0,
+              "max": 0
+            },
+            "CASH": {
+              "min": 0,
+              "max": 2000000000
+            }
+          },
+          "min_error_reduction_bps": 5000,
+          "max_stock_error_micro_usd": 30000000,
+          "max_turnover_micro_usd": 1000000000,
+          "cost_debit_budget_micro_usd": 20000000,
+          "reference": {
+            "final_raw": {
+              "STOCK_A": 6,
+              "STOCK_B": 0,
+              "CASH": 1020000000
+            },
+            "cost_debit_micro_usd": 20000000,
+            "expected_feasible": true,
+            "expected_failures": []
+          }
+        }
+      ],
+      "cost_model": {
+        "external_by_asset": {
+          "STOCK_A": {
+            "half_spread_bps": 10,
+            "venue_fee_bps": 5,
+            "impact_bps_at_depth": 20,
+            "depth_micro_usd": 1000000000,
+            "fixed_order_fee_micro_usd": 1000
+          },
+          "STOCK_B": {
+            "half_spread_bps": 10,
+            "venue_fee_bps": 5,
+            "impact_bps_at_depth": 20,
+            "depth_micro_usd": 1000000000,
+            "fixed_order_fee_micro_usd": 1000
+          }
+        },
+        "internal_fee_bps": 0,
+        "protocol_fee_bps": 0,
+        "network": {
+          "sol_price_micro_usd": 150000000,
+          "lamports_per_signature": 5000,
+          "priority_lamports_per_transaction": 1000,
+          "signatures_per_transaction": 1,
+          "independent_transactions_per_active_owner": 1,
+          "batch_funding_transactions_per_owner": 1,
+          "batch_settlement_transactions": 1,
+          "batch_cleanup_transactions_per_owner": 0,
+          "retry_probability_bps": 100,
+          "max_retries": 1
+        },
+        "waiting": {
+          "independent_seconds": 0,
+          "batch_seconds": 30,
+          "opportunity_bps_per_hour": 1
+        },
+        "recoverable_rent": {
+          "lamports_per_owner": 3000000,
+          "lamports_batch_shared": 2000000,
+          "treatment": "upfront_deposit_excluded_from_recurring_cost_report_separately"
+        }
+      },
+      "price_observation": {
+        "as_of_unix": 1790089200,
+        "observation_unix": 1790089200,
+        "max_age_seconds": 60,
+        "confidence_bps": 5,
+        "max_confidence_bps": 100,
+        "execution_price_shock_bps": {
+          "STOCK_A": 75,
+          "STOCK_B": -50
+        },
+        "max_price_deviation_bps": 100
+      },
+      "batch_min_participants": 2,
+      "expected_admission": "accept",
+      "expected_rejection_reasons": [],
+      "expected_qualitative_case": "Execution shock inside guard; report changed costs and feasibility on original owner bounds."
+    },
+    {
+      "id": "tiny-01",
+      "category": "tiny_portfolios",
+      "split": "train",
+      "provenance": {
+        "kind": "synthetic",
+        "license": "CC0-1.0",
+        "source": "Original CrossFlow test fixture, constructed without observed market data",
+        "is_market_evidence": false
+      },
+      "assets": [
+        {
+          "id": "STOCK_A",
+          "decimals": 0,
+          "price_micro_usd_per_raw": 10000000,
+          "provenance": "synthetic_fixture_not_issuer_backed"
+        },
+        {
+          "id": "STOCK_B",
+          "decimals": 0,
+          "price_micro_usd_per_raw": 20000000,
+          "provenance": "synthetic_fixture_not_issuer_backed"
+        },
+        {
+          "id": "CASH",
+          "decimals": 6,
+          "price_micro_usd_per_raw": 1,
+          "provenance": "synthetic_fixture_not_issuer_backed"
+        }
+      ],
+      "accounts": [
+        {
+          "id": "a",
+          "initial_raw": {
+            "STOCK_A": 0,
+            "STOCK_B": 0,
+            "CASH": 25000000
+          },
+          "target_raw": {
+            "STOCK_A": 1,
+            "STOCK_B": 0
+          },
+          "final_bounds_raw": {
+            "STOCK_A": {
+              "min": 1,
+              "max": 1
+            },
+            "STOCK_B": {
+              "min": 0,
+              "max": 0
+            },
+            "CASH": {
+              "min": 0,
+              "max": 1025000000
+            }
+          },
+          "min_error_reduction_bps": 5000,
+          "max_stock_error_micro_usd": 1,
+          "max_turnover_micro_usd": 1000000000,
+          "cost_debit_budget_micro_usd": 2000000,
+          "reference": {
+            "final_raw": {
+              "STOCK_A": 1,
+              "STOCK_B": 0,
+              "CASH": 13000000
+            },
+            "cost_debit_micro_usd": 2000000,
+            "expected_feasible": true,
+            "expected_failures": []
+          }
+        },
+        {
+          "id": "b",
+          "initial_raw": {
+            "STOCK_A": 1,
+            "STOCK_B": 0,
+            "CASH": 25000000
+          },
+          "target_raw": {
+            "STOCK_A": 0,
+            "STOCK_B": 0
+          },
+          "final_bounds_raw": {
+            "STOCK_A": {
+              "min": 0,
+              "max": 0
+            },
+            "STOCK_B": {
+              "min": 0,
+              "max": 0
+            },
+            "CASH": {
+              "min": 0,
+              "max": 1025000000
+            }
+          },
+          "min_error_reduction_bps": 5000,
+          "max_stock_error_micro_usd": 1,
+          "max_turnover_micro_usd": 1000000000,
+          "cost_debit_budget_micro_usd": 2000000,
+          "reference": {
+            "final_raw": {
+              "STOCK_A": 0,
+              "STOCK_B": 0,
+              "CASH": 33000000
+            },
+            "cost_debit_micro_usd": 2000000,
+            "expected_feasible": true,
+            "expected_failures": []
+          }
+        }
+      ],
+      "cost_model": {
+        "external_by_asset": {
+          "STOCK_A": {
+            "half_spread_bps": 10,
+            "venue_fee_bps": 5,
+            "impact_bps_at_depth": 20,
+            "depth_micro_usd": 1000000000,
+            "fixed_order_fee_micro_usd": 1000
+          },
+          "STOCK_B": {
+            "half_spread_bps": 10,
+            "venue_fee_bps": 5,
+            "impact_bps_at_depth": 20,
+            "depth_micro_usd": 1000000000,
+            "fixed_order_fee_micro_usd": 1000
+          }
+        },
+        "internal_fee_bps": 0,
+        "protocol_fee_bps": 0,
+        "network": {
+          "sol_price_micro_usd": 150000000,
+          "lamports_per_signature": 5000,
+          "priority_lamports_per_transaction": 1000,
+          "signatures_per_transaction": 1,
+          "independent_transactions_per_active_owner": 1,
+          "batch_funding_transactions_per_owner": 1,
+          "batch_settlement_transactions": 1,
+          "batch_cleanup_transactions_per_owner": 0,
+          "retry_probability_bps": 100,
+          "max_retries": 1
+        },
+        "waiting": {
+          "independent_seconds": 0,
+          "batch_seconds": 30,
+          "opportunity_bps_per_hour": 1
+        },
+        "recoverable_rent": {
+          "lamports_per_owner": 3000000,
+          "lamports_batch_shared": 2000000,
+          "treatment": "upfront_deposit_excluded_from_recurring_cost_report_separately"
+        }
+      },
+      "price_observation": {
+        "as_of_unix": 1790089200,
+        "observation_unix": 1790089200,
+        "max_age_seconds": 60,
+        "confidence_bps": 5,
+        "max_confidence_bps": 100,
+        "execution_price_shock_bps": {
+          "STOCK_A": 0,
+          "STOCK_B": 0
+        },
+        "max_price_deviation_bps": 100
+      },
+      "batch_min_participants": 2,
+      "expected_admission": "accept",
+      "expected_rejection_reasons": [],
+      "expected_qualitative_case": "Small notional may not amortize funding/settlement overhead."
+    },
+    {
+      "id": "zero-01",
+      "category": "zero_holdings",
+      "split": "train",
+      "provenance": {
+        "kind": "synthetic",
+        "license": "CC0-1.0",
+        "source": "Original CrossFlow test fixture, constructed without observed market data",
+        "is_market_evidence": false
+      },
+      "assets": [
+        {
+          "id": "STOCK_A",
+          "decimals": 0,
+          "price_micro_usd_per_raw": 10000000,
+          "provenance": "synthetic_fixture_not_issuer_backed"
+        },
+        {
+          "id": "STOCK_B",
+          "decimals": 0,
+          "price_micro_usd_per_raw": 20000000,
+          "provenance": "synthetic_fixture_not_issuer_backed"
+        },
+        {
+          "id": "CASH",
+          "decimals": 6,
+          "price_micro_usd_per_raw": 1,
+          "provenance": "synthetic_fixture_not_issuer_backed"
+        }
+      ],
+      "accounts": [
+        {
+          "id": "a",
+          "initial_raw": {
+            "STOCK_A": 0,
+            "STOCK_B": 0,
+            "CASH": 0
+          },
+          "target_raw": {
+            "STOCK_A": 0,
+            "STOCK_B": 0
+          },
+          "final_bounds_raw": {
+            "STOCK_A": {
+              "min": 0,
+              "max": 0
+            },
+            "STOCK_B": {
+              "min": 0,
+              "max": 0
+            },
+            "CASH": {
+              "min": 0,
+              "max": 1000000000
+            }
+          },
+          "min_error_reduction_bps": 0,
+          "max_stock_error_micro_usd": 1,
+          "max_turnover_micro_usd": 1000000000,
+          "cost_debit_budget_micro_usd": 0,
+          "reference": {
+            "final_raw": {
+              "STOCK_A": 0,
+              "STOCK_B": 0,
+              "CASH": 0
+            },
+            "cost_debit_micro_usd": 0,
+            "expected_feasible": true,
+            "expected_failures": []
+          }
+        },
+        {
+          "id": "b",
+          "initial_raw": {
+            "STOCK_A": 0,
+            "STOCK_B": 0,
+            "CASH": 0
+          },
+          "target_raw": {
+            "STOCK_A": 0,
+            "STOCK_B": 0
+          },
+          "final_bounds_raw": {
+            "STOCK_A": {
+              "min": 0,
+              "max": 0
+            },
+            "STOCK_B": {
+              "min": 0,
+              "max": 0
+            },
+            "CASH": {
+              "min": 0,
+              "max": 1000000000
+            }
+          },
+          "min_error_reduction_bps": 0,
+          "max_stock_error_micro_usd": 1,
+          "max_turnover_micro_usd": 1000000000,
+          "cost_debit_budget_micro_usd": 0,
+          "reference": {
+            "final_raw": {
+              "STOCK_A": 0,
+              "STOCK_B": 0,
+              "CASH": 0
+            },
+            "cost_debit_micro_usd": 0,
+            "expected_feasible": true,
+            "expected_failures": []
+          }
+        }
+      ],
+      "cost_model": {
+        "external_by_asset": {
+          "STOCK_A": {
+            "half_spread_bps": 10,
+            "venue_fee_bps": 5,
+            "impact_bps_at_depth": 20,
+            "depth_micro_usd": 1000000000,
+            "fixed_order_fee_micro_usd": 1000
+          },
+          "STOCK_B": {
+            "half_spread_bps": 10,
+            "venue_fee_bps": 5,
+            "impact_bps_at_depth": 20,
+            "depth_micro_usd": 1000000000,
+            "fixed_order_fee_micro_usd": 1000
+          }
+        },
+        "internal_fee_bps": 0,
+        "protocol_fee_bps": 0,
+        "network": {
+          "sol_price_micro_usd": 150000000,
+          "lamports_per_signature": 5000,
+          "priority_lamports_per_transaction": 1000,
+          "signatures_per_transaction": 1,
+          "independent_transactions_per_active_owner": 1,
+          "batch_funding_transactions_per_owner": 1,
+          "batch_settlement_transactions": 1,
+          "batch_cleanup_transactions_per_owner": 0,
+          "retry_probability_bps": 100,
+          "max_retries": 1
+        },
+        "waiting": {
+          "independent_seconds": 0,
+          "batch_seconds": 30,
+          "opportunity_bps_per_hour": 1
+        },
+        "recoverable_rent": {
+          "lamports_per_owner": 3000000,
+          "lamports_batch_shared": 2000000,
+          "treatment": "upfront_deposit_excluded_from_recurring_cost_report_separately"
+        }
+      },
+      "price_observation": {
+        "as_of_unix": 1790089200,
+        "observation_unix": 1790089200,
+        "max_age_seconds": 60,
+        "confidence_bps": 5,
+        "max_confidence_bps": 100,
+        "execution_price_shock_bps": {
+          "STOCK_A": 0,
+          "STOCK_B": 0
+        },
+        "max_price_deviation_bps": 100
+      },
+      "batch_min_participants": 2,
+      "expected_admission": "accept",
+      "expected_rejection_reasons": [],
+      "expected_qualitative_case": "Valid no-op mandates; skip execution and report zero cost, never call this rebalancing gain."
+    },
+    {
+      "id": "stale-01",
+      "category": "expired_price",
+      "split": "train",
+      "provenance": {
+        "kind": "synthetic",
+        "license": "CC0-1.0",
+        "source": "Original CrossFlow test fixture, constructed without observed market data",
+        "is_market_evidence": false
+      },
+      "assets": [
+        {
+          "id": "STOCK_A",
+          "decimals": 0,
+          "price_micro_usd_per_raw": 10000000,
+          "provenance": "synthetic_fixture_not_issuer_backed"
+        },
+        {
+          "id": "STOCK_B",
+          "decimals": 0,
+          "price_micro_usd_per_raw": 20000000,
+          "provenance": "synthetic_fixture_not_issuer_backed"
+        },
+        {
+          "id": "CASH",
+          "decimals": 6,
+          "price_micro_usd_per_raw": 1,
+          "provenance": "synthetic_fixture_not_issuer_backed"
+        }
+      ],
+      "accounts": [
+        {
+          "id": "a",
+          "initial_raw": {
+            "STOCK_A": 0,
+            "STOCK_B": 0,
+            "CASH": 1000000000
+          },
+          "target_raw": {
+            "STOCK_A": 5,
+            "STOCK_B": 0
+          },
+          "final_bounds_raw": {
+            "STOCK_A": {
+              "min": 4,
+              "max": 6
+            },
+            "STOCK_B": {
+              "min": 0,
+              "max": 0
+            },
+            "CASH": {
+              "min": 0,
+              "max": 2000000000
+            }
+          },
+          "min_error_reduction_bps": 5000,
+          "max_stock_error_micro_usd": 30000000,
+          "max_turnover_micro_usd": 1000000000,
+          "cost_debit_budget_micro_usd": 20000000,
+          "reference": {
+            "final_raw": {
+              "STOCK_A": 5,
+              "STOCK_B": 0,
+              "CASH": 930000000
+            },
+            "cost_debit_micro_usd": 20000000,
+            "expected_feasible": true,
+            "expected_failures": []
+          }
+        },
+        {
+          "id": "b",
+          "initial_raw": {
+            "STOCK_A": 10,
+            "STOCK_B": 0,
+            "CASH": 1000000000
+          },
+          "target_raw": {
+            "STOCK_A": 6,
+            "STOCK_B": 0
+          },
+          "final_bounds_raw": {
+            "STOCK_A": {
+              "min": 5,
+              "max": 7
+            },
+            "STOCK_B": {
+              "min": 0,
+              "max": 0
+            },
+            "CASH": {
+              "min": 0,
+              "max": 2000000000
+            }
+          },
+          "min_error_reduction_bps": 5000,
+          "max_stock_error_micro_usd": 30000000,
+          "max_turnover_micro_usd": 1000000000,
+          "cost_debit_budget_micro_usd": 20000000,
+          "reference": {
+            "final_raw": {
+              "STOCK_A": 6,
+              "STOCK_B": 0,
+              "CASH": 1020000000
+            },
+            "cost_debit_micro_usd": 20000000,
+            "expected_feasible": true,
+            "expected_failures": []
+          }
+        }
+      ],
+      "cost_model": {
+        "external_by_asset": {
+          "STOCK_A": {
+            "half_spread_bps": 10,
+            "venue_fee_bps": 5,
+            "impact_bps_at_depth": 20,
+            "depth_micro_usd": 1000000000,
+            "fixed_order_fee_micro_usd": 1000
+          },
+          "STOCK_B": {
+            "half_spread_bps": 10,
+            "venue_fee_bps": 5,
+            "impact_bps_at_depth": 20,
+            "depth_micro_usd": 1000000000,
+            "fixed_order_fee_micro_usd": 1000
+          }
+        },
+        "internal_fee_bps": 0,
+        "protocol_fee_bps": 0,
+        "network": {
+          "sol_price_micro_usd": 150000000,
+          "lamports_per_signature": 5000,
+          "priority_lamports_per_transaction": 1000,
+          "signatures_per_transaction": 1,
+          "independent_transactions_per_active_owner": 1,
+          "batch_funding_transactions_per_owner": 1,
+          "batch_settlement_transactions": 1,
+          "batch_cleanup_transactions_per_owner": 0,
+          "retry_probability_bps": 100,
+          "max_retries": 1
+        },
+        "waiting": {
+          "independent_seconds": 0,
+          "batch_seconds": 30,
+          "opportunity_bps_per_hour": 1
+        },
+        "recoverable_rent": {
+          "lamports_per_owner": 3000000,
+          "lamports_batch_shared": 2000000,
+          "treatment": "upfront_deposit_excluded_from_recurring_cost_report_separately"
+        }
+      },
+      "price_observation": {
+        "as_of_unix": 1790089200,
+        "observation_unix": 1790089139,
+        "max_age_seconds": 60,
+        "confidence_bps": 5,
+        "max_confidence_bps": 100,
+        "execution_price_shock_bps": {
+          "STOCK_A": 0,
+          "STOCK_B": 0
+        },
+        "max_price_deviation_bps": 100
+      },
+      "batch_min_participants": 2,
+      "expected_admission": "reject",
+      "expected_rejection_reasons": [
+        "stale_price"
+      ],
+      "expected_qualitative_case": "Stale reference rejected before optimization or funding."
+    },
+    {
+      "id": "single-01",
+      "category": "insufficient_participation",
+      "split": "train",
+      "provenance": {
+        "kind": "synthetic",
+        "license": "CC0-1.0",
+        "source": "Original CrossFlow test fixture, constructed without observed market data",
+        "is_market_evidence": false
+      },
+      "assets": [
+        {
+          "id": "STOCK_A",
+          "decimals": 0,
+          "price_micro_usd_per_raw": 10000000,
+          "provenance": "synthetic_fixture_not_issuer_backed"
+        },
+        {
+          "id": "STOCK_B",
+          "decimals": 0,
+          "price_micro_usd_per_raw": 20000000,
+          "provenance": "synthetic_fixture_not_issuer_backed"
+        },
+        {
+          "id": "CASH",
+          "decimals": 6,
+          "price_micro_usd_per_raw": 1,
+          "provenance": "synthetic_fixture_not_issuer_backed"
+        }
+      ],
+      "accounts": [
+        {
+          "id": "a",
+          "initial_raw": {
+            "STOCK_A": 0,
+            "STOCK_B": 0,
+            "CASH": 1000000000
+          },
+          "target_raw": {
+            "STOCK_A": 5,
+            "STOCK_B": 0
+          },
+          "final_bounds_raw": {
+            "STOCK_A": {
+              "min": 4,
+              "max": 6
+            },
+            "STOCK_B": {
+              "min": 0,
+              "max": 0
+            },
+            "CASH": {
+              "min": 0,
+              "max": 2000000000
+            }
+          },
+          "min_error_reduction_bps": 5000,
+          "max_stock_error_micro_usd": 30000000,
+          "max_turnover_micro_usd": 1000000000,
+          "cost_debit_budget_micro_usd": 20000000,
+          "reference": {
+            "final_raw": {
+              "STOCK_A": 5,
+              "STOCK_B": 0,
+              "CASH": 930000000
+            },
+            "cost_debit_micro_usd": 20000000,
+            "expected_feasible": true,
+            "expected_failures": []
+          }
+        }
+      ],
+      "cost_model": {
+        "external_by_asset": {
+          "STOCK_A": {
+            "half_spread_bps": 10,
+            "venue_fee_bps": 5,
+            "impact_bps_at_depth": 20,
+            "depth_micro_usd": 1000000000,
+            "fixed_order_fee_micro_usd": 1000
+          },
+          "STOCK_B": {
+            "half_spread_bps": 10,
+            "venue_fee_bps": 5,
+            "impact_bps_at_depth": 20,
+            "depth_micro_usd": 1000000000,
+            "fixed_order_fee_micro_usd": 1000
+          }
+        },
+        "internal_fee_bps": 0,
+        "protocol_fee_bps": 0,
+        "network": {
+          "sol_price_micro_usd": 150000000,
+          "lamports_per_signature": 5000,
+          "priority_lamports_per_transaction": 1000,
+          "signatures_per_transaction": 1,
+          "independent_transactions_per_active_owner": 1,
+          "batch_funding_transactions_per_owner": 1,
+          "batch_settlement_transactions": 1,
+          "batch_cleanup_transactions_per_owner": 0,
+          "retry_probability_bps": 100,
+          "max_retries": 1
+        },
+        "waiting": {
+          "independent_seconds": 0,
+          "batch_seconds": 30,
+          "opportunity_bps_per_hour": 1
+        },
+        "recoverable_rent": {
+          "lamports_per_owner": 3000000,
+          "lamports_batch_shared": 2000000,
+          "treatment": "upfront_deposit_excluded_from_recurring_cost_report_separately"
+        }
+      },
+      "price_observation": {
+        "as_of_unix": 1790089200,
+        "observation_unix": 1790089200,
+        "max_age_seconds": 60,
+        "confidence_bps": 5,
+        "max_confidence_bps": 100,
+        "execution_price_shock_bps": {
+          "STOCK_A": 0,
+          "STOCK_B": 0
+        },
+        "max_price_deviation_bps": 100
+      },
+      "batch_min_participants": 2,
+      "expected_admission": "reject",
+      "expected_rejection_reasons": [
+        "insufficient_participation"
+      ],
+      "expected_qualitative_case": "Cannot claim a cross-account batch from one intent; admit only independent comparison."
+    },
+    {
+      "id": "opposite-02",
+      "category": "opposite_flow",
+      "split": "holdout",
+      "provenance": {
+        "kind": "synthetic",
+        "license": "CC0-1.0",
+        "source": "Original CrossFlow test fixture, constructed without observed market data",
+        "is_market_evidence": false
+      },
+      "assets": [
+        {
+          "id": "STOCK_A",
+          "decimals": 0,
+          "price_micro_usd_per_raw": 10000000,
+          "provenance": "synthetic_fixture_not_issuer_backed"
+        },
+        {
+          "id": "STOCK_B",
+          "decimals": 0,
+          "price_micro_usd_per_raw": 20000000,
+          "provenance": "synthetic_fixture_not_issuer_backed"
+        },
+        {
+          "id": "CASH",
+          "decimals": 6,
+          "price_micro_usd_per_raw": 1,
+          "provenance": "synthetic_fixture_not_issuer_backed"
+        }
+      ],
+      "accounts": [
+        {
+          "id": "a",
+          "initial_raw": {
+            "STOCK_A": 0,
+            "STOCK_B": 1,
+            "CASH": 1000000000
+          },
+          "target_raw": {
+            "STOCK_A": 7,
+            "STOCK_B": 1
+          },
+          "final_bounds_raw": {
+            "STOCK_A": {
+              "min": 6,
+              "max": 8
+            },
+            "STOCK_B": {
+              "min": 0,
+              "max": 2
+            },
+            "CASH": {
+              "min": 0,
+              "max": 2000000000
+            }
+          },
+          "min_error_reduction_bps": 5000,
+          "max_stock_error_micro_usd": 30000000,
+          "max_turnover_micro_usd": 1000000000,
+          "cost_debit_budget_micro_usd": 20000000,
+          "reference": {
+            "final_raw": {
+              "STOCK_A": 7,
+              "STOCK_B": 1,
+              "CASH": 910000000
+            },
+            "cost_debit_micro_usd": 20000000,
+            "expected_feasible": true,
+            "expected_failures": []
+          }
+        },
+        {
+          "id": "b",
+          "initial_raw": {
+            "STOCK_A": 12,
+            "STOCK_B": 1,
+            "CASH": 1000000000
+          },
+          "target_raw": {
+            "STOCK_A": 6,
+            "STOCK_B": 1
+          },
+          "final_bounds_raw": {
+            "STOCK_A": {
+              "min": 5,
+              "max": 7
+            },
+            "STOCK_B": {
+              "min": 0,
+              "max": 2
+            },
+            "CASH": {
+              "min": 0,
+              "max": 2000000000
+            }
+          },
+          "min_error_reduction_bps": 5000,
+          "max_stock_error_micro_usd": 30000000,
+          "max_turnover_micro_usd": 1000000000,
+          "cost_debit_budget_micro_usd": 20000000,
+          "reference": {
+            "final_raw": {
+              "STOCK_A": 6,
+              "STOCK_B": 1,
+              "CASH": 1040000000
+            },
+            "cost_debit_micro_usd": 20000000,
+            "expected_feasible": true,
+            "expected_failures": []
+          }
+        },
+        {
+          "id": "c",
+          "initial_raw": {
+            "STOCK_A": 1,
+            "STOCK_B": 0,
+            "CASH": 1000000000
+          },
+          "target_raw": {
+            "STOCK_A": 1,
+            "STOCK_B": 0
+          },
+          "final_bounds_raw": {
+            "STOCK_A": {
+              "min": 1,
+              "max": 1
+            },
+            "STOCK_B": {
+              "min": 0,
+              "max": 0
+            },
+            "CASH": {
+              "min": 0,
+              "max": 2000000000
+            }
+          },
+          "min_error_reduction_bps": 0,
+          "max_stock_error_micro_usd": 1,
+          "max_turnover_micro_usd": 1000000000,
+          "cost_debit_budget_micro_usd": 20000000,
+          "reference": {
+            "final_raw": {
+              "STOCK_A": 1,
+              "STOCK_B": 0,
+              "CASH": 980000000
+            },
+            "cost_debit_micro_usd": 20000000,
+            "expected_feasible": true,
+            "expected_failures": []
+          }
+        }
+      ],
+      "cost_model": {
+        "external_by_asset": {
+          "STOCK_A": {
+            "half_spread_bps": 10,
+            "venue_fee_bps": 5,
+            "impact_bps_at_depth": 20,
+            "depth_micro_usd": 1000000000,
+            "fixed_order_fee_micro_usd": 1000
+          },
+          "STOCK_B": {
+            "half_spread_bps": 10,
+            "venue_fee_bps": 5,
+            "impact_bps_at_depth": 20,
+            "depth_micro_usd": 1000000000,
+            "fixed_order_fee_micro_usd": 1000
+          }
+        },
+        "internal_fee_bps": 0,
+        "protocol_fee_bps": 0,
+        "network": {
+          "sol_price_micro_usd": 150000000,
+          "lamports_per_signature": 5000,
+          "priority_lamports_per_transaction": 1000,
+          "signatures_per_transaction": 1,
+          "independent_transactions_per_active_owner": 1,
+          "batch_funding_transactions_per_owner": 1,
+          "batch_settlement_transactions": 1,
+          "batch_cleanup_transactions_per_owner": 0,
+          "retry_probability_bps": 100,
+          "max_retries": 1
+        },
+        "waiting": {
+          "independent_seconds": 0,
+          "batch_seconds": 30,
+          "opportunity_bps_per_hour": 1
+        },
+        "recoverable_rent": {
+          "lamports_per_owner": 3000000,
+          "lamports_batch_shared": 2000000,
+          "treatment": "upfront_deposit_excluded_from_recurring_cost_report_separately"
+        }
+      },
+      "price_observation": {
+        "as_of_unix": 1790089200,
+        "observation_unix": 1790089200,
+        "max_age_seconds": 60,
+        "confidence_bps": 5,
+        "max_confidence_bps": 100,
+        "execution_price_shock_bps": {
+          "STOCK_A": 0,
+          "STOCK_B": 0
+        },
+        "max_price_deviation_bps": 100
+      },
+      "batch_min_participants": 2,
+      "expected_admission": "accept",
+      "expected_rejection_reasons": [],
+      "expected_qualitative_case": "Second offsetting-flow case; incremental cost result unknown."
+    },
+    {
+      "id": "all-buy-02",
+      "category": "all_buy",
+      "split": "holdout",
+      "provenance": {
+        "kind": "synthetic",
+        "license": "CC0-1.0",
+        "source": "Original CrossFlow test fixture, constructed without observed market data",
+        "is_market_evidence": false
+      },
+      "assets": [
+        {
+          "id": "STOCK_A",
+          "decimals": 0,
+          "price_micro_usd_per_raw": 10000000,
+          "provenance": "synthetic_fixture_not_issuer_backed"
+        },
+        {
+          "id": "STOCK_B",
+          "decimals": 0,
+          "price_micro_usd_per_raw": 20000000,
+          "provenance": "synthetic_fixture_not_issuer_backed"
+        },
+        {
+          "id": "CASH",
+          "decimals": 6,
+          "price_micro_usd_per_raw": 1,
+          "provenance": "synthetic_fixture_not_issuer_backed"
+        }
+      ],
+      "accounts": [
+        {
+          "id": "a",
+          "initial_raw": {
+            "STOCK_A": 1,
+            "STOCK_B": 0,
+            "CASH": 1000000000
+          },
+          "target_raw": {
+            "STOCK_A": 6,
+            "STOCK_B": 2
+          },
+          "final_bounds_raw": {
+            "STOCK_A": {
+              "min": 5,
+              "max": 7
+            },
+            "STOCK_B": {
+              "min": 1,
+              "max": 3
+            },
+            "CASH": {
+              "min": 0,
+              "max": 2000000000
+            }
+          },
+          "min_error_reduction_bps": 5000,
+          "max_stock_error_micro_usd": 30000000,
+          "max_turnover_micro_usd": 1000000000,
+          "cost_debit_budget_micro_usd": 20000000,
+          "reference": {
+            "final_raw": {
+              "STOCK_A": 6,
+              "STOCK_B": 2,
+              "CASH": 890000000
+            },
+            "cost_debit_micro_usd": 20000000,
+            "expected_feasible": true,
+            "expected_failures": []
+          }
+        },
+        {
+          "id": "b",
+          "initial_raw": {
+            "STOCK_A": 2,
+            "STOCK_B": 1,
+            "CASH": 1000000000
+          },
+          "target_raw": {
+            "STOCK_A": 5,
+            "STOCK_B": 3
+          },
+          "final_bounds_raw": {
+            "STOCK_A": {
+              "min": 4,
+              "max": 6
+            },
+            "STOCK_B": {
+              "min": 2,
+              "max": 4
+            },
+            "CASH": {
+              "min": 0,
+              "max": 2000000000
+            }
+          },
+          "min_error_reduction_bps": 5000,
+          "max_stock_error_micro_usd": 30000000,
+          "max_turnover_micro_usd": 1000000000,
+          "cost_debit_budget_micro_usd": 20000000,
+          "reference": {
+            "final_raw": {
+              "STOCK_A": 5,
+              "STOCK_B": 3,
+              "CASH": 910000000
+            },
+            "cost_debit_micro_usd": 20000000,
+            "expected_feasible": true,
+            "expected_failures": []
+          }
+        }
+      ],
+      "cost_model": {
+        "external_by_asset": {
+          "STOCK_A": {
+            "half_spread_bps": 10,
+            "venue_fee_bps": 5,
+            "impact_bps_at_depth": 20,
+            "depth_micro_usd": 1000000000,
+            "fixed_order_fee_micro_usd": 1000
+          },
+          "STOCK_B": {
+            "half_spread_bps": 10,
+            "venue_fee_bps": 5,
+            "impact_bps_at_depth": 20,
+            "depth_micro_usd": 1000000000,
+            "fixed_order_fee_micro_usd": 1000
+          }
+        },
+        "internal_fee_bps": 0,
+        "protocol_fee_bps": 0,
+        "network": {
+          "sol_price_micro_usd": 150000000,
+          "lamports_per_signature": 5000,
+          "priority_lamports_per_transaction": 1000,
+          "signatures_per_transaction": 1,
+          "independent_transactions_per_active_owner": 1,
+          "batch_funding_transactions_per_owner": 1,
+          "batch_settlement_transactions": 1,
+          "batch_cleanup_transactions_per_owner": 0,
+          "retry_probability_bps": 100,
+          "max_retries": 1
+        },
+        "waiting": {
+          "independent_seconds": 0,
+          "batch_seconds": 30,
+          "opportunity_bps_per_hour": 1
+        },
+        "recoverable_rent": {
+          "lamports_per_owner": 3000000,
+          "lamports_batch_shared": 2000000,
+          "treatment": "upfront_deposit_excluded_from_recurring_cost_report_separately"
+        }
+      },
+      "price_observation": {
+        "as_of_unix": 1790089200,
+        "observation_unix": 1790089200,
+        "max_age_seconds": 60,
+        "confidence_bps": 5,
+        "max_confidence_bps": 100,
+        "execution_price_shock_bps": {
+          "STOCK_A": 0,
+          "STOCK_B": 0
+        },
+        "max_price_deviation_bps": 100
+      },
+      "batch_min_participants": 2,
+      "expected_admission": "accept",
+      "expected_rejection_reasons": [],
+      "expected_qualitative_case": "Two-stock same-direction flow; no stock sellers."
+    },
+    {
+      "id": "asymmetric-02",
+      "category": "asymmetric",
+      "split": "holdout",
+      "provenance": {
+        "kind": "synthetic",
+        "license": "CC0-1.0",
+        "source": "Original CrossFlow test fixture, constructed without observed market data",
+        "is_market_evidence": false
+      },
+      "assets": [
+        {
+          "id": "STOCK_A",
+          "decimals": 0,
+          "price_micro_usd_per_raw": 10000000,
+          "provenance": "synthetic_fixture_not_issuer_backed"
+        },
+        {
+          "id": "STOCK_B",
+          "decimals": 0,
+          "price_micro_usd_per_raw": 20000000,
+          "provenance": "synthetic_fixture_not_issuer_backed"
+        },
+        {
+          "id": "CASH",
+          "decimals": 6,
+          "price_micro_usd_per_raw": 1,
+          "provenance": "synthetic_fixture_not_issuer_backed"
+        }
+      ],
+      "accounts": [
+        {
+          "id": "a",
+          "initial_raw": {
+            "STOCK_A": 40,
+            "STOCK_B": 5,
+            "CASH": 5000000000
+          },
+          "target_raw": {
+            "STOCK_A": 10,
+            "STOCK_B": 5
+          },
+          "final_bounds_raw": {
+            "STOCK_A": {
+              "min": 9,
+              "max": 11
+            },
+            "STOCK_B": {
+              "min": 4,
+              "max": 6
+            },
+            "CASH": {
+              "min": 0,
+              "max": 6000000000
+            }
+          },
+          "min_error_reduction_bps": 5000,
+          "max_stock_error_micro_usd": 30000000,
+          "max_turnover_micro_usd": 1000000000,
+          "cost_debit_budget_micro_usd": 20000000,
+          "reference": {
+            "final_raw": {
+              "STOCK_A": 10,
+              "STOCK_B": 5,
+              "CASH": 5280000000
+            },
+            "cost_debit_micro_usd": 20000000,
+            "expected_feasible": true,
+            "expected_failures": []
+          }
+        },
+        {
+          "id": "b",
+          "initial_raw": {
+            "STOCK_A": 0,
+            "STOCK_B": 0,
+            "CASH": 1000000000
+          },
+          "target_raw": {
+            "STOCK_A": 3,
+            "STOCK_B": 0
+          },
+          "final_bounds_raw": {
+            "STOCK_A": {
+              "min": 2,
+              "max": 4
+            },
+            "STOCK_B": {
+              "min": 0,
+              "max": 0
+            },
+            "CASH": {
+              "min": 0,
+              "max": 2000000000
+            }
+          },
+          "min_error_reduction_bps": 5000,
+          "max_stock_error_micro_usd": 30000000,
+          "max_turnover_micro_usd": 1000000000,
+          "cost_debit_budget_micro_usd": 20000000,
+          "reference": {
+            "final_raw": {
+              "STOCK_A": 3,
+              "STOCK_B": 0,
+              "CASH": 950000000
+            },
+            "cost_debit_micro_usd": 20000000,
+            "expected_feasible": true,
+            "expected_failures": []
+          }
+        }
+      ],
+      "cost_model": {
+        "external_by_asset": {
+          "STOCK_A": {
+            "half_spread_bps": 10,
+            "venue_fee_bps": 5,
+            "impact_bps_at_depth": 20,
+            "depth_micro_usd": 1000000000,
+            "fixed_order_fee_micro_usd": 1000
+          },
+          "STOCK_B": {
+            "half_spread_bps": 10,
+            "venue_fee_bps": 5,
+            "impact_bps_at_depth": 20,
+            "depth_micro_usd": 1000000000,
+            "fixed_order_fee_micro_usd": 1000
+          }
+        },
+        "internal_fee_bps": 0,
+        "protocol_fee_bps": 0,
+        "network": {
+          "sol_price_micro_usd": 150000000,
+          "lamports_per_signature": 5000,
+          "priority_lamports_per_transaction": 1000,
+          "signatures_per_transaction": 1,
+          "independent_transactions_per_active_owner": 1,
+          "batch_funding_transactions_per_owner": 1,
+          "batch_settlement_transactions": 1,
+          "batch_cleanup_transactions_per_owner": 0,
+          "retry_probability_bps": 100,
+          "max_retries": 1
+        },
+        "waiting": {
+          "independent_seconds": 0,
+          "batch_seconds": 30,
+          "opportunity_bps_per_hour": 1
+        },
+        "recoverable_rent": {
+          "lamports_per_owner": 3000000,
+          "lamports_batch_shared": 2000000,
+          "treatment": "upfront_deposit_excluded_from_recurring_cost_report_separately"
+        }
+      },
+      "price_observation": {
+        "as_of_unix": 1790089200,
+        "observation_unix": 1790089200,
+        "max_age_seconds": 60,
+        "confidence_bps": 5,
+        "max_confidence_bps": 100,
+        "execution_price_shock_bps": {
+          "STOCK_A": 0,
+          "STOCK_B": 0
+        },
+        "max_price_deviation_bps": 100
+      },
+      "batch_min_participants": 2,
+      "expected_admission": "accept",
+      "expected_rejection_reasons": [],
+      "expected_qualitative_case": "Dominant seller with small buyer; examine allocation and adverse savings."
+    },
+    {
+      "id": "tight-02",
+      "category": "tight_bands",
+      "split": "holdout",
+      "provenance": {
+        "kind": "synthetic",
+        "license": "CC0-1.0",
+        "source": "Original CrossFlow test fixture, constructed without observed market data",
+        "is_market_evidence": false
+      },
+      "assets": [
+        {
+          "id": "STOCK_A",
+          "decimals": 0,
+          "price_micro_usd_per_raw": 10000000,
+          "provenance": "synthetic_fixture_not_issuer_backed"
+        },
+        {
+          "id": "STOCK_B",
+          "decimals": 0,
+          "price_micro_usd_per_raw": 20000000,
+          "provenance": "synthetic_fixture_not_issuer_backed"
+        },
+        {
+          "id": "CASH",
+          "decimals": 6,
+          "price_micro_usd_per_raw": 1,
+          "provenance": "synthetic_fixture_not_issuer_backed"
+        }
+      ],
+      "accounts": [
+        {
+          "id": "a",
+          "initial_raw": {
+            "STOCK_A": 0,
+            "STOCK_B": 3,
+            "CASH": 1000000000
+          },
+          "target_raw": {
+            "STOCK_A": 4,
+            "STOCK_B": 1
+          },
+          "final_bounds_raw": {
+            "STOCK_A": {
+              "min": 4,
+              "max": 4
+            },
+            "STOCK_B": {
+              "min": 1,
+              "max": 1
+            },
+            "CASH": {
+              "min": 0,
+              "max": 2000000000
+            }
+          },
+          "min_error_reduction_bps": 5000,
+          "max_stock_error_micro_usd": 1,
+          "max_turnover_micro_usd": 1000000000,
+          "cost_debit_budget_micro_usd": 20000000,
+          "reference": {
+            "final_raw": {
+              "STOCK_A": 4,
+              "STOCK_B": 1,
+              "CASH": 980000000
+            },
+            "cost_debit_micro_usd": 20000000,
+            "expected_feasible": true,
+            "expected_failures": []
+          }
+        },
+        {
+          "id": "b",
+          "initial_raw": {
+            "STOCK_A": 6,
+            "STOCK_B": 0,
+            "CASH": 1000000000
+          },
+          "target_raw": {
+            "STOCK_A": 2,
+            "STOCK_B": 2
+          },
+          "final_bounds_raw": {
+            "STOCK_A": {
+              "min": 2,
+              "max": 2
+            },
+            "STOCK_B": {
+              "min": 2,
+              "max": 2
+            },
+            "CASH": {
+              "min": 0,
+              "max": 2000000000
+            }
+          },
+          "min_error_reduction_bps": 5000,
+          "max_stock_error_micro_usd": 1,
+          "max_turnover_micro_usd": 1000000000,
+          "cost_debit_budget_micro_usd": 20000000,
+          "reference": {
+            "final_raw": {
+              "STOCK_A": 2,
+              "STOCK_B": 2,
+              "CASH": 980000000
+            },
+            "cost_debit_micro_usd": 20000000,
+            "expected_feasible": true,
+            "expected_failures": []
+          }
+        }
+      ],
+      "cost_model": {
+        "external_by_asset": {
+          "STOCK_A": {
+            "half_spread_bps": 10,
+            "venue_fee_bps": 5,
+            "impact_bps_at_depth": 20,
+            "depth_micro_usd": 1000000000,
+            "fixed_order_fee_micro_usd": 1000
+          },
+          "STOCK_B": {
+            "half_spread_bps": 10,
+            "venue_fee_bps": 5,
+            "impact_bps_at_depth": 20,
+            "depth_micro_usd": 1000000000,
+            "fixed_order_fee_micro_usd": 1000
+          }
+        },
+        "internal_fee_bps": 0,
+        "protocol_fee_bps": 0,
+        "network": {
+          "sol_price_micro_usd": 150000000,
+          "lamports_per_signature": 5000,
+          "priority_lamports_per_transaction": 1000,
+          "signatures_per_transaction": 1,
+          "independent_transactions_per_active_owner": 1,
+          "batch_funding_transactions_per_owner": 1,
+          "batch_settlement_transactions": 1,
+          "batch_cleanup_transactions_per_owner": 0,
+          "retry_probability_bps": 100,
+          "max_retries": 1
+        },
+        "waiting": {
+          "independent_seconds": 0,
+          "batch_seconds": 30,
+          "opportunity_bps_per_hour": 1
+        },
+        "recoverable_rent": {
+          "lamports_per_owner": 3000000,
+          "lamports_batch_shared": 2000000,
+          "treatment": "upfront_deposit_excluded_from_recurring_cost_report_separately"
+        }
+      },
+      "price_observation": {
+        "as_of_unix": 1790089200,
+        "observation_unix": 1790089200,
+        "max_age_seconds": 60,
+        "confidence_bps": 5,
+        "max_confidence_bps": 100,
+        "execution_price_shock_bps": {
+          "STOCK_A": 0,
+          "STOCK_B": 0
+        },
+        "max_price_deviation_bps": 100
+      },
+      "batch_min_participants": 2,
+      "expected_admission": "accept",
+      "expected_rejection_reasons": [],
+      "expected_qualitative_case": "Exact two-stock reciprocal flow; ordinary netting may exhaust benefits."
+    },
+    {
+      "id": "high-fee-02",
+      "category": "high_network_fees",
+      "split": "holdout",
+      "provenance": {
+        "kind": "synthetic",
+        "license": "CC0-1.0",
+        "source": "Original CrossFlow test fixture, constructed without observed market data",
+        "is_market_evidence": false
+      },
+      "assets": [
+        {
+          "id": "STOCK_A",
+          "decimals": 0,
+          "price_micro_usd_per_raw": 10000000,
+          "provenance": "synthetic_fixture_not_issuer_backed"
+        },
+        {
+          "id": "STOCK_B",
+          "decimals": 0,
+          "price_micro_usd_per_raw": 20000000,
+          "provenance": "synthetic_fixture_not_issuer_backed"
+        },
+        {
+          "id": "CASH",
+          "decimals": 6,
+          "price_micro_usd_per_raw": 1,
+          "provenance": "synthetic_fixture_not_issuer_backed"
+        }
+      ],
+      "accounts": [
+        {
+          "id": "a",
+          "initial_raw": {
+            "STOCK_A": 0,
+            "STOCK_B": 0,
+            "CASH": 1000000000
+          },
+          "target_raw": {
+            "STOCK_A": 3,
+            "STOCK_B": 0
+          },
+          "final_bounds_raw": {
+            "STOCK_A": {
+              "min": 2,
+              "max": 4
+            },
+            "STOCK_B": {
+              "min": 0,
+              "max": 0
+            },
+            "CASH": {
+              "min": 0,
+              "max": 2000000000
+            }
+          },
+          "min_error_reduction_bps": 5000,
+          "max_stock_error_micro_usd": 30000000,
+          "max_turnover_micro_usd": 1000000000,
+          "cost_debit_budget_micro_usd": 20000000,
+          "reference": {
+            "final_raw": {
+              "STOCK_A": 3,
+              "STOCK_B": 0,
+              "CASH": 950000000
+            },
+            "cost_debit_micro_usd": 20000000,
+            "expected_feasible": true,
+            "expected_failures": []
+          }
+        },
+        {
+          "id": "b",
+          "initial_raw": {
+            "STOCK_A": 6,
+            "STOCK_B": 0,
+            "CASH": 1000000000
+          },
+          "target_raw": {
+            "STOCK_A": 4,
+            "STOCK_B": 0
+          },
+          "final_bounds_raw": {
+            "STOCK_A": {
+              "min": 3,
+              "max": 5
+            },
+            "STOCK_B": {
+              "min": 0,
+              "max": 0
+            },
+            "CASH": {
+              "min": 0,
+              "max": 2000000000
+            }
+          },
+          "min_error_reduction_bps": 5000,
+          "max_stock_error_micro_usd": 30000000,
+          "max_turnover_micro_usd": 1000000000,
+          "cost_debit_budget_micro_usd": 20000000,
+          "reference": {
+            "final_raw": {
+              "STOCK_A": 4,
+              "STOCK_B": 0,
+              "CASH": 1000000000
+            },
+            "cost_debit_micro_usd": 20000000,
+            "expected_feasible": true,
+            "expected_failures": []
+          }
+        }
+      ],
+      "cost_model": {
+        "external_by_asset": {
+          "STOCK_A": {
+            "half_spread_bps": 10,
+            "venue_fee_bps": 5,
+            "impact_bps_at_depth": 20,
+            "depth_micro_usd": 1000000000,
+            "fixed_order_fee_micro_usd": 1000
+          },
+          "STOCK_B": {
+            "half_spread_bps": 10,
+            "venue_fee_bps": 5,
+            "impact_bps_at_depth": 20,
+            "depth_micro_usd": 1000000000,
+            "fixed_order_fee_micro_usd": 1000
+          }
+        },
+        "internal_fee_bps": 0,
+        "protocol_fee_bps": 0,
+        "network": {
+          "sol_price_micro_usd": 150000000,
+          "lamports_per_signature": 5000,
+          "priority_lamports_per_transaction": 100000,
+          "signatures_per_transaction": 1,
+          "independent_transactions_per_active_owner": 1,
+          "batch_funding_transactions_per_owner": 1,
+          "batch_settlement_transactions": 1,
+          "batch_cleanup_transactions_per_owner": 0,
+          "retry_probability_bps": 100,
+          "max_retries": 1
+        },
+        "waiting": {
+          "independent_seconds": 0,
+          "batch_seconds": 30,
+          "opportunity_bps_per_hour": 1
+        },
+        "recoverable_rent": {
+          "lamports_per_owner": 3000000,
+          "lamports_batch_shared": 2000000,
+          "treatment": "upfront_deposit_excluded_from_recurring_cost_report_separately"
+        }
+      },
+      "price_observation": {
+        "as_of_unix": 1790089200,
+        "observation_unix": 1790089200,
+        "max_age_seconds": 60,
+        "confidence_bps": 5,
+        "max_confidence_bps": 100,
+        "execution_price_shock_bps": {
+          "STOCK_A": 0,
+          "STOCK_B": 0
+        },
+        "max_price_deviation_bps": 100
+      },
+      "batch_min_participants": 2,
+      "expected_admission": "accept",
+      "expected_rejection_reasons": [],
+      "expected_qualitative_case": "Priority fees stress batch overhead and tiny incremental savings."
+    },
+    {
+      "id": "noise-02",
+      "category": "price_disturbance",
+      "split": "holdout",
+      "provenance": {
+        "kind": "synthetic",
+        "license": "CC0-1.0",
+        "source": "Original CrossFlow test fixture, constructed without observed market data",
+        "is_market_evidence": false
+      },
+      "assets": [
+        {
+          "id": "STOCK_A",
+          "decimals": 0,
+          "price_micro_usd_per_raw": 10000000,
+          "provenance": "synthetic_fixture_not_issuer_backed"
+        },
+        {
+          "id": "STOCK_B",
+          "decimals": 0,
+          "price_micro_usd_per_raw": 20000000,
+          "provenance": "synthetic_fixture_not_issuer_backed"
+        },
+        {
+          "id": "CASH",
+          "decimals": 6,
+          "price_micro_usd_per_raw": 1,
+          "provenance": "synthetic_fixture_not_issuer_backed"
+        }
+      ],
+      "accounts": [
+        {
+          "id": "a",
+          "initial_raw": {
+            "STOCK_A": 0,
+            "STOCK_B": 0,
+            "CASH": 1000000000
+          },
+          "target_raw": {
+            "STOCK_A": 4,
+            "STOCK_B": 1
+          },
+          "final_bounds_raw": {
+            "STOCK_A": {
+              "min": 3,
+              "max": 5
+            },
+            "STOCK_B": {
+              "min": 0,
+              "max": 2
+            },
+            "CASH": {
+              "min": 0,
+              "max": 2000000000
+            }
+          },
+          "min_error_reduction_bps": 5000,
+          "max_stock_error_micro_usd": 30000000,
+          "max_turnover_micro_usd": 1000000000,
+          "cost_debit_budget_micro_usd": 20000000,
+          "reference": {
+            "final_raw": {
+              "STOCK_A": 4,
+              "STOCK_B": 1,
+              "CASH": 920000000
+            },
+            "cost_debit_micro_usd": 20000000,
+            "expected_feasible": true,
+            "expected_failures": []
+          }
+        },
+        {
+          "id": "b",
+          "initial_raw": {
+            "STOCK_A": 8,
+            "STOCK_B": 2,
+            "CASH": 1000000000
+          },
+          "target_raw": {
+            "STOCK_A": 5,
+            "STOCK_B": 1
+          },
+          "final_bounds_raw": {
+            "STOCK_A": {
+              "min": 4,
+              "max": 6
+            },
+            "STOCK_B": {
+              "min": 0,
+              "max": 2
+            },
+            "CASH": {
+              "min": 0,
+              "max": 2000000000
+            }
+          },
+          "min_error_reduction_bps": 5000,
+          "max_stock_error_micro_usd": 30000000,
+          "max_turnover_micro_usd": 1000000000,
+          "cost_debit_budget_micro_usd": 20000000,
+          "reference": {
+            "final_raw": {
+              "STOCK_A": 5,
+              "STOCK_B": 1,
+              "CASH": 1030000000
+            },
+            "cost_debit_micro_usd": 20000000,
+            "expected_feasible": true,
+            "expected_failures": []
+          }
+        }
+      ],
+      "cost_model": {
+        "external_by_asset": {
+          "STOCK_A": {
+            "half_spread_bps": 10,
+            "venue_fee_bps": 5,
+            "impact_bps_at_depth": 20,
+            "depth_micro_usd": 1000000000,
+            "fixed_order_fee_micro_usd": 1000
+          },
+          "STOCK_B": {
+            "half_spread_bps": 10,
+            "venue_fee_bps": 5,
+            "impact_bps_at_depth": 20,
+            "depth_micro_usd": 1000000000,
+            "fixed_order_fee_micro_usd": 1000
+          }
+        },
+        "internal_fee_bps": 0,
+        "protocol_fee_bps": 0,
+        "network": {
+          "sol_price_micro_usd": 150000000,
+          "lamports_per_signature": 5000,
+          "priority_lamports_per_transaction": 1000,
+          "signatures_per_transaction": 1,
+          "independent_transactions_per_active_owner": 1,
+          "batch_funding_transactions_per_owner": 1,
+          "batch_settlement_transactions": 1,
+          "batch_cleanup_transactions_per_owner": 0,
+          "retry_probability_bps": 100,
+          "max_retries": 1
+        },
+        "waiting": {
+          "independent_seconds": 0,
+          "batch_seconds": 30,
+          "opportunity_bps_per_hour": 1
+        },
+        "recoverable_rent": {
+          "lamports_per_owner": 3000000,
+          "lamports_batch_shared": 2000000,
+          "treatment": "upfront_deposit_excluded_from_recurring_cost_report_separately"
+        }
+      },
+      "price_observation": {
+        "as_of_unix": 1790089200,
+        "observation_unix": 1790089200,
+        "max_age_seconds": 60,
+        "confidence_bps": 5,
+        "max_confidence_bps": 100,
+        "execution_price_shock_bps": {
+          "STOCK_A": 101,
+          "STOCK_B": 0
+        },
+        "max_price_deviation_bps": 100
+      },
+      "batch_min_participants": 2,
+      "expected_admission": "reject",
+      "expected_rejection_reasons": [
+        "price_deviation"
+      ],
+      "expected_qualitative_case": "Beyond-guard execution disturbance must reject; no savings from rejected trades."
+    },
+    {
+      "id": "confidence-02",
+      "category": "wide_confidence",
+      "split": "holdout",
+      "provenance": {
+        "kind": "synthetic",
+        "license": "CC0-1.0",
+        "source": "Original CrossFlow test fixture, constructed without observed market data",
+        "is_market_evidence": false
+      },
+      "assets": [
+        {
+          "id": "STOCK_A",
+          "decimals": 0,
+          "price_micro_usd_per_raw": 10000000,
+          "provenance": "synthetic_fixture_not_issuer_backed"
+        },
+        {
+          "id": "STOCK_B",
+          "decimals": 0,
+          "price_micro_usd_per_raw": 20000000,
+          "provenance": "synthetic_fixture_not_issuer_backed"
+        },
+        {
+          "id": "CASH",
+          "decimals": 6,
+          "price_micro_usd_per_raw": 1,
+          "provenance": "synthetic_fixture_not_issuer_backed"
+        }
+      ],
+      "accounts": [
+        {
+          "id": "a",
+          "initial_raw": {
+            "STOCK_A": 0,
+            "STOCK_B": 0,
+            "CASH": 1000000000
+          },
+          "target_raw": {
+            "STOCK_A": 4,
+            "STOCK_B": 0
+          },
+          "final_bounds_raw": {
+            "STOCK_A": {
+              "min": 3,
+              "max": 5
+            },
+            "STOCK_B": {
+              "min": 0,
+              "max": 0
+            },
+            "CASH": {
+              "min": 0,
+              "max": 2000000000
+            }
+          },
+          "min_error_reduction_bps": 5000,
+          "max_stock_error_micro_usd": 30000000,
+          "max_turnover_micro_usd": 1000000000,
+          "cost_debit_budget_micro_usd": 20000000,
+          "reference": {
+            "final_raw": {
+              "STOCK_A": 4,
+              "STOCK_B": 0,
+              "CASH": 940000000
+            },
+            "cost_debit_micro_usd": 20000000,
+            "expected_feasible": true,
+            "expected_failures": []
+          }
+        },
+        {
+          "id": "b",
+          "initial_raw": {
+            "STOCK_A": 8,
+            "STOCK_B": 0,
+            "CASH": 1000000000
+          },
+          "target_raw": {
+            "STOCK_A": 5,
+            "STOCK_B": 0
+          },
+          "final_bounds_raw": {
+            "STOCK_A": {
+              "min": 4,
+              "max": 6
+            },
+            "STOCK_B": {
+              "min": 0,
+              "max": 0
+            },
+            "CASH": {
+              "min": 0,
+              "max": 2000000000
+            }
+          },
+          "min_error_reduction_bps": 5000,
+          "max_stock_error_micro_usd": 30000000,
+          "max_turnover_micro_usd": 1000000000,
+          "cost_debit_budget_micro_usd": 20000000,
+          "reference": {
+            "final_raw": {
+              "STOCK_A": 5,
+              "STOCK_B": 0,
+              "CASH": 1010000000
+            },
+            "cost_debit_micro_usd": 20000000,
+            "expected_feasible": true,
+            "expected_failures": []
+          }
+        }
+      ],
+      "cost_model": {
+        "external_by_asset": {
+          "STOCK_A": {
+            "half_spread_bps": 10,
+            "venue_fee_bps": 5,
+            "impact_bps_at_depth": 20,
+            "depth_micro_usd": 1000000000,
+            "fixed_order_fee_micro_usd": 1000
+          },
+          "STOCK_B": {
+            "half_spread_bps": 10,
+            "venue_fee_bps": 5,
+            "impact_bps_at_depth": 20,
+            "depth_micro_usd": 1000000000,
+            "fixed_order_fee_micro_usd": 1000
+          }
+        },
+        "internal_fee_bps": 0,
+        "protocol_fee_bps": 0,
+        "network": {
+          "sol_price_micro_usd": 150000000,
+          "lamports_per_signature": 5000,
+          "priority_lamports_per_transaction": 1000,
+          "signatures_per_transaction": 1,
+          "independent_transactions_per_active_owner": 1,
+          "batch_funding_transactions_per_owner": 1,
+          "batch_settlement_transactions": 1,
+          "batch_cleanup_transactions_per_owner": 0,
+          "retry_probability_bps": 100,
+          "max_retries": 1
+        },
+        "waiting": {
+          "independent_seconds": 0,
+          "batch_seconds": 30,
+          "opportunity_bps_per_hour": 1
+        },
+        "recoverable_rent": {
+          "lamports_per_owner": 3000000,
+          "lamports_batch_shared": 2000000,
+          "treatment": "upfront_deposit_excluded_from_recurring_cost_report_separately"
+        }
+      },
+      "price_observation": {
+        "as_of_unix": 1790089200,
+        "observation_unix": 1790089200,
+        "max_age_seconds": 60,
+        "confidence_bps": 101,
+        "max_confidence_bps": 100,
+        "execution_price_shock_bps": {
+          "STOCK_A": 0,
+          "STOCK_B": 0
+        },
+        "max_price_deviation_bps": 100
+      },
+      "batch_min_participants": 2,
+      "expected_admission": "reject",
+      "expected_rejection_reasons": [
+        "wide_confidence"
+      ],
+      "expected_qualitative_case": "Uncertain reference rejected; no silent test-price replacement."
+    },
+    {
+      "id": "slow-02",
+      "category": "waiting_and_retry",
+      "split": "holdout",
+      "provenance": {
+        "kind": "synthetic",
+        "license": "CC0-1.0",
+        "source": "Original CrossFlow test fixture, constructed without observed market data",
+        "is_market_evidence": false
+      },
+      "assets": [
+        {
+          "id": "STOCK_A",
+          "decimals": 0,
+          "price_micro_usd_per_raw": 10000000,
+          "provenance": "synthetic_fixture_not_issuer_backed"
+        },
+        {
+          "id": "STOCK_B",
+          "decimals": 0,
+          "price_micro_usd_per_raw": 20000000,
+          "provenance": "synthetic_fixture_not_issuer_backed"
+        },
+        {
+          "id": "CASH",
+          "decimals": 6,
+          "price_micro_usd_per_raw": 1,
+          "provenance": "synthetic_fixture_not_issuer_backed"
+        }
+      ],
+      "accounts": [
+        {
+          "id": "a",
+          "initial_raw": {
+            "STOCK_A": 0,
+            "STOCK_B": 0,
+            "CASH": 1000000000
+          },
+          "target_raw": {
+            "STOCK_A": 5,
+            "STOCK_B": 0
+          },
+          "final_bounds_raw": {
+            "STOCK_A": {
+              "min": 4,
+              "max": 6
+            },
+            "STOCK_B": {
+              "min": 0,
+              "max": 0
+            },
+            "CASH": {
+              "min": 0,
+              "max": 2000000000
+            }
+          },
+          "min_error_reduction_bps": 5000,
+          "max_stock_error_micro_usd": 30000000,
+          "max_turnover_micro_usd": 1000000000,
+          "cost_debit_budget_micro_usd": 20000000,
+          "reference": {
+            "final_raw": {
+              "STOCK_A": 5,
+              "STOCK_B": 0,
+              "CASH": 930000000
+            },
+            "cost_debit_micro_usd": 20000000,
+            "expected_feasible": true,
+            "expected_failures": []
+          }
+        },
+        {
+          "id": "b",
+          "initial_raw": {
+            "STOCK_A": 10,
+            "STOCK_B": 0,
+            "CASH": 1000000000
+          },
+          "target_raw": {
+            "STOCK_A": 6,
+            "STOCK_B": 0
+          },
+          "final_bounds_raw": {
+            "STOCK_A": {
+              "min": 5,
+              "max": 7
+            },
+            "STOCK_B": {
+              "min": 0,
+              "max": 0
+            },
+            "CASH": {
+              "min": 0,
+              "max": 2000000000
+            }
+          },
+          "min_error_reduction_bps": 5000,
+          "max_stock_error_micro_usd": 30000000,
+          "max_turnover_micro_usd": 1000000000,
+          "cost_debit_budget_micro_usd": 20000000,
+          "reference": {
+            "final_raw": {
+              "STOCK_A": 6,
+              "STOCK_B": 0,
+              "CASH": 1020000000
+            },
+            "cost_debit_micro_usd": 20000000,
+            "expected_feasible": true,
+            "expected_failures": []
+          }
+        }
+      ],
+      "cost_model": {
+        "external_by_asset": {
+          "STOCK_A": {
+            "half_spread_bps": 10,
+            "venue_fee_bps": 5,
+            "impact_bps_at_depth": 20,
+            "depth_micro_usd": 1000000000,
+            "fixed_order_fee_micro_usd": 1000
+          },
+          "STOCK_B": {
+            "half_spread_bps": 10,
+            "venue_fee_bps": 5,
+            "impact_bps_at_depth": 20,
+            "depth_micro_usd": 1000000000,
+            "fixed_order_fee_micro_usd": 1000
+          }
+        },
+        "internal_fee_bps": 0,
+        "protocol_fee_bps": 0,
+        "network": {
+          "sol_price_micro_usd": 150000000,
+          "lamports_per_signature": 5000,
+          "priority_lamports_per_transaction": 1000,
+          "signatures_per_transaction": 1,
+          "independent_transactions_per_active_owner": 1,
+          "batch_funding_transactions_per_owner": 1,
+          "batch_settlement_transactions": 1,
+          "batch_cleanup_transactions_per_owner": 0,
+          "retry_probability_bps": 2000,
+          "max_retries": 1
+        },
+        "waiting": {
+          "independent_seconds": 0,
+          "batch_seconds": 900,
+          "opportunity_bps_per_hour": 100
+        },
+        "recoverable_rent": {
+          "lamports_per_owner": 3000000,
+          "lamports_batch_shared": 2000000,
+          "treatment": "upfront_deposit_excluded_from_recurring_cost_report_separately"
+        }
+      },
+      "price_observation": {
+        "as_of_unix": 1790089200,
+        "observation_unix": 1790089200,
+        "max_age_seconds": 60,
+        "confidence_bps": 5,
+        "max_confidence_bps": 100,
+        "execution_price_shock_bps": {
+          "STOCK_A": 0,
+          "STOCK_B": 0
+        },
+        "max_price_deviation_bps": 100
+      },
+      "batch_min_participants": 2,
+      "expected_admission": "accept",
+      "expected_rejection_reasons": [],
+      "expected_qualitative_case": "Slow coordination and retries can erase spread savings."
+    }
+  ]
+}
