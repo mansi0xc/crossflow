@@ -14,7 +14,7 @@ export function assertManifest(manifest, task) {
   for (const check of manifest.checks) {
     if (!check || typeof check.name !== 'string' || !/^[a-z0-9-]+$/.test(check.name) || names.has(check.name)) throw new Error('invalid/duplicate check name');
     names.add(check.name);
-    if (!['workspace', 'json-pass', 'cargo-test', 'anchor-build', 'capacity'].includes(check.kind)) throw new Error(`unknown evidence kind ${check.kind}`);
+    if (!['locked-install', 'workspace', 'json-pass', 'cargo-test', 'anchor-build', 'capacity'].includes(check.kind)) throw new Error(`unknown evidence kind ${check.kind}`);
     if (typeof check.command !== 'string' || !/^[a-zA-Z0-9_-]+$/.test(check.command)) throw new Error('invalid command');
     if (!Array.isArray(check.args) || check.args.some((arg) => typeof arg !== 'string' || arg.includes('\0'))) throw new Error('invalid command args');
     if (check.args.join(' ').includes('mainnet')) throw new Error('mainnet command rejected');
@@ -26,7 +26,9 @@ export function assertManifest(manifest, task) {
 
 export function assertFreshOutput(kind, stdout, stderr, root) {
   const combined = `${stdout}\n${stderr}`;
-  if (kind === 'workspace') {
+  if (kind === 'locked-install') {
+    if (!/Lockfile is up to date, resolution step is skipped/.test(combined) || !/Done in/.test(combined)) throw new Error('locked install did not verify reproducibility');
+  } else if (kind === 'workspace') {
     const node = combined.match(/ℹ pass\s+(\d+)/);
     const vitest = combined.match(/Tests\s+(\d+) passed/);
     if (!node || !vitest || Number(node[1]) < 1 || Number(vitest[1]) < 1 || /ℹ (?:fail|skipped|todo)\s+[1-9]|Tests\s+0 passed|\b(?:skipped|todo)\s*\([1-9]/i.test(combined)) throw new Error('workspace mandatory tests absent, failed or skipped');

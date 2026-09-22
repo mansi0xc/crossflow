@@ -28,6 +28,12 @@
   ],
   "checks": [
     {
+      "name": "locked-install",
+      "kind": "locked-install",
+      "command": "corepack",
+      "args": ["pnpm@10.17.1", "install", "--ignore-scripts", "--frozen-lockfile", "--offline"]
+    },
+    {
       "name": "workspace",
       "kind": "workspace",
       "command": "corepack",

@@ -35,10 +35,10 @@ function instruction(keys: ReturnType<typeof meta>[], bodyLength: number): Trans
   return new TransactionInstruction({ programId: PROGRAM_ID, keys, data: Buffer.alloc(8 + bodyLength) });
 }
 
-function build(keys: ReturnType<typeof meta>[], bodyLength: number, lookup?: AddressLookupTableAccount, extra?: TransactionInstruction[]) {
+function build(keys: ReturnType<typeof meta>[], bodyLength: number, lookup?: AddressLookupTableAccount, extra?: TransactionInstruction[], payer = operator) {
   const instructions = [ComputeBudgetProgram.setComputeUnitLimit({ units: 1_200_000 }),
     ComputeBudgetProgram.setComputeUnitPrice({ microLamports: 1_000 }), ...(extra ?? []), instruction(keys, bodyLength)];
-  const message = new TransactionMessage({ payerKey: operator, recentBlockhash, instructions })
+  const message = new TransactionMessage({ payerKey: payer, recentBlockhash, instructions })
     .compileToV0Message(lookup ? [lookup] : []);
   const tx = new VersionedTransaction(message);
   let serializedBytes: number | null;
@@ -63,7 +63,8 @@ function build(keys: ReturnType<typeof meta>[], bodyLength: number, lookup?: Add
   };
 }
 
-const fundingKeys = [meta('owner-0', true), config, snapshot, ownerStates[0], intents[0],
+const fundingOwner = pub('owner-0');
+const fundingKeys = [{ pubkey: fundingOwner, isSigner: true, isWritable: true }, config, snapshot, ownerStates[0], intents[0],
   ...mints, ...intentVaults.slice(0, 3), ...recipients.slice(0, 3),
   { pubkey: token, isSigner: false, isWritable: false },
   { pubkey: ata, isSigner: false, isWritable: false },
@@ -108,8 +109,8 @@ const report = {
     'One operator signature; all wallet funding transactions are separate',
     'Fixture mode has preloaded price account; 512-byte Pyth reserve is illustrative, not a measured payload',
     'Compute units are requested, not measured; actual runtime and route checks remain open'],
-  fundingWithLookup: build(fundingKeys, 177, lookup),
-  fundingWithoutLookup: build(fundingKeys, 177),
+  fundingWithLookup: build(fundingKeys, 177, lookup, undefined, fundingOwner),
+  fundingWithoutLookup: build(fundingKeys, 177, undefined, undefined, fundingOwner),
   settlementWithLookup: build(settlementKeys, 194, lookup, paddedInstruction),
   settlementWithoutLookup: build(settlementKeys, 194),
   settlementWithIllustrativePythReserve: build([...settlementKeys, ...feedAccounts], 194, lookup, [pythReserve]),
