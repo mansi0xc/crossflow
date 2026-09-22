@@ -1044,11 +1044,11 @@
             "numerator": 274096,
             "denominator": 3
           },
-          "B_minus_C_recurring_micro_usd": {
+          "B_minus_C_raw_recurring_difference_micro_usd": {
             "numerator": 16200,
             "denominator": 1
           },
-          "B_minus_C_objective_micro_usd": {
+          "B_minus_C_raw_objective_difference_micro_usd": {
             "numerator": 21200,
             "denominator": 1
           },
@@ -1056,7 +1056,15 @@
             "numerator": 322696,
             "denominator": 3
           },
-          "valid_baselines": true
+          "valid_baselines": true,
+          "execution_attribution": "comparable_nonzero_execution",
+          "cooperative_trading_benefit_eligible": true,
+          "incremental_cooperative_trading_savings_micro_usd": {
+            "numerator": 16200,
+            "denominator": 1
+          },
+          "G0_incremental_cost_criterion_pass": true,
+          "attribution_note": "Both baselines execute nonzero trades under identical mandates; negative values mean higher recurring cost."
         }
       },
       "t02_policy_subset": {
@@ -2078,11 +2086,11 @@
             "numerator": 274096,
             "denominator": 3
           },
-          "B_minus_C_recurring_micro_usd": {
+          "B_minus_C_raw_recurring_difference_micro_usd": {
             "numerator": 16200,
             "denominator": 1
           },
-          "B_minus_C_objective_micro_usd": {
+          "B_minus_C_raw_objective_difference_micro_usd": {
             "numerator": 21200,
             "denominator": 1
           },
@@ -2090,7 +2098,15 @@
             "numerator": 322696,
             "denominator": 3
           },
-          "valid_baselines": true
+          "valid_baselines": true,
+          "execution_attribution": "comparable_nonzero_execution",
+          "cooperative_trading_benefit_eligible": true,
+          "incremental_cooperative_trading_savings_micro_usd": {
+            "numerator": 16200,
+            "denominator": 1
+          },
+          "G0_incremental_cost_criterion_pass": true,
+          "attribution_note": "Both baselines execute nonzero trades under identical mandates; negative values mean higher recurring cost."
         }
       },
       "reference_witness_value_guards": {
@@ -2880,11 +2896,11 @@
             "numerator": -19127,
             "denominator": 3
           },
-          "B_minus_C_recurring_micro_usd": {
+          "B_minus_C_raw_recurring_difference_micro_usd": {
             "numerator": 0,
             "denominator": 1
           },
-          "B_minus_C_objective_micro_usd": {
+          "B_minus_C_raw_objective_difference_micro_usd": {
             "numerator": 0,
             "denominator": 1
           },
@@ -2892,7 +2908,15 @@
             "numerator": -19127,
             "denominator": 3
           },
-          "valid_baselines": true
+          "valid_baselines": true,
+          "execution_attribution": "comparable_nonzero_execution",
+          "cooperative_trading_benefit_eligible": true,
+          "incremental_cooperative_trading_savings_micro_usd": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "G0_incremental_cost_criterion_pass": false,
+          "attribution_note": "Both baselines execute nonzero trades under identical mandates; negative values mean higher recurring cost."
         }
       },
       "t02_policy_subset": {
@@ -3651,11 +3675,11 @@
             "numerator": -19127,
             "denominator": 3
           },
-          "B_minus_C_recurring_micro_usd": {
+          "B_minus_C_raw_recurring_difference_micro_usd": {
             "numerator": 0,
             "denominator": 1
           },
-          "B_minus_C_objective_micro_usd": {
+          "B_minus_C_raw_objective_difference_micro_usd": {
             "numerator": 0,
             "denominator": 1
           },
@@ -3663,7 +3687,15 @@
             "numerator": -19127,
             "denominator": 3
           },
-          "valid_baselines": true
+          "valid_baselines": true,
+          "execution_attribution": "comparable_nonzero_execution",
+          "cooperative_trading_benefit_eligible": true,
+          "incremental_cooperative_trading_savings_micro_usd": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "G0_incremental_cost_criterion_pass": false,
+          "attribution_note": "Both baselines execute nonzero trades under identical mandates; negative values mean higher recurring cost."
         }
       },
       "reference_witness_value_guards": {
@@ -4473,11 +4505,11 @@
             "numerator": -7727,
             "denominator": 3
           },
-          "B_minus_C_recurring_micro_usd": {
+          "B_minus_C_raw_recurring_difference_micro_usd": {
             "numerator": 0,
             "denominator": 1
           },
-          "B_minus_C_objective_micro_usd": {
+          "B_minus_C_raw_objective_difference_micro_usd": {
             "numerator": 0,
             "denominator": 1
           },
@@ -4485,7 +4517,15 @@
             "numerator": -7727,
             "denominator": 3
           },
-          "valid_baselines": true
+          "valid_baselines": true,
+          "execution_attribution": "comparable_nonzero_execution",
+          "cooperative_trading_benefit_eligible": true,
+          "incremental_cooperative_trading_savings_micro_usd": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "G0_incremental_cost_criterion_pass": false,
+          "attribution_note": "Both baselines execute nonzero trades under identical mandates; negative values mean higher recurring cost."
         }
       },
       "t02_policy_subset": {
@@ -5272,11 +5312,11 @@
             "numerator": -7727,
             "denominator": 3
           },
-          "B_minus_C_recurring_micro_usd": {
+          "B_minus_C_raw_recurring_difference_micro_usd": {
             "numerator": 0,
             "denominator": 1
           },
-          "B_minus_C_objective_micro_usd": {
+          "B_minus_C_raw_objective_difference_micro_usd": {
             "numerator": 0,
             "denominator": 1
           },
@@ -5284,7 +5324,15 @@
             "numerator": -7727,
             "denominator": 3
           },
-          "valid_baselines": true
+          "valid_baselines": true,
+          "execution_attribution": "comparable_nonzero_execution",
+          "cooperative_trading_benefit_eligible": true,
+          "incremental_cooperative_trading_savings_micro_usd": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "G0_incremental_cost_criterion_pass": false,
+          "attribution_note": "Both baselines execute nonzero trades under identical mandates; negative values mean higher recurring cost."
         }
       },
       "reference_witness_value_guards": {
@@ -6066,11 +6114,11 @@
             "numerator": 359423,
             "denominator": 3
           },
-          "B_minus_C_recurring_micro_usd": {
+          "B_minus_C_raw_recurring_difference_micro_usd": {
             "numerator": 50000,
             "denominator": 1
           },
-          "B_minus_C_objective_micro_usd": {
+          "B_minus_C_raw_objective_difference_micro_usd": {
             "numerator": 50000,
             "denominator": 1
           },
@@ -6078,7 +6126,15 @@
             "numerator": 509423,
             "denominator": 3
           },
-          "valid_baselines": true
+          "valid_baselines": true,
+          "execution_attribution": "comparable_nonzero_execution",
+          "cooperative_trading_benefit_eligible": true,
+          "incremental_cooperative_trading_savings_micro_usd": {
+            "numerator": 50000,
+            "denominator": 1
+          },
+          "G0_incremental_cost_criterion_pass": true,
+          "attribution_note": "Both baselines execute nonzero trades under identical mandates; negative values mean higher recurring cost."
         }
       },
       "t02_policy_subset": {
@@ -6837,11 +6893,11 @@
             "numerator": 359423,
             "denominator": 3
           },
-          "B_minus_C_recurring_micro_usd": {
+          "B_minus_C_raw_recurring_difference_micro_usd": {
             "numerator": 50000,
             "denominator": 1
           },
-          "B_minus_C_objective_micro_usd": {
+          "B_minus_C_raw_objective_difference_micro_usd": {
             "numerator": 50000,
             "denominator": 1
           },
@@ -6849,7 +6905,15 @@
             "numerator": 509423,
             "denominator": 3
           },
-          "valid_baselines": true
+          "valid_baselines": true,
+          "execution_attribution": "comparable_nonzero_execution",
+          "cooperative_trading_benefit_eligible": true,
+          "incremental_cooperative_trading_savings_micro_usd": {
+            "numerator": 50000,
+            "denominator": 1
+          },
+          "G0_incremental_cost_criterion_pass": true,
+          "attribution_note": "Both baselines execute nonzero trades under identical mandates; negative values mean higher recurring cost."
         }
       },
       "reference_witness_value_guards": {
@@ -7631,11 +7695,11 @@
             "numerator": 126341,
             "denominator": 1
           },
-          "B_minus_C_recurring_micro_usd": {
+          "B_minus_C_raw_recurring_difference_micro_usd": {
             "numerator": 0,
             "denominator": 1
           },
-          "B_minus_C_objective_micro_usd": {
+          "B_minus_C_raw_objective_difference_micro_usd": {
             "numerator": 0,
             "denominator": 1
           },
@@ -7643,7 +7707,15 @@
             "numerator": 126341,
             "denominator": 1
           },
-          "valid_baselines": true
+          "valid_baselines": true,
+          "execution_attribution": "comparable_nonzero_execution",
+          "cooperative_trading_benefit_eligible": true,
+          "incremental_cooperative_trading_savings_micro_usd": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "G0_incremental_cost_criterion_pass": false,
+          "attribution_note": "Both baselines execute nonzero trades under identical mandates; negative values mean higher recurring cost."
         }
       },
       "t02_policy_subset": {
@@ -8402,11 +8474,11 @@
             "numerator": 126341,
             "denominator": 1
           },
-          "B_minus_C_recurring_micro_usd": {
+          "B_minus_C_raw_recurring_difference_micro_usd": {
             "numerator": 0,
             "denominator": 1
           },
-          "B_minus_C_objective_micro_usd": {
+          "B_minus_C_raw_objective_difference_micro_usd": {
             "numerator": 0,
             "denominator": 1
           },
@@ -8414,7 +8486,15 @@
             "numerator": 126341,
             "denominator": 1
           },
-          "valid_baselines": true
+          "valid_baselines": true,
+          "execution_attribution": "comparable_nonzero_execution",
+          "cooperative_trading_benefit_eligible": true,
+          "incremental_cooperative_trading_savings_micro_usd": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "G0_incremental_cost_criterion_pass": false,
+          "attribution_note": "Both baselines execute nonzero trades under identical mandates; negative values mean higher recurring cost."
         }
       },
       "reference_witness_value_guards": {
@@ -9220,11 +9300,11 @@
             "numerator": 808341,
             "denominator": 1
           },
-          "B_minus_C_recurring_micro_usd": {
+          "B_minus_C_raw_recurring_difference_micro_usd": {
             "numerator": 76000,
             "denominator": 1
           },
-          "B_minus_C_objective_micro_usd": {
+          "B_minus_C_raw_objective_difference_micro_usd": {
             "numerator": 81000,
             "denominator": 1
           },
@@ -9232,7 +9312,15 @@
             "numerator": 884341,
             "denominator": 1
           },
-          "valid_baselines": true
+          "valid_baselines": true,
+          "execution_attribution": "comparable_nonzero_execution",
+          "cooperative_trading_benefit_eligible": true,
+          "incremental_cooperative_trading_savings_micro_usd": {
+            "numerator": 76000,
+            "denominator": 1
+          },
+          "G0_incremental_cost_criterion_pass": true,
+          "attribution_note": "Both baselines execute nonzero trades under identical mandates; negative values mean higher recurring cost."
         }
       },
       "t02_policy_subset": {
@@ -9976,11 +10064,11 @@
             "numerator": 808341,
             "denominator": 1
           },
-          "B_minus_C_recurring_micro_usd": {
+          "B_minus_C_raw_recurring_difference_micro_usd": {
             "numerator": 76000,
             "denominator": 1
           },
-          "B_minus_C_objective_micro_usd": {
+          "B_minus_C_raw_objective_difference_micro_usd": {
             "numerator": 81000,
             "denominator": 1
           },
@@ -9988,7 +10076,15 @@
             "numerator": 884341,
             "denominator": 1
           },
-          "valid_baselines": true
+          "valid_baselines": true,
+          "execution_attribution": "comparable_nonzero_execution",
+          "cooperative_trading_benefit_eligible": true,
+          "incremental_cooperative_trading_savings_micro_usd": {
+            "numerator": 76000,
+            "denominator": 1
+          },
+          "G0_incremental_cost_criterion_pass": true,
+          "attribution_note": "Both baselines execute nonzero trades under identical mandates; negative values mean higher recurring cost."
         }
       },
       "reference_witness_value_guards": {
@@ -10770,11 +10866,11 @@
             "numerator": 127362,
             "denominator": 1
           },
-          "B_minus_C_recurring_micro_usd": {
+          "B_minus_C_raw_recurring_difference_micro_usd": {
             "numerator": 0,
             "denominator": 1
           },
-          "B_minus_C_objective_micro_usd": {
+          "B_minus_C_raw_objective_difference_micro_usd": {
             "numerator": 0,
             "denominator": 1
           },
@@ -10782,7 +10878,15 @@
             "numerator": 127362,
             "denominator": 1
           },
-          "valid_baselines": true
+          "valid_baselines": true,
+          "execution_attribution": "comparable_nonzero_execution",
+          "cooperative_trading_benefit_eligible": true,
+          "incremental_cooperative_trading_savings_micro_usd": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "G0_incremental_cost_criterion_pass": false,
+          "attribution_note": "Both baselines execute nonzero trades under identical mandates; negative values mean higher recurring cost."
         }
       },
       "t02_policy_subset": {
@@ -11541,11 +11645,11 @@
             "numerator": 127362,
             "denominator": 1
           },
-          "B_minus_C_recurring_micro_usd": {
+          "B_minus_C_raw_recurring_difference_micro_usd": {
             "numerator": 0,
             "denominator": 1
           },
-          "B_minus_C_objective_micro_usd": {
+          "B_minus_C_raw_objective_difference_micro_usd": {
             "numerator": 0,
             "denominator": 1
           },
@@ -11553,7 +11657,15 @@
             "numerator": 127362,
             "denominator": 1
           },
-          "valid_baselines": true
+          "valid_baselines": true,
+          "execution_attribution": "comparable_nonzero_execution",
+          "cooperative_trading_benefit_eligible": true,
+          "incremental_cooperative_trading_savings_micro_usd": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "G0_incremental_cost_criterion_pass": false,
+          "attribution_note": "Both baselines execute nonzero trades under identical mandates; negative values mean higher recurring cost."
         }
       },
       "reference_witness_value_guards": {
@@ -12305,11 +12417,11 @@
             "numerator": 31441,
             "denominator": 1
           },
-          "B_minus_C_recurring_micro_usd": {
+          "B_minus_C_raw_recurring_difference_micro_usd": {
             "numerator": 0,
             "denominator": 1
           },
-          "B_minus_C_objective_micro_usd": {
+          "B_minus_C_raw_objective_difference_micro_usd": {
             "numerator": 0,
             "denominator": 1
           },
@@ -12317,7 +12429,15 @@
             "numerator": 31441,
             "denominator": 1
           },
-          "valid_baselines": true
+          "valid_baselines": true,
+          "execution_attribution": "comparable_nonzero_execution",
+          "cooperative_trading_benefit_eligible": true,
+          "incremental_cooperative_trading_savings_micro_usd": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "G0_incremental_cost_criterion_pass": false,
+          "attribution_note": "Both baselines execute nonzero trades under identical mandates; negative values mean higher recurring cost."
         }
       },
       "t02_policy_subset": {
@@ -13046,11 +13166,11 @@
             "numerator": 31441,
             "denominator": 1
           },
-          "B_minus_C_recurring_micro_usd": {
+          "B_minus_C_raw_recurring_difference_micro_usd": {
             "numerator": 0,
             "denominator": 1
           },
-          "B_minus_C_objective_micro_usd": {
+          "B_minus_C_raw_objective_difference_micro_usd": {
             "numerator": 0,
             "denominator": 1
           },
@@ -13058,7 +13178,15 @@
             "numerator": 31441,
             "denominator": 1
           },
-          "valid_baselines": true
+          "valid_baselines": true,
+          "execution_attribution": "comparable_nonzero_execution",
+          "cooperative_trading_benefit_eligible": true,
+          "incremental_cooperative_trading_savings_micro_usd": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "G0_incremental_cost_criterion_pass": false,
+          "attribution_note": "Both baselines execute nonzero trades under identical mandates; negative values mean higher recurring cost."
         }
       },
       "reference_witness_value_guards": {
@@ -13785,11 +13913,11 @@
             "numerator": 0,
             "denominator": 1
           },
-          "B_minus_C_recurring_micro_usd": {
+          "B_minus_C_raw_recurring_difference_micro_usd": {
             "numerator": 0,
             "denominator": 1
           },
-          "B_minus_C_objective_micro_usd": {
+          "B_minus_C_raw_objective_difference_micro_usd": {
             "numerator": 0,
             "denominator": 1
           },
@@ -13797,7 +13925,15 @@
             "numerator": 0,
             "denominator": 1
           },
-          "valid_baselines": true
+          "valid_baselines": true,
+          "execution_attribution": "skipped_execution_no_cooperative_trading",
+          "cooperative_trading_benefit_eligible": false,
+          "incremental_cooperative_trading_savings_micro_usd": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "G0_incremental_cost_criterion_pass": false,
+          "attribution_note": "Raw differences describe the optimizer decision; skipped/new execution relative to a no-op is not an attributable cooperative trading saving."
         }
       },
       "t02_policy_subset": {
@@ -14501,11 +14637,11 @@
             "numerator": 0,
             "denominator": 1
           },
-          "B_minus_C_recurring_micro_usd": {
+          "B_minus_C_raw_recurring_difference_micro_usd": {
             "numerator": 0,
             "denominator": 1
           },
-          "B_minus_C_objective_micro_usd": {
+          "B_minus_C_raw_objective_difference_micro_usd": {
             "numerator": 0,
             "denominator": 1
           },
@@ -14513,7 +14649,15 @@
             "numerator": 0,
             "denominator": 1
           },
-          "valid_baselines": true
+          "valid_baselines": true,
+          "execution_attribution": "skipped_execution_no_cooperative_trading",
+          "cooperative_trading_benefit_eligible": false,
+          "incremental_cooperative_trading_savings_micro_usd": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "G0_incremental_cost_criterion_pass": false,
+          "attribution_note": "Raw differences describe the optimizer decision; skipped/new execution relative to a no-op is not an attributable cooperative trading saving."
         }
       },
       "reference_witness_value_guards": {
@@ -15630,11 +15774,11 @@
             "numerator": 275005,
             "denominator": 3
           },
-          "B_minus_C_recurring_micro_usd": {
+          "B_minus_C_raw_recurring_difference_micro_usd": {
             "numerator": 16200,
             "denominator": 1
           },
-          "B_minus_C_objective_micro_usd": {
+          "B_minus_C_raw_objective_difference_micro_usd": {
             "numerator": 21200,
             "denominator": 1
           },
@@ -15642,7 +15786,15 @@
             "numerator": 323605,
             "denominator": 3
           },
-          "valid_baselines": true
+          "valid_baselines": true,
+          "execution_attribution": "comparable_nonzero_execution",
+          "cooperative_trading_benefit_eligible": true,
+          "incremental_cooperative_trading_savings_micro_usd": {
+            "numerator": 16200,
+            "denominator": 1
+          },
+          "G0_incremental_cost_criterion_pass": true,
+          "attribution_note": "Both baselines execute nonzero trades under identical mandates; negative values mean higher recurring cost."
         }
       }
     },
@@ -16669,11 +16821,11 @@
             "numerator": 274096,
             "denominator": 3
           },
-          "B_minus_C_recurring_micro_usd": {
+          "B_minus_C_raw_recurring_difference_micro_usd": {
             "numerator": 16200,
             "denominator": 1
           },
-          "B_minus_C_objective_micro_usd": {
+          "B_minus_C_raw_objective_difference_micro_usd": {
             "numerator": 21200,
             "denominator": 1
           },
@@ -16681,7 +16833,15 @@
             "numerator": 322696,
             "denominator": 3
           },
-          "valid_baselines": true
+          "valid_baselines": true,
+          "execution_attribution": "comparable_nonzero_execution",
+          "cooperative_trading_benefit_eligible": true,
+          "incremental_cooperative_trading_savings_micro_usd": {
+            "numerator": 16200,
+            "denominator": 1
+          },
+          "G0_incremental_cost_criterion_pass": true,
+          "attribution_note": "Both baselines execute nonzero trades under identical mandates; negative values mean higher recurring cost."
         }
       }
     },
@@ -17708,11 +17868,11 @@
             "numerator": 184105,
             "denominator": 3
           },
-          "B_minus_C_recurring_micro_usd": {
+          "B_minus_C_raw_recurring_difference_micro_usd": {
             "numerator": 16200,
             "denominator": 1
           },
-          "B_minus_C_objective_micro_usd": {
+          "B_minus_C_raw_objective_difference_micro_usd": {
             "numerator": 21200,
             "denominator": 1
           },
@@ -17720,7 +17880,15 @@
             "numerator": 232705,
             "denominator": 3
           },
-          "valid_baselines": true
+          "valid_baselines": true,
+          "execution_attribution": "comparable_nonzero_execution",
+          "cooperative_trading_benefit_eligible": true,
+          "incremental_cooperative_trading_savings_micro_usd": {
+            "numerator": 16200,
+            "denominator": 1
+          },
+          "G0_incremental_cost_criterion_pass": true,
+          "attribution_note": "Both baselines execute nonzero trades under identical mandates; negative values mean higher recurring cost."
         }
       }
     },
@@ -18747,11 +18915,11 @@
             "numerator": -633995,
             "denominator": 3
           },
-          "B_minus_C_recurring_micro_usd": {
+          "B_minus_C_raw_recurring_difference_micro_usd": {
             "numerator": 16200,
             "denominator": 1
           },
-          "B_minus_C_objective_micro_usd": {
+          "B_minus_C_raw_objective_difference_micro_usd": {
             "numerator": 21200,
             "denominator": 1
           },
@@ -18759,7 +18927,15 @@
             "numerator": -585395,
             "denominator": 3
           },
-          "valid_baselines": true
+          "valid_baselines": true,
+          "execution_attribution": "comparable_nonzero_execution",
+          "cooperative_trading_benefit_eligible": true,
+          "incremental_cooperative_trading_savings_micro_usd": {
+            "numerator": 16200,
+            "denominator": 1
+          },
+          "G0_incremental_cost_criterion_pass": true,
+          "attribution_note": "Both baselines execute nonzero trades under identical mandates; negative values mean higher recurring cost."
         }
       }
     },
@@ -19786,11 +19962,11 @@
             "numerator": 93982,
             "denominator": 1
           },
-          "B_minus_C_recurring_micro_usd": {
+          "B_minus_C_raw_recurring_difference_micro_usd": {
             "numerator": 16200,
             "denominator": 1
           },
-          "B_minus_C_objective_micro_usd": {
+          "B_minus_C_raw_objective_difference_micro_usd": {
             "numerator": 21200,
             "denominator": 1
           },
@@ -19798,7 +19974,15 @@
             "numerator": 110182,
             "denominator": 1
           },
-          "valid_baselines": true
+          "valid_baselines": true,
+          "execution_attribution": "comparable_nonzero_execution",
+          "cooperative_trading_benefit_eligible": true,
+          "incremental_cooperative_trading_savings_micro_usd": {
+            "numerator": 16200,
+            "denominator": 1
+          },
+          "G0_incremental_cost_criterion_pass": true,
+          "attribution_note": "Both baselines execute nonzero trades under identical mandates; negative values mean higher recurring cost."
         }
       }
     },
@@ -20825,11 +21009,11 @@
             "numerator": 274096,
             "denominator": 3
           },
-          "B_minus_C_recurring_micro_usd": {
+          "B_minus_C_raw_recurring_difference_micro_usd": {
             "numerator": 16200,
             "denominator": 1
           },
-          "B_minus_C_objective_micro_usd": {
+          "B_minus_C_raw_objective_difference_micro_usd": {
             "numerator": 21200,
             "denominator": 1
           },
@@ -20837,7 +21021,15 @@
             "numerator": 322696,
             "denominator": 3
           },
-          "valid_baselines": true
+          "valid_baselines": true,
+          "execution_attribution": "comparable_nonzero_execution",
+          "cooperative_trading_benefit_eligible": true,
+          "incremental_cooperative_trading_savings_micro_usd": {
+            "numerator": 16200,
+            "denominator": 1
+          },
+          "G0_incremental_cost_criterion_pass": true,
+          "attribution_note": "Both baselines execute nonzero trades under identical mandates; negative values mean higher recurring cost."
         }
       }
     },
@@ -21864,11 +22056,11 @@
             "numerator": 203446,
             "denominator": 3
           },
-          "B_minus_C_recurring_micro_usd": {
+          "B_minus_C_raw_recurring_difference_micro_usd": {
             "numerator": 16200,
             "denominator": 1
           },
-          "B_minus_C_objective_micro_usd": {
+          "B_minus_C_raw_objective_difference_micro_usd": {
             "numerator": 21200,
             "denominator": 1
           },
@@ -21876,7 +22068,15 @@
             "numerator": 252046,
             "denominator": 3
           },
-          "valid_baselines": true
+          "valid_baselines": true,
+          "execution_attribution": "comparable_nonzero_execution",
+          "cooperative_trading_benefit_eligible": true,
+          "incremental_cooperative_trading_savings_micro_usd": {
+            "numerator": 16200,
+            "denominator": 1
+          },
+          "G0_incremental_cost_criterion_pass": true,
+          "attribution_note": "Both baselines execute nonzero trades under identical mandates; negative values mean higher recurring cost."
         }
       }
     },
@@ -22903,11 +23103,11 @@
             "numerator": -63018,
             "denominator": 1
           },
-          "B_minus_C_recurring_micro_usd": {
+          "B_minus_C_raw_recurring_difference_micro_usd": {
             "numerator": 16200,
             "denominator": 1
           },
-          "B_minus_C_objective_micro_usd": {
+          "B_minus_C_raw_objective_difference_micro_usd": {
             "numerator": 21200,
             "denominator": 1
           },
@@ -22915,7 +23115,15 @@
             "numerator": -46818,
             "denominator": 1
           },
-          "valid_baselines": true
+          "valid_baselines": true,
+          "execution_attribution": "comparable_nonzero_execution",
+          "cooperative_trading_benefit_eligible": true,
+          "incremental_cooperative_trading_savings_micro_usd": {
+            "numerator": 16200,
+            "denominator": 1
+          },
+          "G0_incremental_cost_criterion_pass": true,
+          "attribution_note": "Both baselines execute nonzero trades under identical mandates; negative values mean higher recurring cost."
         }
       }
     },
@@ -23959,11 +24167,11 @@
             "numerator": 278167,
             "denominator": 3
           },
-          "B_minus_C_recurring_micro_usd": {
+          "B_minus_C_raw_recurring_difference_micro_usd": {
             "numerator": 0,
             "denominator": 1
           },
-          "B_minus_C_objective_micro_usd": {
+          "B_minus_C_raw_objective_difference_micro_usd": {
             "numerator": 0,
             "denominator": 1
           },
@@ -23971,7 +24179,15 @@
             "numerator": 278167,
             "denominator": 3
           },
-          "valid_baselines": true
+          "valid_baselines": true,
+          "execution_attribution": "comparable_nonzero_execution",
+          "cooperative_trading_benefit_eligible": true,
+          "incremental_cooperative_trading_savings_micro_usd": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "G0_incremental_cost_criterion_pass": false,
+          "attribution_note": "Both baselines execute nonzero trades under identical mandates; negative values mean higher recurring cost."
         }
       }
     },
@@ -25015,11 +25231,11 @@
             "numerator": 279733,
             "denominator": 3
           },
-          "B_minus_C_recurring_micro_usd": {
+          "B_minus_C_raw_recurring_difference_micro_usd": {
             "numerator": 0,
             "denominator": 1
           },
-          "B_minus_C_objective_micro_usd": {
+          "B_minus_C_raw_objective_difference_micro_usd": {
             "numerator": 0,
             "denominator": 1
           },
@@ -25027,7 +25243,15 @@
             "numerator": 279733,
             "denominator": 3
           },
-          "valid_baselines": true
+          "valid_baselines": true,
+          "execution_attribution": "comparable_nonzero_execution",
+          "cooperative_trading_benefit_eligible": true,
+          "incremental_cooperative_trading_savings_micro_usd": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "G0_incremental_cost_criterion_pass": false,
+          "attribution_note": "Both baselines execute nonzero trades under identical mandates; negative values mean higher recurring cost."
         }
       }
     },
@@ -26054,11 +26278,11 @@
             "numerator": 274096,
             "denominator": 3
           },
-          "B_minus_C_recurring_micro_usd": {
+          "B_minus_C_raw_recurring_difference_micro_usd": {
             "numerator": 16200,
             "denominator": 1
           },
-          "B_minus_C_objective_micro_usd": {
+          "B_minus_C_raw_objective_difference_micro_usd": {
             "numerator": 21200,
             "denominator": 1
           },
@@ -26066,7 +26290,15 @@
             "numerator": 322696,
             "denominator": 3
           },
-          "valid_baselines": true
+          "valid_baselines": true,
+          "execution_attribution": "comparable_nonzero_execution",
+          "cooperative_trading_benefit_eligible": true,
+          "incremental_cooperative_trading_savings_micro_usd": {
+            "numerator": 16200,
+            "denominator": 1
+          },
+          "G0_incremental_cost_criterion_pass": true,
+          "attribution_note": "Both baselines execute nonzero trades under identical mandates; negative values mean higher recurring cost."
         }
       }
     },
@@ -27110,11 +27342,11 @@
             "numerator": 375739,
             "denominator": 3
           },
-          "B_minus_C_recurring_micro_usd": {
+          "B_minus_C_raw_recurring_difference_micro_usd": {
             "numerator": 0,
             "denominator": 1
           },
-          "B_minus_C_objective_micro_usd": {
+          "B_minus_C_raw_objective_difference_micro_usd": {
             "numerator": 0,
             "denominator": 1
           },
@@ -27122,7 +27354,15 @@
             "numerator": 375739,
             "denominator": 3
           },
-          "valid_baselines": true
+          "valid_baselines": true,
+          "execution_attribution": "comparable_nonzero_execution",
+          "cooperative_trading_benefit_eligible": true,
+          "incremental_cooperative_trading_savings_micro_usd": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "G0_incremental_cost_criterion_pass": false,
+          "attribution_note": "Both baselines execute nonzero trades under identical mandates; negative values mean higher recurring cost."
         }
       }
     },
@@ -28166,11 +28406,11 @@
             "numerator": 377779,
             "denominator": 3
           },
-          "B_minus_C_recurring_micro_usd": {
+          "B_minus_C_raw_recurring_difference_micro_usd": {
             "numerator": 0,
             "denominator": 1
           },
-          "B_minus_C_objective_micro_usd": {
+          "B_minus_C_raw_objective_difference_micro_usd": {
             "numerator": 0,
             "denominator": 1
           },
@@ -28178,7 +28418,15 @@
             "numerator": 377779,
             "denominator": 3
           },
-          "valid_baselines": true
+          "valid_baselines": true,
+          "execution_attribution": "comparable_nonzero_execution",
+          "cooperative_trading_benefit_eligible": true,
+          "incremental_cooperative_trading_savings_micro_usd": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "G0_incremental_cost_criterion_pass": false,
+          "attribution_note": "Both baselines execute nonzero trades under identical mandates; negative values mean higher recurring cost."
         }
       }
     }
@@ -29209,11 +29457,11 @@
             "numerator": 274096,
             "denominator": 3
           },
-          "B_minus_C_recurring_micro_usd": {
+          "B_minus_C_raw_recurring_difference_micro_usd": {
             "numerator": 16200,
             "denominator": 1
           },
-          "B_minus_C_objective_micro_usd": {
+          "B_minus_C_raw_objective_difference_micro_usd": {
             "numerator": 21200,
             "denominator": 1
           },
@@ -29221,7 +29469,15 @@
             "numerator": 322696,
             "denominator": 3
           },
-          "valid_baselines": true
+          "valid_baselines": true,
+          "execution_attribution": "comparable_nonzero_execution",
+          "cooperative_trading_benefit_eligible": true,
+          "incremental_cooperative_trading_savings_micro_usd": {
+            "numerator": 16200,
+            "denominator": 1
+          },
+          "G0_incremental_cost_criterion_pass": true,
+          "attribution_note": "Both baselines execute nonzero trades under identical mandates; negative values mean higher recurring cost."
         }
       }
     },
@@ -30250,11 +30506,11 @@
             "numerator": 2763046,
             "denominator": 3
           },
-          "B_minus_C_recurring_micro_usd": {
+          "B_minus_C_raw_recurring_difference_micro_usd": {
             "numerator": 153000,
             "denominator": 1
           },
-          "B_minus_C_objective_micro_usd": {
+          "B_minus_C_raw_objective_difference_micro_usd": {
             "numerator": 203000,
             "denominator": 1
           },
@@ -30262,7 +30518,15 @@
             "numerator": 3222046,
             "denominator": 3
           },
-          "valid_baselines": true
+          "valid_baselines": true,
+          "execution_attribution": "comparable_nonzero_execution",
+          "cooperative_trading_benefit_eligible": true,
+          "incremental_cooperative_trading_savings_micro_usd": {
+            "numerator": 153000,
+            "denominator": 1
+          },
+          "G0_incremental_cost_criterion_pass": true,
+          "attribution_note": "Both baselines execute nonzero trades under identical mandates; negative values mean higher recurring cost."
         }
       }
     },
@@ -31291,11 +31555,11 @@
             "numerator": 27652546,
             "denominator": 3
           },
-          "B_minus_C_recurring_micro_usd": {
+          "B_minus_C_raw_recurring_difference_micro_usd": {
             "numerator": 1521000,
             "denominator": 1
           },
-          "B_minus_C_objective_micro_usd": {
+          "B_minus_C_raw_objective_difference_micro_usd": {
             "numerator": 2021000,
             "denominator": 1
           },
@@ -31303,7 +31567,15 @@
             "numerator": 32215546,
             "denominator": 3
           },
-          "valid_baselines": true
+          "valid_baselines": true,
+          "execution_attribution": "comparable_nonzero_execution",
+          "cooperative_trading_benefit_eligible": true,
+          "incremental_cooperative_trading_savings_micro_usd": {
+            "numerator": 1521000,
+            "denominator": 1
+          },
+          "G0_incremental_cost_criterion_pass": true,
+          "attribution_note": "Both baselines execute nonzero trades under identical mandates; negative values mean higher recurring cost."
         }
       }
     },
@@ -32332,11 +32604,11 @@
             "numerator": 276547546,
             "denominator": 3
           },
-          "B_minus_C_recurring_micro_usd": {
+          "B_minus_C_raw_recurring_difference_micro_usd": {
             "numerator": 15201000,
             "denominator": 1
           },
-          "B_minus_C_objective_micro_usd": {
+          "B_minus_C_raw_objective_difference_micro_usd": {
             "numerator": 20201000,
             "denominator": 1
           },
@@ -32344,7 +32616,15 @@
             "numerator": 322150546,
             "denominator": 3
           },
-          "valid_baselines": true
+          "valid_baselines": true,
+          "execution_attribution": "comparable_nonzero_execution",
+          "cooperative_trading_benefit_eligible": true,
+          "incremental_cooperative_trading_savings_micro_usd": {
+            "numerator": 15201000,
+            "denominator": 1
+          },
+          "G0_incremental_cost_criterion_pass": true,
+          "attribution_note": "Both baselines execute nonzero trades under identical mandates; negative values mean higher recurring cost."
         }
       }
     }

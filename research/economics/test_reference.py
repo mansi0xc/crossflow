@@ -48,8 +48,8 @@ class ExactReferenceTests(unittest.TestCase):
         self.assertEqual(c['totals']['expected_retry_micro_usd'],36)
         self.assertEqual(c['totals']['waiting_micro_usd'],F(7850,3))
         self.assertEqual(c['totals']['recurring_micro_usd'],F(18758,3))
-        self.assertEqual(solved['comparison']['B_minus_C_recurring_micro_usd'],16_200)
-        self.assertEqual(solved['comparison']['B_minus_C_objective_micro_usd'],21_200)
+        self.assertEqual(solved['comparison']['incremental_cooperative_trading_savings_micro_usd'],16_200)
+        self.assertEqual(solved['comparison']['B_minus_C_raw_objective_difference_micro_usd'],21_200)
 
     def test_no_trade_cannot_fake_required_progress(self):
         s=self.fixture(); outputs={a['id']:{k:a['initial_raw'][k] for k in r.STOCKS} for a in s['accounts']}
@@ -62,6 +62,31 @@ class ExactReferenceTests(unittest.TestCase):
         for x in out['methods'].values():
             self.assertTrue(x['noop']); self.assertEqual(x['totals']['recurring_micro_usd'],0)
             self.assertEqual(x['totals']['upfront_recoverable_rent_lamports'],0)
+
+    def test_skipped_execution_is_not_cooperative_trading_savings(self):
+        # Exact independent-review reproduction, mutated TRAIN copy only.
+        s=self.fixture()
+        s['accounts'][0]['final_bounds_raw']['STOCK_A']['min']=0
+        s['accounts'][1]['final_bounds_raw']['STOCK_A']['max']=10
+        for account in s['accounts']:
+            account['min_error_reduction_bps']=0
+            account['max_stock_error_micro_usd']=100_000_000
+        for curve in s['cost_model']['external_by_asset'].values():
+            for field in ('half_spread_bps','venue_fee_bps','impact_bps_at_depth'): curve[field]=0
+        s['cost_model']['waiting']['batch_seconds']=100_000
+        output=r.solve(s)
+        self.assertFalse(output['methods']['B']['noop'])
+        self.assertTrue(output['methods']['C']['noop'])
+        comparison=output['comparison']
+        self.assertEqual(comparison['B_minus_C_raw_recurring_difference_micro_usd'],F(78541724,9))
+        self.assertGreater(comparison['B_minus_C_raw_objective_difference_micro_usd'],0)
+        self.assertEqual(comparison['execution_attribution'],'skipped_execution_no_cooperative_trading')
+        self.assertEqual(comparison['incremental_cooperative_trading_savings_micro_usd'],0)
+        self.assertFalse(comparison['cooperative_trading_benefit_eligible'])
+        self.assertFalse(comparison['G0_incremental_cost_criterion_pass'])
+        self.assertEqual(r.audit_comparison(s,output),[])
+        comparison['incremental_cooperative_trading_savings_micro_usd']=comparison['B_minus_C_raw_recurring_difference_micro_usd']
+        self.assertIn('false_cooperative_attribution',r.audit_comparison(s,output))
 
     def test_independent_infeasibility_even_without_admission_shortcut(self):
         s=self.fixture(); s['accounts'][0]['final_bounds_raw']['CASH']={'min':2000*r.M,'max':2001*r.M}
@@ -80,11 +105,11 @@ class ExactReferenceTests(unittest.TestCase):
 
     def test_no_overlap_control_batch_loses(self):
         out=r.solve(self.fixture('no-overlap-01'))
-        self.assertEqual(out['comparison']['B_minus_C_recurring_micro_usd'],0)
+        self.assertEqual(out['comparison']['incremental_cooperative_trading_savings_micro_usd'],0)
         self.assertLess(out['comparison']['A_minus_C_recurring_micro_usd'],0)
 
     def test_tight_bands_no_adjustment_advantage(self):
-        self.assertEqual(r.solve(self.fixture('tight-01'))['comparison']['B_minus_C_recurring_micro_usd'],0)
+        self.assertEqual(r.solve(self.fixture('tight-01'))['comparison']['incremental_cooperative_trading_savings_micro_usd'],0)
 
     def test_looser_mandate_rejected_by_original_claim_audit(self):
         original=self.fixture(); weaker=copy.deepcopy(original)
@@ -159,7 +184,7 @@ class ExactReferenceTests(unittest.TestCase):
     def test_modest_noise_erases_incremental_gain(self):
         for shock in (-50,50):
             s=self.fixture(); s['price_observation']['execution_price_shock_bps']['STOCK_A']=shock
-            self.assertEqual(r.solve(s,True)['comparison']['B_minus_C_recurring_micro_usd'],0)
+            self.assertEqual(r.solve(s,True)['comparison']['incremental_cooperative_trading_savings_micro_usd'],0)
 
     def test_high_network_fees_can_make_batch_lose(self):
         s=self.fixture(); s['cost_model']['network']['priority_lamports_per_transaction']=1_000_000
@@ -182,7 +207,7 @@ class ExactReferenceTests(unittest.TestCase):
         ten=output['post_freeze_scale_sensitivity'][1]
         self.assertEqual(ten['factor'],10)
         self.assertEqual(ten['result']['grid_step_raw'],10)
-        self.assertEqual(ten['result']['comparison']['B_minus_C_recurring_micro_usd'],153000)
+        self.assertEqual(ten['result']['comparison']['incremental_cooperative_trading_savings_micro_usd'],153000)
 
     def test_frozen_inputs_not_mutated(self):
         s=self.fixture(); before=r.sha(s); r.solve(s); self.assertEqual(before,r.sha(s))

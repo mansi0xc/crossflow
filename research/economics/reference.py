@@ -223,6 +223,7 @@ def independent_check(s, result):
         if r['recurring_micro_usd']!=sum(r[k] for k in ('venue_cost_micro_usd','price_difference_micro_usd','network_micro_usd','expected_retry_micro_usd','waiting_micro_usd')): errors.append('recurring_total')
         if r['objective_micro_usd']!=r['recurring_micro_usd']+F(error,2000): errors.append('objective')
     if bool(actual_feasible)!=result['feasible']: errors.append('feasibility_claim')
+    if result['noop'] != (not any(any(row['trades_raw'].values()) for row in result['accounts'])): errors.append('noop_claim')
     for k in STOCKS:
         internal=sum(r['internal_raw'][k] for r in result['accounts'])
         route=sum(o['signed_quantity_raw'] for o in result['external_orders'] if o['asset']==k)
@@ -282,8 +283,11 @@ def solve(s, enforce_policy=False, grid_step=1):
     result={'status':'ok' if 'C' in methods else 'infeasible','reasons':[] if 'C' in methods else ['cooperative_no_feasible_plan'],'methods':methods,'grid_candidates_evaluated':independent_count+joint_count,'joint_candidates':joint_count,'feasible_joint_candidates':len(cooperative),'grid_step_raw':grid_step}
     if B['feasible'] and 'C' in methods:
         C=methods['C']
-        result['comparison']={'A_minus_B_recurring_micro_usd':A['totals']['recurring_micro_usd']-B['totals']['recurring_micro_usd'],'B_minus_C_recurring_micro_usd':B['totals']['recurring_micro_usd']-C['totals']['recurring_micro_usd'],'B_minus_C_objective_micro_usd':B['totals']['objective_micro_usd']-C['totals']['objective_micro_usd'],'A_minus_C_recurring_micro_usd':A['totals']['recurring_micro_usd']-C['totals']['recurring_micro_usd'],'valid_baselines':True}
-    else: result['comparison']={'valid_baselines':False,'reason':'infeasible B or C; no comparative savings claim'}
+        raw_difference=B['totals']['recurring_micro_usd']-C['totals']['recurring_micro_usd']
+        eligible=not B['noop'] and not C['noop']
+        attribution='skipped_execution_no_cooperative_trading' if C['noop'] else ('new_execution_vs_noop_baseline' if B['noop'] else 'comparable_nonzero_execution')
+        result['comparison']={'A_minus_B_recurring_micro_usd':A['totals']['recurring_micro_usd']-B['totals']['recurring_micro_usd'],'B_minus_C_raw_recurring_difference_micro_usd':raw_difference,'B_minus_C_raw_objective_difference_micro_usd':B['totals']['objective_micro_usd']-C['totals']['objective_micro_usd'],'A_minus_C_recurring_micro_usd':A['totals']['recurring_micro_usd']-C['totals']['recurring_micro_usd'],'valid_baselines':True,'execution_attribution':attribution,'cooperative_trading_benefit_eligible':eligible,'incremental_cooperative_trading_savings_micro_usd':raw_difference if eligible else F(0),'G0_incremental_cost_criterion_pass':eligible and raw_difference>0,'attribution_note':'Raw differences describe the optimizer decision; skipped/new execution relative to a no-op is not an attributable cooperative trading saving.' if not eligible else 'Both baselines execute nonzero trades under identical mandates; negative values mean higher recurring cost.'}
+    else: result['comparison']={'valid_baselines':False,'reason':'infeasible B or C; no comparative savings claim','cooperative_trading_benefit_eligible':False,'incremental_cooperative_trading_savings_micro_usd':F(0),'G0_incremental_cost_criterion_pass':False}
     return result
 
 
@@ -306,6 +310,13 @@ def audit_comparison(s, solved):
             if alternative['feasible'] and ranking(alternative)<ranking(chosen):
                 errors.append('A_not_independently_optimal/'+source['id']); break
     if B['feasible'] and ranking(C)>ranking(B): errors.append('C_worse_than_feasible_B')
+    if B['feasible']:
+        eligible=not B['noop'] and not C['noop']
+        raw=B['totals']['recurring_micro_usd']-C['totals']['recurring_micro_usd']
+        comparison=solved['comparison']
+        if comparison.get('B_minus_C_raw_recurring_difference_micro_usd')!=raw: errors.append('raw_cost_difference')
+        if comparison.get('cooperative_trading_benefit_eligible')!=eligible or comparison.get('incremental_cooperative_trading_savings_micro_usd')!=(raw if eligible else 0): errors.append('false_cooperative_attribution')
+        if comparison.get('G0_incremental_cost_criterion_pass')!=(eligible and raw>0): errors.append('false_G0_claim')
     return errors
 
 

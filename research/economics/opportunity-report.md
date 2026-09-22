@@ -16,7 +16,7 @@ The ledger checker is separate from the pricing/enumeration function and does no
 
 ## Frozen training results
 
-Amounts below are recurring modeled micro-USD converted to test dollars and rounded to six decimals. Positive A−C means batching costs less than independent execution. Positive B−C isolates the cooperative-adjustment benefit. A rejected case has no savings result.
+Amounts below are recurring modeled micro-USD converted to test dollars and rounded to six decimals. Positive A−C means batching costs less than independent execution. The B−C column uses only attributable cooperative-trading benefit from comparable nonzero executions; it is zero when C skips execution. Raw recurring/objective differences remain separately named in the result data. A rejected case has no savings result.
 
 | Training case | A independent | B fixed netting | C cooperative | B−C | A−C |
 |---|---:|---:|---:|---:|---:|
@@ -109,6 +109,14 @@ The first plausible operator is someone rebalancing multiple strategies on a sch
 A cadence assumption must come from a user's actual strategy process: daily, weekly and event-driven adjustments have different overlap, waiting tolerance and dollar costs. Do not multiply a synthetic per-batch saving by an invented daily frequency to produce an annual customer benefit. We have not established whether such an operator uses tokenized equities on Solana, pays these venue costs, or would accept the coordination burden. No customers, payment intent or recommendation propensity have been validated.
 
 The technical G0 result supports building the thin authorization/settlement/recovery slice and validating real integration costs. It does **not** yet support a broad superiority or commercial ROI pitch. Before G3, retain the strong A/B comparison, independently review this calculation, freeze the implementation, evaluate the untouched held-out set once, measure the actual devnet transaction envelope, and report negative cases. If meaningful absolute savings fail to survive measured overhead and uncertainty, narrow the narrative to controlled multi-strategy execution/netting rather than promising a revolutionary cost advantage. No optional feature should conceal that unresolved product question.
+
+## Independent-review correction: skipped execution
+
+The independent reviewer found a reporting defect in the initial reference: a mutated training copy allowing no progress and a very long batch wait could choose C=no-trade but report its avoided cost as cooperative trading savings. The frozen T01 cases and held-out inputs were not changed. The exact regression opens the original STOCK_A positions in opposite-01's bounds, sets required progress to zero and error cap to $100, zeros spread/venue/impact rates (retains the $0.001 fixed fee), and sets batch waiting to 100,000 seconds. A chooses +5/−4 shares, B executes, and C chooses no trades.
+
+The repaired result keeps the genuine raw B−C recurring difference of `78541724/9` micro-USD (about $8.726858), but classifies it as `skipped_execution_no_cooperative_trading`. **Attributable cooperative trading savings are exactly zero and the G0 incremental-cost criterion is false.** The separate raw objective difference is retained to explain why the optimizer chose no execution. This case cannot be counted as a cooperative win. Tests also tamper with this attribution and require the comparison audit to reject it.
+
+Reports and downstream consumers must use `incremental_cooperative_trading_savings_micro_usd` together with `cooperative_trading_benefit_eligible` and the execution attribution when discussing trading benefit. `B_minus_C_raw_recurring_difference_micro_usd` and `B_minus_C_raw_objective_difference_micro_usd` are descriptive raw differences, not automatic savings claims. The obsolete ambiguous B−C fields were removed. No-op zero-01 is also explicitly ineligible, with zero raw and attributable differences. The frozen numerical table and its three positive cases are unchanged by this correction.
 
 ## Reproduction and evidence
 
