@@ -1,0 +1,47 @@
+{
+  "task": "T03",
+  "status": "DONE_NARROW_G0_ECONOMIC_MECHANISM",
+  "recordedAt": "2026-09-22T20:40:23.794852+00:00",
+  "sourceCommit": "18f0298969944eb5176c037756c2c770c1dfbd33",
+  "scenarioSourceCommit": "961434127a4bb521bee205604f838233264b2955",
+  "suiteSha256": "f8ce9388d0280a9faa92327d9f341fc9f265f22cc271f25f4d106ae60d7b59e7",
+  "environment": "SYNTHETIC",
+  "requirements": [
+    "R08",
+    "R09",
+    "R17",
+    "R20"
+  ],
+  "sourceFiles": {
+    "research/economics/reference.py": "fd6d7c8734dd26fcad396a35398cdbc6e072a07a1bda244dd2ab035a9b4f69d7",
+    "research/economics/test_reference.py": "69705790d685b5c5fd2ecf4c9f5ceb1a758c0bd11a1dd85fdd3fa09f847adb04",
+    "research/economics/opportunity-report.md": "fe56ffae734440e264e039d783895b085c2215a9713f83e45553b40dd916dfae",
+    "research/economics/reference-results.json": "51a7973598d3a664f335a93faa3ef01b6ad75fa52992f6b9fe8a413037a1ab7c"
+  },
+  "evidenceFiles": {
+    "reference.log": "dcf90162809544d7a9e11f1e17c62b012a7868c7decbf81b21ff14db6850cb6e",
+    "tests.log": "92b323770c7917d1087cb9020b7a006d6a47080ffc310ab538632c527294c5e2",
+    "reproduction.log": "d98670c5b2c85cd94c6d164a4888257f828f397102574cbca8b3ecddf63f4675",
+    "independent-review.md": "fb2d901cf3ef6d985619ef6abbd8083d66e3cdbbd338ef17d6527223e0f443ed",
+    "independent-probe.py": "9f1eac21382d7ca69c1bca197261f4622bbb2a444dbf1c417f0f8bef83cd05d5"
+  },
+  "testsPassed": 30,
+  "trainCases": 12,
+  "admittedTrainCases": 9,
+  "heldoutRuns": 0,
+  "independentReviewer": "t03_economic_review",
+  "narrowG0Result": {
+    "case": "opposite-01",
+    "incrementalMicroUsd": 16200,
+    "batchOverheadEqual": true,
+    "sameMandates": true
+  },
+  "initialDefect": "No-trade raw difference was incorrectly attributable to cooperative trading; fixed and independently rechecked before acceptance.",
+  "limits": [
+    "Median incremental training saving $0; $0.0162 positive example loses advantage at +/-50 bps shocks.",
+    "No commercial demand or willingness to pay proven.",
+    "No on-chain execution or measured devnet costs."
+  ],
+  "newMoneySpent": 0,
+  "transactionsSubmitted": 0
+}

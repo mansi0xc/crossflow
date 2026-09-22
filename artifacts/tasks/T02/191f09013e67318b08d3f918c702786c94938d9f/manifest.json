@@ -1,0 +1,49 @@
+{
+  "task": "T02",
+  "status": "DONE_SPECIFICATION_ONLY",
+  "recordedAt": "2026-09-22T20:35:20.625641+00:00",
+  "sourceCommit": "191f09013e67318b08d3f918c702786c94938d9f",
+  "environment": "LOCAL_SPECIFICATION",
+  "requirements": [
+    "R03",
+    "R04",
+    "R05",
+    "R06",
+    "R10",
+    "R12",
+    "R13",
+    "R20"
+  ],
+  "sourceFiles": {
+    "docs/spec/intent-contract.md": "3263fe5eb0bc17b7ad550b601134f879b19ce9b71ca3dc4acbb2ac05f9756f1d",
+    "docs/spec/settlement-accounting.md": "7f547bfaacfa8848a6943b608afe3b28f9e3879538ff453c8b23202ba70c5cdd",
+    "docs/spec/threat-model.md": "6342bf719ff79412489ab32b320a34381e12f8e497c025aa8ed3281109adbda2",
+    "docs/spec/wire-vectors.json": "e31d3209a0556554172821a35f16aeeb406fa1cf27ea01512ea279b4ea370ecf",
+    "docs/spec/check-wire-vectors.py": "fec07db09e2f3682976b212c8f8d1f28e5b54cb84af73becc8f4bcf3abf55bd7"
+  },
+  "evidenceFiles": {
+    "wire-checker.log": "4ba0c74daf803caec22b7ce0dfdf7f25b077c3b00595a17953d98a725c46ee5f",
+    "independent-rereview.md": "410ce32b6d1c91ee3e308269896a0b9cf4250be8c53f8d8dbb1d0777e90627ab",
+    "independent-wire.log": "4ba0c74daf803caec22b7ce0dfdf7f25b077c3b00595a17953d98a725c46ee5f",
+    "independent-probes.py": "ab62627965c0ef4184a2d0b787440896b3958ab08c885a2728bf30b105fd1816",
+    "independent-probes.log": "db6aa42fe094bec3a3e6342a1467a3b3dda11d9dcbb8d63d786648c9ece22bcb"
+  },
+  "checker": "python3 docs/spec/check-wire-vectors.py",
+  "checkerExit": 0,
+  "independentReviewer": "t01_scenarios (did not author T02)",
+  "initialReview": ".planning/T01-T02-FOUNDATION-REVIEW.md",
+  "rereview": "independent-rereview.md",
+  "resolvedFindings": [
+    "F1 HIGH missing per-cross price enforcement",
+    "F2 MEDIUM wrong T10/T15 references",
+    "F3 MEDIUM T05 oracle dependency",
+    "F4 MEDIUM unbound initial admin authority"
+  ],
+  "limits": [
+    "No on-chain implementation or deployment",
+    "Real PDA/ATA and cross-language checks deferred T04",
+    "Full transaction capacity and runtime money-path checks unproven"
+  ],
+  "newMoneySpent": 0,
+  "transactionsSubmitted": 0
+}

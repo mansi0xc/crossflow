@@ -1,6 +1,6 @@
 # CrossFlow executable task ledger
 
-**Execution started. T00 preflight is complete; T01 and T02 are active. All later cards remain planned. None of the commands, tests, application files or acceptance results below exists merely because it is named here.** Implement the verification harness and each task's tests before claiming that task passed. This ledger complements `PROJECT.md`, `REQUIREMENTS.md`, `ROADMAP.md` and the master execution plan. The master plan governs security invariants and release gates; this file governs execution order, ownership and evidence.
+**Execution started. T00 preflight, T01 scenario freeze and T02 mandate specification are complete. T03 passed narrow economic review and T04 is active. Later cards remain planned. None of the commands, tests, application files or acceptance results below exists merely because it is named here.** Implement the verification harness and each task's tests before claiming that task passed. This ledger complements `PROJECT.md`, `REQUIREMENTS.md`, `ROADMAP.md` and the master execution plan. The master plan governs security invariants and release gates; this file governs execution order, ownership and evidence.
 
 ## Execution contract
 
@@ -157,7 +157,7 @@ The economic spike T03 must pass the master plan's opportunity gate before subst
 
 **Files:** `programs/crossflow/src/settlement.rs`, `programs/crossflow/src/accounts.rs`, `packages/client/src/build-batch.ts`, `tests/program/atomic-batch.test.ts`.
 
-**Action:** Enforce the fixed maximum batch/accounts/mints, unique intents and account roles, correct PDA seeds, account owners, signatures and registered recipients. Wire the T14 oracle authentication/policy guard into the actual settlement instruction before any transfer; enforce its exact integer crossing-price inequalities and optional signed final-value guard. Verify all mandates and reference-policy commitments before settlement; check actual final net outputs, not optimizer-declared amounts. Match internal flows under the committed accounting policy. Account for every input/output per mint, zero protocol fee and allocated dust. Reject invalid plans atomically without creating a solver recovery privilege.
+**Action:** Enforce the fixed maximum batch/accounts/mints, unique intents and account roles, correct PDA seeds, account owners, signatures and registered recipients. Wire the T14 oracle authentication/policy guard into the actual settlement instruction before any transfer; enforce its exact integer crossing-price inequalities and mandatory committed per-owner final-value guard. Verify all mandates and reference-policy commitments before settlement; check actual final net outputs, not optimizer-declared amounts. Match internal flows under the committed accounting policy. Account for every input/output per mint, zero protocol fee and allocated dust. Reject invalid plans atomically without creating a solver recovery privilege.
 
 **Checks:** `pnpm exec vitest run tests/program/atomic-batch.test.ts`. Positive: three owners obtain permitted final amounts with exact conservation and closed/terminal intent state. Negative: stale/forged/wrong-feed oracle inside the actual settlement (not just its helper), one underfilled owner, one exceeded maximum, repeated owner/vault, substitute signer/program, duplicated mint, wrong nonce, overflow or an oversized batch reverts every participant. Donation-before-settlement cannot change booked F-D+C accounting or let the solver extract surplus; exercise surplus recovery after terminal settlement.
 
@@ -430,7 +430,7 @@ The economic spike T03 must pass the master plan's opportunity gate before subst
 
 ### T32 — Connect optimization, funded intents and settlement into one bounded service
 
-**Phase / dependencies / owner / effort:** 3 / T11, T12, T13, T16, T23 / integration service owner, reviewed by security and client reviewers / 4–6 hours. **Requirements:** R01, R03, R05, R08–R11, R13–R15, R17, R19, R20. **Execution note:** this late-added task ID executes in wave 8, before T19/T22; numerical IDs do not imply order.
+**Phase / dependencies / owner / effort:** 3 / T11, T12, T13, T16, T23 / integration service owner, reviewed by security and client reviewers / 4–6 hours. **Requirements:** R01, R03, R05, R08–R11, R13–R15, R17, R19, R20. **Execution note:** this late-added task ID executes in wave 9, before T19/T22; numerical IDs do not imply order.
 
 **Files:** `services/api/src/server.ts`, `services/api/src/optimizer-runner.ts`, `services/api/src/intent-index.ts`, `services/api/src/batch-coordinator.ts`, `packages/client/src/api.ts`, `packages/client/src/submit-settlement.ts`, `tests/services/orchestration.test.ts`, `tests/services/resource-limits.test.ts`, `docs/spec/service-api.md`.
 

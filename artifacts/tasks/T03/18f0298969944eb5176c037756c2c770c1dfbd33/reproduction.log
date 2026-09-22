@@ -1,0 +1,5 @@
+PASS byte-for-byte deterministic reproduction after no-op attribution correction; heldout runs=0
+reference.py fd6d7c8734dd26fcad396a35398cdbc6e072a07a1bda244dd2ab035a9b4f69d7
+test_reference.py 69705790d685b5c5fd2ecf4c9f5ceb1a758c0bd11a1dd85fdd3fa09f847adb04
+reference-results.json 51a7973598d3a664f335a93faa3ef01b6ad75fa52992f6b9fe8a413037a1ab7c
+opportunity-report.md fe56ffae734440e264e039d783895b085c2215a9713f83e45553b40dd916dfae

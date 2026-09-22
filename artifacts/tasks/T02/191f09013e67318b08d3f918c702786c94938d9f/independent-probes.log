@@ -1,0 +1,17 @@
+{
+  "status": "PASS",
+  "independent_price_vectors": 16,
+  "independent_flow_vectors": 4,
+  "extra_counterexample_and_boundary_probes": "PASS",
+  "policy_bytes": 652,
+  "dependency_tasks": 33,
+  "acyclic_and_waves_match": true,
+  "source_commit": "191f090",
+  "source_sha256": {
+    "docs/spec/check-wire-vectors.py": "fec07db09e2f3682976b212c8f8d1f28e5b54cb84af73becc8f4bcf3abf55bd7",
+    "docs/spec/intent-contract.md": "3263fe5eb0bc17b7ad550b601134f879b19ce9b71ca3dc4acbb2ac05f9756f1d",
+    "docs/spec/settlement-accounting.md": "7f547bfaacfa8848a6943b608afe3b28f9e3879538ff453c8b23202ba70c5cdd",
+    "docs/spec/threat-model.md": "6342bf719ff79412489ab32b320a34381e12f8e497c025aa8ed3281109adbda2",
+    "docs/spec/wire-vectors.json": "e31d3209a0556554172821a35f16aeeb406fa1cf27ea01512ea279b4ea370ecf"
+  }
+}
