@@ -1,0 +1,29 @@
+{
+  "status": "PASS",
+  "scope": "Disposable Anchor counter on isolated LOCAL validator, not CrossFlow",
+  "endpoint": "http://127.0.0.1:18899",
+  "genesis": "2JmU2cvkJtk84NGnSxqABbUFZsGkVS7XAwb6CANaG8TD",
+  "programId": "F9fpzkGLA7e58XHN5pE42g4mfoZiCzyu3Qtw3KkXJTT4",
+  "initialize": "4q3gzZpHNjiyBtJge1rapQ1n6SNzrKmvYyyj7pabgoqc4gQ4GnAdQyL9XNkbs8kF7FWS9V4kjU2yKtZP2UWrKjkX",
+  "increment": "2fSwK2AXHujzvj3AvjBGAhi7qQK2rfbgCfDv2hZqiSzCTioiendhYNEnqyfvZomKUM5fAownoFz7CRTVnjbY2Lv7",
+  "before": "0",
+  "after": "1",
+  "wrongAuthorityRejected": true,
+  "rejectionEvidence": {
+    "code": {
+      "code": "Unauthorized",
+      "number": 6000
+    },
+    "logs": [
+      "Program F9fpzkGLA7e58XHN5pE42g4mfoZiCzyu3Qtw3KkXJTT4 invoke [1]",
+      "Program log: Instruction: Increment",
+      "Program log: AnchorError thrown in programs/t00_probe/src/instructions/increment.rs:13. Error Code: Unauthorized. Error Number: 6000. Error Message: Only the counter authority can update this counter.",
+      "Program log: Left:",
+      "Program log: AHaVfYxsxHJHjkD9jVYsqnAYMiJ428WjxmK8AF8gbb1M",
+      "Program log: Right:",
+      "Program log: Gwhxaz8hz91eFUryqR3oB6Z65q1QboCuqDt4sNEtwCwy",
+      "Program F9fpzkGLA7e58XHN5pE42g4mfoZiCzyu3Qtw3KkXJTT4 consumed 5372 of 200000 compute units",
+      "Program F9fpzkGLA7e58XHN5pE42g4mfoZiCzyu3Qtw3KkXJTT4 failed: custom program error: 0x1770"
+    ]
+  }
+}

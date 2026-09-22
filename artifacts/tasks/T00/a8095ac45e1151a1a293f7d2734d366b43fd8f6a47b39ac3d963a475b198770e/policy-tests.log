@@ -1,0 +1,33 @@
+✔ approved fixture/devnet/zero-spend config passes without mutating input (1.861875ms)
+✔ reject non-allowlisted endpoint https://api.mainnet-beta.solana.com before any request (7.141833ms)
+✔ reject non-allowlisted endpoint https://api.testnet.solana.com before any request (0.069583ms)
+✔ reject non-allowlisted endpoint https://api.devnet.solana.com.evil.test before any request (0.055041ms)
+✔ reject non-allowlisted endpoint https://user:REDACTED@api.devnet.solana.com before any request (0.058417ms)
+✔ reject non-allowlisted endpoint https://api.devnet.solana.com?key=REDACTED before any request (0.045959ms)
+✔ reject non-allowlisted endpoint https://api.devnet.solana.com/redirect before any request (0.042042ms)
+✔ mainnet network field cannot use devnet URL as camouflage (0.071167ms)
+✔ caller cannot approve a different devnet genesis (0.059708ms)
+✔ wrong chain responds: stop after identity read with no write (0.346833ms)
+✔ successful preflight sends only the three read methods (0.111583ms)
+✔ reject budget value 1 (0.053083ms)
+✔ reject budget value -1 (0.045625ms)
+✔ reject budget value null (0.032125ms)
+✔ reject budget value 0 (0.024ms)
+✔ reject budget value NaN (0.023333ms)
+✔ reject budget value Infinity (0.025917ms)
+✔ paid service is rejected even if headline budget is zero (0.042875ms)
+✔ card-required service is rejected (0.034875ms)
+✔ Pyth cannot silently replace approved fixture mode (0.030791ms)
+✔ localnet requires an explicitly pinned local identity (0.053375ms)
+✔ valid local identity is supported (0.077833ms)
+✔ mainnet identity cannot be disguised as localnet behind localhost (0.047125ms)
+✔ unhealthy RPC does not pass (0.064917ms)
+✔ transport and JSON-RPC errors remain failures (0.123083ms)
+ℹ tests 25
+ℹ suites 0
+ℹ pass 25
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 75.514958

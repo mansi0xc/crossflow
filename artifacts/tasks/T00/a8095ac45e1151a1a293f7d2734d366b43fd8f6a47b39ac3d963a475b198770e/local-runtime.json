@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "scope": "Disposable Anchor counter on isolated LOCAL validator, not CrossFlow",
+  "endpoint": "http://127.0.0.1:18899",
+  "genesis": "4NvEmQ5DwAduuJb5KiTAQLi1hvFcxNXPTPRkM3KYaUG6",
+  "programId": "F9fpzkGLA7e58XHN5pE42g4mfoZiCzyu3Qtw3KkXJTT4",
+  "initialize": "4zwobaHwLAfjwmbujnYFtArwZXs2vwUwG39MuDerne2ucRHzbZ8zg3HKJ7CanWhwp97nP3Cz1UjZEXY3ncLKpq3u",
+  "increment": "nyZESH8ZLq3oWKJN3P2XGptpk6mkQN2ytCh7jBmWVCmz9nuJ8imhBXTJT4zgLhY4LW2rEmWAdKEv3prsWfhgSTB",
+  "before": "0",
+  "after": "1",
+  "wrongAuthorityRejected": true
+}

@@ -1,0 +1,145 @@
+{
+  "task": "T00",
+  "status": "READY_FOR_USER_REVIEW_WITH_OPEN_PREREQUISITE",
+  "timestamp": "2026-09-22T10:24:15.329033+00:00",
+  "requirements": [
+    "R01",
+    "R02",
+    "R07",
+    "R14",
+    "R17",
+    "R19"
+  ],
+  "sourceTreeSha256": "52ff2d9809a1997586524456f75c59293fb3dd31f72ea5e7d780b45a2005ef43",
+  "sourceHashDefinition": "SHA256 of sorted compact JSON mapping source-relative paths to SHA256; excludes generated evidence/review and later status documents",
+  "sourceFiles": {
+    "experiments/t00/README.md": "dc7cf2b6c9fd4a0c415d3ea72fec56900a2391a346ed9ff471393524cf1e2396",
+    "experiments/t00/client/local-runtime.mjs": "a16cfc45d01a0f827df9a2f7b196080ff6e9b0e087220141c513c81df132e68e",
+    "experiments/t00/client/package.json": "204d249b0d3ad5ce62f357bf0a83fd33a637ea1fd89c44d96559f43c01d89768",
+    "experiments/t00/client/pnpm-lock.yaml": "a1e5f2fa01086beb404fc77d4e6d5302c69eb82e49f63269d4a828b4f2bfc1b8",
+    "experiments/t00/client/probe.mjs": "892bfffc1d477936f0e8bd260ffb61a6cfd4cfe08b7b464f13b6c7e67a646e04",
+    "experiments/t00/client/safety.mjs": "11264c8cdf5fa43ccf76dd5112e5b9809ec6512ea948ef0e517bce5604a84465",
+    "experiments/t00/client/safety.test.mjs": "0e11052625956526e017525c90bdebaf217bcb5e72602596e9d6d07034b3c93d",
+    "experiments/t00/t00_probe/Anchor.toml": "116348f9c2654f0923b562031d468075fe6a2afb084b7f050c5313e070cf0d15",
+    "experiments/t00/t00_probe/Cargo.lock": "b019e9a88e17d96813c20a029d6c7611e4a36864ca2eadfadda0e3c873fcb5dd",
+    "experiments/t00/t00_probe/Cargo.toml": "1d92d53c62df8f99c76b6d7309471a455f828c39d973e8830d08eff1ce30a046",
+    "experiments/t00/t00_probe/programs/t00_probe/Cargo.toml": "70f4ae012f2408f0192ce14d8ed8d006b41330325de31d41c86171b7147a036d",
+    "experiments/t00/t00_probe/programs/t00_probe/src/constants.rs": "1e295c4cd500f07ea7fa5f94db0939f7017d92c6739790c170865d755c69df02",
+    "experiments/t00/t00_probe/programs/t00_probe/src/error.rs": "d37f0a6f1bac641602f954787f06bef1ddf70c71af92dd9baa0bfbc89c27fb44",
+    "experiments/t00/t00_probe/programs/t00_probe/src/instructions/increment.rs": "decaca67915285c8b76b964c03add80dccf7d8ed484ba34a5346089bdfc4a279",
+    "experiments/t00/t00_probe/programs/t00_probe/src/instructions/initialize.rs": "c94b8066f7328e54b238c07de94491ebc42e4123465b71c7568914b3547b4bc0",
+    "experiments/t00/t00_probe/programs/t00_probe/src/instructions.rs": "3dfdbd44e9d68ede736a33da9876f6ac69713e90a7aaa7fad156756bd44cba3c",
+    "experiments/t00/t00_probe/programs/t00_probe/src/lib.rs": "1b19c3d6872b06dbbf0b42ba3f1e0e936ffe0be8461657a3f88dd61958c53eb6",
+    "experiments/t00/t00_probe/programs/t00_probe/src/state.rs": "3f5812e388db9abbed630cdd6a684b4af002fe1fb2ac059b466377d5bff017e0",
+    "experiments/t00/t00_probe/programs/t00_probe/tests/test_initialize.rs": "973e2ebad77f87e7f8116664189e8cbf169fb804e95374aab243a7cb9bf3267e",
+    "preflight.config.json": "33f26eeba8de96e22f0017e2ea0eb3aa11c85893375283bddf190ef9aac550a4",
+    "scripts/preflight.mjs": "1ef30ba87416b149ea2a32b145910489d2f3b3c450708f950f9c1fca4c7634dd",
+    "tests/preflight/policy.test.mjs": "cf6fd69f6a35e9b91d51babcd5aa263cbf7b3d4fa08b49716a63416dd0b20429"
+  },
+  "binarySha256": "8c1585a0750d2b4994447a7192df201284f8b172f5765b1f316eda102fcff71c",
+  "checks": {
+    "policyTests": {
+      "passed": 26,
+      "failed": 0,
+      "skipped": 0
+    },
+    "cargoTests": {
+      "passed": 2,
+      "failed": 0,
+      "skipped": 0
+    },
+    "sbfBuild": "PASS",
+    "jsIdlSerialization": "PASS",
+    "localValidatorInitializeIncrementReject": "PASS",
+    "devnetIdentityAndHealth": "PASS",
+    "devnetFaucet": {
+      "status": "FAILED",
+      "attempts": 2,
+      "requestedSolPerAttempt": 0.1,
+      "recipient": "gNWdDspbXiiGtJDZH2mkZ2TXkzDfh4o9vv9ZVMeFkRG",
+      "diagnosis": "Request failed; CLI suggests possible rate limiting, not confirmed"
+    },
+    "pyth": "EXCLUDED_BY_USER",
+    "wallet": "Phantom user-confirmed; browser not tested",
+    "jsAdvisoriesAfterPatch": {
+      "critical": 0,
+      "high": 0,
+      "moderate": 2
+    },
+    "rustAdvisoryScan": "NOT_RUN; Rust dependency security audit is not claimed",
+    "probeSafetyTests": {
+      "passed": 10,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "environments": [
+    "LOCAL",
+    "DEVNET_READ_ONLY_PLUS_FAUCET_REQUESTS"
+  ],
+  "newMoneySpent": 0,
+  "mainnetWrites": 0,
+  "nextTaskStarted": false,
+  "review": "Independent recheck resolved CR-01/WR-01/WR-02; user review still pending; public devnet funding remains blocked",
+  "commands": [
+    {
+      "command": "anchor build",
+      "cwd": "experiments/t00/t00_probe",
+      "exit": 0
+    },
+    {
+      "command": "cargo test --locked",
+      "cwd": "experiments/t00/t00_probe",
+      "exit": 0
+    },
+    {
+      "command": "node probe.mjs",
+      "cwd": "experiments/t00/client",
+      "exit": 0
+    },
+    {
+      "command": "node local-runtime.mjs",
+      "cwd": "experiments/t00/client",
+      "exit": 0
+    },
+    {
+      "command": "node --test tests/preflight/policy.test.mjs",
+      "exit": 0
+    },
+    {
+      "command": "node scripts/preflight.mjs --write-evidence",
+      "exit": 0
+    },
+    {
+      "command": "corepack pnpm@10.17.1 audit --json",
+      "cwd": "experiments/t00/client",
+      "exit": 1,
+      "note": "Expected nonzero result for two retained moderate advisories; not a clean audit"
+    },
+    {
+      "command": "solana --url https://api.devnet.solana.com --keypair <disposable-key-outside-repo> airdrop 0.1",
+      "exit": 1
+    },
+    {
+      "command": "node --test experiments/t00/client/safety.test.mjs",
+      "exit": 0
+    }
+  ],
+  "idlSha256": "b5b12f0115f21e3ea94d8bb7a5fbc4df77898940c3671aa3341eeeddd8333654",
+  "supersedes": "artifacts/tasks/T00/a8095ac45e1151a1a293f7d2734d366b43fd8f6a47b39ac3d963a475b198770e",
+  "evidenceFiles": {
+    "build.log": "1a8b8705425d62936c4d2d1c1f3086354fdd66cf0c8d86a045cdd588d4dc2ea4",
+    "expected-local-genesis.txt": "c70309c58c1dc494b41ed4538acbf0e75a699a8e77b615dd35d97d58e92734d9",
+    "faucet-retry.log": "163d173ab87dcf9822e9dd78c0cfc5b5de2c7b9ddb4f95afa91773cc0979a744",
+    "js-serialization.json": "64048286ac4cc056ea4a5319c3b942468426b48a11300da649e608e746e81f2a",
+    "local-runtime.json": "7591fd76d852dc55a10d8094c4176b5a11644bf5ebf9825df64b7a97fa6e628a",
+    "npm-audit-patched.json": "9d3d62b77dee6eb3215f98b79911f0fd817b5158876c630ffff34a1aa62d9092",
+    "npm-audit.json": "beb763e3509c941ee6c740955c2b1fcc5e903e1504e03aa18ee09688856a2ed3",
+    "policy-tests.log": "af4447c3bd338236fa482d8fd71404c049644541259f7c8d777e111cb2bf419c",
+    "preflight-final.log": "87d8b5eb11ffc9e129f48cfeaf49e36981c9c9b268bb8fdc1e4e117dc109e152",
+    "preflight.json": "87d8b5eb11ffc9e129f48cfeaf49e36981c9c9b268bb8fdc1e4e117dc109e152",
+    "probe-safety-tests.log": "fb3afee78bef7b0a7354d082f8d83a7551e6a7120b7a00b53b985f9ca38282f5",
+    "test.log": "70a1bb7474e88d36542ad5bf709ea0e494a4efe84f2ac441241fd04a26552a15"
+  },
+  "reviewPath": ".planning/T00-REVIEW.md"
+}

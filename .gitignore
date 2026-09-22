@@ -1,0 +1,13 @@
+.DS_Store
+.env
+.env.*
+!.env.example
+node_modules/
+target/
+.anchor/
+test-ledger/
+**/*keypair.json
+**/id.json
+.secrets/
+artifacts/tasks/T00/working/
+.planning/research/.cache/

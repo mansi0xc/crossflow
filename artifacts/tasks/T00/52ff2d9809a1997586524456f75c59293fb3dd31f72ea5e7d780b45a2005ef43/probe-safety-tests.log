@@ -1,0 +1,18 @@
+✔ invalid/public expected identity undefined cannot read or write (0.414459ms)
+✔ invalid/public expected identity  cannot read or write (0.094625ms)
+✔ invalid/public expected identity not-a-genesis cannot read or write (0.070667ms)
+✔ invalid/public expected identity 5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp cannot read or write (0.048458ms)
+✔ invalid/public expected identity EtWTRABZaYq6iMfeYKouRu166VU2xqa1wcaWoxPkrZBG cannot read or write (0.0615ms)
+✔ invalid/public expected identity 4uhcVJyU9pJkvQyS88uRDiswHXSCkY3zQawwpjk2NsNY cannot read or write (0.04275ms)
+✔ mismatched local identity cannot reach funding/sign/send (0.150167ms)
+✔ matching owned local identity permits the operation (0.055375ms)
+✔ structured expected program rejection is recognized (0.082125ms)
+✔ 401, timeout, wrong code and wrong emitting program are not authority proof (0.087ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 10
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 35.322458

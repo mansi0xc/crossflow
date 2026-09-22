@@ -1,0 +1,15 @@
+{
+  "name": "crossflow-t00-disposable-client",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.17.1",
+  "dependencies": {
+    "@anchor-lang/core": "1.1.2",
+    "@solana/web3.js": "1.98.4"
+  },
+  "pnpm": {
+    "overrides": {
+      "@anchor-lang/core>toml": "4.2.0"
+    }
+  }
+}

@@ -1,0 +1,117 @@
+{
+  "task": "T00",
+  "status": "READY_FOR_USER_REVIEW_WITH_OPEN_PREREQUISITE",
+  "timestamp": "2026-09-22T10:15:59.038311+00:00",
+  "requirements": [
+    "R01",
+    "R02",
+    "R07",
+    "R14",
+    "R17",
+    "R19"
+  ],
+  "sourceTreeSha256": "a8095ac45e1151a1a293f7d2734d366b43fd8f6a47b39ac3d963a475b198770e",
+  "sourceHashDefinition": "SHA256 of sorted compact JSON mapping source-relative paths to SHA256; excludes generated evidence/review and later status documents",
+  "sourceFiles": {
+    "experiments/t00/README.md": "2275223a9224ad2c6906b5cb21a0add1cc2a6fa1ff19136453cb510d3d3a0dfc",
+    "experiments/t00/client/local-runtime.mjs": "1959c5a3bb196b7f5c76e02b7952ba5c1f98204f9943a6473ac9d080c49d7432",
+    "experiments/t00/client/package.json": "204d249b0d3ad5ce62f357bf0a83fd33a637ea1fd89c44d96559f43c01d89768",
+    "experiments/t00/client/pnpm-lock.yaml": "a1e5f2fa01086beb404fc77d4e6d5302c69eb82e49f63269d4a828b4f2bfc1b8",
+    "experiments/t00/client/probe.mjs": "892bfffc1d477936f0e8bd260ffb61a6cfd4cfe08b7b464f13b6c7e67a646e04",
+    "experiments/t00/t00_probe/Anchor.toml": "116348f9c2654f0923b562031d468075fe6a2afb084b7f050c5313e070cf0d15",
+    "experiments/t00/t00_probe/Cargo.lock": "b019e9a88e17d96813c20a029d6c7611e4a36864ca2eadfadda0e3c873fcb5dd",
+    "experiments/t00/t00_probe/Cargo.toml": "1d92d53c62df8f99c76b6d7309471a455f828c39d973e8830d08eff1ce30a046",
+    "experiments/t00/t00_probe/programs/t00_probe/Cargo.toml": "70f4ae012f2408f0192ce14d8ed8d006b41330325de31d41c86171b7147a036d",
+    "experiments/t00/t00_probe/programs/t00_probe/src/constants.rs": "1e295c4cd500f07ea7fa5f94db0939f7017d92c6739790c170865d755c69df02",
+    "experiments/t00/t00_probe/programs/t00_probe/src/error.rs": "d37f0a6f1bac641602f954787f06bef1ddf70c71af92dd9baa0bfbc89c27fb44",
+    "experiments/t00/t00_probe/programs/t00_probe/src/instructions/increment.rs": "decaca67915285c8b76b964c03add80dccf7d8ed484ba34a5346089bdfc4a279",
+    "experiments/t00/t00_probe/programs/t00_probe/src/instructions/initialize.rs": "c94b8066f7328e54b238c07de94491ebc42e4123465b71c7568914b3547b4bc0",
+    "experiments/t00/t00_probe/programs/t00_probe/src/instructions.rs": "3dfdbd44e9d68ede736a33da9876f6ac69713e90a7aaa7fad156756bd44cba3c",
+    "experiments/t00/t00_probe/programs/t00_probe/src/lib.rs": "1b19c3d6872b06dbbf0b42ba3f1e0e936ffe0be8461657a3f88dd61958c53eb6",
+    "experiments/t00/t00_probe/programs/t00_probe/src/state.rs": "3f5812e388db9abbed630cdd6a684b4af002fe1fb2ac059b466377d5bff017e0",
+    "experiments/t00/t00_probe/programs/t00_probe/tests/test_initialize.rs": "973e2ebad77f87e7f8116664189e8cbf169fb804e95374aab243a7cb9bf3267e",
+    "preflight.config.json": "33f26eeba8de96e22f0017e2ea0eb3aa11c85893375283bddf190ef9aac550a4",
+    "scripts/preflight.mjs": "dacb297ffdc45cb04fcf444ec492e5518556d869bfdacd8c631ee3763a5a77a2",
+    "tests/preflight/policy.test.mjs": "cb3758340d74020ed040ba377bc2eec7c343bb0c14867f2233f9f8a94dbc80dd"
+  },
+  "binarySha256": "8c1585a0750d2b4994447a7192df201284f8b172f5765b1f316eda102fcff71c",
+  "checks": {
+    "policyTests": {
+      "passed": 25,
+      "failed": 0,
+      "skipped": 0
+    },
+    "cargoTests": {
+      "passed": 2,
+      "failed": 0,
+      "skipped": 0
+    },
+    "sbfBuild": "PASS",
+    "jsIdlSerialization": "PASS",
+    "localValidatorInitializeIncrementReject": "PASS",
+    "devnetIdentityAndHealth": "PASS",
+    "devnetFaucet": {
+      "status": "FAILED",
+      "attempts": 2,
+      "requestedSolPerAttempt": 0.1,
+      "recipient": "gNWdDspbXiiGtJDZH2mkZ2TXkzDfh4o9vv9ZVMeFkRG",
+      "diagnosis": "Request failed; CLI suggests possible rate limiting, not confirmed"
+    },
+    "pyth": "EXCLUDED_BY_USER",
+    "wallet": "Phantom user-confirmed; browser not tested",
+    "jsAdvisoriesAfterPatch": {
+      "critical": 0,
+      "high": 0,
+      "moderate": 2
+    },
+    "rustAdvisoryScan": "NOT_RUN; Rust dependency security audit is not claimed"
+  },
+  "environments": [
+    "LOCAL",
+    "DEVNET_READ_ONLY_PLUS_FAUCET_REQUESTS"
+  ],
+  "newMoneySpent": 0,
+  "mainnetWrites": 0,
+  "nextTaskStarted": false,
+  "review": "Pending independent review; user review required before another task",
+  "commands": [
+    {
+      "command": "anchor build",
+      "cwd": "experiments/t00/t00_probe",
+      "exit": 0
+    },
+    {
+      "command": "cargo test --locked",
+      "cwd": "experiments/t00/t00_probe",
+      "exit": 0
+    },
+    {
+      "command": "node probe.mjs",
+      "cwd": "experiments/t00/client",
+      "exit": 0
+    },
+    {
+      "command": "node local-runtime.mjs",
+      "cwd": "experiments/t00/client",
+      "exit": 0
+    },
+    {
+      "command": "node --test tests/preflight/policy.test.mjs",
+      "exit": 0
+    },
+    {
+      "command": "node scripts/preflight.mjs --write-evidence",
+      "exit": 0
+    },
+    {
+      "command": "corepack pnpm@10.17.1 audit --json",
+      "cwd": "experiments/t00/client",
+      "exit": 1,
+      "note": "Expected nonzero result for two retained moderate advisories; not a clean audit"
+    },
+    {
+      "command": "solana --url https://api.devnet.solana.com --keypair <disposable-key-outside-repo> airdrop 0.1",
+      "exit": 1
+    }
+  ]
+}

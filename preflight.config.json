@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "network": "devnet",
+  "rpcUrl": "https://api.devnet.solana.com",
+  "expectedGenesis": "EtWTRABZaYq6iMfeYKouRu166VU2xqa1wcaWoxPkrZBG",
+  "newSpendBudget": 0,
+  "oracleMode": "fixture",
+  "services": [
+    { "name": "Local development and local demo", "incrementalCost": 0, "creditCardRequired": false },
+    { "name": "Public Solana devnet RPC", "incrementalCost": 0, "creditCardRequired": false }
+  ]
+}
