@@ -1,0 +1,1820 @@
+{
+  "spec_version": "1",
+  "price_guard_vectors": [
+    {
+      "id": "cross-lower-equality",
+      "stock_quantity": "1000000",
+      "cash_amount": "9900000",
+      "stock_price": "10000000",
+      "stock_decimals": "6",
+      "cash_decimals": "6",
+      "deviation_bps": "100",
+      "expected_accept": true
+    },
+    {
+      "id": "cross-lower-one-cash-unit-outside",
+      "stock_quantity": "1000000",
+      "cash_amount": "9899999",
+      "stock_price": "10000000",
+      "stock_decimals": "6",
+      "cash_decimals": "6",
+      "deviation_bps": "100",
+      "expected_accept": false
+    },
+    {
+      "id": "cross-upper-equality",
+      "stock_quantity": "1000000",
+      "cash_amount": "10100000",
+      "stock_price": "10000000",
+      "stock_decimals": "6",
+      "cash_decimals": "6",
+      "deviation_bps": "100",
+      "expected_accept": true
+    },
+    {
+      "id": "cross-upper-one-cash-unit-outside",
+      "stock_quantity": "1000000",
+      "cash_amount": "10100001",
+      "stock_price": "10000000",
+      "stock_decimals": "6",
+      "cash_decimals": "6",
+      "deviation_bps": "100",
+      "expected_accept": false
+    },
+    {
+      "id": "cross-upper-one-stock-unit-outside",
+      "stock_quantity": "999999",
+      "cash_amount": "10100000",
+      "stock_price": "10000000",
+      "stock_decimals": "6",
+      "cash_decimals": "6",
+      "deviation_bps": "100",
+      "expected_accept": false
+    },
+    {
+      "id": "cross-lower-one-stock-unit-outside",
+      "stock_quantity": "1000001",
+      "cash_amount": "9900000",
+      "stock_price": "10000000",
+      "stock_decimals": "6",
+      "cash_decimals": "6",
+      "deviation_bps": "100",
+      "expected_accept": false
+    },
+    {
+      "id": "cross-strict-exact",
+      "stock_quantity": "1000000",
+      "cash_amount": "10000000",
+      "stock_price": "10000000",
+      "stock_decimals": "6",
+      "cash_decimals": "6",
+      "deviation_bps": "0",
+      "expected_accept": true
+    },
+    {
+      "id": "cross-strict-one-cash-unit-high",
+      "stock_quantity": "1000000",
+      "cash_amount": "10000001",
+      "stock_price": "10000000",
+      "stock_decimals": "6",
+      "cash_decimals": "6",
+      "deviation_bps": "0",
+      "expected_accept": false
+    },
+    {
+      "id": "cross-strict-one-cash-unit-low",
+      "stock_quantity": "1000000",
+      "cash_amount": "9999999",
+      "stock_price": "10000000",
+      "stock_decimals": "6",
+      "cash_decimals": "6",
+      "deviation_bps": "0",
+      "expected_accept": false
+    },
+    {
+      "id": "mixed-decimals-upper-equality",
+      "stock_quantity": "1000000000",
+      "cash_amount": "10100000",
+      "stock_price": "10000000",
+      "stock_decimals": "9",
+      "cash_decimals": "6",
+      "deviation_bps": "100",
+      "expected_accept": true
+    },
+    {
+      "id": "mixed-decimals-one-stock-unit-outside",
+      "stock_quantity": "999999999",
+      "cash_amount": "10100000",
+      "stock_price": "10000000",
+      "stock_decimals": "9",
+      "cash_decimals": "6",
+      "deviation_bps": "100",
+      "expected_accept": false
+    },
+    {
+      "id": "external-lower-equality",
+      "stock_quantity": "1000000",
+      "cash_amount": "9800000",
+      "stock_price": "10000000",
+      "stock_decimals": "6",
+      "cash_decimals": "6",
+      "deviation_bps": "200",
+      "expected_accept": true
+    },
+    {
+      "id": "external-lower-one-cash-unit-outside",
+      "stock_quantity": "1000000",
+      "cash_amount": "9799999",
+      "stock_price": "10000000",
+      "stock_decimals": "6",
+      "cash_decimals": "6",
+      "deviation_bps": "200",
+      "expected_accept": false
+    },
+    {
+      "id": "external-upper-equality",
+      "stock_quantity": "1000000",
+      "cash_amount": "10200000",
+      "stock_price": "10000000",
+      "stock_decimals": "6",
+      "cash_decimals": "6",
+      "deviation_bps": "200",
+      "expected_accept": true
+    },
+    {
+      "id": "external-upper-one-cash-unit-outside",
+      "stock_quantity": "1000000",
+      "cash_amount": "10200001",
+      "stock_price": "10000000",
+      "stock_decimals": "6",
+      "cash_decimals": "6",
+      "deviation_bps": "200",
+      "expected_accept": false
+    },
+    {
+      "id": "ten-dollar-share-eleven-dollar-cross",
+      "stock_quantity": "1000000",
+      "cash_amount": "11000000",
+      "stock_price": "10000000",
+      "stock_decimals": "6",
+      "cash_decimals": "6",
+      "deviation_bps": "100",
+      "expected_accept": false
+    }
+  ],
+  "flow_vectors": [
+    {
+      "id": "all-internal-no-route",
+      "funding": [
+        [
+          "1000000000",
+          "2000000",
+          "0"
+        ],
+        [
+          "1000000000",
+          "0",
+          "2000000"
+        ],
+        [
+          "1000000000",
+          "0",
+          "0"
+        ]
+      ],
+      "crosses": [
+        {
+          "stock": "1",
+          "seller": "0",
+          "buyer": "1",
+          "quantity": "1000000",
+          "cash": "10000000"
+        },
+        {
+          "stock": "2",
+          "seller": "1",
+          "buyer": "2",
+          "quantity": "1000000",
+          "cash": "20000000"
+        }
+      ],
+      "residuals": [],
+      "expected": {
+        "debits": [
+          [
+            "0",
+            "1000000",
+            "0"
+          ],
+          [
+            "10000000",
+            "0",
+            "1000000"
+          ],
+          [
+            "20000000",
+            "0",
+            "0"
+          ]
+        ],
+        "credits": [
+          [
+            "10000000",
+            "0",
+            "0"
+          ],
+          [
+            "20000000",
+            "1000000",
+            "0"
+          ],
+          [
+            "0",
+            "0",
+            "1000000"
+          ]
+        ],
+        "outputs": [
+          [
+            "1010000000",
+            "1000000",
+            "0"
+          ],
+          [
+            "1010000000",
+            "1000000",
+            "1000000"
+          ],
+          [
+            "980000000",
+            "0",
+            "1000000"
+          ]
+        ],
+        "external_net": [
+          "0",
+          "0",
+          "0"
+        ],
+        "residual_output_allocations": [],
+        "owner_internal_premium_paid": [
+          "0",
+          "0",
+          "0"
+        ],
+        "owner_external_shortfall": [
+          "0",
+          "0",
+          "0"
+        ]
+      }
+    },
+    {
+      "id": "one-stock-zero-residual",
+      "funding": [
+        [
+          "1000000000",
+          "2000000",
+          "0"
+        ],
+        [
+          "1000000000",
+          "0",
+          "2000000"
+        ],
+        [
+          "1000000000",
+          "0",
+          "0"
+        ]
+      ],
+      "crosses": [
+        {
+          "stock": "1",
+          "seller": "0",
+          "buyer": "1",
+          "quantity": "1000000",
+          "cash": "10000000"
+        },
+        {
+          "stock": "2",
+          "seller": "1",
+          "buyer": "2",
+          "quantity": "1000000",
+          "cash": "20000000"
+        }
+      ],
+      "residuals": [
+        {
+          "stock": "1",
+          "direction": "sell",
+          "inputs": [
+            "1000000",
+            "0",
+            "0"
+          ],
+          "observed_output": "9900000",
+          "minimum_output": "9800000"
+        }
+      ],
+      "expected": {
+        "debits": [
+          [
+            "0",
+            "2000000",
+            "0"
+          ],
+          [
+            "10000000",
+            "0",
+            "1000000"
+          ],
+          [
+            "20000000",
+            "0",
+            "0"
+          ]
+        ],
+        "credits": [
+          [
+            "19900000",
+            "0",
+            "0"
+          ],
+          [
+            "20000000",
+            "1000000",
+            "0"
+          ],
+          [
+            "0",
+            "0",
+            "1000000"
+          ]
+        ],
+        "outputs": [
+          [
+            "1019900000",
+            "0",
+            "0"
+          ],
+          [
+            "1010000000",
+            "1000000",
+            "1000000"
+          ],
+          [
+            "980000000",
+            "0",
+            "1000000"
+          ]
+        ],
+        "external_net": [
+          "9900000",
+          "-1000000",
+          "0"
+        ],
+        "residual_output_allocations": [
+          [
+            "9900000",
+            "0",
+            "0"
+          ]
+        ],
+        "owner_internal_premium_paid": [
+          "0",
+          "0",
+          "0"
+        ],
+        "owner_external_shortfall": [
+          "100000000000000",
+          "0",
+          "0"
+        ]
+      }
+    },
+    {
+      "id": "two-residual-legs",
+      "funding": [
+        [
+          "1000000000",
+          "2000000",
+          "0"
+        ],
+        [
+          "1000000000",
+          "0",
+          "2000000"
+        ],
+        [
+          "1000000000",
+          "0",
+          "0"
+        ]
+      ],
+      "crosses": [
+        {
+          "stock": "1",
+          "seller": "0",
+          "buyer": "1",
+          "quantity": "1000000",
+          "cash": "10000000"
+        },
+        {
+          "stock": "2",
+          "seller": "1",
+          "buyer": "2",
+          "quantity": "1000000",
+          "cash": "20000000"
+        }
+      ],
+      "residuals": [
+        {
+          "stock": "1",
+          "direction": "sell",
+          "inputs": [
+            "1000000",
+            "0",
+            "0"
+          ],
+          "observed_output": "9900000",
+          "minimum_output": "9800000"
+        },
+        {
+          "stock": "2",
+          "direction": "buy",
+          "inputs": [
+            "0",
+            "0",
+            "20100000"
+          ],
+          "observed_output": "1000000",
+          "minimum_output": "1000000"
+        }
+      ],
+      "expected": {
+        "debits": [
+          [
+            "0",
+            "2000000",
+            "0"
+          ],
+          [
+            "10000000",
+            "0",
+            "1000000"
+          ],
+          [
+            "40100000",
+            "0",
+            "0"
+          ]
+        ],
+        "credits": [
+          [
+            "19900000",
+            "0",
+            "0"
+          ],
+          [
+            "20000000",
+            "1000000",
+            "0"
+          ],
+          [
+            "0",
+            "0",
+            "2000000"
+          ]
+        ],
+        "outputs": [
+          [
+            "1019900000",
+            "0",
+            "0"
+          ],
+          [
+            "1010000000",
+            "1000000",
+            "1000000"
+          ],
+          [
+            "959900000",
+            "0",
+            "2000000"
+          ]
+        ],
+        "external_net": [
+          "-10200000",
+          "-1000000",
+          "1000000"
+        ],
+        "residual_output_allocations": [
+          [
+            "9900000",
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0",
+            "1000000"
+          ]
+        ],
+        "owner_internal_premium_paid": [
+          "0",
+          "0",
+          "0"
+        ],
+        "owner_external_shortfall": [
+          "100000000000000",
+          "0",
+          "100000000000000"
+        ]
+      }
+    },
+    {
+      "id": "shared-residual-pro-rata",
+      "funding": [
+        [
+          "1000000000",
+          "0",
+          "0"
+        ],
+        [
+          "1000000000",
+          "0",
+          "0"
+        ],
+        [
+          "1000000000",
+          "0",
+          "0"
+        ]
+      ],
+      "crosses": [],
+      "residuals": [
+        {
+          "stock": "1",
+          "direction": "buy",
+          "inputs": [
+            "10000000",
+            "20000000",
+            "0"
+          ],
+          "observed_output": "2970000",
+          "minimum_output": "2950000"
+        }
+      ],
+      "expected": {
+        "debits": [
+          [
+            "10000000",
+            "0",
+            "0"
+          ],
+          [
+            "20000000",
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0",
+            "0"
+          ]
+        ],
+        "credits": [
+          [
+            "0",
+            "990000",
+            "0"
+          ],
+          [
+            "0",
+            "1980000",
+            "0"
+          ],
+          [
+            "0",
+            "0",
+            "0"
+          ]
+        ],
+        "outputs": [
+          [
+            "990000000",
+            "990000",
+            "0"
+          ],
+          [
+            "980000000",
+            "1980000",
+            "0"
+          ],
+          [
+            "1000000000",
+            "0",
+            "0"
+          ]
+        ],
+        "external_net": [
+          "-30000000",
+          "2970000",
+          "0"
+        ],
+        "residual_output_allocations": [
+          [
+            "990000",
+            "1980000",
+            "0"
+          ]
+        ],
+        "owner_internal_premium_paid": [
+          "0",
+          "0",
+          "0"
+        ],
+        "owner_external_shortfall": [
+          "100000000000000",
+          "200000000000000",
+          "0"
+        ]
+      }
+    }
+  ],
+  "subsidy_counterexample": {
+    "stock_price": "10000000",
+    "stock_quantity": "1000000",
+    "cash_amount": "11000000",
+    "buyer_initial_cash": "1000000000",
+    "buyer_final_cash": "989000000",
+    "buyer_final_reference_value": "999000000",
+    "buyer_whole_slice_loss_bps": "10",
+    "whole_slice_guard_accepts": true,
+    "cross_guard_accepts": false,
+    "expected_error": "cross price band"
+  },
+  "invalid_byte_encodings": [
+    {
+      "id": "trailing-byte",
+      "canonical_hex": "43464c494e54303101ce59db5080fc2c6d3bcf7ca90712d3c2e5e6c28f27f0dfbb9953bdb0894c03ab111111111111111111111111111111111111111111111111111111111111111122222222222222222222222222222222222222222222222222222222222222227fee3a206ed4faf3cf97c0dd84422285b17ab3c913841319e55e2f3f8cc558a0d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a00000000000000007472536b00000000acaf8ebc97a55e2630fa82b447f946ed5ffc578446d39578d031f4e31c0c001003313131313131313131313131313131313131313131313131313131313131313106ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a906606060606060606060606060606060606060606060606060606060606060606000ca9a3b0000000000c2eb0b00000000009435770000000040420f0000000000323232323232323232323232323232323232323232323232323232323232323206ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a9066161616161616161616161616161616161616161616161616161616161616161404b4c00000000000000000000000000c0e1e4000000000000e1f50500000000333333333333333333333333333333333333333333333333333333333333333306ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a906626262626262626262626262626262626262626262626262626262626262626280841e00000000000000000000000000809698000000000080d1f0080000000000",
+      "expected_error": "wrong canonical byte length"
+    },
+    {
+      "id": "truncated-byte",
+      "canonical_hex": "43464c494e54303101ce59db5080fc2c6d3bcf7ca90712d3c2e5e6c28f27f0dfbb9953bdb0894c03ab111111111111111111111111111111111111111111111111111111111111111122222222222222222222222222222222222222222222222222222222222222227fee3a206ed4faf3cf97c0dd84422285b17ab3c913841319e55e2f3f8cc558a0d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a00000000000000007472536b00000000acaf8ebc97a55e2630fa82b447f946ed5ffc578446d39578d031f4e31c0c001003313131313131313131313131313131313131313131313131313131313131313106ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a906606060606060606060606060606060606060606060606060606060606060606000ca9a3b0000000000c2eb0b00000000009435770000000040420f0000000000323232323232323232323232323232323232323232323232323232323232323206ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a9066161616161616161616161616161616161616161616161616161616161616161404b4c00000000000000000000000000c0e1e4000000000000e1f50500000000333333333333333333333333333333333333333333333333333333333333333306ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a906626262626262626262626262626262626262626262626262626262626262626280841e00000000000000000000000000809698000000000080d1f008000000",
+      "expected_error": "wrong canonical byte length"
+    },
+    {
+      "id": "wrong-domain",
+      "canonical_hex": "58464c494e54303101ce59db5080fc2c6d3bcf7ca90712d3c2e5e6c28f27f0dfbb9953bdb0894c03ab111111111111111111111111111111111111111111111111111111111111111122222222222222222222222222222222222222222222222222222222222222227fee3a206ed4faf3cf97c0dd84422285b17ab3c913841319e55e2f3f8cc558a0d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a00000000000000007472536b00000000acaf8ebc97a55e2630fa82b447f946ed5ffc578446d39578d031f4e31c0c001003313131313131313131313131313131313131313131313131313131313131313106ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a906606060606060606060606060606060606060606060606060606060606060606000ca9a3b0000000000c2eb0b00000000009435770000000040420f0000000000323232323232323232323232323232323232323232323232323232323232323206ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a9066161616161616161616161616161616161616161616161616161616161616161404b4c00000000000000000000000000c0e1e4000000000000e1f50500000000333333333333333333333333333333333333333333333333333333333333333306ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a906626262626262626262626262626262626262626262626262626262626262626280841e00000000000000000000000000809698000000000080d1f00800000000",
+      "expected_error": "wrong canonical domain"
+    },
+    {
+      "id": "wrong-encoded-count",
+      "canonical_hex": "43464c494e54303101ce59db5080fc2c6d3bcf7ca90712d3c2e5e6c28f27f0dfbb9953bdb0894c03ab111111111111111111111111111111111111111111111111111111111111111122222222222222222222222222222222222222222222222222222222222222227fee3a206ed4faf3cf97c0dd84422285b17ab3c913841319e55e2f3f8cc558a0d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a00000000000000007472536b00000000acaf8ebc97a55e2630fa82b447f946ed5ffc578446d39578d031f4e31c0c001002313131313131313131313131313131313131313131313131313131313131313106ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a906606060606060606060606060606060606060606060606060606060606060606000ca9a3b0000000000c2eb0b00000000009435770000000040420f0000000000323232323232323232323232323232323232323232323232323232323232323206ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a9066161616161616161616161616161616161616161616161616161616161616161404b4c00000000000000000000000000c0e1e4000000000000e1f50500000000333333333333333333333333333333333333333333333333333333333333333306ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a906626262626262626262626262626262626262626262626262626262626262626280841e00000000000000000000000000809698000000000080d1f00800000000",
+      "expected_error": "wrong encoded asset count"
+    }
+  ],
+  "scope": "Encoding fixtures only. Program/config/mint/recipient public identities are synthetic; recipients here are not asserted to be ATAs. T04 must additionally verify real PDA/ATA derivations, runtime lifecycle, clock, asset admission and capacity. No transaction may be built from these fixtures.",
+  "policy": {
+    "genesis": "ce59db5080fc2c6d3bcf7ca90712d3c2e5e6c28f27f0dfbb9953bdb0894c03ab",
+    "program_id": "1111111111111111111111111111111111111111111111111111111111111111",
+    "config_address": "2222222222222222222222222222222222222222222222222222222222222222",
+    "configuration_version": "1",
+    "oracle_mode": "0",
+    "cash_index": "0",
+    "assets": [
+      {
+        "mint": "3131313131313131313131313131313131313131313131313131313131313131",
+        "token_program": "06ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a9",
+        "decimals": "6",
+        "feed_id": "4141414141414141414141414141414141414141414141414141414141414141"
+      },
+      {
+        "mint": "3232323232323232323232323232323232323232323232323232323232323232",
+        "token_program": "06ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a9",
+        "decimals": "6",
+        "feed_id": "4242424242424242424242424242424242424242424242424242424242424242"
+      },
+      {
+        "mint": "3333333333333333333333333333333333333333333333333333333333333333",
+        "token_program": "06ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a9",
+        "decimals": "6",
+        "feed_id": "4343434343434343434343434343434343434343434343434343434343434343"
+      }
+    ],
+    "route_kind": "0",
+    "route_program": "0000000000000000000000000000000000000000000000000000000000000000",
+    "pool": "0000000000000000000000000000000000000000000000000000000000000000",
+    "pool_authority": "0000000000000000000000000000000000000000000000000000000000000000",
+    "route_vaults": [
+      "0000000000000000000000000000000000000000000000000000000000000000",
+      "0000000000000000000000000000000000000000000000000000000000000000",
+      "0000000000000000000000000000000000000000000000000000000000000000"
+    ],
+    "max_route_legs": "0",
+    "max_age_seconds": "60",
+    "max_future_skew_seconds": "2",
+    "max_confidence_bps": "100",
+    "max_reference_move_bps": "500",
+    "max_value_loss_bps": "200",
+    "max_cross_deviation_bps": "100",
+    "max_external_deviation_bps": "200",
+    "max_intent_lifetime_seconds": "900",
+    "fixture_publisher": "5555555555555555555555555555555555555555555555555555555555555555",
+    "protocol_fee_bps": "0"
+  },
+  "policy_hex": "43464c4346473031ce59db5080fc2c6d3bcf7ca90712d3c2e5e6c28f27f0dfbb9953bdb0894c03ab1111111111111111111111111111111111111111111111111111111111111111222222222222222222222222222222222222222222222222222222222222222201000000000003313131313131313131313131313131313131313131313131313131313131313106ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a9064141414141414141414141414141414141414141414141414141414141414141323232323232323232323232323232323232323232323232323232323232323206ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a9064242424242424242424242424242424242424242424242424242424242424242333333333333333333333333333333333333333333333333333333333333333306ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a906434343434343434343434343434343434343434343434343434343434343434300000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000003c000000020000006400f401c8006400c8008403000055555555555555555555555555555555555555555555555555555555555555550000",
+  "policy_sha256": "7fee3a206ed4faf3cf97c0dd84422285b17ab3c913841319e55e2f3f8cc558a0",
+  "positive": [
+    {
+      "id": "ordinary-three-assets",
+      "mandate": {
+        "genesis": "ce59db5080fc2c6d3bcf7ca90712d3c2e5e6c28f27f0dfbb9953bdb0894c03ab",
+        "program_id": "1111111111111111111111111111111111111111111111111111111111111111",
+        "config_address": "2222222222222222222222222222222222222222222222222222222222222222",
+        "schema_version": "1",
+        "policy_hash": "7fee3a206ed4faf3cf97c0dd84422285b17ab3c913841319e55e2f3f8cc558a0",
+        "owner": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+        "nonce": "0",
+        "expiry_unix_seconds": "1800630900",
+        "optimization_commitment": "acaf8ebc97a55e2630fa82b447f946ed5ffc578446d39578d031f4e31c0c0010",
+        "assets": [
+          {
+            "mint": "3131313131313131313131313131313131313131313131313131313131313131",
+            "token_program": "06ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a9",
+            "decimals": "6",
+            "recipient_ata": "6060606060606060606060606060606060606060606060606060606060606060",
+            "funding": "1000000000",
+            "min_output": "200000000",
+            "max_output": "2000000000",
+            "funding_reference_price": "1000000"
+          },
+          {
+            "mint": "3232323232323232323232323232323232323232323232323232323232323232",
+            "token_program": "06ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a9",
+            "decimals": "6",
+            "recipient_ata": "6161616161616161616161616161616161616161616161616161616161616161",
+            "funding": "5000000",
+            "min_output": "0",
+            "max_output": "15000000",
+            "funding_reference_price": "100000000"
+          },
+          {
+            "mint": "3333333333333333333333333333333333333333333333333333333333333333",
+            "token_program": "06ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a9",
+            "decimals": "6",
+            "recipient_ata": "6262626262626262626262626262626262626262626262626262626262626262",
+            "funding": "2000000",
+            "min_output": "0",
+            "max_output": "10000000",
+            "funding_reference_price": "150000000"
+          }
+        ]
+      },
+      "canonical_hex": "43464c494e54303101ce59db5080fc2c6d3bcf7ca90712d3c2e5e6c28f27f0dfbb9953bdb0894c03ab111111111111111111111111111111111111111111111111111111111111111122222222222222222222222222222222222222222222222222222222222222227fee3a206ed4faf3cf97c0dd84422285b17ab3c913841319e55e2f3f8cc558a0d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a00000000000000007472536b00000000acaf8ebc97a55e2630fa82b447f946ed5ffc578446d39578d031f4e31c0c001003313131313131313131313131313131313131313131313131313131313131313106ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a906606060606060606060606060606060606060606060606060606060606060606000ca9a3b0000000000c2eb0b00000000009435770000000040420f0000000000323232323232323232323232323232323232323232323232323232323232323206ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a9066161616161616161616161616161616161616161616161616161616161616161404b4c00000000000000000000000000c0e1e4000000000000e1f50500000000333333333333333333333333333333333333333333333333333333333333333306ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a906626262626262626262626262626262626262626262626262626262626262626280841e00000000000000000000000000809698000000000080d1f00800000000",
+      "canonical_sha256": "98e4602ea84e3a3b1ec4ab453085e1787d77dfa338f58add86cfe3d441a384f6",
+      "canonical_length": "605",
+      "funding_body_hex": "017fee3a206ed4faf3cf97c0dd84422285b17ab3c913841319e55e2f3f8cc558a000000000000000007472536b00000000acaf8ebc97a55e2630fa82b447f946ed5ffc578446d39578d031f4e31c0c001000ca9a3b0000000000c2eb0b00000000009435770000000040420f0000000000404b4c00000000000000000000000000c0e1e4000000000000e1f5050000000080841e00000000000000000000000000809698000000000080d1f00800000000",
+      "funding_body_sha256": "c6312963bdcd80f680b7fa47ce5153acaf035e49220b34122461ac76047c2417",
+      "funding_body_length": "177"
+    },
+    {
+      "id": "nonce-above-js-safe-integer",
+      "mandate": {
+        "genesis": "ce59db5080fc2c6d3bcf7ca90712d3c2e5e6c28f27f0dfbb9953bdb0894c03ab",
+        "program_id": "1111111111111111111111111111111111111111111111111111111111111111",
+        "config_address": "2222222222222222222222222222222222222222222222222222222222222222",
+        "schema_version": "1",
+        "policy_hash": "7fee3a206ed4faf3cf97c0dd84422285b17ab3c913841319e55e2f3f8cc558a0",
+        "owner": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+        "nonce": "9007199254740993",
+        "expiry_unix_seconds": "1800630900",
+        "optimization_commitment": "acaf8ebc97a55e2630fa82b447f946ed5ffc578446d39578d031f4e31c0c0010",
+        "assets": [
+          {
+            "mint": "3131313131313131313131313131313131313131313131313131313131313131",
+            "token_program": "06ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a9",
+            "decimals": "6",
+            "recipient_ata": "6060606060606060606060606060606060606060606060606060606060606060",
+            "funding": "1000000000",
+            "min_output": "200000000",
+            "max_output": "2000000000",
+            "funding_reference_price": "1000000"
+          },
+          {
+            "mint": "3232323232323232323232323232323232323232323232323232323232323232",
+            "token_program": "06ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a9",
+            "decimals": "6",
+            "recipient_ata": "6161616161616161616161616161616161616161616161616161616161616161",
+            "funding": "5000000",
+            "min_output": "0",
+            "max_output": "15000000",
+            "funding_reference_price": "100000000"
+          },
+          {
+            "mint": "3333333333333333333333333333333333333333333333333333333333333333",
+            "token_program": "06ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a9",
+            "decimals": "6",
+            "recipient_ata": "6262626262626262626262626262626262626262626262626262626262626262",
+            "funding": "0",
+            "min_output": "0",
+            "max_output": "10000000",
+            "funding_reference_price": "150000000"
+          }
+        ]
+      },
+      "canonical_hex": "43464c494e54303101ce59db5080fc2c6d3bcf7ca90712d3c2e5e6c28f27f0dfbb9953bdb0894c03ab111111111111111111111111111111111111111111111111111111111111111122222222222222222222222222222222222222222222222222222222222222227fee3a206ed4faf3cf97c0dd84422285b17ab3c913841319e55e2f3f8cc558a0d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a01000000000020007472536b00000000acaf8ebc97a55e2630fa82b447f946ed5ffc578446d39578d031f4e31c0c001003313131313131313131313131313131313131313131313131313131313131313106ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a906606060606060606060606060606060606060606060606060606060606060606000ca9a3b0000000000c2eb0b00000000009435770000000040420f0000000000323232323232323232323232323232323232323232323232323232323232323206ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a9066161616161616161616161616161616161616161616161616161616161616161404b4c00000000000000000000000000c0e1e4000000000000e1f50500000000333333333333333333333333333333333333333333333333333333333333333306ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a906626262626262626262626262626262626262626262626262626262626262626200000000000000000000000000000000809698000000000080d1f00800000000",
+      "canonical_sha256": "7cabe200b421276a0b092cd26d17c8247bc8b0a2241c1f1771def28758330cfb",
+      "canonical_length": "605",
+      "funding_body_hex": "017fee3a206ed4faf3cf97c0dd84422285b17ab3c913841319e55e2f3f8cc558a001000000000020007472536b00000000acaf8ebc97a55e2630fa82b447f946ed5ffc578446d39578d031f4e31c0c001000ca9a3b0000000000c2eb0b00000000009435770000000040420f0000000000404b4c00000000000000000000000000c0e1e4000000000000e1f5050000000000000000000000000000000000000000809698000000000080d1f00800000000",
+      "funding_body_sha256": "9e124bd2a3753b56e7aeb5048660a9bd26154fc9757e6c921e2aad8f30e84e7f",
+      "funding_body_length": "177"
+    }
+  ],
+  "one_field_byte_mutations": [
+    {
+      "id": "mutated-domain",
+      "byte_offset": "0",
+      "xor_hex": "01",
+      "mutated_sha256": "0aec458ff0274002db532b41d59c8f116f54086ae61027fe1828199b7a0e3377",
+      "expected": "reject against stored original mandate hash; malformed fields also reject parsing/admission"
+    },
+    {
+      "id": "mutated-schema_version",
+      "byte_offset": "8",
+      "xor_hex": "01",
+      "mutated_sha256": "8fb77a37488e71b61ff6dea1480a9447c94460794b9aabfccf645356dabc689a",
+      "expected": "reject against stored original mandate hash; malformed fields also reject parsing/admission"
+    },
+    {
+      "id": "mutated-genesis",
+      "byte_offset": "9",
+      "xor_hex": "01",
+      "mutated_sha256": "54c6609d8d7690ad331304cf99d54d511b5a79cc780a5cf8dcc440747b353e64",
+      "expected": "reject against stored original mandate hash; malformed fields also reject parsing/admission"
+    },
+    {
+      "id": "mutated-program_id",
+      "byte_offset": "41",
+      "xor_hex": "01",
+      "mutated_sha256": "9fa2d69f3e696b9b0f824c213708b245917aaeb7d100dd778e0927147a3acf6b",
+      "expected": "reject against stored original mandate hash; malformed fields also reject parsing/admission"
+    },
+    {
+      "id": "mutated-config_address",
+      "byte_offset": "73",
+      "xor_hex": "01",
+      "mutated_sha256": "44a4444a2d69ba162d7c5901013d6ec02ab00cdd23ba52eb36e5df7eb85ea61f",
+      "expected": "reject against stored original mandate hash; malformed fields also reject parsing/admission"
+    },
+    {
+      "id": "mutated-policy_hash",
+      "byte_offset": "105",
+      "xor_hex": "01",
+      "mutated_sha256": "6c703c225c0fc3539cc670b539be293b9db6b20fb21aa2fcf085718ea212144b",
+      "expected": "reject against stored original mandate hash; malformed fields also reject parsing/admission"
+    },
+    {
+      "id": "mutated-owner",
+      "byte_offset": "137",
+      "xor_hex": "01",
+      "mutated_sha256": "62410ebad87fd70e5c7b000a3c8fe4e2d6954a8a7cb4cb54e7a67f11bea5bf8a",
+      "expected": "reject against stored original mandate hash; malformed fields also reject parsing/admission"
+    },
+    {
+      "id": "mutated-nonce",
+      "byte_offset": "169",
+      "xor_hex": "01",
+      "mutated_sha256": "62b7d35e2e390889f1986ea1d4b492516321776754fb534e3505e0fb2d493f06",
+      "expected": "reject against stored original mandate hash; malformed fields also reject parsing/admission"
+    },
+    {
+      "id": "mutated-expiry",
+      "byte_offset": "177",
+      "xor_hex": "01",
+      "mutated_sha256": "6e26a663032c3e4bdbcf7dc847518ff20954c34c59a82164e3a308d2d539f42e",
+      "expected": "reject against stored original mandate hash; malformed fields also reject parsing/admission"
+    },
+    {
+      "id": "mutated-optimization_commitment",
+      "byte_offset": "185",
+      "xor_hex": "01",
+      "mutated_sha256": "2a36cffded62b8313c9a2f0bad4d5182e1da53dc9d2479f465be6e2e26dfed40",
+      "expected": "reject against stored original mandate hash; malformed fields also reject parsing/admission"
+    },
+    {
+      "id": "mutated-asset_count",
+      "byte_offset": "217",
+      "xor_hex": "01",
+      "mutated_sha256": "c278dd07ccc1b7b10674a6b36ecd49e88b70c335e394be72e6fbd200d1bdc95e",
+      "expected": "reject against stored original mandate hash; malformed fields also reject parsing/admission"
+    },
+    {
+      "id": "mutated-asset_0_mint",
+      "byte_offset": "218",
+      "xor_hex": "01",
+      "mutated_sha256": "87b29a28db50ca159efb0bfde0ab99f916dfa577175d04b855103fef89387329",
+      "expected": "reject against stored original mandate hash; malformed fields also reject parsing/admission"
+    },
+    {
+      "id": "mutated-asset_0_token_program",
+      "byte_offset": "250",
+      "xor_hex": "01",
+      "mutated_sha256": "82ee17285c1e401bc52d8bd34147469d667e36c929203461ffaa5250d563ac9d",
+      "expected": "reject against stored original mandate hash; malformed fields also reject parsing/admission"
+    },
+    {
+      "id": "mutated-asset_0_decimals",
+      "byte_offset": "282",
+      "xor_hex": "01",
+      "mutated_sha256": "5ad5fdba02aa67f725e4d409ad7f8d01b74c816318e9480ccee693097c57f162",
+      "expected": "reject against stored original mandate hash; malformed fields also reject parsing/admission"
+    },
+    {
+      "id": "mutated-asset_0_recipient",
+      "byte_offset": "283",
+      "xor_hex": "01",
+      "mutated_sha256": "76bf6cccb5fa07eea7e7b187826b06eab4ecb9834476e74eb2b37c033f1bffc6",
+      "expected": "reject against stored original mandate hash; malformed fields also reject parsing/admission"
+    },
+    {
+      "id": "mutated-asset_0_funding",
+      "byte_offset": "315",
+      "xor_hex": "01",
+      "mutated_sha256": "7476329d4e79631fb99d631c9dc599dc6c80f35ed901679f9997aa733ff22c02",
+      "expected": "reject against stored original mandate hash; malformed fields also reject parsing/admission"
+    },
+    {
+      "id": "mutated-asset_0_min_output",
+      "byte_offset": "323",
+      "xor_hex": "01",
+      "mutated_sha256": "7a5f1d2be57d9d49119df1fc739ac273693df12a859d82aad6ea38bed5cc6cbf",
+      "expected": "reject against stored original mandate hash; malformed fields also reject parsing/admission"
+    },
+    {
+      "id": "mutated-asset_0_max_output",
+      "byte_offset": "331",
+      "xor_hex": "01",
+      "mutated_sha256": "5003cea4be213c5cf35540dce301655249f6b78df8fc3efb678e06577142033e",
+      "expected": "reject against stored original mandate hash; malformed fields also reject parsing/admission"
+    },
+    {
+      "id": "mutated-asset_0_funding_reference_price",
+      "byte_offset": "339",
+      "xor_hex": "01",
+      "mutated_sha256": "17f3eaf3920ef0baa5e80b1fc191c0eff1e36e93feae693529be7d9fc3f8c8af",
+      "expected": "reject against stored original mandate hash; malformed fields also reject parsing/admission"
+    },
+    {
+      "id": "mutated-asset_1_mint",
+      "byte_offset": "347",
+      "xor_hex": "01",
+      "mutated_sha256": "3786991ca4892892a9188a2b78b79170544d0aebb178f40f09eefc8329409967",
+      "expected": "reject against stored original mandate hash; malformed fields also reject parsing/admission"
+    },
+    {
+      "id": "mutated-asset_1_token_program",
+      "byte_offset": "379",
+      "xor_hex": "01",
+      "mutated_sha256": "9bce07c50a49ad3671c2b447cffad0e60379f981158d9c1625aa30aaa5fa47ed",
+      "expected": "reject against stored original mandate hash; malformed fields also reject parsing/admission"
+    },
+    {
+      "id": "mutated-asset_1_decimals",
+      "byte_offset": "411",
+      "xor_hex": "01",
+      "mutated_sha256": "cf9204a216375bf4c2a8fb7c8dab60c36365d51ff65af61042e870d0a8e6b4ea",
+      "expected": "reject against stored original mandate hash; malformed fields also reject parsing/admission"
+    },
+    {
+      "id": "mutated-asset_1_recipient",
+      "byte_offset": "412",
+      "xor_hex": "01",
+      "mutated_sha256": "a713ea625d2908741da91f24ba39fd1d7b5a899601c3627f1062acfda714d376",
+      "expected": "reject against stored original mandate hash; malformed fields also reject parsing/admission"
+    },
+    {
+      "id": "mutated-asset_1_funding",
+      "byte_offset": "444",
+      "xor_hex": "01",
+      "mutated_sha256": "be2b9c9558caec1d66bd1a9c4ce4c75612ed7ee59ab161f312284ebde07c557a",
+      "expected": "reject against stored original mandate hash; malformed fields also reject parsing/admission"
+    },
+    {
+      "id": "mutated-asset_1_min_output",
+      "byte_offset": "452",
+      "xor_hex": "01",
+      "mutated_sha256": "70392667cf66f7ba9b97ab3dd88fe6805dcc4aa66800567e5ee22b0485b744e7",
+      "expected": "reject against stored original mandate hash; malformed fields also reject parsing/admission"
+    },
+    {
+      "id": "mutated-asset_1_max_output",
+      "byte_offset": "460",
+      "xor_hex": "01",
+      "mutated_sha256": "5f28282ce0671bf1d85c68e7c9c3a8b464fbbd002cb4a4f94ba0b973f6363a21",
+      "expected": "reject against stored original mandate hash; malformed fields also reject parsing/admission"
+    },
+    {
+      "id": "mutated-asset_1_funding_reference_price",
+      "byte_offset": "468",
+      "xor_hex": "01",
+      "mutated_sha256": "2e1cb43ddaafe2a07d3be29ff814fb7132ad7f3cb52a03d989dc9f09470f18a6",
+      "expected": "reject against stored original mandate hash; malformed fields also reject parsing/admission"
+    },
+    {
+      "id": "mutated-asset_2_mint",
+      "byte_offset": "476",
+      "xor_hex": "01",
+      "mutated_sha256": "eed4504b1944a29cb867dace0aeba70cc01dc3963c09313b02023a168971a54a",
+      "expected": "reject against stored original mandate hash; malformed fields also reject parsing/admission"
+    },
+    {
+      "id": "mutated-asset_2_token_program",
+      "byte_offset": "508",
+      "xor_hex": "01",
+      "mutated_sha256": "ad87963831acfc0be144b536ccb902c44e6459bcae36f4efd8ad4629f9fc0424",
+      "expected": "reject against stored original mandate hash; malformed fields also reject parsing/admission"
+    },
+    {
+      "id": "mutated-asset_2_decimals",
+      "byte_offset": "540",
+      "xor_hex": "01",
+      "mutated_sha256": "53b164714516aa7ebcfa8491b8b59cb3c800be7b18f49705144c12cfc6c09bbe",
+      "expected": "reject against stored original mandate hash; malformed fields also reject parsing/admission"
+    },
+    {
+      "id": "mutated-asset_2_recipient",
+      "byte_offset": "541",
+      "xor_hex": "01",
+      "mutated_sha256": "c62715adb49991c968a4b74c38637187646dfa4b46335a22605cd2f3640f2e84",
+      "expected": "reject against stored original mandate hash; malformed fields also reject parsing/admission"
+    },
+    {
+      "id": "mutated-asset_2_funding",
+      "byte_offset": "573",
+      "xor_hex": "01",
+      "mutated_sha256": "0cba3f105ef4681b97e63e310a5560d4147dbebc493a38edccf312f090cb76cf",
+      "expected": "reject against stored original mandate hash; malformed fields also reject parsing/admission"
+    },
+    {
+      "id": "mutated-asset_2_min_output",
+      "byte_offset": "581",
+      "xor_hex": "01",
+      "mutated_sha256": "3ff37b5224e664a330177611f0f8bb93a7d6353f44771dfa961317f1074c5073",
+      "expected": "reject against stored original mandate hash; malformed fields also reject parsing/admission"
+    },
+    {
+      "id": "mutated-asset_2_max_output",
+      "byte_offset": "589",
+      "xor_hex": "01",
+      "mutated_sha256": "5454df49b1371c3b62eff287bd3b021e0e4b10a1de8d5e669f6c963296e8e1cc",
+      "expected": "reject against stored original mandate hash; malformed fields also reject parsing/admission"
+    },
+    {
+      "id": "mutated-asset_2_funding_reference_price",
+      "byte_offset": "597",
+      "xor_hex": "01",
+      "mutated_sha256": "4e8d066332c07018e3979470dbc8f0e30a2dae7169db32564e144f4abd676bf6",
+      "expected": "reject against stored original mandate hash; malformed fields also reject parsing/admission"
+    }
+  ],
+  "invalid_inputs": [
+    {
+      "id": "json-number",
+      "mandate": {
+        "genesis": "ce59db5080fc2c6d3bcf7ca90712d3c2e5e6c28f27f0dfbb9953bdb0894c03ab",
+        "program_id": "1111111111111111111111111111111111111111111111111111111111111111",
+        "config_address": "2222222222222222222222222222222222222222222222222222222222222222",
+        "schema_version": "1",
+        "policy_hash": "7fee3a206ed4faf3cf97c0dd84422285b17ab3c913841319e55e2f3f8cc558a0",
+        "owner": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+        "nonce": 0,
+        "expiry_unix_seconds": "1800630900",
+        "optimization_commitment": "acaf8ebc97a55e2630fa82b447f946ed5ffc578446d39578d031f4e31c0c0010",
+        "assets": [
+          {
+            "mint": "3131313131313131313131313131313131313131313131313131313131313131",
+            "token_program": "06ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a9",
+            "decimals": "6",
+            "recipient_ata": "6060606060606060606060606060606060606060606060606060606060606060",
+            "funding": "1000000000",
+            "min_output": "200000000",
+            "max_output": "2000000000",
+            "funding_reference_price": "1000000"
+          },
+          {
+            "mint": "3232323232323232323232323232323232323232323232323232323232323232",
+            "token_program": "06ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a9",
+            "decimals": "6",
+            "recipient_ata": "6161616161616161616161616161616161616161616161616161616161616161",
+            "funding": "5000000",
+            "min_output": "0",
+            "max_output": "15000000",
+            "funding_reference_price": "100000000"
+          },
+          {
+            "mint": "3333333333333333333333333333333333333333333333333333333333333333",
+            "token_program": "06ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a9",
+            "decimals": "6",
+            "recipient_ata": "6262626262626262626262626262626262626262626262626262626262626262",
+            "funding": "2000000",
+            "min_output": "0",
+            "max_output": "10000000",
+            "funding_reference_price": "150000000"
+          }
+        ]
+      },
+      "expected_error": "noncanonical integer"
+    },
+    {
+      "id": "leading-zero",
+      "mandate": {
+        "genesis": "ce59db5080fc2c6d3bcf7ca90712d3c2e5e6c28f27f0dfbb9953bdb0894c03ab",
+        "program_id": "1111111111111111111111111111111111111111111111111111111111111111",
+        "config_address": "2222222222222222222222222222222222222222222222222222222222222222",
+        "schema_version": "1",
+        "policy_hash": "7fee3a206ed4faf3cf97c0dd84422285b17ab3c913841319e55e2f3f8cc558a0",
+        "owner": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+        "nonce": "00",
+        "expiry_unix_seconds": "1800630900",
+        "optimization_commitment": "acaf8ebc97a55e2630fa82b447f946ed5ffc578446d39578d031f4e31c0c0010",
+        "assets": [
+          {
+            "mint": "3131313131313131313131313131313131313131313131313131313131313131",
+            "token_program": "06ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a9",
+            "decimals": "6",
+            "recipient_ata": "6060606060606060606060606060606060606060606060606060606060606060",
+            "funding": "1000000000",
+            "min_output": "200000000",
+            "max_output": "2000000000",
+            "funding_reference_price": "1000000"
+          },
+          {
+            "mint": "3232323232323232323232323232323232323232323232323232323232323232",
+            "token_program": "06ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a9",
+            "decimals": "6",
+            "recipient_ata": "6161616161616161616161616161616161616161616161616161616161616161",
+            "funding": "5000000",
+            "min_output": "0",
+            "max_output": "15000000",
+            "funding_reference_price": "100000000"
+          },
+          {
+            "mint": "3333333333333333333333333333333333333333333333333333333333333333",
+            "token_program": "06ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a9",
+            "decimals": "6",
+            "recipient_ata": "6262626262626262626262626262626262626262626262626262626262626262",
+            "funding": "2000000",
+            "min_output": "0",
+            "max_output": "10000000",
+            "funding_reference_price": "150000000"
+          }
+        ]
+      },
+      "expected_error": "noncanonical integer"
+    },
+    {
+      "id": "negative",
+      "mandate": {
+        "genesis": "ce59db5080fc2c6d3bcf7ca90712d3c2e5e6c28f27f0dfbb9953bdb0894c03ab",
+        "program_id": "1111111111111111111111111111111111111111111111111111111111111111",
+        "config_address": "2222222222222222222222222222222222222222222222222222222222222222",
+        "schema_version": "1",
+        "policy_hash": "7fee3a206ed4faf3cf97c0dd84422285b17ab3c913841319e55e2f3f8cc558a0",
+        "owner": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+        "nonce": "-1",
+        "expiry_unix_seconds": "1800630900",
+        "optimization_commitment": "acaf8ebc97a55e2630fa82b447f946ed5ffc578446d39578d031f4e31c0c0010",
+        "assets": [
+          {
+            "mint": "3131313131313131313131313131313131313131313131313131313131313131",
+            "token_program": "06ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a9",
+            "decimals": "6",
+            "recipient_ata": "6060606060606060606060606060606060606060606060606060606060606060",
+            "funding": "1000000000",
+            "min_output": "200000000",
+            "max_output": "2000000000",
+            "funding_reference_price": "1000000"
+          },
+          {
+            "mint": "3232323232323232323232323232323232323232323232323232323232323232",
+            "token_program": "06ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a9",
+            "decimals": "6",
+            "recipient_ata": "6161616161616161616161616161616161616161616161616161616161616161",
+            "funding": "5000000",
+            "min_output": "0",
+            "max_output": "15000000",
+            "funding_reference_price": "100000000"
+          },
+          {
+            "mint": "3333333333333333333333333333333333333333333333333333333333333333",
+            "token_program": "06ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a9",
+            "decimals": "6",
+            "recipient_ata": "6262626262626262626262626262626262626262626262626262626262626262",
+            "funding": "2000000",
+            "min_output": "0",
+            "max_output": "10000000",
+            "funding_reference_price": "150000000"
+          }
+        ]
+      },
+      "expected_error": "noncanonical integer"
+    },
+    {
+      "id": "exponent",
+      "mandate": {
+        "genesis": "ce59db5080fc2c6d3bcf7ca90712d3c2e5e6c28f27f0dfbb9953bdb0894c03ab",
+        "program_id": "1111111111111111111111111111111111111111111111111111111111111111",
+        "config_address": "2222222222222222222222222222222222222222222222222222222222222222",
+        "schema_version": "1",
+        "policy_hash": "7fee3a206ed4faf3cf97c0dd84422285b17ab3c913841319e55e2f3f8cc558a0",
+        "owner": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+        "nonce": "1e3",
+        "expiry_unix_seconds": "1800630900",
+        "optimization_commitment": "acaf8ebc97a55e2630fa82b447f946ed5ffc578446d39578d031f4e31c0c0010",
+        "assets": [
+          {
+            "mint": "3131313131313131313131313131313131313131313131313131313131313131",
+            "token_program": "06ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a9",
+            "decimals": "6",
+            "recipient_ata": "6060606060606060606060606060606060606060606060606060606060606060",
+            "funding": "1000000000",
+            "min_output": "200000000",
+            "max_output": "2000000000",
+            "funding_reference_price": "1000000"
+          },
+          {
+            "mint": "3232323232323232323232323232323232323232323232323232323232323232",
+            "token_program": "06ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a9",
+            "decimals": "6",
+            "recipient_ata": "6161616161616161616161616161616161616161616161616161616161616161",
+            "funding": "5000000",
+            "min_output": "0",
+            "max_output": "15000000",
+            "funding_reference_price": "100000000"
+          },
+          {
+            "mint": "3333333333333333333333333333333333333333333333333333333333333333",
+            "token_program": "06ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a9",
+            "decimals": "6",
+            "recipient_ata": "6262626262626262626262626262626262626262626262626262626262626262",
+            "funding": "2000000",
+            "min_output": "0",
+            "max_output": "10000000",
+            "funding_reference_price": "150000000"
+          }
+        ]
+      },
+      "expected_error": "noncanonical integer"
+    },
+    {
+      "id": "u64-overflow",
+      "mandate": {
+        "genesis": "ce59db5080fc2c6d3bcf7ca90712d3c2e5e6c28f27f0dfbb9953bdb0894c03ab",
+        "program_id": "1111111111111111111111111111111111111111111111111111111111111111",
+        "config_address": "2222222222222222222222222222222222222222222222222222222222222222",
+        "schema_version": "1",
+        "policy_hash": "7fee3a206ed4faf3cf97c0dd84422285b17ab3c913841319e55e2f3f8cc558a0",
+        "owner": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+        "nonce": "18446744073709551616",
+        "expiry_unix_seconds": "1800630900",
+        "optimization_commitment": "acaf8ebc97a55e2630fa82b447f946ed5ffc578446d39578d031f4e31c0c0010",
+        "assets": [
+          {
+            "mint": "3131313131313131313131313131313131313131313131313131313131313131",
+            "token_program": "06ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a9",
+            "decimals": "6",
+            "recipient_ata": "6060606060606060606060606060606060606060606060606060606060606060",
+            "funding": "1000000000",
+            "min_output": "200000000",
+            "max_output": "2000000000",
+            "funding_reference_price": "1000000"
+          },
+          {
+            "mint": "3232323232323232323232323232323232323232323232323232323232323232",
+            "token_program": "06ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a9",
+            "decimals": "6",
+            "recipient_ata": "6161616161616161616161616161616161616161616161616161616161616161",
+            "funding": "5000000",
+            "min_output": "0",
+            "max_output": "15000000",
+            "funding_reference_price": "100000000"
+          },
+          {
+            "mint": "3333333333333333333333333333333333333333333333333333333333333333",
+            "token_program": "06ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a9",
+            "decimals": "6",
+            "recipient_ata": "6262626262626262626262626262626262626262626262626262626262626262",
+            "funding": "2000000",
+            "min_output": "0",
+            "max_output": "10000000",
+            "funding_reference_price": "150000000"
+          }
+        ]
+      },
+      "expected_error": "integer width overflow"
+    },
+    {
+      "id": "alternate-network",
+      "mandate": {
+        "genesis": "9999999999999999999999999999999999999999999999999999999999999999",
+        "program_id": "1111111111111111111111111111111111111111111111111111111111111111",
+        "config_address": "2222222222222222222222222222222222222222222222222222222222222222",
+        "schema_version": "1",
+        "policy_hash": "7fee3a206ed4faf3cf97c0dd84422285b17ab3c913841319e55e2f3f8cc558a0",
+        "owner": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+        "nonce": "0",
+        "expiry_unix_seconds": "1800630900",
+        "optimization_commitment": "acaf8ebc97a55e2630fa82b447f946ed5ffc578446d39578d031f4e31c0c0010",
+        "assets": [
+          {
+            "mint": "3131313131313131313131313131313131313131313131313131313131313131",
+            "token_program": "06ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a9",
+            "decimals": "6",
+            "recipient_ata": "6060606060606060606060606060606060606060606060606060606060606060",
+            "funding": "1000000000",
+            "min_output": "200000000",
+            "max_output": "2000000000",
+            "funding_reference_price": "1000000"
+          },
+          {
+            "mint": "3232323232323232323232323232323232323232323232323232323232323232",
+            "token_program": "06ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a9",
+            "decimals": "6",
+            "recipient_ata": "6161616161616161616161616161616161616161616161616161616161616161",
+            "funding": "5000000",
+            "min_output": "0",
+            "max_output": "15000000",
+            "funding_reference_price": "100000000"
+          },
+          {
+            "mint": "3333333333333333333333333333333333333333333333333333333333333333",
+            "token_program": "06ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a9",
+            "decimals": "6",
+            "recipient_ata": "6262626262626262626262626262626262626262626262626262626262626262",
+            "funding": "2000000",
+            "min_output": "0",
+            "max_output": "10000000",
+            "funding_reference_price": "150000000"
+          }
+        ]
+      },
+      "expected_error": "deployment domain mismatch"
+    },
+    {
+      "id": "unknown-field",
+      "mandate": {
+        "genesis": "ce59db5080fc2c6d3bcf7ca90712d3c2e5e6c28f27f0dfbb9953bdb0894c03ab",
+        "program_id": "1111111111111111111111111111111111111111111111111111111111111111",
+        "config_address": "2222222222222222222222222222222222222222222222222222222222222222",
+        "schema_version": "1",
+        "policy_hash": "7fee3a206ed4faf3cf97c0dd84422285b17ab3c913841319e55e2f3f8cc558a0",
+        "owner": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+        "nonce": "0",
+        "expiry_unix_seconds": "1800630900",
+        "optimization_commitment": "acaf8ebc97a55e2630fa82b447f946ed5ffc578446d39578d031f4e31c0c0010",
+        "assets": [
+          {
+            "mint": "3131313131313131313131313131313131313131313131313131313131313131",
+            "token_program": "06ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a9",
+            "decimals": "6",
+            "recipient_ata": "6060606060606060606060606060606060606060606060606060606060606060",
+            "funding": "1000000000",
+            "min_output": "200000000",
+            "max_output": "2000000000",
+            "funding_reference_price": "1000000"
+          },
+          {
+            "mint": "3232323232323232323232323232323232323232323232323232323232323232",
+            "token_program": "06ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a9",
+            "decimals": "6",
+            "recipient_ata": "6161616161616161616161616161616161616161616161616161616161616161",
+            "funding": "5000000",
+            "min_output": "0",
+            "max_output": "15000000",
+            "funding_reference_price": "100000000"
+          },
+          {
+            "mint": "3333333333333333333333333333333333333333333333333333333333333333",
+            "token_program": "06ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a9",
+            "decimals": "6",
+            "recipient_ata": "6262626262626262626262626262626262626262626262626262626262626262",
+            "funding": "2000000",
+            "min_output": "0",
+            "max_output": "10000000",
+            "funding_reference_price": "150000000"
+          }
+        ],
+        "approved": true
+      },
+      "expected_error": "unknown or missing fields"
+    },
+    {
+      "id": "wrong-policy",
+      "mandate": {
+        "genesis": "ce59db5080fc2c6d3bcf7ca90712d3c2e5e6c28f27f0dfbb9953bdb0894c03ab",
+        "program_id": "1111111111111111111111111111111111111111111111111111111111111111",
+        "config_address": "2222222222222222222222222222222222222222222222222222222222222222",
+        "schema_version": "1",
+        "policy_hash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+        "owner": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+        "nonce": "0",
+        "expiry_unix_seconds": "1800630900",
+        "optimization_commitment": "acaf8ebc97a55e2630fa82b447f946ed5ffc578446d39578d031f4e31c0c0010",
+        "assets": [
+          {
+            "mint": "3131313131313131313131313131313131313131313131313131313131313131",
+            "token_program": "06ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a9",
+            "decimals": "6",
+            "recipient_ata": "6060606060606060606060606060606060606060606060606060606060606060",
+            "funding": "1000000000",
+            "min_output": "200000000",
+            "max_output": "2000000000",
+            "funding_reference_price": "1000000"
+          },
+          {
+            "mint": "3232323232323232323232323232323232323232323232323232323232323232",
+            "token_program": "06ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a9",
+            "decimals": "6",
+            "recipient_ata": "6161616161616161616161616161616161616161616161616161616161616161",
+            "funding": "5000000",
+            "min_output": "0",
+            "max_output": "15000000",
+            "funding_reference_price": "100000000"
+          },
+          {
+            "mint": "3333333333333333333333333333333333333333333333333333333333333333",
+            "token_program": "06ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a9",
+            "decimals": "6",
+            "recipient_ata": "6262626262626262626262626262626262626262626262626262626262626262",
+            "funding": "2000000",
+            "min_output": "0",
+            "max_output": "10000000",
+            "funding_reference_price": "150000000"
+          }
+        ]
+      },
+      "expected_error": "version or policy mismatch"
+    },
+    {
+      "id": "duplicate-mint",
+      "mandate": {
+        "genesis": "ce59db5080fc2c6d3bcf7ca90712d3c2e5e6c28f27f0dfbb9953bdb0894c03ab",
+        "program_id": "1111111111111111111111111111111111111111111111111111111111111111",
+        "config_address": "2222222222222222222222222222222222222222222222222222222222222222",
+        "schema_version": "1",
+        "policy_hash": "7fee3a206ed4faf3cf97c0dd84422285b17ab3c913841319e55e2f3f8cc558a0",
+        "owner": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+        "nonce": "0",
+        "expiry_unix_seconds": "1800630900",
+        "optimization_commitment": "acaf8ebc97a55e2630fa82b447f946ed5ffc578446d39578d031f4e31c0c0010",
+        "assets": [
+          {
+            "mint": "3131313131313131313131313131313131313131313131313131313131313131",
+            "token_program": "06ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a9",
+            "decimals": "6",
+            "recipient_ata": "6060606060606060606060606060606060606060606060606060606060606060",
+            "funding": "1000000000",
+            "min_output": "200000000",
+            "max_output": "2000000000",
+            "funding_reference_price": "1000000"
+          },
+          {
+            "mint": "3131313131313131313131313131313131313131313131313131313131313131",
+            "token_program": "06ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a9",
+            "decimals": "6",
+            "recipient_ata": "6161616161616161616161616161616161616161616161616161616161616161",
+            "funding": "5000000",
+            "min_output": "0",
+            "max_output": "15000000",
+            "funding_reference_price": "100000000"
+          },
+          {
+            "mint": "3333333333333333333333333333333333333333333333333333333333333333",
+            "token_program": "06ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a9",
+            "decimals": "6",
+            "recipient_ata": "6262626262626262626262626262626262626262626262626262626262626262",
+            "funding": "2000000",
+            "min_output": "0",
+            "max_output": "10000000",
+            "funding_reference_price": "150000000"
+          }
+        ]
+      },
+      "expected_error": "asset identity mismatch"
+    },
+    {
+      "id": "duplicate-recipient",
+      "mandate": {
+        "genesis": "ce59db5080fc2c6d3bcf7ca90712d3c2e5e6c28f27f0dfbb9953bdb0894c03ab",
+        "program_id": "1111111111111111111111111111111111111111111111111111111111111111",
+        "config_address": "2222222222222222222222222222222222222222222222222222222222222222",
+        "schema_version": "1",
+        "policy_hash": "7fee3a206ed4faf3cf97c0dd84422285b17ab3c913841319e55e2f3f8cc558a0",
+        "owner": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+        "nonce": "0",
+        "expiry_unix_seconds": "1800630900",
+        "optimization_commitment": "acaf8ebc97a55e2630fa82b447f946ed5ffc578446d39578d031f4e31c0c0010",
+        "assets": [
+          {
+            "mint": "3131313131313131313131313131313131313131313131313131313131313131",
+            "token_program": "06ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a9",
+            "decimals": "6",
+            "recipient_ata": "6060606060606060606060606060606060606060606060606060606060606060",
+            "funding": "1000000000",
+            "min_output": "200000000",
+            "max_output": "2000000000",
+            "funding_reference_price": "1000000"
+          },
+          {
+            "mint": "3232323232323232323232323232323232323232323232323232323232323232",
+            "token_program": "06ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a9",
+            "decimals": "6",
+            "recipient_ata": "6060606060606060606060606060606060606060606060606060606060606060",
+            "funding": "5000000",
+            "min_output": "0",
+            "max_output": "15000000",
+            "funding_reference_price": "100000000"
+          },
+          {
+            "mint": "3333333333333333333333333333333333333333333333333333333333333333",
+            "token_program": "06ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a9",
+            "decimals": "6",
+            "recipient_ata": "6262626262626262626262626262626262626262626262626262626262626262",
+            "funding": "2000000",
+            "min_output": "0",
+            "max_output": "10000000",
+            "funding_reference_price": "150000000"
+          }
+        ]
+      },
+      "expected_error": "duplicate recipient"
+    },
+    {
+      "id": "inverted-bounds",
+      "mandate": {
+        "genesis": "ce59db5080fc2c6d3bcf7ca90712d3c2e5e6c28f27f0dfbb9953bdb0894c03ab",
+        "program_id": "1111111111111111111111111111111111111111111111111111111111111111",
+        "config_address": "2222222222222222222222222222222222222222222222222222222222222222",
+        "schema_version": "1",
+        "policy_hash": "7fee3a206ed4faf3cf97c0dd84422285b17ab3c913841319e55e2f3f8cc558a0",
+        "owner": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+        "nonce": "0",
+        "expiry_unix_seconds": "1800630900",
+        "optimization_commitment": "acaf8ebc97a55e2630fa82b447f946ed5ffc578446d39578d031f4e31c0c0010",
+        "assets": [
+          {
+            "mint": "3131313131313131313131313131313131313131313131313131313131313131",
+            "token_program": "06ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a9",
+            "decimals": "6",
+            "recipient_ata": "6060606060606060606060606060606060606060606060606060606060606060",
+            "funding": "1000000000",
+            "min_output": "3000000000",
+            "max_output": "2000000000",
+            "funding_reference_price": "1000000"
+          },
+          {
+            "mint": "3232323232323232323232323232323232323232323232323232323232323232",
+            "token_program": "06ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a9",
+            "decimals": "6",
+            "recipient_ata": "6161616161616161616161616161616161616161616161616161616161616161",
+            "funding": "5000000",
+            "min_output": "0",
+            "max_output": "15000000",
+            "funding_reference_price": "100000000"
+          },
+          {
+            "mint": "3333333333333333333333333333333333333333333333333333333333333333",
+            "token_program": "06ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a9",
+            "decimals": "6",
+            "recipient_ata": "6262626262626262626262626262626262626262626262626262626262626262",
+            "funding": "2000000",
+            "min_output": "0",
+            "max_output": "10000000",
+            "funding_reference_price": "150000000"
+          }
+        ]
+      },
+      "expected_error": "inverted bounds"
+    },
+    {
+      "id": "amount-cap",
+      "mandate": {
+        "genesis": "ce59db5080fc2c6d3bcf7ca90712d3c2e5e6c28f27f0dfbb9953bdb0894c03ab",
+        "program_id": "1111111111111111111111111111111111111111111111111111111111111111",
+        "config_address": "2222222222222222222222222222222222222222222222222222222222222222",
+        "schema_version": "1",
+        "policy_hash": "7fee3a206ed4faf3cf97c0dd84422285b17ab3c913841319e55e2f3f8cc558a0",
+        "owner": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+        "nonce": "0",
+        "expiry_unix_seconds": "1800630900",
+        "optimization_commitment": "acaf8ebc97a55e2630fa82b447f946ed5ffc578446d39578d031f4e31c0c0010",
+        "assets": [
+          {
+            "mint": "3131313131313131313131313131313131313131313131313131313131313131",
+            "token_program": "06ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a9",
+            "decimals": "6",
+            "recipient_ata": "6060606060606060606060606060606060606060606060606060606060606060",
+            "funding": "1000000000001",
+            "min_output": "200000000",
+            "max_output": "2000000000",
+            "funding_reference_price": "1000000"
+          },
+          {
+            "mint": "3232323232323232323232323232323232323232323232323232323232323232",
+            "token_program": "06ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a9",
+            "decimals": "6",
+            "recipient_ata": "6161616161616161616161616161616161616161616161616161616161616161",
+            "funding": "5000000",
+            "min_output": "0",
+            "max_output": "15000000",
+            "funding_reference_price": "100000000"
+          },
+          {
+            "mint": "3333333333333333333333333333333333333333333333333333333333333333",
+            "token_program": "06ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a9",
+            "decimals": "6",
+            "recipient_ata": "6262626262626262626262626262626262626262626262626262626262626262",
+            "funding": "2000000",
+            "min_output": "0",
+            "max_output": "10000000",
+            "funding_reference_price": "150000000"
+          }
+        ]
+      },
+      "expected_error": "out of admitted range"
+    },
+    {
+      "id": "zero-price",
+      "mandate": {
+        "genesis": "ce59db5080fc2c6d3bcf7ca90712d3c2e5e6c28f27f0dfbb9953bdb0894c03ab",
+        "program_id": "1111111111111111111111111111111111111111111111111111111111111111",
+        "config_address": "2222222222222222222222222222222222222222222222222222222222222222",
+        "schema_version": "1",
+        "policy_hash": "7fee3a206ed4faf3cf97c0dd84422285b17ab3c913841319e55e2f3f8cc558a0",
+        "owner": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+        "nonce": "0",
+        "expiry_unix_seconds": "1800630900",
+        "optimization_commitment": "acaf8ebc97a55e2630fa82b447f946ed5ffc578446d39578d031f4e31c0c0010",
+        "assets": [
+          {
+            "mint": "3131313131313131313131313131313131313131313131313131313131313131",
+            "token_program": "06ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a9",
+            "decimals": "6",
+            "recipient_ata": "6060606060606060606060606060606060606060606060606060606060606060",
+            "funding": "1000000000",
+            "min_output": "200000000",
+            "max_output": "2000000000",
+            "funding_reference_price": "0"
+          },
+          {
+            "mint": "3232323232323232323232323232323232323232323232323232323232323232",
+            "token_program": "06ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a9",
+            "decimals": "6",
+            "recipient_ata": "6161616161616161616161616161616161616161616161616161616161616161",
+            "funding": "5000000",
+            "min_output": "0",
+            "max_output": "15000000",
+            "funding_reference_price": "100000000"
+          },
+          {
+            "mint": "3333333333333333333333333333333333333333333333333333333333333333",
+            "token_program": "06ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a9",
+            "decimals": "6",
+            "recipient_ata": "6262626262626262626262626262626262626262626262626262626262626262",
+            "funding": "2000000",
+            "min_output": "0",
+            "max_output": "10000000",
+            "funding_reference_price": "150000000"
+          }
+        ]
+      },
+      "expected_error": "out of admitted range"
+    },
+    {
+      "id": "reordered-assets",
+      "mandate": {
+        "genesis": "ce59db5080fc2c6d3bcf7ca90712d3c2e5e6c28f27f0dfbb9953bdb0894c03ab",
+        "program_id": "1111111111111111111111111111111111111111111111111111111111111111",
+        "config_address": "2222222222222222222222222222222222222222222222222222222222222222",
+        "schema_version": "1",
+        "policy_hash": "7fee3a206ed4faf3cf97c0dd84422285b17ab3c913841319e55e2f3f8cc558a0",
+        "owner": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+        "nonce": "0",
+        "expiry_unix_seconds": "1800630900",
+        "optimization_commitment": "acaf8ebc97a55e2630fa82b447f946ed5ffc578446d39578d031f4e31c0c0010",
+        "assets": [
+          {
+            "mint": "3333333333333333333333333333333333333333333333333333333333333333",
+            "token_program": "06ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a9",
+            "decimals": "6",
+            "recipient_ata": "6262626262626262626262626262626262626262626262626262626262626262",
+            "funding": "2000000",
+            "min_output": "0",
+            "max_output": "10000000",
+            "funding_reference_price": "150000000"
+          },
+          {
+            "mint": "3232323232323232323232323232323232323232323232323232323232323232",
+            "token_program": "06ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a9",
+            "decimals": "6",
+            "recipient_ata": "6161616161616161616161616161616161616161616161616161616161616161",
+            "funding": "5000000",
+            "min_output": "0",
+            "max_output": "15000000",
+            "funding_reference_price": "100000000"
+          },
+          {
+            "mint": "3131313131313131313131313131313131313131313131313131313131313131",
+            "token_program": "06ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a9",
+            "decimals": "6",
+            "recipient_ata": "6060606060606060606060606060606060606060606060606060606060606060",
+            "funding": "1000000000",
+            "min_output": "200000000",
+            "max_output": "2000000000",
+            "funding_reference_price": "1000000"
+          }
+        ]
+      },
+      "expected_error": "asset identity mismatch"
+    },
+    {
+      "id": "truncated-asset-array",
+      "mandate": {
+        "genesis": "ce59db5080fc2c6d3bcf7ca90712d3c2e5e6c28f27f0dfbb9953bdb0894c03ab",
+        "program_id": "1111111111111111111111111111111111111111111111111111111111111111",
+        "config_address": "2222222222222222222222222222222222222222222222222222222222222222",
+        "schema_version": "1",
+        "policy_hash": "7fee3a206ed4faf3cf97c0dd84422285b17ab3c913841319e55e2f3f8cc558a0",
+        "owner": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+        "nonce": "0",
+        "expiry_unix_seconds": "1800630900",
+        "optimization_commitment": "acaf8ebc97a55e2630fa82b447f946ed5ffc578446d39578d031f4e31c0c0010",
+        "assets": [
+          {
+            "mint": "3131313131313131313131313131313131313131313131313131313131313131",
+            "token_program": "06ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a9",
+            "decimals": "6",
+            "recipient_ata": "6060606060606060606060606060606060606060606060606060606060606060",
+            "funding": "1000000000",
+            "min_output": "200000000",
+            "max_output": "2000000000",
+            "funding_reference_price": "1000000"
+          },
+          {
+            "mint": "3232323232323232323232323232323232323232323232323232323232323232",
+            "token_program": "06ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a9",
+            "decimals": "6",
+            "recipient_ata": "6161616161616161616161616161616161616161616161616161616161616161",
+            "funding": "5000000",
+            "min_output": "0",
+            "max_output": "15000000",
+            "funding_reference_price": "100000000"
+          }
+        ]
+      },
+      "expected_error": "invalid commitment or asset count"
+    }
+  ],
+  "allocation_vectors": [
+    {
+      "q": "10",
+      "weights": [
+        "1",
+        "1",
+        "1"
+      ],
+      "owner_sort_keys": [
+        "a",
+        "b",
+        "c"
+      ],
+      "expected": [
+        "4",
+        "3",
+        "3"
+      ]
+    },
+    {
+      "q": "5",
+      "weights": [
+        "1",
+        "2",
+        "0"
+      ],
+      "owner_sort_keys": [
+        "a",
+        "b",
+        "c"
+      ],
+      "expected": [
+        "2",
+        "3",
+        "0"
+      ]
+    }
+  ]
+}
