@@ -1,0 +1,28 @@
+name: checks
+on:
+  push:
+  pull_request:
+jobs:
+  source-checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Install pinned JavaScript dependencies without lifecycle scripts
+        run: corepack pnpm@10.17.1 install --ignore-scripts --frozen-lockfile
+      - name: Type, policy, and cross-language vector checks
+        run: corepack pnpm@10.17.1 run check:workspace
+      - name: Python scenario, specification, and economics checks
+        run: |
+          python3 scripts/check-scenarios.py
+          python3 docs/spec/check-wire-vectors.py
+          python3 -m unittest discover -s tests/economics -v
+          python3 -m unittest research/economics/test_reference.py
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: '1.89.0'
+      - name: Host Rust tests (SBF build is a separate local gate)
+        run: cargo test --locked

@@ -1,0 +1,61 @@
+{
+  "task": "T04",
+  "sourceFiles": [
+    ".env.example",
+    "package.json",
+    "pnpm-lock.yaml",
+    "pnpm-workspace.yaml",
+    "tsconfig.json",
+    "Cargo.toml",
+    "Cargo.lock",
+    "rust-toolchain.toml",
+    "Anchor.toml",
+    "docs/decisions/workspace.md",
+    ".github/workflows/check.yml",
+    "programs/crossflow/Cargo.toml",
+    "programs/crossflow/src/lib.rs",
+    "packages/contracts/package.json",
+    "packages/contracts/src/index.ts",
+    "scripts/check-workspace.mjs",
+    "scripts/network-guard.mjs",
+    "scripts/probe-capacity.ts",
+    "scripts/verify-task.mjs",
+    "tests/workspace/policy.test.mjs",
+    "tests/workspace/network-guard.test.mjs",
+    "tests/workspace/verify-task.test.mjs",
+    "tests/spec/wire-vectors.test.ts",
+    "verification/tasks/T04.json"
+  ],
+  "checks": [
+    {
+      "name": "workspace",
+      "kind": "workspace",
+      "command": "corepack",
+      "args": ["pnpm@10.17.1", "run", "check:workspace"]
+    },
+    {
+      "name": "wire-spec",
+      "kind": "json-pass",
+      "command": "python3",
+      "args": ["docs/spec/check-wire-vectors.py"]
+    },
+    {
+      "name": "rust-tests",
+      "kind": "cargo-test",
+      "command": "cargo",
+      "args": ["test", "--locked", "--offline"]
+    },
+    {
+      "name": "sbf-build",
+      "kind": "anchor-build",
+      "command": "anchor",
+      "args": ["build"]
+    },
+    {
+      "name": "capacity-estimate",
+      "kind": "capacity",
+      "command": "corepack",
+      "args": ["pnpm@10.17.1", "run", "probe:capacity"]
+    }
+  ]
+}
