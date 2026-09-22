@@ -2,7 +2,7 @@
 
 Date: 22 September 2026. Repository: `/Users/mansitibrewal/chronicles/crossflow`.
 
-**Status: local technical checks passed; devnet funding remains unresolved; awaiting user review. T01 has not started.** This is a preflight, not a completed CrossFlow application or security audit.
+**Update after user review: T00 accepted for continued execution; devnet funding prerequisite resolved using the authorized CLI wallet (20.95376933 devnet SOL observed). Dependency-safe concurrent work is now authorized. Historical findings below describe the original checkpoint.** This is a preflight, not a completed CrossFlow application or security audit.
 
 ## What changed
 
@@ -64,3 +64,7 @@ The [official Stocklana page](https://hackathons.solana.com/hackathons/stocklana
 ## Your review checkpoint
 
 Review this file, the independent review report and the evidence manifest. T00 is presented with the explicit open faucet prerequisite and dependency warnings; it is not an all-green public-deployment gate. No next task starts until you respond. The next proposed task is T01, the economic scenario specification, which can run locally after your review; that would not authorize a devnet deployment or waive F-01.
+
+## Funding and execution-policy resolution
+
+The user authorized the existing CLI wallet and removed routine per-task approval pauses. The verified wallet balance and current rent samples are in `../operations/devnet-wallet.json`. The failed disposable-wallet faucet attempts remain historical evidence; they no longer block funded devnet readiness. Later deployment/security checks are still mandatory. Pyth is deferred until core setup is ready. T01/T02 may proceed concurrently with their normal review gates.

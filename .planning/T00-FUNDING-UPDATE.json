@@ -1,0 +1,17 @@
+{
+  "task": "T00",
+  "status": "DONE_FOR_PREFLIGHT_SCOPE",
+  "updatedAt": "2026-09-22T15:22:05.202291+00:00",
+  "priorEvidence": "artifacts/tasks/T00/52ff2d9809a1997586524456f75c59293fb3dd31f72ea5e7d780b45a2005ef43/manifest.json",
+  "priorReview": ".planning/T00-REVIEW.md",
+  "resolved": "Devnet funding prerequisite; user authorizes existing CLI wallet and removes routine per-task approval pauses. Historical failed faucet evidence preserved.",
+  "walletEvidence": "docs/operations/devnet-wallet.json",
+  "walletEvidenceSha256": "284591090530683ff0e64418db51c4419332d2fefa7512bef87410ef88c6cc62",
+  "notClaimed": [
+    "Phantom browser verification",
+    "CrossFlow product implementation",
+    "deployment/security gates",
+    "Pyth integration"
+  ],
+  "newSigningOrTransactions": false
+}

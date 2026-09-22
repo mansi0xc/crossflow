@@ -1,0 +1,29 @@
+{
+  "observedAt": "2026-09-22T15:16:47.276Z",
+  "source": "solana address plus verified devnet JSON-RPC",
+  "address": "FSyL13FTp3Yrgdo8VWpoNtpL8FS5FcSGL3tdNp1sjw2t",
+  "genesis": "EtWTRABZaYq6iMfeYKouRu166VU2xqa1wcaWoxPkrZBG",
+  "balanceLamports": 20953769330,
+  "userAuthorized": "CrossFlow devnet operations only",
+  "privateKeyAccessedOrCopied": false,
+  "transactionsSubmitted": 0,
+  "rentExamples": [
+    {
+      "bytes": 146821,
+      "lamports": 746500920
+    },
+    {
+      "bytes": 262189,
+      "lamports": 1332570360
+    },
+    {
+      "bytes": 524333,
+      "lamports": 2664261880
+    },
+    {
+      "bytes": 1048621,
+      "lamports": 5327644920
+    }
+  ],
+  "costCaveat": "Rent samples are not a full deployment quote; include actual program data, upload buffers, other accounts and fees before deployment."
+}

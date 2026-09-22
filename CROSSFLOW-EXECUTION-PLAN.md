@@ -6,11 +6,13 @@ Build a credible stock-portfolio execution product: demonstrate a measurable adv
 
 The ambition is to compete seriously. A plan cannot guarantee a prize, commercial demand or security. It can prevent avoidable mistakes, expose a weak idea early and concentrate effort on a convincing result. Because money is tight, **the approved spending budget is zero**. There is no hidden assumption that we will purchase data, hosting, RPC access or mainnet SOL.
 
-## User execution override — 22 September 2026
+## Current user execution policy — updated 22 September 2026
 
-The user authorized execution in `/Users/mansitibrewal/chronicles/crossflow` and requires a pause after **every task** for checks and user review. Execute only the current task; show evidence and unresolved issues, then wait for an explicit continue instruction before starting another. A continue message received during the current task does not pre-approve later unseen results. This supersedes earlier suggestions to run multiple task cards concurrently. Independent checks within the current task remain useful, but they do not authorize starting another task. The original parallel-task calendar is now a baseline to reforecast, not a current delivery promise.
+Execute in `/Users/mansitibrewal/chronicles/crossflow`. The latest user instruction revokes per-task approval pauses: continue dependency-safe concurrent tasks with occasional status reports, while preserving task checks and independent review. Earlier one-task-at-a-time/user-review requirements are historical and superseded.
 
-The user selected Phantom and explicitly chose clearly labelled test prices for now. Pyth is excluded until access/integration are separately verified and the choice is updated. No money or mainnet use is authorized.
+The existing local Solana CLI wallet is authorized for CrossFlow devnet work only. Its verified public address is `FSyL13FTp3Yrgdo8VWpoNtpL8FS5FcSGL3tdNp1sjw2t`; the balance was 20.95376933 devnet SOL at 15:16 UTC on 22 September. Verify identity, cluster and actual rent/fees before any future deployment. No signing material belongs in source or evidence. No mainnet work or new real-money spending is authorized.
+
+Use labelled fixture prices for the core setup and revisit Pyth afterward, before final demo freeze if claiming its integration. Preserve the adapter boundary and full-transaction capacity check now. Funded devnet access resolves the T00 faucet prerequisite; it does not waive later program/security gates.
 
 ## Reading and execution order
 
