@@ -104,5 +104,8 @@ export function runTask(task, root = process.cwd()) {
 }
 
 if (process.argv[1] && resolve(process.argv[1]) === resolve(new URL(import.meta.url).pathname)) {
-  runTask(process.argv[2]);
+  const args = process.argv.slice(2);
+  if (args[0] === '--') args.shift();
+  if (args.length !== 1) throw new Error('exactly one explicit Txx selector required');
+  runTask(args[0]);
 }
