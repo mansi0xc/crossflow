@@ -1,6 +1,6 @@
 # CrossFlow roadmap
 
-Execution started: T00 preflight, T01 scenario freeze and T02 mandate specification are complete; T03 narrow economic gate passed independent review; T04 workspace/build harness passed independent review; T14 fixture interface and T11 pure validator component passed their scoped reviews; T05 local initialize/publish/fund/reject runtime proof is READY_FOR_REVIEW. All phase gates remain unpassed until their full acceptance evidence exists.
+Execution started: T00 preflight, T01 scenario freeze and T02 mandate specification are complete; T03 narrow economic gate passed independent review; T04 workspace/build harness passed independent review; T14 fixture interface and T11 pure validator component passed their scoped reviews; T05 local initialize/publish/fund/reject runtime proof passed independent review. T06 is active to add settlement and owner recovery. All phase gates remain unpassed until their full acceptance evidence exists.
 
 | Phase | Outcome | Gate |
 |---|---|---|
