@@ -31,3 +31,24 @@ test('mainnet and parent path in manifest are rejected', () => {
   assert.throws(() => assertManifest({ ...base, checks: [{ name: 'a', kind: 'workspace', command: 'node', args: ['--url', 'https://api.mainnet-beta.solana.com'] }] }, 'T04'), /mainnet/);
   assert.throws(() => assertManifest({ ...base, sourceFiles: ['../outside'] }, 'T04'), /unsafe/);
 });
+
+test('local runtime evidence requires real local identities, guarded rollback and conserved asset deltas', () => {
+  const report = { task: 'T05', status: 'LOCAL_FUNDING_PASS', cluster: 'localnet', genesis: '87iXpApKAgTJWXhqcRMGHky12KK84bKrX5x1XRVtKWqg',
+    attacker_first_initializer_rejected: true, duplicate_initialization_rejected: true, prefunded_system_pda_adopted_safely: true,
+    actual_compute_units: 188730, requested_compute_units: 600000,
+    rollback_cases: ['one-raw-unit-reference-mismatch', 'insufficient-source-balance', 'substituted-source-ata', 'substituted-configured-mint', 'wrong-funder-signer', 'duplicate-active-intent-new-nonce', 'duplicate-intent-replay'],
+    negative_results: [
+      ['attacker-first-initializer', 'Error Code: Initializer'], ['duplicate-initialization', 'account already in use'],
+      ['one-raw-unit-reference-mismatch', 'Error Code: ReferenceMove'], ['insufficient-source-balance', 'Error Code: InsufficientFunds'],
+      ['substituted-source-ata', 'Error Code: AccountOwnedByWrongProgram'], ['substituted-configured-mint', 'Error Code: ConstraintAssociated'],
+      ['wrong-funder-signer', 'Error Code: ConstraintSeeds'], ['duplicate-active-intent-new-nonce', 'Error Code: Nonce'],
+      ['duplicate-intent-replay', 'account already in use'],
+    ].map(([label, reason]) => ({ label, log: `Program CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: ${reason}\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error` })),
+    stored_intent_verified: true, stored_mandate_hash: 'a'.repeat(64),
+    transaction_signatures: { deploy: 'a'.repeat(64), prefund: 'e'.repeat(64), initialize: 'b'.repeat(64), publish: 'c'.repeat(64), fund: 'd'.repeat(64) },
+    before_raw_balances: { source: ['100', '20', '30'], vault: ['0', '0', '0'] },
+    after_raw_balances: { source: ['90', '18', '27'], vault: ['10', '2', '3'] }, price_label: 'TEST PRICES' };
+  assert.doesNotThrow(() => assertFreshOutput('local-runtime', JSON.stringify(report), '', process.cwd()));
+  assert.throws(() => assertFreshOutput('local-runtime', JSON.stringify({ ...report, cluster: 'devnet' }), '', process.cwd()), /local runtime/);
+  assert.throws(() => assertFreshOutput('local-runtime', JSON.stringify({ ...report, after_raw_balances: { source: ['89', '18', '27'], vault: ['10', '2', '3'] } }), '', process.cwd()), /conservation/);
+});

@@ -14,7 +14,7 @@ export function assertManifest(manifest, task) {
   for (const check of manifest.checks) {
     if (!check || typeof check.name !== 'string' || !/^[a-z0-9-]+$/.test(check.name) || names.has(check.name)) throw new Error('invalid/duplicate check name');
     names.add(check.name);
-    if (!['locked-install', 'workspace', 'vitest', 'typecheck', 'json-pass', 'cargo-test', 'anchor-build', 'capacity'].includes(check.kind)) throw new Error(`unknown evidence kind ${check.kind}`);
+    if (!['locked-install', 'workspace', 'vitest', 'typecheck', 'json-pass', 'cargo-test', 'anchor-build', 'capacity', 'local-runtime'].includes(check.kind)) throw new Error(`unknown evidence kind ${check.kind}`);
     if (typeof check.command !== 'string' || !/^[a-zA-Z0-9_-]+$/.test(check.command)) throw new Error('invalid command');
     if (!Array.isArray(check.args) || check.args.some((arg) => typeof arg !== 'string' || arg.includes('\0'))) throw new Error('invalid command args');
     if (check.args.join(' ').includes('mainnet')) throw new Error('mainnet command rejected');
@@ -46,6 +46,35 @@ export function assertFreshOutput(kind, stdout, stderr, root) {
   } else if (kind === 'anchor-build') {
     if (!/Finished `release` profile/.test(combined) || !existsSync(resolve(root, 'target/deploy/crossflow.so')) || !existsSync(resolve(root, 'target/idl/crossflow.json'))) {
       throw new Error('SBF/IDL build evidence missing');
+    }
+  } else if (kind === 'local-runtime') {
+    const report = JSON.parse(stdout.trim());
+    const required = ['one-raw-unit-reference-mismatch', 'insufficient-source-balance', 'substituted-source-ata', 'substituted-configured-mint', 'wrong-funder-signer', 'duplicate-active-intent-new-nonce', 'duplicate-intent-replay'];
+    const expectedLogs = {
+      'attacker-first-initializer': /Error Code: Initializer/,
+      'duplicate-initialization': /already in use/,
+      'one-raw-unit-reference-mismatch': /Error Code: ReferenceMove/,
+      'insufficient-source-balance': /Error Code: InsufficientFunds/,
+      'substituted-source-ata': /Error Code: (AccountOwnedByWrongProgram|ConstraintAssociated)/,
+      'substituted-configured-mint': /Error Code: (ConstraintAssociated|Mint)/,
+      'wrong-funder-signer': /Error Code: (ConstraintSeeds|Nonce)/,
+      'duplicate-active-intent-new-nonce': /Error Code: Nonce/,
+      'duplicate-intent-replay': /already in use/,
+    };
+    if (report.status !== 'LOCAL_FUNDING_PASS' || report.cluster !== 'localnet' || !/^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(report.genesis) ||
+        report.attacker_first_initializer_rejected !== true || report.duplicate_initialization_rejected !== true || report.prefunded_system_pda_adopted_safely !== true ||
+        report.actual_compute_units <= 0 || report.actual_compute_units > report.requested_compute_units ||
+        required.some((name) => !report.rollback_cases?.includes(name)) || Object.keys(report.transaction_signatures ?? {}).length !== 5 ||
+        new Set(Object.values(report.transaction_signatures)).size !== 5 || !report.price_label?.startsWith('TEST PRICES')) throw new Error('local runtime evidence incomplete or mislabeled');
+    for (const [label, expected] of Object.entries(expectedLogs)) {
+      const item = report.negative_results?.find((row) => row.label === label);
+      if (!item || !item.log?.includes('Program CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed:') || !expected.test(item.log)) throw new Error(`local runtime expected program rejection log missing for ${label}`);
+    }
+    if (report.stored_intent_verified !== true || !/^[0-9a-f]{64}$/.test(report.stored_mandate_hash ?? '')) throw new Error('stored mandate evidence missing');
+    for (let i = 0; i < 3; i++) {
+      const sourceDelta = BigInt(report.before_raw_balances.source[i]) - BigInt(report.after_raw_balances.source[i]);
+      const vaultDelta = BigInt(report.after_raw_balances.vault[i]) - BigInt(report.before_raw_balances.vault[i]);
+      if (sourceDelta !== vaultDelta) throw new Error(`local token conservation failed for asset ${i}`);
     }
   } else if (kind === 'capacity') {
     const start = stdout.indexOf('{');
@@ -79,6 +108,7 @@ export function runTask(task, root = process.cwd()) {
   const outDir = resolve(root, 'artifacts/tasks', task, source.sha256);
   mkdirSync(outDir, { recursive: true });
   const checks = [];
+  let runtimeEvidence = null;
   for (const check of manifest.checks) {
     const result = spawnSync(check.command, check.args, { cwd: root, encoding: 'utf8', timeout: 180000, maxBuffer: 20 * 1024 * 1024, shell: false });
     const stdout = result.stdout ?? '';
@@ -90,7 +120,7 @@ export function runTask(task, root = process.cwd()) {
       output: logName, outputSha256: hash(log), passed: false };
     checks.push(record);
     if (result.error || result.status !== 0) break;
-    try { assertFreshOutput(check.kind, stdout, stderr, root); record.passed = true; }
+    try { assertFreshOutput(check.kind, stdout, stderr, root); record.passed = true; if (check.kind === 'local-runtime') runtimeEvidence = JSON.parse(stdout.trim()); }
     catch (error) { record.validationError = String(error); break; }
   }
   const passed = checks.length === manifest.checks.length && checks.every((item) => item.passed);
@@ -98,11 +128,12 @@ export function runTask(task, root = process.cwd()) {
     task, status: passed ? 'CHECKS_PASS_REVIEW_PENDING' : 'CHECKS_FAILED', recordedAt: new Date().toISOString(),
     sourceCommit: version('git', ['rev-parse', 'HEAD'], root), sourceTreeSha256: source.sha256, sourceFiles: source.files,
     policyFixtureSha256: hash(readFileSync(resolve(root, 'docs/spec/wire-vectors.json'))),
-    environment: 'LOCAL_NO_TRANSACTION', clusterGenesis: null, transactionCount: 0,
+    environment: runtimeEvidence ? 'LOCAL_VALIDATOR' : 'LOCAL_NO_TRANSACTION', clusterGenesis: runtimeEvidence?.genesis ?? null,
+    transactionCount: runtimeEvidence ? Object.keys(runtimeEvidence.transaction_signatures).length : 0,
     versions: { node: process.version, pnpm: version('corepack', ['pnpm@10.17.1', '--version'], root),
       anchor: version('anchor', ['--version'], root), cargo: version('cargo', ['--version'], root) },
     checks, mandatoryCheckCount: manifest.checks.length, executedCheckCount: checks.length,
-    reviewer: null, limits: ['Checks only; independent reviewer and actual runtime/compute capacity remain open'],
+    reviewer: null, limits: runtimeEvidence?.limitations ?? ['Checks only; independent reviewer and actual runtime/compute capacity remain open'],
   };
   writeFileSync(resolve(outDir, 'manifest.json'), JSON.stringify(evidence, null, 2) + '\n');
   writeFileSync(resolve(outDir, 'result.md'), `# ${task} verification\n\nStatus: ${evidence.status}. Executed ${checks.length}/${manifest.checks.length} mandatory checks. Source snapshot: ${source.sha256}.\n`);

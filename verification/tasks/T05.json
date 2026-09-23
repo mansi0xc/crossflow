@@ -1,0 +1,103 @@
+{
+  "task": "T05",
+  "sourceFiles": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "Anchor.toml",
+    "programs/crossflow/Cargo.toml",
+    "programs/crossflow/build.rs",
+    "programs/crossflow/src/lib.rs",
+    "programs/crossflow/src/config.rs",
+    "programs/crossflow/src/funding.rs",
+    "programs/crossflow/src/intent.rs",
+    "programs/crossflow/src/oracle.rs",
+    "packages/contracts/src/index.ts",
+    "packages/client/src/fund.ts",
+    "packages/oracle/src/policy.ts",
+    "scripts/deployment-manifest.ts",
+    "scripts/prepare-local-manifest.ts",
+    "scripts/demo-local.ts",
+    "scripts/check-local-runtime-evidence.mjs",
+    "scripts/verify-task.mjs",
+    "tests/deployment/manifest.test.ts",
+    "tests/program/funding.test.ts",
+    "tests/oracle/policy.test.ts",
+    "tests/workspace/verify-task.test.mjs",
+    "docs/spec/deployment-manifest.md",
+    "docs/spec/funding-runtime.md",
+    "docs/spec/intent-contract.md",
+    "docs/spec/oracle-policy.md",
+    "docs/spec/settlement-accounting.md",
+    "docs/spec/wire-vectors.json",
+    "docs/spec/check-wire-vectors.py",
+    "verification/evidence/T05-local-manifest.json",
+    "verification/evidence/T05-local-runtime.json",
+    "verification/tasks/T05.json"
+  ],
+  "checks": [
+    {
+      "name": "fund-client",
+      "kind": "vitest",
+      "command": "corepack",
+      "args": [
+        "pnpm@10.17.1",
+        "exec",
+        "vitest",
+        "run",
+        "tests/program/funding.test.ts"
+      ]
+    },
+    {
+      "name": "typescript",
+      "kind": "typecheck",
+      "command": "corepack",
+      "args": [
+        "pnpm@10.17.1",
+        "exec",
+        "tsc",
+        "--noEmit"
+      ]
+    },
+    {
+      "name": "rust-host",
+      "kind": "cargo-test",
+      "command": "env",
+      "args": [
+        "CROSSFLOW_DEPLOYMENT_MANIFEST=verification/evidence/T05-local-manifest.json",
+        "cargo",
+        "test",
+        "-p",
+        "crossflow",
+        "--lib",
+        "--locked",
+        "--offline"
+      ]
+    },
+    {
+      "name": "sbf-idl",
+      "kind": "anchor-build",
+      "command": "env",
+      "args": [
+        "CROSSFLOW_DEPLOYMENT_MANIFEST=verification/evidence/T05-local-manifest.json",
+        "anchor",
+        "build"
+      ]
+    },
+    {
+      "name": "wire-vectors",
+      "kind": "json-pass",
+      "command": "python3",
+      "args": [
+        "docs/spec/check-wire-vectors.py"
+      ]
+    },
+    {
+      "name": "local-runtime",
+      "kind": "local-runtime",
+      "command": "node",
+      "args": [
+        "scripts/check-local-runtime-evidence.mjs"
+      ]
+    }
+  ]
+}

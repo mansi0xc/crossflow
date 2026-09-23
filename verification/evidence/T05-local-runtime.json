@@ -1,0 +1,62 @@
+{
+  "task": "T05",
+  "status": "LOCAL_FUNDING_PASS",
+  "cluster": "localnet",
+  "rpc": "http://127.0.0.1:8899",
+  "genesis": "87iXpApKAgTJWXhqcRMGHky12KK84bKrX5x1XRVtKWqg",
+  "program_id": "CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh",
+  "program_binary_sha256": "5036a52d1ea9a89725c44cf511ff81fad5662f7b50ddd6a5bf7d5cd9f5d4d425",
+  "deployment_manifest_sha256": "1ba94232ac0b3f3c5c58ef1ec069aee96fd12af7a6834421d785363aa010c414",
+  "deployment_id": "8ce5383fa2d59c7260cfee6902f45d62b4ee05398b1f07d048d2bbc7e0762920",
+  "policy_hash": "8a0f75ded50af5b7922eb620633867844f5f7ed77c8b1262ae63c2f53b0d63bf",
+  "initializer": "HbXuq8b2P4324QUkpdZDznJz7ZGn6rFvPiCb8n6LxwbD",
+  "config": "EH7SNZKNHFsLMV3T1N5u92gAwJT1Rp5y879mSM6Yjkvs",
+  "prices": "9RV1A3geMXugZp3TrawbdZnYWjCqzpYWu1hatJHBtZ5u",
+  "intent": "97jMrFa9GRNxAJkEKZsCkbVgdr6zRhH4UHhcTbk6LWi",
+  "transaction_signatures": {
+    "program_deploy": "2K5nobKYKJQXUQ48gfxVU2oe16C3JMRhUBJhZq2mmojae8QTtWuba3v9WVx6jzzrypU1MBCK3nUbxMbwpskygkix",
+    "prefund_config_pda": "3GWkM9vZ9cjKCHk3qYAzbgT32DNWiC7Vmzd3PjkWC3MqsLKL283YGPvgcprATiZCES7CuKJcX4E5yirGEVttQo75",
+    "config_initialize": "38Q9seDaKA3xFSSwk6ZkJVoVxrHWq7DuGXSEbJCE68VRgn7c9LyLyqSQsLH5PRmV7U6uZeHmf7f36YPxxSLq2B9E",
+    "fixture_publish": "4B1BESMFfjvyrax7L2ygCNZR98DBUrTDFTBGMvSEYstfgy9rA7beVCHKa2pkSG4Yv5pb28ojEJdbQwMFxoypnqBE",
+    "funding": "5QRmnp8JV3Ri6mpvvVH1zBVKLDpP7FUezi9r74t3gC2KVNuPQwCCpxqjyp2D41ivKTLrSG7zEPbciNBeckh9giwi"
+  },
+  "attacker_first_initializer_rejected": true,
+  "duplicate_initialization_rejected": true,
+  "prefunded_system_pda_adopted_safely": true,
+  "prefund_rent_lamports": 6674640,
+  "rollback_cases": [
+    "one-raw-unit-reference-mismatch",
+    "insufficient-source-balance",
+    "substituted-source-ata",
+    "substituted-configured-mint",
+    "wrong-funder-signer",
+    "duplicate-active-intent-new-nonce",
+    "duplicate-intent-replay"
+  ],
+  "negative_results": [
+    { "label": "attacker-first-initializer", "log": "Program log: Error Code: Initializer. Expected deployment initializer signature required.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x17d6" },
+    { "label": "duplicate-initialization", "log": "Allocate: account EH7SNZKNHFsLMV3T1N5u92gAwJT1Rp5y879mSM6Yjkvs already in use\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x0" },
+    { "label": "one-raw-unit-reference-mismatch", "log": "Program log: Error Code: ReferenceMove. Price moved beyond the funded reference bound.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x177a" },
+    { "label": "insufficient-source-balance", "log": "Program log: Error Code: InsufficientFunds. Insufficient selected slice funding.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x18a2" },
+    { "label": "substituted-source-ata", "log": "Program log: Error Code: AccountOwnedByWrongProgram. The given account is owned by a different program than expected.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0xbbf" },
+    { "label": "substituted-configured-mint", "log": "Program log: Error Code: ConstraintAssociated. An associated constraint was violated.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x7d9" },
+    { "label": "wrong-funder-signer", "log": "Program log: Error Code: ConstraintSeeds. A seeds constraint was violated.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x7d6" },
+    { "label": "duplicate-active-intent-new-nonce", "log": "Program log: Error Code: Nonce. Owner nonce or active intent is invalid.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x183b" },
+    { "label": "duplicate-intent-replay", "log": "Allocate: account 97jMrFa9GRNxAJkEKZsCkbVgdr6zRhH4UHhcTbk6LWi already in use\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x0" }
+  ],
+  "before_raw_balances": { "source": ["900000000", "9000000", "9000000"], "vault": ["0", "0", "0"] },
+  "after_raw_balances": { "source": ["800000000", "8000000", "8000000"], "vault": ["100000000", "1000000", "1000000"] },
+  "intent_data_length": 522,
+  "stored_mandate_hash": "7cd6325476fef7ed783c7bdc34a4fd7a04d13d8319e1613bfb5959e49c7b44a6",
+  "stored_intent_verified": true,
+  "requested_compute_units": 600000,
+  "actual_compute_units": 179581,
+  "price_label": "TEST PRICES; synthetic fixture oracle; no equity price claim",
+  "limitations": [
+    "Isolated local validator only; no devnet transaction in this evidence.",
+    "Synthetic prices use the documented fixture publisher; no Pyth or live equity price is claimed.",
+    "This verifies one-owner funding and rollback, not settlement or withdrawal recovery; those remain T06.",
+    "SBF build post-processing reports unknown syscall names; this successful local runtime proves the syscalls exercised by T05 work in this local validator only.",
+    "Mint decimal mismatch is rejected by the Rust-host validator test; runtime substituting a nonconfigured mint is rejected by Anchor's associated-token constraint."
+  ]
+}

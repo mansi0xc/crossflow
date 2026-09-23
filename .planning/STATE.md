@@ -1,14 +1,14 @@
 # Execution state
 
-Updated: 22 September 2026, after latest user instructions.
+Updated: 23 September 2026, after T05 local funding proof.
 
 - Execution repository: `/Users/mansitibrewal/chronicles/crossflow`.
 - T00: DONE for preflight scope; independent findings resolved and devnet funding prerequisite resolved via user-authorized CLI wallet.
-- Current work: T01 scenario input freeze passed independent review and was committed at 9614341; T02 mandate/security specification passed independent re-review after correcting per-cross pricing and task dependencies. T03 passed independent review for the narrow G0 economic mechanism after fixing no-trade attribution; T04 workspace/build harness passed independent review at ac4916b; T14 fixture guard/interface passed independent review; T11 validator is active and T05 integration follows. No escrow product implementation yet.
+- Current work: T01 scenario input freeze passed independent review and was committed at 9614341; T02 mandate/security specification passed independent re-review after correcting per-cross pricing and task dependencies. T03 passed independent review for the narrow G0 economic mechanism after fixing no-trade attribution; T04 workspace/build harness passed independent review at ac4916b; T14 fixture guard/interface passed independent review; T11 pure proposal validator and T05 on-chain initializer/oracle/funding are implemented. T05 local adversarial runtime proof is READY_FOR_REVIEW. T06 settlement/recovery is not implemented; G1 is still open.
 - User policy: no routine per-task approval pauses; continue dependency-safe work and report occasionally. Preserve checks and independent reviews.
 - Wallet: local CLI wallet FSyL13FTp3Yrgdo8VWpoNtpL8FS5FcSGL3tdNp1sjw2t authorized for CrossFlow devnet; observed balance 20.95376933 devnet SOL at 2026-09-22T15:16:47Z. Phantom browser flow remains to be tested.
 - Oracle: fixture prices now; Pyth deferred until core setup, revisit before final demo freeze if pursuing integration.
 - Spending: no new real-money spend authorized. No mainnet writes. Use explicit devnet RPC/genesis and verify wallet before signing.
 - Known dependency follow-ups: two moderate JS advisories/optional peer warning; revisit in T22. No Rust advisory audit claimed.
-- Deadline: 26 September 2026 01:30 IST; internal readiness 25 September 19:30 IST. The old 22 Sep 23:00 IST G0 target was missed; G0 has now passed late in narrow technical scope. G1 23 Sep 08:00 IST is at risk. Preserve security/economic gates and cut optional scope first.
+- Deadline: 26 September 2026 01:30 IST; internal readiness 25 September 19:30 IST. The old 22 Sep 23:00 IST G0 target was missed; G0 has now passed late in narrow technical scope. G1 remains incomplete until T06 proves settle/reject/recover locally. Preserve security/economic gates and cut optional scope first.
 - Resume: read AGENTS.md and active task evidence; latest concurrency policy supersedes earlier per-task review instructions.

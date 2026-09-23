@@ -76,37 +76,7 @@ pub struct VerifiedPrices {
     pub policy_hash: [u8; 32],
 }
 
-#[error_code]
-pub enum OracleError {
-    #[msg("Only labelled fixture oracle mode is admitted")]
-    UnsupportedMode,
-    #[msg("Invalid oracle policy or identity binding")]
-    Policy,
-    #[msg("Wrong fixture account owner, PDA, config or policy hash")]
-    Identity,
-    #[msg("Configured fixture publisher signature required")]
-    Publisher,
-    #[msg("Wrong feed or asset identity")]
-    Feed,
-    #[msg("Wrong snapshot sequence or regressing update")]
-    Sequence,
-    #[msg("Unsupported price, exponent or confidence interpretation")]
-    Price,
-    #[msg("Observation is stale, in the future, or has invalid timestamp order")]
-    Time,
-    #[msg("Market is closed")]
-    MarketClosed,
-    #[msg("Confidence exceeds the approved bound")]
-    Confidence,
-    #[msg("Price moved beyond the funded reference bound")]
-    ReferenceMove,
-    #[msg("Trade stock/cash price is outside its approved band")]
-    TradePrice,
-    #[msg("Owner portfolio value loss exceeds the approved bound")]
-    ValueLoss,
-    #[msg("Amount or arithmetic bound exceeded")]
-    Arithmetic,
-}
+pub use crate::CrossflowError as OracleError;
 
 fn mul(a: u128, b: u128) -> Result<u128> {
     a.checked_mul(b)
