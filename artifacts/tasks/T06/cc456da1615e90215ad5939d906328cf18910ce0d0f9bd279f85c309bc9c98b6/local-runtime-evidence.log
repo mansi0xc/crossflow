@@ -1,0 +1,11 @@
+{
+  "status": "PASS",
+  "task": "T06",
+  "cluster": "localnet",
+  "mandatory_negative_cases": 15,
+  "transaction_signatures": 13,
+  "settlement_rollback_cpis_per_case": 2,
+  "final_nonce": "2",
+  "outstanding_claim_intents": "0",
+  "demo_transcript_sha256": "f67664a4bdcb2e2428f83785aea86c4d9a7ddf70ac6013f9d7970c6ffd7b1c91"
+}

@@ -1,11 +1,11 @@
 # CrossFlow roadmap
 
-Execution started: T00 preflight, T01 scenario freeze and T02 mandate specification are complete; T03 narrow economic gate passed independent review; T04 workspace/build harness passed independent review; T14 fixture interface and T11 pure validator component passed their scoped reviews; T05 local initialize/publish/fund/reject runtime proof passed independent review. T06 is active to add settlement and owner recovery. All phase gates remain unpassed until their full acceptance evidence exists.
+Execution started: T00 preflight, T01 scenario freeze and T02 mandate specification are complete; T03 narrow economic gate passed independent review; T04 workspace/build harness passed independent review; T14 fixture interface and T11 pure validator component passed their scoped reviews; T05 local initialize/publish/fund/reject runtime proof passed independent review; T06 local thin settlement/reject/recover passed independent review at `b1213bd`. Phase 1 / G1 is complete for this narrow local slice. T07 still must add and test missing owner ATA recreation before broader independent recovery claims; G2 and all later gates remain open.
 
 | Phase | Outcome | Gate |
 |---|---|---|
 | 0 | Confirm cost/access/toolchain and falsifiable economic opportunity | G0: honest feasible path within zero spend |
-| 1 | Freeze mandate/accounting contract and run a thin local end-to-end slice | G1: fund → settle/reject → recover works locally |
+| 1 | Freeze mandate/accounting contract and run a thin local end-to-end slice | **G1 PASS (local thin slice):** fund → settle/reject → recover works locally; see T06 independent review and transcript-bound evidence |
 | 2 | Implement and attack bounded atomic settlement and lifecycle | G2: mandatory security invariants and independent review pass |
 | 3 | Build fair three-way optimizer comparison and authenticated-oracle/adapter paths | G3: economic claims reproducible, inputs and routes authenticated |
 | 4 | Deliver clear full devnet workflow and evidence-backed optional integration | G4: repeated real devnet runs, recovery and UI correctness |
