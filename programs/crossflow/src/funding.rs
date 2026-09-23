@@ -82,7 +82,7 @@ fn ensure_vault<'info>(
     ))
 }
 
-fn read_token(account: &AccountInfo, owner: Pubkey, mint: Pubkey) -> Result<TokenAccount> {
+pub(crate) fn read_token(account: &AccountInfo, owner: Pubkey, mint: Pubkey) -> Result<TokenAccount> {
     require!(
         *account.owner == token::ID && !account.executable,
         FundingError::TokenIdentity
@@ -103,7 +103,7 @@ fn read_token(account: &AccountInfo, owner: Pubkey, mint: Pubkey) -> Result<Toke
     Ok(token)
 }
 
-fn validate_mint_policy(
+pub(crate) fn validate_mint_policy(
     key: Pubkey,
     data_len: usize,
     initialized: bool,

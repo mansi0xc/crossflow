@@ -14,7 +14,7 @@ export function assertManifest(manifest, task) {
   for (const check of manifest.checks) {
     if (!check || typeof check.name !== 'string' || !/^[a-z0-9-]+$/.test(check.name) || names.has(check.name)) throw new Error('invalid/duplicate check name');
     names.add(check.name);
-    if (!['locked-install', 'workspace', 'vitest', 'typecheck', 'json-pass', 'cargo-test', 'anchor-build', 'capacity', 'local-runtime'].includes(check.kind)) throw new Error(`unknown evidence kind ${check.kind}`);
+    if (!['locked-install', 'workspace', 'vitest', 'typecheck', 'json-pass', 'cargo-test', 'anchor-build', 'capacity', 'local-runtime', 't06-runtime'].includes(check.kind)) throw new Error(`unknown evidence kind ${check.kind}`);
     if (typeof check.command !== 'string' || !/^[a-zA-Z0-9_-]+$/.test(check.command)) throw new Error('invalid command');
     if (!Array.isArray(check.args) || check.args.some((arg) => typeof arg !== 'string' || arg.includes('\0'))) throw new Error('invalid command args');
     if (check.args.join(' ').includes('mainnet')) throw new Error('mainnet command rejected');
@@ -76,6 +76,12 @@ export function assertFreshOutput(kind, stdout, stderr, root) {
       const vaultDelta = BigInt(report.after_raw_balances.vault[i]) - BigInt(report.before_raw_balances.vault[i]);
       if (sourceDelta !== vaultDelta) throw new Error(`local token conservation failed for asset ${i}`);
     }
+  } else if (kind === 't06-runtime') {
+    const result = JSON.parse(stdout.trim());
+    if (result.status !== 'PASS' || result.task !== 'T06' || result.cluster !== 'localnet' ||
+        result.mandatory_negative_cases < 15 || result.transaction_signatures !== 13 ||
+        result.settlement_rollback_cpis_per_case !== 2 || result.final_nonce !== '2' ||
+        result.outstanding_claim_intents !== '0') throw new Error('T06 local settlement/recovery evidence is incomplete');
   } else if (kind === 'capacity') {
     const start = stdout.indexOf('{');
     if (start < 0) throw new Error('capacity JSON missing');

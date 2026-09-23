@@ -4,10 +4,16 @@ pub mod config;
 pub mod funding;
 pub mod intent;
 pub mod oracle;
+pub mod recovery;
+pub mod settlement;
 use config::*;
 use funding::*;
-use intent::FundRequest;
+use intent::{FundRequest, ThinSettleRequest};
 use oracle::Observation;
+use recovery::{CancelIntent, CloseIntent, WithdrawAsset};
+pub(crate) use recovery::{__client_accounts_cancel_intent, __client_accounts_close_intent, __client_accounts_withdraw_asset};
+use settlement::SettleThin;
+pub(crate) use settlement::__client_accounts_settle_thin;
 
 declare_id!("CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh");
 
@@ -34,6 +40,18 @@ pub mod crossflow {
     }
     pub fn create_and_fund(ctx: Context<CreateAndFund>, request: FundRequest) -> Result<()> {
         funding::create_and_fund(ctx, request)
+    }
+    pub fn settle_thin(ctx: Context<SettleThin>, request: ThinSettleRequest) -> Result<()> {
+        settlement::settle_thin(ctx, request)
+    }
+    pub fn cancel_intent(ctx: Context<CancelIntent>) -> Result<()> {
+        recovery::cancel_intent(ctx)
+    }
+    pub fn withdraw_asset(ctx: Context<WithdrawAsset>, asset_index: u8) -> Result<()> {
+        recovery::withdraw_asset(ctx, asset_index)
+    }
+    pub fn close_intent(ctx: Context<CloseIntent>) -> Result<()> {
+        recovery::close_intent(ctx)
     }
 }
 
@@ -112,4 +130,19 @@ pub enum CrossflowError {
     Alias,
     #[msg("Actual funding token deltas did not match the mandate")]
     Delta,
+
+    #[msg("Intent is expired, not funded, or violates the thin settlement rules")]
+    Settle = 400,
+    #[msg("Final output is outside its owner-approved raw bounds")]
+    Output,
+    #[msg("Snapshot sequence differs from the exact validated snapshot")]
+    SnapshotSequence,
+    #[msg("No claim is available for this asset")]
+    NothingToWithdraw,
+    #[msg("Only the funded owner can cancel or recover this intent")]
+    RecoveryAuthority,
+    #[msg("Intent has not reached a recoverable terminal state")]
+    RecoveryStatus,
+    #[msg("All claims and vault balances must be empty before close")]
+    ClaimsRemain,
 }

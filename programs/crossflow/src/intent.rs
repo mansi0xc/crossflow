@@ -20,6 +20,12 @@ pub struct FundRequest {
     pub optimization_commitment: [u8; 32],
     pub assets: [FundAsset; 3],
 }
+
+#[derive(AnchorSerialize, AnchorDeserialize, Clone, Copy, Debug)]
+pub struct ThinSettleRequest {
+    pub expected_snapshot_sequence: u64,
+    pub final_outputs: [u64; 3],
+}
 impl FundRequest {
     pub fn validate(&self, policy_hash: [u8; 32], now: i64, lifetime: u32) -> Result<()> {
         require!(

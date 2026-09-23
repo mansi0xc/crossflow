@@ -3,12 +3,14 @@ import { readFileSync } from 'node:fs';
 import { AccountMeta, Connection, Keypair, PublicKey, SystemProgram, Transaction, TransactionInstruction, sendAndConfirmTransaction } from '@solana/web3.js';
 import { assertPreparedDeploymentManifest } from './deployment-manifest.js';
 import { buildCreateAndFundInstruction, deriveFundAccounts, fundingTransaction } from '../packages/client/src/fund.js';
+import { buildCancelIntentInstruction, buildCloseIntentInstruction, buildThinSettleInstruction, buildWithdrawAssetInstruction, deriveRecoveryAccounts } from '../packages/client/src/recover.js';
 import { mandateBytes } from '../packages/contracts/src/index.js';
 
 const TOKEN_PROGRAM = new PublicKey('TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA');
 const PROGRAM = new PublicKey('CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh');
 const args = process.argv.slice(2);
-if (args.length !== 3) throw new Error('usage: tsx scripts/demo-local.ts <http://127.0.0.1:8899> <manifest.json> <local-keypair.json>');
+const completeLifecycle = args.length === 5 && args[3] === '--step' && args[4] === 'complete';
+if (args.length !== 3 && !completeLifecycle) throw new Error('usage: tsx scripts/demo-local.ts <http://127.0.0.1:8899> <manifest.json> <local-keypair.json> [--step complete]');
 const [rpc, manifestPath, keypairPath] = args;
 if (!/^http:\/\/(127\.0\.0\.1|localhost):\d+$/.test(rpc)) throw new Error('local validator RPC only');
 const connection = new Connection(rpc, 'confirmed');
@@ -24,7 +26,11 @@ const mints: PublicKey[] = manifest.policy.assets.map((a: { mint: string }) => n
 const feeds: Buffer[] = manifest.policy.assets.map((a: { feed_id: string }) => Buffer.from(a.feed_id, 'hex'));
 const fundAccounts = deriveFundAccounts(PROGRAM, config, prices, signer.publicKey, 0n, mints);
 const sourceAccounts = fundAccounts.sources;
-const now = BigInt(Math.floor(Date.now() / 1000));
+const observedSlot = await connection.getSlot('confirmed');
+const observedBlockTime = await connection.getBlockTime(observedSlot);
+if (observedBlockTime === null) throw new Error('local validator has no confirmed block time');
+// The validator may run with a simulated clock that differs from the workstation clock.
+const now = BigInt(observedBlockTime);
 const observation = (i: number, timestamp: bigint) => Buffer.concat([
   mints[i].toBuffer(), feeds[i], u64([1_000_000n, 10_000_000n, 20_000_000n][i]), u64(0n),
   i32(-6), Buffer.from([0]), u64(timestamp), u64(timestamp), Buffer.from([0]),
@@ -72,9 +78,15 @@ const configIx = instruction([
   { pubkey: SystemProgram.programId, isSigner: false, isWritable: false },
 ], Buffer.concat([disc('initialize_config'), observations]));
 const configRent = await connection.getMinimumBalanceForRentExemption(831);
-const prefundSig = await send(SystemProgram.transfer({ fromPubkey: signer.publicKey, toPubkey: config, lamports: configRent }));
-const prefundedConfig = await connection.getAccountInfo(config, 'confirmed');
-if (!prefundedConfig || !prefundedConfig.owner.equals(SystemProgram.programId) || prefundedConfig.data.length !== 0 || prefundedConfig.lamports !== configRent) throw new Error('config PDA pre-funding setup failed');
+let prefundedConfig = await connection.getAccountInfo(config, 'confirmed');
+let prefundSig: string | null = null;
+if (!prefundedConfig) {
+  prefundSig = await send(SystemProgram.transfer({ fromPubkey: signer.publicKey, toPubkey: config, lamports: configRent }));
+  prefundedConfig = await connection.getAccountInfo(config, 'confirmed');
+}
+if (!prefundedConfig || (prefundedConfig.owner.equals(SystemProgram.programId)
+    ? prefundedConfig.data.length !== 0 || prefundedConfig.lamports < configRent
+    : !prefundedConfig.owner.equals(PROGRAM) || prefundedConfig.data.length !== 831)) throw new Error('config PDA setup failed');
 const attacker = Keypair.generate();
 const attackerAirdrop = await connection.requestAirdrop(attacker.publicKey, 100_000_000);
 await connection.confirmTransaction(attackerAirdrop, 'confirmed');
@@ -84,10 +96,11 @@ const attackerIx = instruction([
   { pubkey: prices, isSigner: false, isWritable: true },
   { pubkey: SystemProgram.programId, isSigner: false, isWritable: false },
 ], Buffer.concat([disc('initialize_config'), observations]));
-await simulateExpectedReject('attacker-first-initializer', attackerIx, /Error Code: Initializer/, [attacker]);
+await simulateExpectedReject('attacker-first-initializer', attackerIx, /Error Code: (?:Initializer|ConstraintInit)|already in use/, [attacker]);
 const attackerRejected = true;
 const afterAttackerConfig = await connection.getAccountInfo(config, 'confirmed');
-if (!attackerRejected || !afterAttackerConfig || !afterAttackerConfig.owner.equals(SystemProgram.programId) || afterAttackerConfig.lamports !== configRent) throw new Error('unexpected signer initialized or altered the pre-funded config');
+if (!attackerRejected || !afterAttackerConfig || !afterAttackerConfig.owner.equals(prefundedConfig.owner) ||
+    afterAttackerConfig.lamports !== prefundedConfig.lamports || !afterAttackerConfig.data.equals(prefundedConfig.data)) throw new Error('unexpected signer initialized or altered the config');
 const configInfo = await connection.getAccountInfo(config, 'confirmed');
 let configSig: string | null = null;
 if (!configInfo || (configInfo.owner.equals(SystemProgram.programId) && configInfo.data.length === 0)) configSig = await send(configIx);
@@ -121,7 +134,7 @@ const fundingRequest = {
   assets: [
     { funding: '100000000', min_output: '50000000', max_output: '200000000', funding_reference_price: '1000000' },
     { funding: '1000000', min_output: '0', max_output: '2000000', funding_reference_price: '10000000' },
-    { funding: '1000000', min_output: '0', max_output: '2000000', funding_reference_price: '20000000' },
+    { funding: '1000000', min_output: '500000', max_output: '2000000', funding_reference_price: '20000000' },
   ],
 };
 const fundIx = buildCreateAndFundInstruction(PROGRAM, signer.publicKey, fundAccounts, fundingRequest);
@@ -205,14 +218,137 @@ if (!ownerStateInfo || !ownerStateInfo.owner.equals(PROGRAM) || ownerStateInfo.d
     !ownerStateInfo.data.subarray(8, 40).equals(config.toBuffer()) || !ownerStateInfo.data.subarray(40, 72).equals(signer.publicKey.toBuffer()) ||
     ownerStateInfo.data.readBigUInt64LE(72) !== 1n || ownerStateInfo.data[80] !== 1 ||
     !ownerStateInfo.data.subarray(81, 113).equals(intent.toBuffer())) throw new Error('owner nonce/active intent state mismatch');
-console.log(JSON.stringify({ status: 'LOCAL_FUNDING_PASS', genesis, config: config.toBase58(), prices: prices.toBase58(), intent: intent.toBase58(),
+const lifecycleSignatures: Record<string, string> = {};
+let lifecycleEvidence: Record<string, unknown> | undefined;
+if (completeLifecycle) {
+  const recovery0 = deriveRecoveryAccounts(PROGRAM, config, prices, signer.publicKey, 0n, mints);
+  const currentPricesInfo = await connection.getAccountInfo(prices, 'confirmed');
+  if (!currentPricesInfo) throw new Error('current fixture snapshot disappeared');
+  const snapshotSequence = readU64(currentPricesInfo.data, 105).toString();
+  const outputs = expectedFunding.map(String);
+  const badOutputs = ['100000000', '1000000', '2000001'];
+  const settleIx = buildThinSettleInstruction(PROGRAM, signer.publicKey, recovery0, snapshotSequence, outputs);
+  const beforeBadSettleSource = await Promise.all(sourceAccounts.map(balance));
+  const beforeBadSettleVault = await Promise.all(vaultAccounts.map(balance));
+  const badSettleLogs = await simulateExpectedReject('third-leg-output-bound-rollback',
+    buildThinSettleInstruction(PROGRAM, signer.publicKey, recovery0, snapshotSequence, badOutputs), /Error Code: Output/);
+  const badSettleTransfers = (badSettleLogs.match(/Instruction: TransferChecked/g) ?? []).length;
+  if (badSettleTransfers !== 2 || String(beforeBadSettleSource) !== String(await Promise.all(sourceAccounts.map(balance))) ||
+      String(beforeBadSettleVault) !== String(await Promise.all(vaultAccounts.map(balance)))) {
+    throw new Error('third-leg settle rejection did not prove two successful simulated CPIs rolled back');
+  }
+  rejectedCases.push('third-leg-output-bound-rollback');
+  const belowMinimumLogs = await simulateExpectedReject('third-leg-output-below-minimum',
+    buildThinSettleInstruction(PROGRAM, signer.publicKey, recovery0, snapshotSequence, ['100000000', '1000000', '499999']), /Error Code: Output/);
+  const belowMinimumTransfers = (belowMinimumLogs.match(/Instruction: TransferChecked/g) ?? []).length;
+  if (belowMinimumTransfers !== 2 || String(beforeBadSettleSource) !== String(await Promise.all(sourceAccounts.map(balance))) ||
+      String(beforeBadSettleVault) !== String(await Promise.all(vaultAccounts.map(balance)))) {
+    throw new Error('below-minimum settle rejection did not prove two successful simulated CPIs rolled back');
+  }
+  rejectedCases.push('third-leg-output-below-minimum');
+  lifecycleSignatures.settle = await send(settleIx);
+  const settledSource = await Promise.all(sourceAccounts.map(balance));
+  const settledVault = await Promise.all(vaultAccounts.map(balance));
+  if (String(settledSource.map((n, i) => n - beforeBadSettleSource[i])) !== String(expectedFunding) ||
+      String(settledVault) !== String(beforeBadSettleVault.map(n => 0n))) throw new Error('settlement token deltas mismatch');
+  const settledInfo = await connection.getAccountInfo(intent, 'confirmed');
+  if (!settledInfo || settledInfo.data[520] !== 1 || [0, 1, 2].some(i => readU64(settledInfo.data, 472 + i * 8) !== 0n)) {
+    throw new Error('settled intent status or booked claims mismatch');
+  }
+  await simulateExpectedReject('double-settle', settleIx, /Error Code: Settle/);
+  rejectedCases.push('double-settle');
+  const rent0 = (await Promise.all(recovery0.vaults.map(key => connection.getAccountInfo(key, 'confirmed'))))
+    .reduce((sum, info) => sum + BigInt(info?.lamports ?? 0), 0n) + BigInt((await connection.getAccountInfo(recovery0.intent, 'confirmed'))?.lamports ?? 0);
+  lifecycleSignatures.closeSettled = await send(buildCloseIntentInstruction(PROGRAM, signer.publicKey, recovery0));
+  if (await connection.getAccountInfo(recovery0.intent, 'confirmed')) throw new Error('settled intent account was not closed');
+  for (const vault of recovery0.vaults) if (await connection.getAccountInfo(vault, 'confirmed')) throw new Error('settled vault account was not closed');
+
+  const nextAccounts = deriveFundAccounts(PROGRAM, config, prices, signer.publicKey, 1n, mints);
+  const beforeSecondFundSlot = await connection.getSlot('confirmed');
+  const beforeSecondFundTime = await connection.getBlockTime(beforeSecondFundSlot);
+  if (beforeSecondFundTime === null) throw new Error('local validator has no confirmed block time before cancellation case');
+  const cancelExpiry = BigInt(beforeSecondFundTime) + 2n;
+  const cancelRequest = { ...fundingRequest, nonce: '1', expiry_unix_seconds: cancelExpiry.toString() };
+  const fundNextIx = buildCreateAndFundInstruction(PROGRAM, signer.publicKey, nextAccounts, cancelRequest);
+  lifecycleSignatures.fundForCancel = await send(fundNextIx, [], true);
+  const recovery1 = deriveRecoveryAccounts(PROGRAM, config, prices, signer.publicKey, 1n, mints);
+  const preCancelSource = await Promise.all(nextAccounts.sources.map(balance));
+  const preCancelVault = await Promise.all(nextAccounts.vaults.map(balance));
+  const expiryDeadline = Date.now() + 12_000;
+  let chainTime = beforeSecondFundTime;
+  while (BigInt(chainTime) <= cancelExpiry && Date.now() < expiryDeadline) {
+    await new Promise(resolve => setTimeout(resolve, 400));
+    const slot = await connection.getSlot('confirmed');
+    chainTime = await connection.getBlockTime(slot) ?? chainTime;
+  }
+  if (BigInt(chainTime) <= cancelExpiry) throw new Error('local validator did not advance beyond cancellation expiry');
+  const cancelIx = buildCancelIntentInstruction(PROGRAM, signer.publicKey, recovery1);
+  lifecycleSignatures.cancel = await send(cancelIx);
+  if (String(preCancelSource) !== String(await Promise.all(nextAccounts.sources.map(balance))) ||
+      String(preCancelVault) !== String(await Promise.all(nextAccounts.vaults.map(balance)))) throw new Error('cancel moved tokens');
+  const cancelledInfo = await connection.getAccountInfo(recovery1.intent, 'confirmed');
+  if (!cancelledInfo || cancelledInfo.data[520] !== 2 || cancelledInfo.data.readBigUInt64LE(80) >= BigInt(chainTime)) throw new Error('expired intent did not cancel to Cancelled status');
+  await simulateExpectedReject('double-cancel', cancelIx, /Error Code: RecoveryStatus/);
+  rejectedCases.push('double-cancel');
+  const attackerOwner = Keypair.generate();
+  const attackerCancelKeys = cancelIx.keys.map(meta => ({ ...meta }));
+  attackerCancelKeys[0] = { pubkey: attackerOwner.publicKey, isSigner: true, isWritable: false };
+  const attackerCancelIx = instruction(attackerCancelKeys, cancelIx.data);
+  await simulateExpectedReject('unauthorized-cancel', attackerCancelIx, /Error Code: ConstraintSeeds/, [attackerOwner]);
+  rejectedCases.push('unauthorized-cancel');
+  const attackerWithdrawKeys = buildWithdrawAssetInstruction(PROGRAM, signer.publicKey, recovery1, 0).keys.map(meta => ({ ...meta }));
+  attackerWithdrawKeys[0] = { pubkey: attackerOwner.publicKey, isSigner: true, isWritable: true };
+  await simulateExpectedReject('unauthorized-withdraw', instruction(attackerWithdrawKeys,
+    buildWithdrawAssetInstruction(PROGRAM, signer.publicKey, recovery1, 0).data), /Error Code: ConstraintSeeds/, [attackerOwner]);
+  rejectedCases.push('unauthorized-withdraw');
+  const recovered: string[] = [];
+  for (let i = 0; i < 3; i++) {
+    const sourceBefore = await balance(nextAccounts.sources[i]);
+    const amount = await balance(nextAccounts.vaults[i]);
+    lifecycleSignatures[`withdraw${i}`] = await send(buildWithdrawAssetInstruction(PROGRAM, signer.publicKey, recovery1, i));
+    const sourceAfter = await balance(nextAccounts.sources[i]);
+    const vaultAfter = await balance(nextAccounts.vaults[i]);
+    if (sourceAfter - sourceBefore !== amount || vaultAfter !== 0n || amount !== expectedFunding[i]) throw new Error(`recovery delta mismatch for asset ${i}`);
+    recovered.push(amount.toString());
+  }
+  const rent1 = (await Promise.all(recovery1.vaults.map(key => connection.getAccountInfo(key, 'confirmed'))))
+    .reduce((sum, info) => sum + BigInt(info?.lamports ?? 0n), 0n) + BigInt((await connection.getAccountInfo(recovery1.intent, 'confirmed'))?.lamports ?? 0n);
+  lifecycleSignatures.closeCancelled = await send(buildCloseIntentInstruction(PROGRAM, signer.publicKey, recovery1));
+  if (await connection.getAccountInfo(recovery1.intent, 'confirmed')) throw new Error('cancelled intent account was not closed');
+  for (const vault of recovery1.vaults) if (await connection.getAccountInfo(vault, 'confirmed')) throw new Error('recovered vault account was not closed');
+  const finalOwnerState = await connection.getAccountInfo(ownerState, 'confirmed');
+  const finalConfig = await connection.getAccountInfo(config, 'confirmed');
+  if (!finalOwnerState || finalOwnerState.data.readBigUInt64LE(72) !== 2n || finalOwnerState.data[80] !== 0 ||
+      !finalConfig || finalConfig.data.readBigUInt64LE(822) !== 0n) throw new Error('final nonce, active intent, or outstanding claim counter mismatch');
+  lifecycleEvidence = {
+    lifecycle: 'settle-close; fund-cancel-withdraw-close',
+    snapshotSequence,
+    settleOutputs: outputs,
+    rejectedSettlements: [
+      { label: 'third-leg-output-above-maximum', successfulSimulatedTransferCpisBeforeReject: badSettleTransfers },
+      { label: 'third-leg-output-below-minimum', successfulSimulatedTransferCpisBeforeReject: belowMinimumTransfers },
+    ],
+    sourceAfterSettledReturn: settledSource.map(String),
+    vaultsAfterSettledReturn: settledVault.map(String),
+    cancelledWithdrawals: recovered,
+    cancellationAfterExpiry: true,
+    expiredAtUnixSeconds: cancelledInfo.data.readBigUInt64LE(80).toString(),
+    rentLamportsReclaimedFromSettledIntentAndVaults: rent0.toString(),
+    rentLamportsReclaimedFromCancelledIntentAndVaults: rent1.toString(),
+    finalNonce: finalOwnerState.data.readBigUInt64LE(72).toString(),
+    activeIntentCleared: finalOwnerState.data[80] === 0,
+    outstandingClaimIntents: finalConfig.data.readBigUInt64LE(822).toString(),
+    lifecycleSignatures,
+  };
+}
+console.log(JSON.stringify({ status: completeLifecycle ? 'LOCAL_LIFECYCLE_PASS' : 'LOCAL_FUNDING_PASS', genesis, config: config.toBase58(), prices: prices.toBase58(), intent: intent.toBase58(),
   prefundSignature: prefundSig, configSignature: configSig, publishSignature: publishSig, attackerFirstInitializerRejected: attackerRejected, duplicateInitializationRejected: duplicateInitRejected,
   rollbackCases: rejectedCases, fundingSignature: fundingSig,
   negativeResults,
   stored_mandate_hash: expectedMandateHash.toString('hex'),
   stored_intent_verified: true,
   sourceBefore: beforeSource.map(String), sourceAfter: afterSource.map(String), vaultBefore: beforeVault.map(String), vaultAfter: afterVault.map(String), intentDataLength: intentInfo.data.length,
-  priceLabel: 'TEST PRICES; synthetic fixture oracle; no equity price claim' }, null, 2));
+  priceLabel: 'TEST PRICES; synthetic fixture oracle; no equity price claim', lifecycle: lifecycleEvidence }, null, 2));
 
 function accountDiscriminator(name: string) { return createHash('sha256').update(`account:${name}`).digest().subarray(0, 8); }
 function readU64(data: Buffer, offset: number) { let value = 0n; for (let i = 0; i < 8; i++) value |= BigInt(data[offset + i]) << BigInt(8 * i); return value; }

@@ -52,3 +52,14 @@ test('local runtime evidence requires real local identities, guarded rollback an
   assert.throws(() => assertFreshOutput('local-runtime', JSON.stringify({ ...report, cluster: 'devnet' }), '', process.cwd()), /local runtime/);
   assert.throws(() => assertFreshOutput('local-runtime', JSON.stringify({ ...report, after_raw_balances: { source: ['89', '18', '27'], vault: ['10', '2', '3'] } }), '', process.cwd()), /conservation/);
 });
+
+test('T06 runtime evidence requires both settlement bounds to roll back after prior token CPIs', () => {
+  const manifest = { ...base, task: 'T06', checks: [{ name: 'runtime', kind: 't06-runtime', command: 'node', args: ['check.mjs'] }] };
+  assert.doesNotThrow(() => assertManifest(manifest, 'T06'));
+  assert.doesNotThrow(() => assertFreshOutput('t06-runtime', JSON.stringify({ status: 'PASS', task: 'T06', cluster: 'localnet',
+    mandatory_negative_cases: 15, transaction_signatures: 13, settlement_rollback_cpis_per_case: 2,
+    final_nonce: '2', outstanding_claim_intents: '0' }), '', process.cwd()));
+  assert.throws(() => assertFreshOutput('t06-runtime', JSON.stringify({ status: 'PASS', task: 'T06', cluster: 'devnet',
+    mandatory_negative_cases: 15, transaction_signatures: 13, settlement_rollback_cpis_per_case: 2,
+    final_nonce: '2', outstanding_claim_intents: '0' }), '', process.cwd()), /incomplete/);
+});

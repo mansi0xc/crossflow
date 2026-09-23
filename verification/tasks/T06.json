@@ -1,0 +1,58 @@
+{
+  "task": "T06",
+  "sourceFiles": [
+    "programs/crossflow/src/funding.rs",
+    "programs/crossflow/src/intent.rs",
+    "programs/crossflow/src/lib.rs",
+    "programs/crossflow/src/recovery.rs",
+    "programs/crossflow/src/settlement.rs",
+    "packages/client/src/recover.ts",
+    "scripts/demo-local.ts",
+    "scripts/check-t06-runtime-evidence.mjs",
+    "scripts/verify-task.mjs",
+    "tests/program/thin-flow.test.ts",
+    "tests/workspace/verify-task.test.mjs",
+    "docs/spec/settlement-accounting.md",
+    "verification/evidence/T06-local-manifest.json",
+    "verification/evidence/T06-local-runtime.json",
+    "verification/tasks/T06.json"
+  ],
+  "checks": [
+    {
+      "name": "thin-flow-client",
+      "kind": "vitest",
+      "command": "corepack",
+      "args": ["pnpm@10.17.1", "exec", "vitest", "run", "tests/program/thin-flow.test.ts"]
+    },
+    {
+      "name": "typescript",
+      "kind": "typecheck",
+      "command": "corepack",
+      "args": ["pnpm@10.17.1", "exec", "tsc", "--noEmit"]
+    },
+    {
+      "name": "rust-host",
+      "kind": "cargo-test",
+      "command": "env",
+      "args": ["CROSSFLOW_DEPLOYMENT_MANIFEST=verification/evidence/T06-local-manifest.json", "cargo", "test", "-p", "crossflow", "--lib", "--locked", "--offline"]
+    },
+    {
+      "name": "sbf-idl",
+      "kind": "anchor-build",
+      "command": "env",
+      "args": ["CROSSFLOW_DEPLOYMENT_MANIFEST=verification/evidence/T06-local-manifest.json", "anchor", "build"]
+    },
+    {
+      "name": "wire-vectors",
+      "kind": "json-pass",
+      "command": "python3",
+      "args": ["docs/spec/check-wire-vectors.py"]
+    },
+    {
+      "name": "local-runtime-evidence",
+      "kind": "t06-runtime",
+      "command": "node",
+      "args": ["scripts/check-t06-runtime-evidence.mjs"]
+    }
+  ]
+}
