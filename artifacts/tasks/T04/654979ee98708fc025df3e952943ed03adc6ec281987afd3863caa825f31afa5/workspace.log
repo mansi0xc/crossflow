@@ -1,0 +1,39 @@
+
+> crossflow@0.1.0 check:workspace /Users/mansitibrewal/chronicles/crossflow
+> node scripts/check-workspace.mjs && node --test tests/workspace/*.test.mjs && tsc --noEmit && vitest run tests/spec/wire-vectors.test.ts
+
+Workspace pinning, local default, tracked secret names, and RPC destination checks passed.
+✔ devnet exact genesis allows signing callback (0.437ms)
+✔ mainnet URL cannot reach signing callback (0.895333ms)
+✔ testnet URL cannot reach signing callback (0.062458ms)
+✔ wrong expected genesis cannot reach signing callback (0.049417ms)
+✔ local public genesis cannot reach signing callback (0.073042ms)
+✔ local no port cannot reach signing callback (0.053333ms)
+✔ embedded credentials cannot reach signing callback (0.043541ms)
+✔ unknown mode cannot reach signing callback (0.038167ms)
+✔ RPC genesis mismatch blocks signing callback (0.140459ms)
+✔ owned local validator exact genesis allows operation (0.111416ms)
+✔ write destinations reject mainnet, testnet, unknown host and missing URL (0.824ms)
+✔ pinning rejects a moving version and mainnet Anchor default (1.371792ms)
+✔ tracked keypair filename is rejected (34.58525ms)
+✔ missing task selector, source, checks and duplicate checks fail closed (0.559959ms)
+✔ forged success text without selected tests is rejected (0.17075ms)
+✔ skipped or failed mandatory tests are rejected (0.217708ms)
+✔ mainnet and parent path in manifest are rejected (0.090625ms)
+ℹ tests 17
+ℹ suites 0
+ℹ pass 17
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 73.621125
+
+ RUN  v5.0.1 /Users/mansitibrewal/chronicles/crossflow
+
+
+ Test Files  1 passed (1)
+      Tests  21 passed (21)
+   Start at  02:37:04
+   Duration  131ms (transform 71%, tests 14%, import 12%, worker 3%)
+

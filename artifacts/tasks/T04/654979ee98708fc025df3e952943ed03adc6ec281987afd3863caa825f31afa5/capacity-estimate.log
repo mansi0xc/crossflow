@@ -1,0 +1,78 @@
+
+> crossflow@0.1.0 probe:capacity /Users/mansitibrewal/chronicles/crossflow
+> node --import tsx scripts/probe-capacity.ts
+
+{
+  "label": "SYNTHETIC_UNSIGNED_SERIALIZATION_ONLY",
+  "programId": "CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh",
+  "canonicalBodyLengths": {
+    "funding": 177,
+    "settlementMaximum": 194
+  },
+  "assumptions": [
+    "Three owners, two stocks plus cash, two venue legs",
+    "All lookup addresses and data accounts are synthetic; no lookup table exists on devnet yet",
+    "One operator signature; all wallet funding transactions are separate",
+    "Fixture mode has preloaded price account; 512-byte Pyth reserve is illustrative, not a measured payload",
+    "Compute units are requested, not measured; actual runtime and route checks remain open"
+  ],
+  "fundingWithLookup": {
+    "serializedBytes": 477,
+    "serializationFailure": null,
+    "packetLimitBytes": 1232,
+    "fits": true,
+    "staticAccountKeys": 3,
+    "loadedWritable": 9,
+    "loadedReadonly": 8,
+    "signatures": 1,
+    "instructionCount": 3
+  },
+  "fundingWithoutLookup": {
+    "serializedBytes": 970,
+    "serializationFailure": null,
+    "packetLimitBytes": 1232,
+    "fits": true,
+    "staticAccountKeys": 20,
+    "loadedWritable": 0,
+    "loadedReadonly": 0,
+    "signatures": 1,
+    "instructionCount": 3
+  },
+  "settlementWithLookup": {
+    "serializedBytes": 544,
+    "serializationFailure": null,
+    "packetLimitBytes": 1232,
+    "fits": true,
+    "staticAccountKeys": 3,
+    "loadedWritable": 31,
+    "loadedReadonly": 11,
+    "signatures": 1,
+    "instructionCount": 3
+  },
+  "settlementWithoutLookup": {
+    "serializedBytes": null,
+    "serializationFailure": "Solana serializer exceeded its fixed packet buffer",
+    "packetLimitBytes": 1232,
+    "fits": false,
+    "staticAccountKeys": 45,
+    "loadedWritable": 0,
+    "loadedReadonly": 0,
+    "signatures": 1,
+    "instructionCount": 3
+  },
+  "settlementWithIllustrativePythReserve": {
+    "serializedBytes": 1101,
+    "serializationFailure": null,
+    "packetLimitBytes": 1232,
+    "fits": true,
+    "staticAccountKeys": 4,
+    "loadedWritable": 31,
+    "loadedReadonly": 14,
+    "signatures": 1,
+    "instructionCount": 4
+  },
+  "lookupAddressCount": 46,
+  "mandatoryPaddingBytes": 0,
+  "actualComputeUnits": null,
+  "actualRuntimeTransaction": false
+}

@@ -1,6 +1,6 @@
 # CrossFlow roadmap
 
-Execution started: T00 preflight, T01 scenario freeze and T02 mandate specification are complete; T03 narrow economic gate passed independent review; T04 is active. All phase gates remain unpassed until their full acceptance evidence exists.
+Execution started: T00 preflight, T01 scenario freeze and T02 mandate specification are complete; T03 narrow economic gate passed independent review; T04 workspace/build harness passed independent review; T11/T14 are next. All phase gates remain unpassed until their full acceptance evidence exists.
 
 | Phase | Outcome | Gate |
 |---|---|---|

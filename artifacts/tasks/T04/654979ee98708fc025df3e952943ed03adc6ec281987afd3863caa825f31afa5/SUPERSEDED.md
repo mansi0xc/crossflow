@@ -1,0 +1,1 @@
+This earlier passing candidate was superseded by ac4916b after independent review found two T04 gate defects. Use d72ce91aadc1a8bc0395fb87656eba6fd4a99d7998fb8077644abbcb0c08e69a for final T04 evidence.

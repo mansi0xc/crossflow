@@ -1,0 +1,3 @@
+# Independent T04 review
+
+Reviewer: t04_review, separate from implementation owner. Final verdict: PASS for workspace/build-harness scope at ac4916b, no remaining critical/high blocker. Earlier findings were missing locked install in the local task gate and omitted funding-owner signer in the capacity probe; both were fixed before final review. Reviewer checked the six-check artifact and funding signer/payer. Limits: synthetic ALT/Pyth reserve, SBF postprocessing warning requiring local execution, and test-input snapshot coverage to improve in future manifests. The reviewer made no source edits.
