@@ -1,0 +1,43 @@
+{
+  "task": "T11",
+  "sourceFiles": [
+    "package.json",
+    "pnpm-lock.yaml",
+    "packages/contracts/src/index.ts",
+    "packages/planner/package.json",
+    "packages/planner/src/mandate.ts",
+    "packages/planner/src/validate.ts",
+    "tests/planner/validation.test.ts",
+    "tests/planner/differential-vectors.json",
+    "docs/spec/intent-contract.md",
+    "docs/spec/settlement-accounting.md",
+    "docs/spec/wire-vectors.json",
+    "verification/tasks/T11.json",
+    "scripts/verify-task.mjs"
+  ],
+  "checks": [
+    {
+      "name": "planner-validator",
+      "kind": "vitest",
+      "command": "corepack",
+      "args": [
+        "pnpm@10.17.1",
+        "exec",
+        "vitest",
+        "run",
+        "tests/planner/validation.test.ts"
+      ]
+    },
+    {
+      "name": "typescript",
+      "kind": "typecheck",
+      "command": "corepack",
+      "args": [
+        "pnpm@10.17.1",
+        "exec",
+        "tsc",
+        "--noEmit"
+      ]
+    }
+  ]
+}
