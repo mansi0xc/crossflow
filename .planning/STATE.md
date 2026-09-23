@@ -4,7 +4,7 @@ Updated: 22 September 2026, after latest user instructions.
 
 - Execution repository: `/Users/mansitibrewal/chronicles/crossflow`.
 - T00: DONE for preflight scope; independent findings resolved and devnet funding prerequisite resolved via user-authorized CLI wallet.
-- Current work: T01 scenario input freeze passed independent review and was committed at 9614341; T02 mandate/security specification passed independent re-review after correcting per-cross pricing and task dependencies. T03 passed independent review for the narrow G0 economic mechanism after fixing no-trade attribution; T04 workspace/build harness passed independent review at ac4916b; T11/T14 are next. No escrow product implementation yet.
+- Current work: T01 scenario input freeze passed independent review and was committed at 9614341; T02 mandate/security specification passed independent re-review after correcting per-cross pricing and task dependencies. T03 passed independent review for the narrow G0 economic mechanism after fixing no-trade attribution; T04 workspace/build harness passed independent review at ac4916b; T14 fixture guard/interface passed independent review; T11 validator is active and T05 integration follows. No escrow product implementation yet.
 - User policy: no routine per-task approval pauses; continue dependency-safe work and report occasionally. Preserve checks and independent reviews.
 - Wallet: local CLI wallet FSyL13FTp3Yrgdo8VWpoNtpL8FS5FcSGL3tdNp1sjw2t authorized for CrossFlow devnet; observed balance 20.95376933 devnet SOL at 2026-09-22T15:16:47Z. Phantom browser flow remains to be tested.
 - Oracle: fixture prices now; Pyth deferred until core setup, revisit before final demo freeze if pursuing integration.

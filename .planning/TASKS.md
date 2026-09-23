@@ -1,6 +1,6 @@
 # CrossFlow executable task ledger
 
-**Execution started. T00 preflight, T01 scenario freeze and T02 mandate specification are complete. T03 passed narrow economic review and T04 workspace/build harness passed independent review. T11/T14 are next. Later cards remain planned. None of the commands, tests, application files or acceptance results below exists merely because it is named here.** Implement the verification harness and each task's tests before claiming that task passed. This ledger complements `PROJECT.md`, `REQUIREMENTS.md`, `ROADMAP.md` and the master execution plan. The master plan governs security invariants and release gates; this file governs execution order, ownership and evidence.
+**Execution started. T00 preflight, T01 scenario freeze and T02 mandate specification are complete. T03 passed narrow economic review and T04 workspace/build harness passed independent review. T14 fixture guard/interface passed independent review; T11 validator is active. T05 on-chain wiring follows T14. Later cards remain planned. None of the commands, tests, application files or acceptance results below exists merely because it is named here.** Implement the verification harness and each task's tests before claiming that task passed. This ledger complements `PROJECT.md`, `REQUIREMENTS.md`, `ROADMAP.md` and the master execution plan. The master plan governs security invariants and release gates; this file governs execution order, ownership and evidence.
 
 ## Execution contract
 

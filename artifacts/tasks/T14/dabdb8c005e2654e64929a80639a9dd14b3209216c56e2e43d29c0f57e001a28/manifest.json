@@ -1,0 +1,134 @@
+{
+  "task": "T14",
+  "status": "PASS_REVIEWED_FOR_T14_INTERFACE_SCOPE",
+  "recordedAt": "2026-09-23T04:31:42.114Z",
+  "sourceCommit": "c021aa59853faecd71de77245e9cb8b6855057ce",
+  "sourceTreeSha256": "dabdb8c005e2654e64929a80639a9dd14b3209216c56e2e43d29c0f57e001a28",
+  "sourceFiles": {
+    "package.json": "2269da5d80e24dc517ed87c911ae131b56d4f53ea0c45cca8e347f01943f9961",
+    "pnpm-lock.yaml": "5417f7d50e2e4a320f221f6d669805cc4693d1b6aa4e6a6acfff5ac7915cf332",
+    "Cargo.toml": "1d92d53c62df8f99c76b6d7309471a455f828c39d973e8830d08eff1ce30a046",
+    "Cargo.lock": "a05c5682fdbbbb5c4976421148b5b69787f21041814931a553b0aa69fef993a5",
+    "Anchor.toml": "d67ce1aa936ddf3d7e07390a61d0dd9c64b36e9f695c2cba44aa8910f592b553",
+    "programs/crossflow/Cargo.toml": "81f1790bfe1ad99f078454d60cae0bd1a9aa889fa7c79d0a84fee14a8944d205",
+    "programs/crossflow/src/lib.rs": "c342dbbc1bd8bbfb9fec4e6122724648e6d7b368d1ae2f738db898345b988978",
+    "programs/crossflow/src/oracle.rs": "da6346bf8ec3e3b981556a2e5fb154b7cd34ff04aa3c8207a7b8e3ab74261d07",
+    "packages/contracts/src/index.ts": "5bc1f3ecf587270f35af65d87242371e2017a1fec635a6f2f4972bd7063eb26d",
+    "packages/oracle/src/policy.ts": "90c9a663fd4bfcb99c05f6e83e08ffd73d251fe916c2c2c31ffaa902646000c0",
+    "packages/oracle/src/fixture.ts": "9617ddc099e380d0584d29e6dc4a309640c0c5f39877de18c7f416bcbf7b82e8",
+    "tests/oracle/policy.test.ts": "7e5686c724c729cfbad29fcfcd814bd8334d2205eed493ca962359774ab0c39a",
+    "docs/spec/oracle-policy.md": "3a5daa93d53d8a4a2aee829286e776ca50aec8c1f58c9428e69ba1a9d4708455",
+    "docs/spec/intent-contract.md": "3263fe5eb0bc17b7ad550b601134f879b19ce9b71ca3dc4acbb2ac05f9756f1d",
+    "docs/spec/settlement-accounting.md": "7f547bfaacfa8848a6943b608afe3b28f9e3879538ff453c8b23202ba70c5cdd",
+    "docs/spec/wire-vectors.json": "e31d3209a0556554172821a35f16aeeb406fa1cf27ea01512ea279b4ea370ecf",
+    "docs/spec/check-wire-vectors.py": "fec07db09e2f3682976b212c8f8d1f28e5b54cb84af73becc8f4bcf3abf55bd7",
+    "scripts/verify-task.mjs": "ecf4fd9ea3d7a47a9785fdb7ca1b9cabae4abe8f1a9faf22593ecdb0796fbb21",
+    "tests/workspace/verify-task.test.mjs": "f92b10714753025e5dc57d8e621851cf92a58b9643f4695265b5a4d9abe06776",
+    "verification/tasks/T14.json": "25e4d0b1e1c4225f49bc3f89964636f915572e719f02ec32df498426aac470af"
+  },
+  "policyFixtureSha256": "e31d3209a0556554172821a35f16aeeb406fa1cf27ea01512ea279b4ea370ecf",
+  "environment": "LOCAL_NO_TRANSACTION",
+  "clusterGenesis": null,
+  "transactionCount": 0,
+  "versions": {
+    "node": "v24.10.0",
+    "pnpm": "10.17.1",
+    "anchor": "anchor-cli 1.1.2",
+    "cargo": "cargo 1.89.0 (c24e10642 2025-06-23)"
+  },
+  "checks": [
+    {
+      "name": "oracle-typescript",
+      "kind": "vitest",
+      "command": [
+        "corepack",
+        "pnpm@10.17.1",
+        "exec",
+        "vitest",
+        "run",
+        "tests/oracle/policy.test.ts"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "oracle-typescript.log",
+      "outputSha256": "ee68d7cc66570f1c6b1886bb6775f588afb0792982f2ab73cb04f059858f37cd",
+      "passed": true
+    },
+    {
+      "name": "oracle-rust",
+      "kind": "cargo-test",
+      "command": [
+        "cargo",
+        "test",
+        "-p",
+        "crossflow",
+        "--lib",
+        "oracle::tests",
+        "--locked",
+        "--offline"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "oracle-rust.log",
+      "outputSha256": "a57374fd8701a0b27fd2bfb421d3d232c472e5a5775d906f3f25425adb15f6e0",
+      "passed": true
+    },
+    {
+      "name": "typescript",
+      "kind": "typecheck",
+      "command": [
+        "corepack",
+        "pnpm@10.17.1",
+        "exec",
+        "tsc",
+        "--noEmit"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "typescript.log",
+      "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "passed": true
+    },
+    {
+      "name": "sbf-build",
+      "kind": "anchor-build",
+      "command": [
+        "anchor",
+        "build"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "sbf-build.log",
+      "outputSha256": "98877e6c1c73d4dbdafad436c170274c0df47dd996a906c8d30d7b1958390371",
+      "passed": true
+    },
+    {
+      "name": "wire-spec",
+      "kind": "json-pass",
+      "command": [
+        "python3",
+        "docs/spec/check-wire-vectors.py"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "wire-spec.log",
+      "outputSha256": "4ba0c74daf803caec22b7ce0dfdf7f25b077c3b00595a17953d98a725c46ee5f",
+      "passed": true
+    }
+  ],
+  "mandatoryCheckCount": 5,
+  "executedCheckCount": 5,
+  "reviewer": {
+    "agent": "t04_review",
+    "verdict": "PASS",
+    "scope": "fixture oracle guard/interface and evidence",
+    "independentOfImplementation": true,
+    "remainingBlockers": []
+  },
+  "limits": [
+    "No public on-chain oracle/config instruction yet; T05 must authenticate config, initialize/publish snapshot and guard funding",
+    "T09/T16 must enforce guarded prices against actual measured settlement flows",
+    "Pyth remains unimplemented; fixture prices are synthetic",
+    "SBF postprocessing warning requires local runtime execution before money-path claims"
+  ]
+}
