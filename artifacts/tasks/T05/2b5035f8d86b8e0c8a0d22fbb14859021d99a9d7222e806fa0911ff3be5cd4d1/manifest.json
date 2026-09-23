@@ -1,0 +1,157 @@
+{
+  "task": "T05",
+  "status": "CHECKS_PASS_REVIEW_PENDING",
+  "recordedAt": "2026-09-23T15:34:26.353Z",
+  "sourceCommit": "4e179b11f53a5fb4b838f7cf52a6150d640876f1",
+  "sourceTreeSha256": "2b5035f8d86b8e0c8a0d22fbb14859021d99a9d7222e806fa0911ff3be5cd4d1",
+  "sourceFiles": {
+    "Cargo.toml": "1d92d53c62df8f99c76b6d7309471a455f828c39d973e8830d08eff1ce30a046",
+    "Cargo.lock": "ea651dd4490d7543057b169f49150dac6f8bc9d188e699713f1d5a968c139e0e",
+    "Anchor.toml": "d67ce1aa936ddf3d7e07390a61d0dd9c64b36e9f695c2cba44aa8910f592b553",
+    "programs/crossflow/Cargo.toml": "baa14901bf4d57b29baf07dc5ffc869989a4a41353e16d187d5c9ee69f7d6e80",
+    "programs/crossflow/build.rs": "dfa6a4a7d7c773a5e8fe870ada2ff47662a4231daa0cdd2b2d96e1c56e52e355",
+    "programs/crossflow/src/lib.rs": "bfd5e6b5ba0c591b7e6b55c958fb4d12827bb44c8b8bd4bcaacf5c7af34bb0bb",
+    "programs/crossflow/src/config.rs": "6b3c3320c13b5ab3c76de1521c581c30b49238b7a4e8afc4343b331734dcf7fb",
+    "programs/crossflow/src/funding.rs": "fbf5417ed6d9ca6f565d49e780ee46bee12ad421af6fa183a3bcebdd7b980352",
+    "programs/crossflow/src/intent.rs": "5ecc3df01507fff50ee1e58c58db206161e7a4ddd9b9fb5e432314e316e78260",
+    "programs/crossflow/src/oracle.rs": "5f97a9cc375e5f40f62ac0dd7ce59a025d9b7ffeb3ba02f5a675f214a6101af8",
+    "packages/contracts/src/index.ts": "5bc1f3ecf587270f35af65d87242371e2017a1fec635a6f2f4972bd7063eb26d",
+    "packages/client/src/fund.ts": "94655465cf39969685e9a7baece66e51b7e507eb628a2ffd4a4c34e56c13638c",
+    "packages/oracle/src/policy.ts": "90c9a663fd4bfcb99c05f6e83e08ffd73d251fe916c2c2c31ffaa902646000c0",
+    "scripts/deployment-manifest.ts": "27b7c2c3ef5fdbc08d5a2d0cee5abdfc7d2bbfdc905825c9ab5921c262ebb00b",
+    "scripts/prepare-local-manifest.ts": "f7e06d700be666d5311ad7612ae93c66f542b468735528027f618cdcd00faf46",
+    "scripts/demo-local.ts": "829efb0df0836bcb4496cd5e99a3e6fed901474f20314868b3e2e3e3e13249ce",
+    "scripts/check-local-runtime-evidence.mjs": "329fc709e3d8d1ca1401d5e9b8f6921df0087767ca6bc03cbeed7c23ab3529c2",
+    "scripts/verify-task.mjs": "3b42092fa412d753a6b8ac2ccf1806bbdb7f6f4ab9b625b5bf838716d8b4c2cb",
+    "tests/deployment/manifest.test.ts": "e6685727907fa14e6c7d79cb3362bfe2b4f185d5178b9858e0cb213fc181c914",
+    "tests/program/funding.test.ts": "d1479e331d6030e1f89e920c7aa1f934e3795a6739d24db9935577ea98b03c70",
+    "tests/oracle/policy.test.ts": "7e5686c724c729cfbad29fcfcd814bd8334d2205eed493ca962359774ab0c39a",
+    "tests/workspace/verify-task.test.mjs": "2ece2741ee35e38d24e7befa755dada87ca176ddcdd8aa6df42b5cae5484f220",
+    "docs/spec/deployment-manifest.md": "534b9c7b88d7df24ca378f1fdea7bf83b2bdee63634922a89942346f0c1e8d38",
+    "docs/spec/funding-runtime.md": "7c943df8044880caf50bd6ac2bd0d367ca52f1e7add240b7ac02780f7cb1c4fe",
+    "docs/spec/intent-contract.md": "3263fe5eb0bc17b7ad550b601134f879b19ce9b71ca3dc4acbb2ac05f9756f1d",
+    "docs/spec/oracle-policy.md": "3a5daa93d53d8a4a2aee829286e776ca50aec8c1f58c9428e69ba1a9d4708455",
+    "docs/spec/settlement-accounting.md": "7f547bfaacfa8848a6943b608afe3b28f9e3879538ff453c8b23202ba70c5cdd",
+    "docs/spec/wire-vectors.json": "e31d3209a0556554172821a35f16aeeb406fa1cf27ea01512ea279b4ea370ecf",
+    "docs/spec/check-wire-vectors.py": "fec07db09e2f3682976b212c8f8d1f28e5b54cb84af73becc8f4bcf3abf55bd7",
+    "verification/evidence/T05-local-manifest.json": "1ba94232ac0b3f3c5c58ef1ec069aee96fd12af7a6834421d785363aa010c414",
+    "verification/evidence/T05-local-runtime.json": "21ad8cea78dadc0bd30696423627d95777f0b0ca64c2aa2fe9633f5460cde6b5",
+    "verification/tasks/T05.json": "642eb4a16a893dbc42bbb0f3e4ba7f60a51b72cffa6779f8aa90b72eb6472ef4"
+  },
+  "policyFixtureSha256": "e31d3209a0556554172821a35f16aeeb406fa1cf27ea01512ea279b4ea370ecf",
+  "environment": "LOCAL_VALIDATOR",
+  "clusterGenesis": "87iXpApKAgTJWXhqcRMGHky12KK84bKrX5x1XRVtKWqg",
+  "transactionCount": 5,
+  "versions": {
+    "node": "v24.10.0",
+    "pnpm": "10.17.1",
+    "anchor": "anchor-cli 1.1.2",
+    "cargo": "cargo 1.89.0 (c24e10642 2025-06-23)"
+  },
+  "checks": [
+    {
+      "name": "fund-client",
+      "kind": "vitest",
+      "command": [
+        "corepack",
+        "pnpm@10.17.1",
+        "exec",
+        "vitest",
+        "run",
+        "tests/program/funding.test.ts"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "fund-client.log",
+      "outputSha256": "7bf121f7c23c9b537430a245c9029ef6d4fb94ea76bc3babd8d7aede76fdd7f6",
+      "passed": true
+    },
+    {
+      "name": "typescript",
+      "kind": "typecheck",
+      "command": [
+        "corepack",
+        "pnpm@10.17.1",
+        "exec",
+        "tsc",
+        "--noEmit"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "typescript.log",
+      "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "passed": true
+    },
+    {
+      "name": "rust-host",
+      "kind": "cargo-test",
+      "command": [
+        "env",
+        "CROSSFLOW_DEPLOYMENT_MANIFEST=verification/evidence/T05-local-manifest.json",
+        "cargo",
+        "test",
+        "-p",
+        "crossflow",
+        "--lib",
+        "--locked",
+        "--offline"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "rust-host.log",
+      "outputSha256": "b3fb8da5b116f9e04c221823e327a77285a553e82ec3bf11f6b19311fbb0eba5",
+      "passed": true
+    },
+    {
+      "name": "sbf-idl",
+      "kind": "anchor-build",
+      "command": [
+        "env",
+        "CROSSFLOW_DEPLOYMENT_MANIFEST=verification/evidence/T05-local-manifest.json",
+        "anchor",
+        "build"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "sbf-idl.log",
+      "outputSha256": "eb4a16024929f2a83c55e79d579f6ffdc839fc3d9cd807be8f3eb43a1b87b3ce",
+      "passed": true
+    },
+    {
+      "name": "wire-vectors",
+      "kind": "json-pass",
+      "command": [
+        "python3",
+        "docs/spec/check-wire-vectors.py"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "wire-vectors.log",
+      "outputSha256": "4ba0c74daf803caec22b7ce0dfdf7f25b077c3b00595a17953d98a725c46ee5f",
+      "passed": true
+    },
+    {
+      "name": "local-runtime",
+      "kind": "local-runtime",
+      "command": [
+        "node",
+        "scripts/check-local-runtime-evidence.mjs"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "local-runtime.log",
+      "outputSha256": "5e47661a122532603d308f2c99c5653406d08e11c0d2a7f8919f5916d471693f",
+      "passed": true
+    }
+  ],
+  "mandatoryCheckCount": 6,
+  "executedCheckCount": 6,
+  "reviewer": null,
+  "limits": [
+    "Isolated local validator only; no devnet transaction in this evidence.",
+    "Synthetic prices use the documented fixture publisher; no Pyth or live equity price is claimed.",
+    "This verifies one-owner funding and rollback, not settlement or withdrawal recovery; those remain T06.",
+    "SBF build post-processing reports unknown syscall names; this successful local runtime proves the syscalls exercised by T05 work in this local validator only.",
+    "Mint decimal mismatch is rejected by the Rust-host validator test; runtime substituting a nonconfigured mint is rejected by Anchor's associated-token constraint."
+  ]
+}

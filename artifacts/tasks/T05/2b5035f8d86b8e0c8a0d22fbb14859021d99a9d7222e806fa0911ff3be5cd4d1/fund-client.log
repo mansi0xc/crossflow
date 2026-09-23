@@ -1,0 +1,9 @@
+
+ RUN  v5.0.1 /Users/mansitibrewal/chronicles/crossflow
+
+
+ Test Files  1 passed (1)
+      Tests  3 passed (3)
+   Start at  21:04:17
+   Duration  234ms (import 58%, transform 32%, tests 10%, worker 1%)
+
