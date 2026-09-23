@@ -14,7 +14,7 @@ export function assertManifest(manifest, task) {
   for (const check of manifest.checks) {
     if (!check || typeof check.name !== 'string' || !/^[a-z0-9-]+$/.test(check.name) || names.has(check.name)) throw new Error('invalid/duplicate check name');
     names.add(check.name);
-    if (!['locked-install', 'workspace', 'json-pass', 'cargo-test', 'anchor-build', 'capacity'].includes(check.kind)) throw new Error(`unknown evidence kind ${check.kind}`);
+    if (!['locked-install', 'workspace', 'vitest', 'typecheck', 'json-pass', 'cargo-test', 'anchor-build', 'capacity'].includes(check.kind)) throw new Error(`unknown evidence kind ${check.kind}`);
     if (typeof check.command !== 'string' || !/^[a-zA-Z0-9_-]+$/.test(check.command)) throw new Error('invalid command');
     if (!Array.isArray(check.args) || check.args.some((arg) => typeof arg !== 'string' || arg.includes('\0'))) throw new Error('invalid command args');
     if (check.args.join(' ').includes('mainnet')) throw new Error('mainnet command rejected');
@@ -28,6 +28,12 @@ export function assertFreshOutput(kind, stdout, stderr, root) {
   const combined = `${stdout}\n${stderr}`;
   if (kind === 'locked-install') {
     if (!/Lockfile is up to date, resolution step is skipped/.test(combined) || !/Done in/.test(combined)) throw new Error('locked install did not verify reproducibility');
+  } else if (kind === 'vitest') {
+    const files = combined.match(/Test Files\s+(\d+) passed/);
+    const tests = combined.match(/Tests\s+(\d+) passed/);
+    if (!files || !tests || Number(files[1]) < 1 || Number(tests[1]) < 1 || /\b[1-9]\d*\s+(?:failed|skipped|todo)\b/i.test(combined)) throw new Error('Vitest selection absent, failed or skipped');
+  } else if (kind === 'typecheck') {
+    if (/\berror TS\d+\b/.test(combined)) throw new Error('TypeScript errors in typecheck output');
   } else if (kind === 'workspace') {
     const node = combined.match(/ℹ pass\s+(\d+)/);
     const vitest = combined.match(/Tests\s+(\d+) passed/);

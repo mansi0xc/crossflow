@@ -1,0 +1,57 @@
+{
+  "task": "T14",
+  "sourceFiles": [
+    "package.json",
+    "pnpm-lock.yaml",
+    "Cargo.toml",
+    "Cargo.lock",
+    "Anchor.toml",
+    "programs/crossflow/Cargo.toml",
+    "programs/crossflow/src/lib.rs",
+    "programs/crossflow/src/oracle.rs",
+    "packages/contracts/src/index.ts",
+    "packages/oracle/src/policy.ts",
+    "packages/oracle/src/fixture.ts",
+    "tests/oracle/policy.test.ts",
+    "docs/spec/oracle-policy.md",
+    "docs/spec/intent-contract.md",
+    "docs/spec/settlement-accounting.md",
+    "docs/spec/wire-vectors.json",
+    "docs/spec/check-wire-vectors.py",
+    "scripts/verify-task.mjs",
+    "tests/workspace/verify-task.test.mjs",
+    "verification/tasks/T14.json"
+  ],
+  "checks": [
+    {
+      "name": "oracle-typescript",
+      "kind": "vitest",
+      "command": "corepack",
+      "args": ["pnpm@10.17.1", "exec", "vitest", "run", "tests/oracle/policy.test.ts"]
+    },
+    {
+      "name": "oracle-rust",
+      "kind": "cargo-test",
+      "command": "cargo",
+      "args": ["test", "-p", "crossflow", "--lib", "oracle::tests", "--locked", "--offline"]
+    },
+    {
+      "name": "typescript",
+      "kind": "typecheck",
+      "command": "corepack",
+      "args": ["pnpm@10.17.1", "exec", "tsc", "--noEmit"]
+    },
+    {
+      "name": "sbf-build",
+      "kind": "anchor-build",
+      "command": "anchor",
+      "args": ["build"]
+    },
+    {
+      "name": "wire-spec",
+      "kind": "json-pass",
+      "command": "python3",
+      "args": ["docs/spec/check-wire-vectors.py"]
+    }
+  ]
+}
