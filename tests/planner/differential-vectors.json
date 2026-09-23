@@ -1,0 +1,45 @@
+{
+  "spec_version": "1",
+  "purpose": "Candidate acceptance vectors for a later Rust T09 differential runner. These are not Rust results.",
+  "owner_public_keys_hex": ["21fdcebf2cf6fe64556dce9648e482187e63a646bbd5c7246e0743795ca9f6a3", "4325f23e056cfe88d2176ecc620984dfaf1e80b726704a9563272b825876900c"],
+  "fixture_recipe": "Use docs/spec/wire-vectors.json policy; cash_index=0; observed prices [1000000,10000000,20000000], confidence=0 and times=1000, snapshot sequence=7. Each owner funds [1000000000,1000000,0], has raw maxima [2000000000,2000000,2000000], minimum zero, nonce matching owner index, expiry=1100, optimization commitment ab*32. Derive each canonical ATA from public keys and each intent hash from its mandate. No private key is present or needed.",
+  "pro_rata_equal_remainder_tie": { "inputs": ["100", "100"], "estimated_output": "2001", "priority": "ascending raw owner public-key bytes", "expected_allocations": ["1001", "1000"] },
+  "cases": [
+    {
+      "id": "fair-internal-stock-cash-cross",
+      "crosses": [{ "stock_index": "1", "seller_index": "0", "buyer_index": "1", "stock_quantity": "1000000", "cash_amount": "10000000" }],
+      "expected_accept": true,
+      "expected_settlement_body_hex": "010207000000000000000101000140420f0000000000809698000000000000",
+      "expected_debits": [["0", "1000000", "0"], ["10000000", "0", "0"]],
+      "expected_outputs": [["1010000000", "0", "0"], ["990000000", "2000000", "0"]]
+    },
+    {
+      "id": "eleven-dollar-stock-hidden-by-large-cash-balance",
+      "crosses": [{ "stock_index": "1", "seller_index": "0", "buyer_index": "1", "stock_quantity": "1000000", "cash_amount": "11000000" }],
+      "expected_accept": false,
+      "expected_reason": "internal cross"
+    },
+    {
+      "id": "seller-cannot-debit-more-than-original-funding",
+      "crosses": [{ "stock_index": "1", "seller_index": "0", "buyer_index": "1", "stock_quantity": "2000000", "cash_amount": "20000000" }],
+      "expected_accept": false,
+      "expected_reason": "debit exceeds original funding"
+    },
+    {
+      "id": "same-stock-round-trip",
+      "crosses": [
+        { "stock_index": "1", "seller_index": "0", "buyer_index": "1", "stock_quantity": "100000", "cash_amount": "1000000" },
+        { "stock_index": "1", "seller_index": "1", "buyer_index": "0", "stock_quantity": "100000", "cash_amount": "1000000" }
+      ],
+      "expected_accept": false,
+      "expected_reason": "buys and sells"
+    },
+    {
+      "id": "untrusted-output-array",
+      "crosses": [{ "stock_index": "1", "seller_index": "0", "buyer_index": "1", "stock_quantity": "1000000", "cash_amount": "10000000" }],
+      "untrusted_extra_field": { "outputs": [["999999999999", "0", "0"]] },
+      "expected_accept": false,
+      "expected_reason": "untrusted extra field"
+    }
+  ]
+}

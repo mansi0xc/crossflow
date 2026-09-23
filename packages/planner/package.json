@@ -1,0 +1,10 @@
+{
+  "name": "@crossflow/planner",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/validate.ts",
+    "./mandate": "./src/mandate.ts"
+  }
+}
