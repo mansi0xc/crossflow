@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { PublicKey } from '@solana/web3.js';
 import { describe, expect, test } from 'vitest';
-import { APPROVED_DEVNET_INITIALIZER, CROSSFLOW_PROGRAM_ID, DEVNET_GENESIS, prepareDeploymentManifest } from '../../scripts/deployment-manifest.js';
+import { APPROVED_DEVNET_INITIALIZER, CROSSFLOW_PROGRAM_ID, DEVNET_GENESIS, assertPreparedDeploymentManifest, prepareDeploymentManifest } from '../../scripts/deployment-manifest.js';
 import { toHex } from '../../packages/contracts/src/index.js';
 
 const frozen = JSON.parse(readFileSync('docs/spec/wire-vectors.json', 'utf8'));
@@ -30,6 +30,13 @@ describe('public deployment manifest preparation', () => {
     expect(manifest.policy_bytes_hex).toHaveLength(1304);
     expect(manifest.initial_policy_hash).toMatch(/^[0-9a-f]{64}$/);
     expect(manifest.expected_initializer).toBe(APPROVED_DEVNET_INITIALIZER);
+    await expect(assertPreparedDeploymentManifest(manifest, DEVNET_GENESIS)).resolves.toEqual(manifest);
+  });
+  test('stored manifest cannot substitute derived address, hash or bytes', async () => {
+    const valid = await prepareDeploymentManifest(candidate(), DEVNET_GENESIS);
+    for (const [key, replacement] of [['config_address', CROSSFLOW_PROGRAM_ID], ['initial_policy_hash', '00'.repeat(32)], ['policy_bytes_hex', 'ff'.repeat(652)]] as const) {
+      await expect(assertPreparedDeploymentManifest({ ...valid, [key]: replacement }, DEVNET_GENESIS)).rejects.toThrow(key);
+    }
   });
   test('rejects altered network, signer and fixture bindings', async () => {
     const wrongGenesis = candidate(); wrongGenesis.genesis = CROSSFLOW_PROGRAM_ID;

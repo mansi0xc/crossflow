@@ -88,3 +88,23 @@ export async function prepareDeploymentManifest(value: unknown, expectedGenesis:
     policy,
   };
 }
+
+/** Recheck every derived field immediately before compiling or signing from a stored manifest. */
+export async function assertPreparedDeploymentManifest(value: unknown, expectedGenesis: string) {
+  const stored = exactObject(value, [
+    'schema_version', 'cluster', 'program_id', 'genesis', 'deployment_id', 'config_address',
+    'expected_initializer', 'expected_initial_admin', 'fixture_publisher',
+    'initial_policy_hash', 'policy_bytes_hex', 'policy',
+  ], 'prepared deployment');
+  const candidate = {
+    schema_version: stored.schema_version, cluster: stored.cluster, program_id: stored.program_id,
+    genesis: stored.genesis, deployment_id: stored.deployment_id,
+    expected_initializer: stored.expected_initializer, expected_initial_admin: stored.expected_initial_admin,
+    fixture_publisher: stored.fixture_publisher, policy: stored.policy,
+  };
+  const expected = await prepareDeploymentManifest(candidate, expectedGenesis);
+  for (const field of ['config_address', 'initial_policy_hash', 'policy_bytes_hex'] as const) {
+    if (stored[field] !== expected[field]) throw new TypeError(`prepared deployment ${field} mismatch`);
+  }
+  return expected;
+}
