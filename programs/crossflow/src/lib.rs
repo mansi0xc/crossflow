@@ -1,5 +1,7 @@
 use anchor_lang::prelude::*;
 
+pub mod oracle;
+
 declare_id!("CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh");
 
 #[program]
