@@ -14,6 +14,7 @@
     "tests/workspace/verify-task.test.mjs",
     "docs/spec/settlement-accounting.md",
     "verification/evidence/T06-local-manifest.json",
+    "verification/evidence/T06-local-demo-output.json",
     "verification/evidence/T06-local-runtime.json",
     "verification/tasks/T06.json"
   ],

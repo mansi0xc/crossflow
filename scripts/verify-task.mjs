@@ -115,6 +115,7 @@ export function runTask(task, root = process.cwd()) {
   mkdirSync(outDir, { recursive: true });
   const checks = [];
   let runtimeEvidence = null;
+  let runtimeMode = null;
   for (const check of manifest.checks) {
     const result = spawnSync(check.command, check.args, { cwd: root, encoding: 'utf8', timeout: 180000, maxBuffer: 20 * 1024 * 1024, shell: false });
     const stdout = result.stdout ?? '';
@@ -126,7 +127,15 @@ export function runTask(task, root = process.cwd()) {
       output: logName, outputSha256: hash(log), passed: false };
     checks.push(record);
     if (result.error || result.status !== 0) break;
-    try { assertFreshOutput(check.kind, stdout, stderr, root); record.passed = true; if (check.kind === 'local-runtime') runtimeEvidence = JSON.parse(stdout.trim()); }
+    try {
+      assertFreshOutput(check.kind, stdout, stderr, root);
+      record.passed = true;
+      if (check.kind === 'local-runtime') runtimeEvidence = JSON.parse(stdout.trim());
+      else if (check.kind === 't06-runtime') {
+        runtimeEvidence = readJson(resolve(root, 'verification/evidence/T06-local-runtime.json'));
+        runtimeMode = 'LOCAL_VALIDATOR_TRANSCRIPT';
+      }
+    }
     catch (error) { record.validationError = String(error); break; }
   }
   const passed = checks.length === manifest.checks.length && checks.every((item) => item.passed);
@@ -134,7 +143,7 @@ export function runTask(task, root = process.cwd()) {
     task, status: passed ? 'CHECKS_PASS_REVIEW_PENDING' : 'CHECKS_FAILED', recordedAt: new Date().toISOString(),
     sourceCommit: version('git', ['rev-parse', 'HEAD'], root), sourceTreeSha256: source.sha256, sourceFiles: source.files,
     policyFixtureSha256: hash(readFileSync(resolve(root, 'docs/spec/wire-vectors.json'))),
-    environment: runtimeEvidence ? 'LOCAL_VALIDATOR' : 'LOCAL_NO_TRANSACTION', clusterGenesis: runtimeEvidence?.genesis ?? null,
+    environment: runtimeEvidence ? (runtimeMode ?? 'LOCAL_VALIDATOR') : 'LOCAL_NO_TRANSACTION', clusterGenesis: runtimeEvidence?.genesis ?? null,
     transactionCount: runtimeEvidence ? Object.keys(runtimeEvidence.transaction_signatures).length : 0,
     versions: { node: process.version, pnpm: version('corepack', ['pnpm@10.17.1', '--version'], root),
       anchor: version('anchor', ['--version'], root), cargo: version('cargo', ['--version'], root) },
