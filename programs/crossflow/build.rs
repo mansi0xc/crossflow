@@ -59,8 +59,16 @@ fn main() {
         return;
     };
     assert!(!file.is_empty(), "empty deployment manifest path");
-    println!("cargo:rerun-if-changed={file}");
-    let raw = fs::read_to_string(&file).expect("read public deployment manifest");
+    let requested_path = PathBuf::from(&file);
+    let manifest_path = if requested_path.is_absolute() {
+        requested_path
+    } else {
+        PathBuf::from(env::var("CARGO_MANIFEST_DIR").expect("CARGO_MANIFEST_DIR"))
+            .join("../..")
+            .join(requested_path)
+    };
+    println!("cargo:rerun-if-changed={}", manifest_path.display());
+    let raw = fs::read_to_string(&manifest_path).expect("read public deployment manifest");
     let manifest: Value = serde_json::from_str(&raw).expect("parse public deployment manifest");
     let object = manifest.as_object().expect("deployment manifest object");
     let fields = ["schema_version", "cluster", "program_id", "genesis", "deployment_id", "config_address",
