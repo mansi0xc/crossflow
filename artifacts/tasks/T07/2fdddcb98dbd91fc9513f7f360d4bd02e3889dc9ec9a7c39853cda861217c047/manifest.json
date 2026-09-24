@@ -1,0 +1,160 @@
+{
+  "task": "T07",
+  "status": "PASS_INDEPENDENT_REVIEW",
+  "recordedAt": "2026-09-24T06:13:01.142Z",
+  "sourceCommit": "a929cdca71ba386cfe2573aeabf3237044545127",
+  "sourceTreeSha256": "2fdddcb98dbd91fc9513f7f360d4bd02e3889dc9ec9a7c39853cda861217c047",
+  "sourceFiles": {
+    "programs/crossflow/src/config.rs": "d64bd3bbe0e3203d506c69532f1fb7259377117340603641dd8bcc2165b26282",
+    "programs/crossflow/src/intent.rs": "db3992068d11fdfa75e0ccfd94d02f8b9e338687475b64faf39cabfa65e18f27",
+    "programs/crossflow/src/lib.rs": "9fc66135c733af55371a3de8abc813fbe07deec24fce10496bbff000a276ffd7",
+    "programs/crossflow/src/recovery.rs": "382ba9e9184e0fd15cdbae2a56bacfbe1b6164bd83a8ef1ad6b3bfb20b30757a",
+    "programs/crossflow/src/settlement.rs": "fc39a5490621ac14f694743f5925c19dd8f27858cc56d098e8901252b55e2aca",
+    "packages/client/src/config.ts": "615ac31dee51875d3489b1984bc035e83ced0d7ba5ff413e99605e70a035cd24",
+    "packages/client/src/recover.ts": "4dd5dbd5f020218e23cb354fa57300c88f232a0d8f3ea14a7e23670dc69fc1c1",
+    "scripts/demo-local.ts": "714ef57449c6a312f97ebcfdf790adf3bbb1f2d15838d6763f06a37d659c86d2",
+    "scripts/check-t07-runtime-evidence.mjs": "6d3717ab2be7fb3955c1d748795330ad7d8614f602481964de84f0a99208586a",
+    "scripts/verify-task.mjs": "7774e45fa612e8e2e7a9953d33906368e0119ef2e21d6e323be5a9b7202d62dd",
+    "tests/program/config.test.ts": "f84a86e9097fe5c0eb8066223003f03eda3e88ec90aae64f8f2215b5c3304bcb",
+    "tests/program/lifecycle.test.ts": "14e0b6e226dc184c37a3564aeb95a3035d06e6acb8d40314c5b587b56f1207c5",
+    "tests/program/thin-flow.test.ts": "f7cae97462e744f91f1057605a589926eee8f29efd653ab008b916f9b2e5bbd3",
+    "tests/workspace/verify-task.test.mjs": "2429d27dded896f24991bc84e79f3dc58317c2890215987576dc3732efcaab34",
+    "docs/spec/oracle-policy.md": "66862a625fd1a7d97d1342d4f9e64fdbe36d2fe154c1855e497a133c772c8fdc",
+    "verification/evidence/T07-local-manifest.json": "4185f437f693f3f9e95c648d18f2cd7f246069902a22c872b3fc3267750e7201",
+    "verification/evidence/T07-local-demo-output.json": "e7ba7b1fac698208b501cfa9a39a5294f4ca7a1d07581e413a2dea228b2e6329",
+    "verification/tasks/T07.json": "d31d736eb988423c5de97dc57c842474d6950b6f87f4283d9ade900148663882"
+  },
+  "policyFixtureSha256": "e31d3209a0556554172821a35f16aeeb406fa1cf27ea01512ea279b4ea370ecf",
+  "environment": "LOCAL_VALIDATOR_TRANSCRIPT",
+  "clusterGenesis": "EDiTLLGC2yJfPrEzt3v4hF3uTVD3TbjALaCdQ3nQS16",
+  "transactionCount": 27,
+  "versions": {
+    "node": "v24.10.0",
+    "pnpm": "10.17.1",
+    "anchor": "anchor-cli 1.1.2",
+    "cargo": "cargo 1.89.0 (c24e10642 2025-06-23)"
+  },
+  "checks": [
+    {
+      "name": "lifecycle-client",
+      "kind": "vitest",
+      "command": [
+        "corepack",
+        "pnpm@10.17.1",
+        "exec",
+        "vitest",
+        "run",
+        "tests/program/lifecycle.test.ts",
+        "tests/program/config.test.ts",
+        "tests/program/thin-flow.test.ts"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "lifecycle-client.log",
+      "outputSha256": "4ee80913881fe1ad6db4d91666a15e50494c631157b56ecba3217fbf2777e918",
+      "passed": true
+    },
+    {
+      "name": "verification-harness",
+      "kind": "workspace",
+      "command": [
+        "corepack",
+        "pnpm@10.17.1",
+        "check:workspace"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "verification-harness.log",
+      "outputSha256": "7fa51f1da49ad51713b632c93eb2b65ed303b76e75d0a9c5d8002753d1d9eca1",
+      "passed": true
+    },
+    {
+      "name": "typescript",
+      "kind": "typecheck",
+      "command": [
+        "corepack",
+        "pnpm@10.17.1",
+        "exec",
+        "tsc",
+        "--noEmit"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "typescript.log",
+      "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "passed": true
+    },
+    {
+      "name": "rust-host",
+      "kind": "cargo-test",
+      "command": [
+        "env",
+        "CROSSFLOW_DEPLOYMENT_MANIFEST=verification/evidence/T07-local-manifest.json",
+        "cargo",
+        "test",
+        "-p",
+        "crossflow",
+        "--lib",
+        "--locked",
+        "--offline"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "rust-host.log",
+      "outputSha256": "7acdcbc98fb591a58de5c5fda748eb79c51a33ca6da88ea56787fb2c4b853ede",
+      "passed": true
+    },
+    {
+      "name": "sbf-idl",
+      "kind": "anchor-build",
+      "command": [
+        "env",
+        "CROSSFLOW_DEPLOYMENT_MANIFEST=verification/evidence/T07-local-manifest.json",
+        "anchor",
+        "build"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "sbf-idl.log",
+      "outputSha256": "3679d5a2b59c9d36be259a08d4e206738dffdcbd826fa30c12b2497a2db1035d",
+      "passed": true
+    },
+    {
+      "name": "wire-vectors",
+      "kind": "json-pass",
+      "command": [
+        "python3",
+        "docs/spec/check-wire-vectors.py"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "wire-vectors.log",
+      "outputSha256": "4ba0c74daf803caec22b7ce0dfdf7f25b077c3b00595a17953d98a725c46ee5f",
+      "passed": true
+    },
+    {
+      "name": "local-runtime-evidence",
+      "kind": "t07-runtime",
+      "command": [
+        "node",
+        "scripts/check-t07-runtime-evidence.mjs"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "local-runtime-evidence.log",
+      "outputSha256": "f5953f0306e408a8f3772bbf45e8243554330779fc80b6ec9282ca9f41e96838",
+      "passed": true
+    }
+  ],
+  "mandatoryCheckCount": 7,
+  "executedCheckCount": 7,
+  "reviewer": {
+    "identity": "/root/t03_economic_review",
+    "verdict": "PASS",
+    "report": ".planning/T07-INDEPENDENT-REVIEW.md"
+  },
+  "limits": [
+    "Isolated local validator and synthetic test prices only; no devnet or live equity claim.",
+    "Captured local signatures/transcript are historical evidence and require a running ledger for later RPC re-query."
+  ]
+}

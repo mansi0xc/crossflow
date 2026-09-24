@@ -1,0 +1,19 @@
+# Independent T07 security and evidence review
+
+**Verdict: PASS for the scoped T07 config/lifecycle gate** at implementation commit fd3e035 and acceptance commit a929cdc. No scoped admin-authentication, version-rotation, pause/recovery, ATA-redirection, close/rent or nonce/replay blocker remains. V1 old-nonce closed-vault donation recovery is still a mandatory T08/G2 gate.
+
+## Source assessment
+
+- Config update and pause (programs/crossflow/src/config.rs:272-349): only the registered admin signer can change pauses; this cannot disable owner cancellation or withdrawal. Policy changes require that signer, zero outstanding claim intents, the expected current version and exactly its successor, unchanged deployment/genesis/program/config identity, and the new fixture publisher signer. New policy and snapshot are validated before atomic replacement. Admin rotation requires current admin, expected policy version and zero claims. Config validation still checks canonical deployment PDA and the hash of stored policy bytes after removing the intentional initial-policy/admin pin.
+- Recovery (programs/crossflow/src/recovery.rs:34-173): only the selected owner ATA is required. The program derives the fixed vault and recipient, creates a missing recipient ATA idempotently with owner-paid rent, verifies exact token deltas, and clears only that asset claim. Cancellation is transfer-independent. Close requires zero booked claims, zero surplus and empty canonical vaults; it closes vaults and intent to the authenticated owner, decrements the claim counter and clears active intent. Persistent owner nonce forbids closed-intent funding replay.
+- Expiry and race: programs/crossflow/src/settlement.rs uses within_settlement_window in the handler; its Rust test covers before, equality, after and negative clock. Local transcript shows paused settlement rejected, expired settlement rejected after unpause, cancelled settlement rejected, and owner cancellation and recovery succeeding while funding and settlement are paused.
+
+## Evidence
+
+The final source-bound artifact at artifacts/tasks/T07/2fdddcb98dbd91fc9513f7f360d4bd02e3889dc9ec9a7c39853cda861217c047 records 7/7 checks passing. I independently recomputed all 18 source-file and seven check-log hashes; all match. I reran the T07 checker and client tests. The built SBF, local manifest and preserved transcript hashes agree with the checker. Transcript SHA-256 is e7ba7b1fac698208b501cfa9a39a5294f4ca7a1d07581e413a2dea228b2e6329. It contains 31 named target-program rejections and 27 signature-shaped local transaction records. The new wrong-rent-recipient-close simulation invokes CrossFlow with an attacker owner and fails at ConstraintSeeds before the subsequent legitimate close succeeds. Both third-leg output failures show two token-transfer CPIs before rejection. The artifact labels the run LOCAL_VALIDATOR_TRANSCRIPT and does not claim to replay historical transactions. The default offline local ledger has a different genesis, so I could not independently requery this isolated run's signatures.
+
+## Required carry-forward
+
+docs/spec/intent-contract.md:89 says v1 MUST support owner-authorized recover_closed_vault for donations to an old intent vault after closure, including an old legacy SPL mint removed by policy rotation. No such instruction exists yet; tokens sent to a recreated old vault would otherwise be trapped. T08's action now explicitly assigns this path and local positive/negative checks. Keep the broader donation-safety/G2 gate and shared funded demo closed until T08 passes. This omission is outside the complete T07 card; do not describe v1 recovery as fully implemented.
+
+Evidence is isolated localnet with synthetic TEST PRICES. Devnet, Pyth, cooperative settlement and external routes remain separate gates.
