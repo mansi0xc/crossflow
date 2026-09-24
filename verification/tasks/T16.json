@@ -1,0 +1,68 @@
+{
+  "task": "T16",
+  "sourceFiles": [
+    "programs/crossflow/src/route.rs",
+    "programs/crossflow/src/batch.rs",
+    "programs/crossflow/src/config.rs",
+    "programs/crossflow/src/lib.rs",
+    "programs/test-venue/src/lib.rs",
+    "packages/client/src/build-batch.ts",
+    "packages/adapters/src/controlled.ts",
+    "packages/planner/src/validate.ts",
+    "scripts/demo-t16-route.ts",
+    "scripts/prepare-route-manifest.ts",
+    "scripts/check-t16-runtime-evidence.mjs",
+    "scripts/local-env.ts",
+    "scripts/verify-task.mjs",
+    "tests/program/atomic-batch.test.ts",
+    "tests/adapters/controlled-venue.test.ts",
+    "tests/workspace/verify-task.test.mjs",
+    "verification/evidence/T16-local-manifest.json",
+    "verification/evidence/T16-local-route-output.json",
+    "verification/tasks/T16.json"
+  ],
+  "checks": [
+    {
+      "name": "routed-client",
+      "kind": "vitest",
+      "command": "corepack",
+      "args": ["pnpm@10.17.1", "exec", "vitest", "run", "tests/program/atomic-batch.test.ts", "tests/adapters/controlled-venue.test.ts", "tests/planner/validation.test.ts"]
+    },
+    {
+      "name": "verification-harness",
+      "kind": "workspace",
+      "command": "corepack",
+      "args": ["pnpm@10.17.1", "check:workspace"]
+    },
+    {
+      "name": "typescript",
+      "kind": "typecheck",
+      "command": "corepack",
+      "args": ["pnpm@10.17.1", "exec", "tsc", "--noEmit"]
+    },
+    {
+      "name": "rust-host",
+      "kind": "cargo-test",
+      "command": "env",
+      "args": ["CROSSFLOW_DEPLOYMENT_MANIFEST=verification/evidence/T16-local-manifest.json", "cargo", "test", "-p", "crossflow", "-p", "test-venue", "--lib", "--locked", "--offline"]
+    },
+    {
+      "name": "sbf-idl",
+      "kind": "anchor-build",
+      "command": "env",
+      "args": ["CROSSFLOW_DEPLOYMENT_MANIFEST=verification/evidence/T16-local-manifest.json", "anchor", "build"]
+    },
+    {
+      "name": "wire-vectors",
+      "kind": "json-pass",
+      "command": "python3",
+      "args": ["docs/spec/check-wire-vectors.py"]
+    },
+    {
+      "name": "local-runtime-evidence",
+      "kind": "t16-runtime",
+      "command": "node",
+      "args": ["scripts/check-t16-runtime-evidence.mjs"]
+    }
+  ]
+}

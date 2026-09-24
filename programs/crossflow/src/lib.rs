@@ -8,14 +8,15 @@ pub mod intent;
 pub mod math;
 pub mod oracle;
 pub mod recovery;
+pub mod route;
 pub mod settlement;
 use config::*;
-use batch::SettleBatch;
+use batch::{SettleBatch, SettleRouted};
 use funding::*;
 use intent::{FundRequest, ThinSettleRequest};
 use oracle::Observation;
 use recovery::{CancelIntent, CloseIntent, RecoverClosedVault, WithdrawAsset};
-pub(crate) use batch::__client_accounts_settle_batch;
+pub(crate) use batch::{__client_accounts_settle_batch, __client_accounts_settle_routed};
 pub(crate) use recovery::{__client_accounts_cancel_intent, __client_accounts_close_intent, __client_accounts_recover_closed_vault, __client_accounts_withdraw_asset};
 use settlement::SettleThin;
 pub(crate) use settlement::__client_accounts_settle_thin;
@@ -63,6 +64,12 @@ pub mod crossflow {
         body: Vec<u8>,
     ) -> Result<()> {
         batch::settle_batch(ctx, body)
+    }
+    pub fn settle_routed<'info>(
+        ctx: Context<'info, SettleRouted<'info>>,
+        body: Vec<u8>,
+    ) -> Result<()> {
+        batch::settle_routed(ctx, body)
     }
     pub fn cancel_intent(ctx: Context<CancelIntent>) -> Result<()> {
         recovery::cancel_intent(ctx)
@@ -129,6 +136,14 @@ pub enum CrossflowError {
     StaleVersion,
     #[msg("Outstanding escrow claims prevent policy/admin rotation")]
     ClaimsOutstanding,
+    #[msg("Residual route identity, direction or program does not match the committed policy")]
+    RouteIdentity,
+    #[msg("Residual route vault or caller account is not the committed derived account")]
+    RouteVault,
+    #[msg("Measured residual output is below the committed minimum or the leg is nonconserving")]
+    RouteOutput,
+    #[msg("A transient batch pool account was not empty when the batch began or did not end empty")]
+    PoolNotClean,
 
     #[msg("Mandate fields or policy hash are invalid")]
     Mandate = 200,

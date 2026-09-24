@@ -1,7 +1,7 @@
 import { createHash } from 'node:crypto';
 import { Keypair, PublicKey } from '@solana/web3.js';
 import { describe, expect, test } from 'vitest';
-import { BATCH_COMPUTE_UNIT_LIMIT, MAX_BATCH, batchTransaction, buildSettleBatchInstruction, deriveBatchAccounts, encodeSettleBatchData } from '../../packages/client/src/build-batch.js';
+import { BATCH_COMPUTE_UNIT_LIMIT, MAX_BATCH, batchTransaction, buildSettleBatchInstruction, buildSettleRoutedInstruction, deriveBatchAccounts, deriveBatchAuthority, deriveRoutedBatchAccounts, encodeSettleBatchData, encodeSettleRoutedData } from '../../packages/client/src/build-batch.js';
 import { encodeSettlementBody } from '../../packages/planner/src/validate.js';
 
 const program = new PublicKey(Uint8Array.from({ length: 32 }, (_, i) => 200 + i));
@@ -58,5 +58,43 @@ describe('T09 bounded batch settlement client', () => {
     expect(() => encodeSettleBatchData(new Uint8Array(195))).toThrow('1–194');
     const body = encodeSettlementBody({ schema_version: '1', expected_snapshot_sequence: '1', crosses: [], residuals: [] }, 3);
     expect(encodeSettleBatchData(body).readUInt32LE(8)).toBe(body.length);
+  });
+});
+
+describe('T16 routed settlement client', () => {
+  const venueProgram = new PublicKey(Uint8Array.from({ length: 32 }, (_, i) => 250 + i));
+  const venuePool = Keypair.fromSeed(Uint8Array.from({ length: 32 }, (_, i) => i === 0 ? 77 : 1)).publicKey;
+
+  test('derives the batch authority and its pools, and pins the venue vaults', () => {
+    const accounts = deriveRoutedBatchAccounts(program, config, prices, mints, sorted.map(owner => ({ owner, nonce: 0n })),
+      { program: venueProgram, pool: venuePool });
+    expect(accounts.batch_authority.equals(deriveBatchAuthority(program, config))).toBe(true);
+    expect(accounts.pools).toHaveLength(3);
+    expect(new Set(accounts.pools.map(key => key.toBase58())).size).toBe(3);
+    expect(accounts.venue.vaults).toHaveLength(3);
+    expect(() => deriveRoutedBatchAccounts(program, config, prices, mints, [{ owner: sorted[0], nonce: 0n }],
+      { program, pool: venuePool })).toThrow('distinct program');
+    expect(() => deriveRoutedBatchAccounts(program, config, prices, mints, [{ owner: sorted[0], nonce: 0n }],
+      { program: venueProgram, pool: deriveBatchAuthority(program, config) })).toThrow('aliases the batch authority');
+  });
+
+  test('orders the declared accounts and appends the validated owner groups', () => {
+    const accounts = deriveRoutedBatchAccounts(program, config, prices, mints, sorted.map(owner => ({ owner, nonce: 0n })),
+      { program: venueProgram, pool: venuePool });
+    const body = encodeSettlementBody({ schema_version: '1', expected_snapshot_sequence: '4', crosses: [],
+      residuals: [{ stock_index: '1', direction: '0', minimum_output: '1000', input_allocations: ['5', '0', '0'] }] }, 3);
+    const ix = buildSettleRoutedInstruction(program, accounts, body);
+    expect(ix.data.subarray(0, 8)).toEqual(Buffer.from([0xf9, 0x3a, 0xb0, 0x2c, 0xd2, 0xdc, 0x77, 0xa7]));
+    expect(ix.data.readUInt32LE(8)).toBe(body.length);
+    expect(ix.keys).toHaveLength(17 + 24);
+    expect(ix.keys[5].pubkey.equals(accounts.batch_authority)).toBe(true);
+    expect(ix.keys.slice(6, 9).map(meta => meta.pubkey)).toEqual(accounts.pools);
+    expect(ix.keys[9].pubkey.equals(venueProgram)).toBe(true);
+    expect(ix.keys[10].pubkey.equals(venuePool)).toBe(true);
+    expect(ix.keys.slice(11, 14).map(meta => meta.pubkey)).toEqual(accounts.venue.vaults);
+    expect(ix.keys.slice(11, 14).every(meta => meta.isWritable)).toBe(true);
+    expect(ix.keys[16].pubkey.toBase58()).toBe('Sysvar1nstructions1111111111111111111111111');
+    expect(ix.keys.slice(17).every(meta => meta.isSigner)).toBe(false);
+    expect(() => encodeSettleRoutedData(new Uint8Array())).toThrow('1–194');
   });
 });

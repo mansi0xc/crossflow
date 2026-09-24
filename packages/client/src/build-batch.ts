@@ -92,3 +92,70 @@ export function buildSettleBatchInstruction(program: PublicKey, accounts: BatchA
 export function batchTransaction(instruction: TransactionInstruction): Transaction {
   return new Transaction().add(ComputeBudgetProgram.setComputeUnitLimit({ units: BATCH_COMPUTE_UNIT_LIMIT }), instruction);
 }
+
+/** The routed instruction declares the batch PDA, its pools and the pinned venue explicitly. */
+export interface RoutedBatchAccounts extends BatchAccounts {
+  batch_authority: PublicKey;
+  pools: PublicKey[];
+  venue: { program: PublicKey; pool: PublicKey; vaults: PublicKey[] };
+}
+
+/** `sha256("global:settle_routed")[..8]` for the pinned CrossFlow program. */
+export const SETTLE_ROUTED_DISCRIMINATOR = Buffer.from([0xf9, 0x3a, 0xb0, 0x2c, 0xd2, 0xdc, 0x77, 0xa7]);
+
+export function deriveBatchAuthority(program: PublicKey, config: PublicKey): PublicKey {
+  return PublicKey.findProgramAddressSync([Buffer.from('batch'), config.toBuffer()], program)[0];
+}
+
+export function deriveRoutedBatchAccounts(
+  program: PublicKey,
+  config: PublicKey,
+  prices: PublicKey,
+  mints: PublicKey[],
+  members: BatchMember[],
+  venue: { program: PublicKey; pool: PublicKey },
+): RoutedBatchAccounts {
+  const base = deriveBatchAccounts(program, config, prices, mints, members);
+  const batch_authority = deriveBatchAuthority(program, config);
+  const pools = mints.map(mint => ata(batch_authority, mint));
+  const vaults = mints.map(mint => ata(venue.pool, mint));
+  const seen = new Set([...base.owner_states, ...base.intents, ...base.vaults.flat(), ...base.recipients.flat(),
+    batch_authority, ...pools, ...vaults].map(key => key.toBase58()));
+  if (base.vaults.flat().some(key => pools.some(pool => pool.equals(key)))) throw new TypeError('pool aliases an intent vault');
+  if (venue.program.equals(program)) throw new TypeError('the venue must be a distinct program from CrossFlow');
+  if (venue.pool.equals(batch_authority)) throw new TypeError('venue pool aliases the batch authority');
+  if (seen.size === 0) throw new TypeError('unreachable');
+  return { ...base, batch_authority, pools, venue: { ...venue, vaults } };
+}
+
+export function encodeSettleRoutedData(body: Uint8Array): Buffer {
+  if (!(body instanceof Uint8Array) || body.length === 0 || body.length > 194) throw new RangeError('settlement body must be 1–194 bytes');
+  const length = Buffer.alloc(4); length.writeUInt32LE(body.length);
+  return Buffer.concat([SETTLE_ROUTED_DISCRIMINATOR, length, Buffer.from(body)]);
+}
+
+export function buildSettleRoutedInstruction(program: PublicKey, accounts: RoutedBatchAccounts, body: Uint8Array): TransactionInstruction {
+  const grouped: AccountMeta[] = [];
+  for (let i = 0; i < accounts.members.length; i++) {
+    grouped.push(
+      { pubkey: accounts.owner_states[i], isSigner: false, isWritable: false },
+      { pubkey: accounts.intents[i], isSigner: false, isWritable: true },
+      ...accounts.vaults[i].map(pubkey => ({ pubkey, isSigner: false, isWritable: true })),
+      ...accounts.recipients[i].map(pubkey => ({ pubkey, isSigner: false, isWritable: true })),
+    );
+  }
+  return new TransactionInstruction({ programId: program, data: encodeSettleRoutedData(body), keys: [
+    { pubkey: accounts.config, isSigner: false, isWritable: false },
+    { pubkey: accounts.prices, isSigner: false, isWritable: false },
+    ...accounts.mints.map(pubkey => ({ pubkey, isSigner: false, isWritable: false })),
+    { pubkey: accounts.batch_authority, isSigner: false, isWritable: false },
+    ...accounts.pools.map(pubkey => ({ pubkey, isSigner: false, isWritable: true })),
+    { pubkey: accounts.venue.program, isSigner: false, isWritable: false },
+    { pubkey: accounts.venue.pool, isSigner: false, isWritable: true },
+    ...accounts.venue.vaults.map(pubkey => ({ pubkey, isSigner: false, isWritable: true })),
+    { pubkey: TOKEN_PROGRAM, isSigner: false, isWritable: false },
+    { pubkey: ASSOCIATED_TOKEN_PROGRAM, isSigner: false, isWritable: false },
+    { pubkey: INSTRUCTIONS_SYSVAR, isSigner: false, isWritable: false },
+    ...grouped,
+  ] });
+}

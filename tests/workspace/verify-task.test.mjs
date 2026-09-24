@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import { strict as assert } from 'node:assert';
-import { assertManifest, assertFreshOutput } from '../../scripts/verify-task.mjs';
+import { assertManifest, assertFreshOutput, stripAnsi } from '../../scripts/verify-task.mjs';
 
 const base = { task: 'T04', sourceFiles: ['package.json'], checks: [{ name: 'a', kind: 'workspace', command: 'node', args: ['x'] }] };
 test('missing task selector, source, checks and duplicate checks fail closed', () => {
@@ -116,4 +116,30 @@ test('T10 runtime evidence requires real measured venue deltas and a labelled sy
   assert.doesNotThrow(() => assertFreshOutput('t10-runtime', JSON.stringify(report), '', process.cwd()));
   assert.throws(() => assertFreshOutput('t10-runtime', JSON.stringify({ ...report, measured_out: '99005' }), '', process.cwd()), /incomplete/);
   assert.throws(() => assertFreshOutput('t10-runtime', JSON.stringify({ ...report, mandatory_negative_cases: 6 }), '', process.cwd()), /incomplete/);
+});
+
+test('colourised test-runner output is interpreted rather than rejected', () => {
+  const manifest = { ...base, checks: [{ name: 'focused', kind: 'vitest', command: 'corepack', args: ['pnpm@10.17.1', 'exec', 'vitest', 'run', 'tests/spec/wire-vectors.test.ts'] }] };
+  assert.doesNotThrow(() => assertManifest(manifest, 'T04'));
+  const coloured = '\u001b[1m\u001b[30m\u001b[46m RUN \u001b[49m\u001b[39m\u001b[22m v5.0.1\n' +
+    '\u001b[1m\u001b[32m Test Files \u001b[39m\u001b[22m \u001b[1m\u001b[32m2 passed\u001b[39m\u001b[22m (2)\n' +
+    '\u001b[1m\u001b[32m      Tests \u001b[39m\u001b[22m \u001b[1m\u001b[32m18 passed\u001b[39m\u001b[22m (18)\n';
+  assert.doesNotThrow(() => assertFreshOutput('vitest', coloured, '', process.cwd()));
+  assert.equal(stripAnsi(coloured).includes('\u001b'), false);
+  assert.throws(() => assertFreshOutput('vitest', stripAnsi(coloured).replace('18 passed', '17 failed, 1 passed'), '', process.cwd()), /absent, failed or skipped/);
+});
+
+test('T16 runtime evidence requires a composed route with intact reserves and measured deltas', () => {
+  const manifest = { ...base, task: 'T16', checks: [{ name: 'runtime', kind: 't16-runtime', command: 'node', args: ['check.mjs'] }] };
+  const report = { status: 'PASS', task: 'T16', cluster: 'localnet',
+    genesis: '87iXpApKAgTJWXhqcRMGHky12KK84bKrX5x1XRVtKWqg',
+    mandatory_negative_cases: 6, compute_units: 311_591, serialized_settlement_bytes: 451,
+    lookup_table_entries: 43, measured_external_input: '50000', measured_external_output: '493579',
+    external_deviation_bps: '128', pools: ['a'.repeat(32), 'b'.repeat(32), 'c'.repeat(32)],
+    route: { vaults_are_pool_atas: true },
+    hashes: Object.fromEntries(['report', 'manifest', 'binary', 'venue_binary', 'body'].map(k => [k, 'd'.repeat(64)])) };
+  assert.doesNotThrow(() => assertManifest(manifest, 'T16'));
+  assert.doesNotThrow(() => assertFreshOutput('t16-runtime', JSON.stringify(report), '', process.cwd()));
+  assert.throws(() => assertFreshOutput('t16-runtime', JSON.stringify({ ...report, external_deviation_bps: '201' }), '', process.cwd()), /incomplete/);
+  assert.throws(() => assertFreshOutput('t16-runtime', JSON.stringify({ ...report, route: { vaults_are_pool_atas: false } }), '', process.cwd()), /incomplete/);
 });

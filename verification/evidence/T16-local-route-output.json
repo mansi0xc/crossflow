@@ -1,0 +1,189 @@
+{
+  "status": "PASS",
+  "task": "T16",
+  "cluster": "localnet",
+  "genesis": "DbjSFL31FcnwuenztcvwJXvHjugbJc38tfQga94Wndf5",
+  "program_id": "CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh",
+  "config": "7K5jSoXJCYtBzzCP1DprpWtE5BTj13zo7qjG3z9dKwxr",
+  "prices": "CSXSCoToZ9A3J3UAPEBH4pi8S2pRToQRAaENG71tqRXh",
+  "snapshot_sequence": "3",
+  "price_label": "TEST PRICES; synthetic fixture oracle; no equity price claim",
+  "route": {
+    "program": "Bq1FxNWHnmnZgJRi6fsRKrvLTbBf6uDTXjaawzdnkw1Q",
+    "pool": "5BzLwg18tRneFjj4ZgBJUPmfiEbkFPTKoxZ3tihAF9af",
+    "fee_bps": 30,
+    "vaults": [
+      "8qxrLVHu6qxyMkNPLjk1fUw2RnXoAks6tH6RLVj6Np53",
+      "DabWKpxbBPhKJYXpkPbaZo6cnRYVVskMhqq7vBnLdcZZ",
+      "2Z6hD1zAna7rNe4pJ55GdcLbkDf8enGu4UTx6Aha3KVP"
+    ],
+    "vaults_are_pool_atas": true
+  },
+  "batch_authority": "CnorwQxrKJhXrjbuLRqh3VKtNm4vsS2p5hdcV6vnXrmW",
+  "pools": [
+    "FxUtLMRJq99cPvj1evWQmxTvhV98m8g3fQ6frEEwg28s",
+    "27TYE2WBGxP9kP4exVZc2EGVcHXz33fLgPLyTR6FzUMr",
+    "8jfcRxJM4ecnTGu3j4Lcxec5NmgXiT6viTi4yCuL9bW5"
+  ],
+  "owners": [
+    "D2gicfWnjVniXrE2ZC84utrPtmxAFwbkBkfwE4W7Tw8R",
+    "F6BaLVsVdKZNSNegD8K38RLjbnn6pz6yT19cpXeMBE5Y",
+    "GcggCtjA8unpDG7THyj63PGcGmh7XPbwvC528gXhNbe3"
+  ],
+  "cross": {
+    "stock_index": "1",
+    "seller_index": "0",
+    "buyer_index": "2",
+    "stock_quantity": "1000000",
+    "cash_amount": "10000000"
+  },
+  "residual": {
+    "stock_index": "1",
+    "direction": "0",
+    "minimum_output": "400000",
+    "input_allocations": [
+      "50000",
+      "0",
+      "0"
+    ]
+  },
+  "residual_inputs": [
+    "50000",
+    "0",
+    "0"
+  ],
+  "venue_before": {
+    "cash": "50000000",
+    "stock1": "5000000"
+  },
+  "venue_after": {
+    "cash": "49506421",
+    "stock1": "5050000"
+  },
+  "measured_external_input": "50000",
+  "measured_external_output": "493579",
+  "vault_before": [
+    [
+      "0",
+      "4000000",
+      "0"
+    ],
+    [
+      "30000000",
+      "0",
+      "0"
+    ],
+    [
+      "40000000",
+      "0",
+      "0"
+    ]
+  ],
+  "recipient_before": [
+    [
+      "450000000",
+      "1000000",
+      "10000000"
+    ],
+    [
+      "470000000",
+      "10000000",
+      "10000000"
+    ],
+    [
+      "460000000",
+      "10000000",
+      "10000000"
+    ]
+  ],
+  "expected_outputs": [
+    [
+      "10493579",
+      "2950000",
+      "0"
+    ],
+    [
+      "30000000",
+      "0",
+      "0"
+    ],
+    [
+      "30000000",
+      "1000000",
+      "0"
+    ]
+  ],
+  "measured_outputs": [
+    [
+      "10493579",
+      "2950000",
+      "0"
+    ],
+    [
+      "30000000",
+      "0",
+      "0"
+    ],
+    [
+      "30000000",
+      "1000000",
+      "0"
+    ]
+  ],
+  "pools_ended_empty": true,
+  "vaults_ended_at_surplus": true,
+  "intents_settled": true,
+  "compute_units": 340091,
+  "requested_compute_units": 1400000,
+  "serialized_settlement_bytes": 451,
+  "lookup_table": "AEePirWee9sTuvJhJp21aDksds3kkXAKtYCsV9nAdEFt",
+  "lookup_table_entries": 43,
+  "mandatory_negative_cases": 6,
+  "negativeResults": [
+    {
+      "label": "unsorted-owner-accounts",
+      "expected": "/Error Code: BatchAccount/",
+      "log": "Program ComputeBudget111111111111111111111111111111 invoke [1]\nProgram ComputeBudget111111111111111111111111111111 success\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: SettleRouted\nProgram log: AnchorError thrown in programs/crossflow/src/batch.rs:251. Error Code: BatchAccount. Error Number: 6407. Error Message: Batch account role, order or identity is invalid.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 85073 of 1399850 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x1907"
+    },
+    {
+      "label": "wrong-venue-program",
+      "expected": "/Error Code: RouteIdentity/",
+      "log": "Program ComputeBudget111111111111111111111111111111 invoke [1]\nProgram ComputeBudget111111111111111111111111111111 success\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: SettleRouted\nProgram log: AnchorError thrown in programs/crossflow/src/batch.rs:902. Error Code: RouteIdentity. Error Number: 6108. Error Message: Residual route identity, direction or program does not match the committed policy.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 163169 of 1399850 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x17dc"
+    },
+    {
+      "label": "cross-price-outside-committed-band",
+      "expected": "/Error Code: TradePrice/",
+      "log": "Program ComputeBudget111111111111111111111111111111 invoke [1]\nProgram ComputeBudget111111111111111111111111111111 success\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: SettleRouted\nProgram log: AnchorError thrown in programs/crossflow/src/oracle.rs:341. Error Code: TradePrice. Error Number: 6011. Error Message: Trade stock/cash price is outside its approved band.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 166120 of 1399850 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x177b"
+    },
+    {
+      "label": "minimum-output-above-the-measured-quote",
+      "expected": "/Error Code: (?:RouteOutput|MinOut)/",
+      "log": "Program ComputeBudget111111111111111111111111111111 invoke [1]\nProgram ComputeBudget111111111111111111111111111111 success\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: SettleRouted\nProgram TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA invoke [2]\nProgram log: Instruction: TransferChecked\nProgram TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA consumed 6148 of 1234620 compute units\nProgram TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA success\nProgram TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA invoke [2]\nProgram log: Instruction: TransferChecked\nProgram TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA consumed 6148 of 1226365 compute units\nProgram TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA success\nProgram Bq1FxNWHnmnZgJRi6fsRKrvLTbBf6uDTXjaawzdnkw1Q invoke [2]\nProgram log: Instruction: Swap\nProgram log: AnchorError thrown in programs/test-venue/src/lib.rs:66. Error Code: MinOut. Error Number: 6006. Error Message: Measured output is below the caller's minimum or nonpositive.\nProgram Bq1FxNWHnmnZgJRi6fsRKrvLTbBf6uDTXjaawzdnkw1Q consumed 31696 of 1199704 compute units\nProgram Bq1FxNWHnmnZgJRi6fsRKrvLTbBf6uDTXjaawzdnkw1Q failed: custom program error: 0x1776\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 231842 of 1399850 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x1776"
+    },
+    {
+      "label": "wrong-snapshot-sequence",
+      "expected": "/Error Code: (?:SnapshotSequence|Sequence)/",
+      "log": "Program ComputeBudget111111111111111111111111111111 invoke [1]\nProgram ComputeBudget111111111111111111111111111111 success\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: SettleRouted\nProgram log: AnchorError thrown in programs/crossflow/src/oracle.rs:158. Error Code: Sequence. Error Number: 6005. Error Message: Wrong snapshot sequence or regressing update.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 45325 of 1399850 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x1775"
+    },
+    {
+      "label": "double-settle-rejected",
+      "expected": "/Error Code: Settle/",
+      "log": "Program ComputeBudget111111111111111111111111111111 invoke [1]\nProgram ComputeBudget111111111111111111111111111111 success\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: SettleRouted\nProgram log: AnchorError thrown in programs/crossflow/src/batch.rs:245. Error Code: Settle. Error Number: 6400. Error Message: Intent is expired, not funded, or violates the thin settlement rules.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 52707 of 1399850 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x1900"
+    }
+  ],
+  "signatures": {
+    "settle": "2tww9FCqVyLJrwW4tK2XCh3nPvJcW3NQByWeuBtSxT3WGbzmmgvVPShuaTZ3MQH9DerW2dHj8gTzPJZJSUZWfdga"
+  },
+  "hashes": {
+    "manifest": "a533c4879a5dda29f8fd0bbd11df7ba95bfba1dd4fadf1346bf77270bc3b0a58",
+    "binary": "312c37085937c69ceeb35c6a9af5929a17ec68090b5bf57dfaaebf1d34ab391b",
+    "venue_binary": "72876b85282964798b1e606626aea010b5ad9bd73ceb48b4d6277c45b515dfe9",
+    "body": "36e715900e1d72a2fcafbf646b0effa445d2e674312d786396a0d8dd0200cff6",
+    "instruction": "6d2b591e48681d36d1904154cc10caa3a52604e0e023ced7847caf43aeca3471"
+  },
+  "limitations": [
+    "Isolated local validator with synthetic TEST PRICES and test-token venue liquidity; no devnet, market or equity claim.",
+    "The venue is a fixed constant-product test venue pinned by the committed policy; it is not Meteora, Jupiter or a real market.",
+    "The routed leg is a single small sell; larger legs would exceed the committed ±200 bps per-owner execution band and must be rejected."
+  ]
+}

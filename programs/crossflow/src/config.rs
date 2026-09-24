@@ -14,6 +14,37 @@ pub struct AssetPolicy {
     pub feed_id: [u8; 32],
 }
 
+/// The committed residual-route identity. `kind = 0` disables routing entirely and requires
+/// every identity to be zero; `kind = 1` admits exactly one venue program, one pool, that pool's
+/// authority and that pool's canonical per-mint vaults. Nothing here is caller-supplied at
+/// settlement time.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub struct RoutePolicy {
+    pub kind: u8,
+    pub program: Pubkey,
+    pub pool: Pubkey,
+    pub pool_authority: Pubkey,
+    pub vaults: [Pubkey; 3],
+    pub max_legs: u8,
+}
+
+impl RoutePolicy {
+    /// Not a `const`: `Pubkey::default()` is not const-evaluable.
+    pub fn disabled() -> Self {
+        Self {
+            kind: 0,
+            program: Pubkey::default(),
+            pool: Pubkey::default(),
+            pool_authority: Pubkey::default(),
+            vaults: [Pubkey::default(); 3],
+            max_legs: 0,
+        }
+    }
+    pub fn enabled(&self) -> bool {
+        self.kind == 1
+    }
+}
+
 #[derive(Clone, Debug)]
 pub struct Policy {
     pub genesis: [u8; 32],
@@ -22,6 +53,7 @@ pub struct Policy {
     pub version: u32,
     pub assets: [AssetPolicy; 3],
     pub oracle: OraclePolicy,
+    pub route: RoutePolicy,
     pub max_intent_lifetime: u32,
     pub fixture_publisher: Pubkey,
 }
@@ -60,7 +92,7 @@ impl<'a> Reader<'a> {
 }
 
 impl Policy {
-    pub fn parse(bytes: &[u8; 652]) -> Result<Self> {
+    pub fn parse(bytes: &[u8; 652]) -> Result<Box<Self>> {
         let mut r = Reader { bytes, position: 0 };
         require!(r.take::<8>()? == *b"CFLCFG01", ConfigError::ConfigPolicy);
         let genesis = r.take()?;
@@ -88,12 +120,36 @@ impl Policy {
                 ConfigError::ConfigPolicy
             );
         }
-        // T05 cannot admit unimplemented routes, regardless of manifest contents.
-        require!(r.byte()? == 0, ConfigError::RouteDisabled);
-        for _ in 0..6 {
-            require!(r.take::<32>()? == [0; 32], ConfigError::RouteDisabled);
+        // Route identities are derived, not trusted: an enabled route must name the venue's own
+        // canonical vaults for the configured mints, so a policy cannot redirect proceeds.
+        let route = RoutePolicy {
+            kind: r.byte()?,
+            program: r.pubkey()?,
+            pool: r.pubkey()?,
+            pool_authority: r.pubkey()?,
+            vaults: [r.pubkey()?, r.pubkey()?, r.pubkey()?],
+            max_legs: r.byte()?,
+        };
+        match route.kind {
+            0 => require!(route == RoutePolicy::disabled(), ConfigError::RouteDisabled),
+            1 => {
+                require!(
+                    route.program != Pubkey::default()
+                        && route.pool != Pubkey::default()
+                        && route.pool_authority != Pubkey::default()
+                        && route.max_legs == 2,
+                    ConfigError::RouteDisabled
+                );
+                for (i, asset) in assets.iter().enumerate() {
+                    let (expected, _) = Pubkey::find_program_address(
+                        &[route.pool.as_ref(), anchor_spl::token::ID.as_ref(), asset.mint.as_ref()],
+                        &anchor_spl::associated_token::ID,
+                    );
+                    require!(route.vaults[i] == expected, ConfigError::RouteDisabled);
+                }
+            }
+            _ => require!(false, ConfigError::RouteDisabled),
         }
-        require!(r.byte()? == 0, ConfigError::RouteDisabled);
         let max_age = r.u32()?;
         let max_future_skew = r.u32()?;
         let max_confidence_bps = r.u16()?;
@@ -128,11 +184,12 @@ impl Policy {
                 max_cross_deviation_bps,
                 max_external_deviation_bps,
             },
+            route,
             max_intent_lifetime,
             fixture_publisher,
         };
         oracle::validate_binding(&result.binding(hash(bytes).to_bytes()))?;
-        Ok(result)
+        Ok(Box::new(result))
     }
     pub fn binding(&self, policy_hash: [u8; 32]) -> OracleBinding {
         OracleBinding {
@@ -165,7 +222,7 @@ pub struct Config {
 }
 impl Config {
     pub const SPACE: usize = 8 + Self::INIT_SPACE;
-    pub fn validate(&self, address: Pubkey) -> Result<Policy> {
+    pub fn validate(&self, address: Pubkey) -> Result<Box<Policy>> {
         require!(
             deployment::DEPLOYMENT_ENABLED,
             ConfigError::DeploymentDisabled

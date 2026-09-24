@@ -180,3 +180,51 @@ frozen quote, the measured output, the moved reserves, seven named target-progra
 relabelled mint, equal direction, zero amount), 44,379 compute units and the built binary hash.
 Composing this venue with CrossFlow settlement, the transient batch pool and the pro-rata
 allocation remains **T16** and is not implemented; there is no devnet venue deployment.
+
+## 9. T16 routed composition (local validator evidence)
+
+`settle_routed` is the same bounded batch with the admitted residual leg executed against the
+venue pinned by the committed policy. It is a separate instruction from `settle_batch` only
+because the route adds pinned accounts; the body format, the shared owner-group loader
+(`load_group`), the cross rules, the bands and the output bounds are identical, and
+`settle_batch` rejects any body that carries residual records.
+
+Sequence actually enforced on chain:
+
+1. Every owner group is loaded and validated once, by the same code both instructions use.
+2. The batch PDA is `[b"batch", config]`; its three pool accounts must be the canonical ATAs of
+   that PDA for the configured mints, and they must start empty.
+3. The pinned venue program, pool and per-mint vaults must equal the committed policy, and each
+   policy vault must be the venue pool's canonical ATA — verified during policy parsing *and*
+   again in the handler.
+4. Crosses and typed residual records are validated as in sections 1 and 2; `R_D` is the residual
+   input contribution itself, with no separate credit array anywhere in the body.
+5. Every debit `D = I_D + R_D` moves from the intent vaults into the pools; the measured pool
+   balances must equal `sum D` per mint.
+6. Each leg calls the pinned venue, which recomputes the quote and enforces the caller's
+   `min_out`. The measured output `Y` is `after - before` on the output pool; the third mint's
+   pool must not move. `Y` is allocated by `largest_remainder_three` using the owners' own input
+   contributions as the only weights, with ties broken by ascending owner bytes.
+7. Every participating owner's realized `(q, k)` must satisfy the committed ±200 bps external
+   band, and the aggregate leg must satisfy it too.
+8. `C = I_C + R_C`, `O = F - D + C`, every signed bound and the whole-slice loss guard are checked
+   on the realized outputs, and the measured pool balance must equal `sum C` exactly.
+9. Credits return from the pools, payouts go to each owner's fixed canonical ATA, every vault must
+   end at its owner-attributed surplus and every pool must end empty.
+
+Two authorities are deliberately distinct: the venue pool authority owns the venue reserves, while
+CrossFlow's batch PDA is the only account that can sign a swap for its own pools. The batch PDA is
+not an outer signer; `invoke_signed` grants it inside the CPI.
+
+Evidence: `verification/evidence/T16-local-route-output.json` records a composed settlement — one
+internal cross plus one 50,000 raw stock leg executed against a pool seeded with 50,000,000 cash
+and 5,000,000 test stock — settling at 311,591 compute units behind a 43-entry lookup table, with
+every owner's payout equal to the independent expectation, the venue reserves moved by exactly the
+measured leg, and six named rejections. The realized external leg came in at 1.28% from the
+reference, inside the committed 2% band.
+
+Capacity and honesty limits: the routed instruction encodes to 451 serialized bytes only through
+an address lookup table. The leg size is deliberately small because a larger sale would breach the
+committed ±200 bps per-owner execution band against this synthetic pool — the band, not the code,
+is what bounds the demonstrable residual size. This is not Meteora, not Jupiter, not a market, and
+not a devnet deployment.
