@@ -1,0 +1,43 @@
+{
+  "genesis": "E46bHpJTDyhXfKUC6kf74f2kfov8i5MiCzrQdDPjsqAh",
+  "wallet": "GjLkCuWMXZyPYbpv3wBTixWVziSkxGnxMXmEmVcNkAYP",
+  "owners": [
+    "GjLkCuWMXZyPYbpv3wBTixWVziSkxGnxMXmEmVcNkAYP",
+    "HYWxhUkLeKYHnVrKjhgXaWiJReAmj3bQ2ew7LLiy8HhN",
+    "Cd4CCiBKMXubUnSKZRbEBSRUdGZ3DaJzqSnRYoZrjAL"
+  ],
+  "owner_paths": [
+    "/private/tmp/commandcode-501/-Users-mansitibrewal-chronicles-crossflow/08855673-421b-4846-91be-85d078f7519b/scratchpad/t10-owner-a.json",
+    "/private/tmp/commandcode-501/-Users-mansitibrewal-chronicles-crossflow/08855673-421b-4846-91be-85d078f7519b/scratchpad/t10-owner-a-b.json",
+    "/private/tmp/commandcode-501/-Users-mansitibrewal-chronicles-crossflow/08855673-421b-4846-91be-85d078f7519b/scratchpad/t10-owner-a-c.json"
+  ],
+  "mints": {
+    "cash": "B2jWDcQjn1q4u8psu68JpAHbL8fVYjxNtzQBDFPqTHEt",
+    "stock1": "C5WD6XpfWPsrK798DUCEwv7DFWjNtfmRwyKekpBWwK5v",
+    "stock2": "GHQwNqU2yM34FtyqX4A9zEKM77g2coCcfj6dMkBNp2yM",
+    "replacement_cash": "9JPJ9CiwaRjzF8iB99xUqyP4dGwz4pJapb631SkKWqEg"
+  },
+  "atas": [
+    [
+      "9UhVTwqehtWFx5iT34ttVvp7RuKVaP4pTpNpahqTLS4Z",
+      "CpLbFknB8N7G1bTjS86hD9thDEaKwdnB8SQY56Lf8wRM",
+      "D5wKL5Bax3ub1ATH2UikfHaouCj6adrshcZAJr9e2zRa"
+    ],
+    [
+      "9dxKCuB5NwqNwqBXLxyvRWk8bXhxHYM9KSDnKKmaZ9Un",
+      "9VSdKGpEmYpTtJbKze29HjJpoiGdzuaqYMed6x2EcJ8E",
+      "5nR314nqECepmxVwfaV2GtPw4nEjGqfWzYtyMrQ4hyZv"
+    ],
+    [
+      "E3KvS4GzRKo7GcDs6foqUVEwY293nnbTUdxQ3q3pxd8K",
+      "F54GaMpezS5bmWxizxeLgDCHbEQSR3YdDachUqQtnA15",
+      "88N7gV1mLMnsT3fg3r1zo4DNqwcXsHtorjT4V1K85t4r"
+    ]
+  ],
+  "supply": {
+    "cash": "500000000",
+    "stock": "10000000"
+  },
+  "label": "LOCAL SYNTHETIC ENVIRONMENT",
+  "nonce": "287936d6"
+}

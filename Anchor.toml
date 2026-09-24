@@ -8,6 +8,7 @@ skip-lint = false
 
 [programs.localnet]
 crossflow = "CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh"
+test_venue = "Bq1FxNWHnmnZgJRi6fsRKrvLTbBf6uDTXjaawzdnkw1Q"
 
 [provider]
 cluster = "localnet"

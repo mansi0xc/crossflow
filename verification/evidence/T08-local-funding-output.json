@@ -1,0 +1,93 @@
+{
+  "status": "LOCAL_FUNDING_PASS",
+  "genesis": "2VLosE4pN2rih9S2YRddrwtixoxGZHTWq6WBhTsgDbrC",
+  "config": "4cZz4hDgk4XdAmfeN9h23DkUamZLXe69z3Kjqf8a8sND",
+  "prices": "5PHwDXTVJbhQJqjrnsqWuT78egckcHZVRm3EdcwJFJxS",
+  "intent": "JBJ84Ua7V32RGM9kvapKqkPtMHkQQN4tkgWZS6wwF6w8",
+  "prefundSignature": "CdFV3rkyros14Zkkf5ehoGRVDfC84YajpmPGdLgc9oyowvxZEkWjeUn2ihryAs1TANo3nZXXZv431dCwpFsREyV",
+  "configSignature": "61cc1YEpbnwnaf1bdHbdrwF4AhveYkaK9XBcJwuvSDuFKCqbuxNkCJWaLwrNeFCW7mNcffz3aUUCt4dgGHPAV7qW",
+  "publishSignature": "6Tz7TaWCCjCd7hYEJ8ZZi2iruEXL6V1whsxpu8pZDBhKtzTNjtCjx1msoufmaizt5yyMh9dpd6uHccpRjkVekvD",
+  "attackerFirstInitializerRejected": true,
+  "duplicateInitializationRejected": true,
+  "rollbackCases": [
+    "one-raw-unit-reference-mismatch",
+    "insufficient-source-balance",
+    "substituted-source-ata",
+    "substituted-configured-mint",
+    "wrong-funder-signer",
+    "duplicate-active-intent-new-nonce",
+    "duplicate-intent-replay"
+  ],
+  "fundingSignature": "4zoELmxrisArJHXGjgs9ex5Xx38DcBsEdkEztTj1xfwGPV7E8B262uASisMpTZQwyS7VcWj9cgDgbEXqWxB88FEJ",
+  "negativeResults": [
+    {
+      "label": "attacker-first-initializer",
+      "expected": "/Error Code: (?:Initializer|ConstraintInit)|already in use/",
+      "log": "Program CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: InitializeConfig\nProgram 11111111111111111111111111111111 invoke [2]\nProgram 11111111111111111111111111111111 success\nProgram 11111111111111111111111111111111 invoke [2]\nProgram 11111111111111111111111111111111 success\nProgram 11111111111111111111111111111111 invoke [2]\nProgram 11111111111111111111111111111111 success\nProgram log: AnchorError caused by account: initializer. Error Code: Initializer. Error Number: 6102. Error Message: Expected deployment initializer signature required.\nProgram log: Left:\nProgram log: DcxEeY22jsWcM6weXwAKd1wuGwibgw1ayPqLNvLcLVsN\nProgram log: Right:\nProgram log: 6yU3rBvmCHiCVXnSs6CHRX9yJH2SxbRbwzKR1ZMhLecP\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 23722 of 400000 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x17d6"
+    },
+    {
+      "label": "duplicate-initialization",
+      "expected": "/already in use|Error Code: ConstraintInit/",
+      "log": "Program CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: InitializeConfig\nProgram 11111111111111111111111111111111 invoke [2]\nAllocate: account Address { address: 4cZz4hDgk4XdAmfeN9h23DkUamZLXe69z3Kjqf8a8sND, base: None } already in use\nProgram 11111111111111111111111111111111 failed: custom program error: 0x0\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 11554 of 400000 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x0"
+    },
+    {
+      "label": "one-raw-unit-reference-mismatch",
+      "expected": "/Error Code: ReferenceMove/",
+      "log": "Program ComputeBudget111111111111111111111111111111 invoke [1]\nProgram ComputeBudget111111111111111111111111111111 success\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: CreateAndFund\nProgram 11111111111111111111111111111111 invoke [2]\nProgram 11111111111111111111111111111111 success\nProgram 11111111111111111111111111111111 invoke [2]\nProgram 11111111111111111111111111111111 success\nProgram log: AnchorError thrown in programs/crossflow/src/oracle.rs:317. Error Code: ReferenceMove. Error Number: 6010. Error Message: Price moved beyond the funded reference bound.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 61789 of 599850 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x177a"
+    },
+    {
+      "label": "insufficient-source-balance",
+      "expected": "/Error Code: InsufficientFunds/",
+      "log": "Program ComputeBudget111111111111111111111111111111 invoke [1]\nProgram ComputeBudget111111111111111111111111111111 success\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: CreateAndFund\nProgram 11111111111111111111111111111111 invoke [2]\nProgram 11111111111111111111111111111111 success\nProgram 11111111111111111111111111111111 invoke [2]\nProgram 11111111111111111111111111111111 success\nProgram ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL invoke [2]\nProgram log: CreateIdempotent\nProgram TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA invoke [3]\nProgram log: Instruction: GetAccountDataSize\nProgram TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA consumed 1569 of 526596 compute units\nProgram return: TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA pQAAAAAAAAA=\nProgram TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA success\nProgram 11111111111111111111111111111111 invoke [3]\nProgram 11111111111111111111111111111111 success\nProgram log: Initialize the associated token account\nProgram TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA invoke [3]\nProgram log: Instruction: InitializeImmutableOwner\nProgram log: Please upgrade to SPL Token 2022 for immutable owner support\nProgram TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA consumed 1405 of 520117 compute units\nProgram TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA success\nProgram TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA invoke [3]\nProgram log: Instruction: InitializeAccount3\nProgram TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA consumed 4188 of 516286 compute units\nProgram TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA success\nProgram ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL consumed 20231 of 532025 compute units\nProgram ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL success\nProgram log: AnchorError thrown in programs/crossflow/src/funding.rs:236. Error Code: InsufficientFunds. Error Number: 6306. Error Message: Insufficient selected slice funding.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 91060 of 599850 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x18a2"
+    },
+    {
+      "label": "substituted-source-ata",
+      "expected": "/Error Code: (?:AccountOwnedByWrongProgram|ConstraintAssociated)/",
+      "log": "Program ComputeBudget111111111111111111111111111111 invoke [1]\nProgram ComputeBudget111111111111111111111111111111 success\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: CreateAndFund\nProgram log: AnchorError caused by account: source1. Error Code: AccountOwnedByWrongProgram. Error Number: 3007. Error Message: The given account is owned by a different program than expected.\nProgram log: Left:\nProgram log: NativeLoader1111111111111111111111111111111\nProgram log: Right:\nProgram log: TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 10677 of 599850 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0xbbf"
+    },
+    {
+      "label": "substituted-configured-mint",
+      "expected": "/Error Code: (?:ConstraintAssociated|Mint)/",
+      "log": "Program ComputeBudget111111111111111111111111111111 invoke [1]\nProgram ComputeBudget111111111111111111111111111111 success\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: CreateAndFund\nProgram 11111111111111111111111111111111 invoke [2]\nProgram 11111111111111111111111111111111 success\nProgram 11111111111111111111111111111111 invoke [2]\nProgram 11111111111111111111111111111111 success\nProgram log: AnchorError caused by account: source1. Error Code: ConstraintAssociated. Error Number: 2009. Error Message: An associated constraint was violated.\nProgram log: Left:\nProgram log: CHaAEnqr16dCqwt3Xt3sPiQqYqAUi365aXEVJaqmXqr1\nProgram log: Right:\nProgram log: DjL1xtaSG1tZS7Rj6vkyGpXYV3Q3Rvd2vnhqrVDCDLM7\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 40256 of 599850 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x7d9"
+    },
+    {
+      "label": "wrong-funder-signer",
+      "expected": "/Error Code: (?:ConstraintSeeds|Nonce)/",
+      "log": "Program ComputeBudget111111111111111111111111111111 invoke [1]\nProgram ComputeBudget111111111111111111111111111111 success\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: CreateAndFund\nProgram log: AnchorError caused by account: owner_state. Error Code: ConstraintSeeds. Error Number: 2006. Error Message: A seeds constraint was violated.\nProgram log: Left:\nProgram log: dE5Y5sFWeG9h9R5wB8GuvuHGibN6PLqK2ipwBYGPfu8\nProgram log: Right:\nProgram log: AsPRvgmjgbsXSCrfbreYzPjcyJdzmGXM516YX3P5cxfq\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 14821 of 599850 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x7d6"
+    },
+    {
+      "label": "duplicate-active-intent-new-nonce",
+      "expected": "/Error Code: Nonce/",
+      "log": "Program ComputeBudget111111111111111111111111111111 invoke [1]\nProgram ComputeBudget111111111111111111111111111111 success\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: CreateAndFund\nProgram 11111111111111111111111111111111 invoke [2]\nProgram 11111111111111111111111111111111 success\nProgram log: AnchorError thrown in programs/crossflow/src/funding.rs:172. Error Code: Nonce. Error Number: 6203. Error Message: Owner nonce or active intent is invalid.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 59268 of 599850 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x183b"
+    },
+    {
+      "label": "duplicate-intent-replay",
+      "expected": "/already in use|Error Code: ConstraintInit/",
+      "log": "Program ComputeBudget111111111111111111111111111111 invoke [1]\nProgram ComputeBudget111111111111111111111111111111 success\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: CreateAndFund\nProgram 11111111111111111111111111111111 invoke [2]\nAllocate: account Address { address: JBJ84Ua7V32RGM9kvapKqkPtMHkQQN4tkgWZS6wwF6w8, base: None } already in use\nProgram 11111111111111111111111111111111 failed: custom program error: 0x0\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 18549 of 599850 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x0"
+    }
+  ],
+  "stored_mandate_hash": "2747fa5b446f1fda65edba7c6954cd50918607a731cd0932f557e3baddd69392",
+  "stored_intent_verified": true,
+  "sourceBefore": [
+    "500000000",
+    "10000000",
+    "10000000"
+  ],
+  "sourceAfter": [
+    "400000000",
+    "9000000",
+    "9000000"
+  ],
+  "vaultBefore": [
+    "0",
+    "0",
+    "0"
+  ],
+  "vaultAfter": [
+    "100000000",
+    "1000000",
+    "1000000"
+  ],
+  "intentDataLength": 522,
+  "priceLabel": "TEST PRICES; synthetic fixture oracle; no equity price claim"
+}

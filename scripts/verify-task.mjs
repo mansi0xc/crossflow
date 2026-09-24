@@ -14,7 +14,7 @@ export function assertManifest(manifest, task) {
   for (const check of manifest.checks) {
     if (!check || typeof check.name !== 'string' || !/^[a-z0-9-]+$/.test(check.name) || names.has(check.name)) throw new Error('invalid/duplicate check name');
     names.add(check.name);
-    if (!['locked-install', 'workspace', 'vitest', 'typecheck', 'json-pass', 'cargo-test', 'anchor-build', 'capacity', 'local-runtime', 't06-runtime', 't07-runtime', 't08-runtime'].includes(check.kind)) throw new Error(`unknown evidence kind ${check.kind}`);
+    if (!['locked-install', 'workspace', 'vitest', 'typecheck', 'json-pass', 'cargo-test', 'anchor-build', 'capacity', 'local-runtime', 't06-runtime', 't07-runtime', 't08-runtime', 't09-runtime', 't10-runtime'].includes(check.kind)) throw new Error(`unknown evidence kind ${check.kind}`);
     if (typeof check.command !== 'string' || !/^[a-zA-Z0-9_-]+$/.test(check.command)) throw new Error('invalid command');
     if (!Array.isArray(check.args) || check.args.some((arg) => typeof arg !== 'string' || arg.includes('\0'))) throw new Error('invalid command args');
     if (check.args.join(' ').includes('mainnet')) throw new Error('mainnet command rejected');
@@ -105,6 +105,33 @@ export function assertFreshOutput(kind, stdout, stderr, root) {
         Object.values(result.hashes ?? {}).some(value => typeof value !== 'string' || !/^[0-9a-f]{64}$/.test(value))) {
       throw new Error('T08 local asset/recovery evidence is incomplete');
     }
+  } else if (kind === 't09-runtime') {
+    const result = JSON.parse(stdout.trim());
+    if (result.status !== 'PASS' || result.task !== 'T09' || result.cluster !== 'localnet' ||
+        !/^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(result.genesis) ||
+        result.batch_count !== 3 || result.mandatory_negative_cases < 14 ||
+        result.transaction_signatures_count < 6 ||
+        !(result.compute_units > 0) || result.compute_units > 2000000 ||
+        !(result.serialized_settlement_bytes > 0) || result.serialized_settlement_bytes > 1232 ||
+        result.lookup_table_entries < 24 ||
+        !Array.isArray(result.final_status) || result.final_status.length !== 3 || result.final_status.some(status => status !== 1) ||
+        Object.values(result.hashes ?? {}).length !== 5 ||
+        Object.values(result.hashes ?? {}).some(value => typeof value !== 'string' || !/^[0-9a-f]{64}$/.test(value))) {
+      throw new Error('T09 local batch settlement evidence is incomplete');
+    }
+  } else if (kind === 't10-runtime') {
+    const result = JSON.parse(stdout.trim());
+    if (result.status !== 'PASS' || result.task !== 'T10' || result.cluster !== 'localnet' ||
+        !/^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(result.genesis) ||
+        !/^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(result.pool ?? '') ||
+        result.mandatory_negative_cases < 7 || result.transaction_signatures_count < 3 ||
+        !(result.compute_units > 0) || result.compute_units > 200000 ||
+        BigInt(result.measured_out) !== BigInt(result.quoted_out) ||
+        BigInt(result.quoted_out) <= 0n ||
+        Object.values(result.hashes ?? {}).length !== 3 ||
+        Object.values(result.hashes ?? {}).some(value => typeof value !== 'string' || !/^[0-9a-f]{64}$/.test(value))) {
+      throw new Error('T10 controlled venue execution evidence is incomplete');
+    }
   } else if (kind === 'capacity') {
     const start = stdout.indexOf('{');
     if (start < 0) throw new Error('capacity JSON missing');
@@ -162,7 +189,7 @@ export function runTask(task, root = process.cwd()) {
         runtimeEvidence = JSON.parse(stdout.trim());
         runtimeMode = 'LOCAL_VALIDATOR_TRANSCRIPT';
       }
-      else if (check.kind === 't08-runtime') {
+      else if (check.kind === 't08-runtime' || check.kind === 't09-runtime' || check.kind === 't10-runtime') {
         runtimeEvidence = JSON.parse(stdout.trim());
         runtimeMode = 'LOCAL_VALIDATOR_TRANSCRIPT';
       }

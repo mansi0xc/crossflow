@@ -89,3 +89,31 @@ test('T08 runtime evidence requires old-mint removal before owner closed-vault r
   assert.doesNotThrow(() => assertFreshOutput('t08-runtime', JSON.stringify(report), '', process.cwd()));
   assert.throws(() => assertFreshOutput('t08-runtime', JSON.stringify({ ...report, old_mint_removed_before_recovery: false }), '', process.cwd()), /incomplete/);
 });
+
+test('T09 runtime evidence requires a three-owner lookup-backed atomic batch', () => {
+  const manifest = { ...base, task: 'T09', checks: [{ name: 'runtime', kind: 't09-runtime', command: 'node', args: ['check.mjs'] }] };
+  const report = { status: 'PASS', task: 'T09', cluster: 'localnet',
+    genesis: '87iXpApKAgTJWXhqcRMGHky12KK84bKrX5x1XRVtKWqg', batch_count: 3,
+    mandatory_negative_cases: 14, transaction_signatures_count: 6,
+    compute_units: 331_000, serialized_settlement_bytes: 1180, lookup_table_entries: 30,
+    final_status: [1, 1, 1],
+    hashes: Object.fromEntries(['report', 'manifest', 'binary', 'body', 'env'].map(k => [k, 'b'.repeat(64)])) };
+  assert.doesNotThrow(() => assertManifest(manifest, 'T09'));
+  assert.doesNotThrow(() => assertFreshOutput('t09-runtime', JSON.stringify(report), '', process.cwd()));
+  assert.throws(() => assertFreshOutput('t09-runtime', JSON.stringify({ ...report, final_status: [1, 0, 1] }), '', process.cwd()), /incomplete/);
+  assert.throws(() => assertFreshOutput('t09-runtime', JSON.stringify({ ...report, serialized_settlement_bytes: 1400 }), '', process.cwd()), /incomplete/);
+  assert.throws(() => assertFreshOutput('t09-runtime', JSON.stringify({ ...report, batch_count: 2 }), '', process.cwd()), /incomplete/);
+});
+
+test('T10 runtime evidence requires real measured venue deltas and a labelled synthetic pool', () => {
+  const manifest = { ...base, task: 'T10', checks: [{ name: 'runtime', kind: 't10-runtime', command: 'node', args: ['check.mjs'] }] };
+  const report = { status: 'PASS', task: 'T10', cluster: 'localnet',
+    genesis: '87iXpApKAgTJWXhqcRMGHky12KK84bKrX5x1XRVtKWqg', pool: 'FSyL13FTp3Yrgdo8VWpoNtpL8FS5FcSGL3tdNp1sjw2t',
+    mandatory_negative_cases: 7, transaction_signatures_count: 3, compute_units: 41_000,
+    quoted_out: '99004', measured_out: '99004',
+    hashes: Object.fromEntries(['report', 'env', 'binary'].map(k => [k, 'c'.repeat(64)])) };
+  assert.doesNotThrow(() => assertManifest(manifest, 'T10'));
+  assert.doesNotThrow(() => assertFreshOutput('t10-runtime', JSON.stringify(report), '', process.cwd()));
+  assert.throws(() => assertFreshOutput('t10-runtime', JSON.stringify({ ...report, measured_out: '99005' }), '', process.cwd()), /incomplete/);
+  assert.throws(() => assertFreshOutput('t10-runtime', JSON.stringify({ ...report, mandatory_negative_cases: 6 }), '', process.cwd()), /incomplete/);
+});

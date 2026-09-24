@@ -2,6 +2,7 @@ use anchor_lang::prelude::*;
 
 pub mod config;
 pub mod assets;
+pub mod batch;
 pub mod funding;
 pub mod intent;
 pub mod math;
@@ -9,10 +10,12 @@ pub mod oracle;
 pub mod recovery;
 pub mod settlement;
 use config::*;
+use batch::SettleBatch;
 use funding::*;
 use intent::{FundRequest, ThinSettleRequest};
 use oracle::Observation;
 use recovery::{CancelIntent, CloseIntent, RecoverClosedVault, WithdrawAsset};
+pub(crate) use batch::__client_accounts_settle_batch;
 pub(crate) use recovery::{__client_accounts_cancel_intent, __client_accounts_close_intent, __client_accounts_recover_closed_vault, __client_accounts_withdraw_asset};
 use settlement::SettleThin;
 pub(crate) use settlement::__client_accounts_settle_thin;
@@ -54,6 +57,12 @@ pub mod crossflow {
     }
     pub fn settle_thin(ctx: Context<SettleThin>, request: ThinSettleRequest) -> Result<()> {
         settlement::settle_thin(ctx, request)
+    }
+    pub fn settle_batch<'info>(
+        ctx: Context<'info, SettleBatch<'info>>,
+        body: Vec<u8>,
+    ) -> Result<()> {
+        batch::settle_batch(ctx, body)
     }
     pub fn cancel_intent(ctx: Context<CancelIntent>) -> Result<()> {
         recovery::cancel_intent(ctx)
@@ -174,4 +183,10 @@ pub enum CrossflowError {
     RecoveryStatus,
     #[msg("All claims and vault balances must be empty before close")]
     ClaimsRemain,
+    #[msg("Batch account role, order or identity is invalid")]
+    BatchAccount,
+    #[msg("Batch cross record is duplicated, unordered or out of range")]
+    BatchRecord,
+    #[msg("Batch debits and credits do not conserve every asset")]
+    Conservation,
 }

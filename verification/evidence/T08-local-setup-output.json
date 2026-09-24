@@ -1,23 +1,23 @@
 {
   "status": "LOCAL_POLICY_REMOVAL_SETUP_PASS",
   "cluster": "localnet",
-  "genesis": "EDiTLLGC2yJfPrEzt3v4hF3uTVD3TbjALaCdQ3nQS16",
-  "config": "ADSoJb4LUwP9pguHBGoNzySA1F53sr6eJTdvoPADL9rJ",
-  "old_mint": "6K1mBcYn9wgbZNUq6RwfXZbxyRXyd6QZr82akhey4ycv",
-  "replacement_mint": "4YnbGbURZWp1TzVjPtyM6tmu2VUoCDo3q63S4gGyXmty",
+  "genesis": "2VLosE4pN2rih9S2YRddrwtixoxGZHTWq6WBhTsgDbrC",
+  "config": "4cZz4hDgk4XdAmfeN9h23DkUamZLXe69z3Kjqf8a8sND",
+  "old_mint": "rMrih1Vub9kKWepvMyW4zr1zpFwNjJVYLKHZ5owSfot",
+  "replacement_mint": "5Z3TPq1zEAfyjawdhWZ32PZAoP254aXkyiNT6aLxsgny",
   "policy_version": 2,
   "old_mint_removed": true,
   "old_intent_closed": true,
   "next_nonce": "1",
   "outstanding_claim_intents": "0",
   "signatures": {
-    "cancel": "3UYDgmsoaV4TRRTpS7LDPoUpnM3o3EdzDvmvmc5WAXVh5zQ32J2nq9BYEuLhwe61Naptx7XyeQYKoYWCp3ErR3u4",
+    "cancel": "2Y52CqhJLmVhT2DB2rrW8y5ww1etd5dciUE2ZTaJBRXLMMRydV4XPEjCkU1cWow3nWAzTMcVrLcBPDo44jFBmWfT",
     "withdrawals": [
-      "3LUPqT1kNsik3tD2QL8pJaPWE6yQfSmoxMLMtqPvmJZTE1rYunVMnDfFTEkhW8k6agN1YfjXyGdeyNNekyhFhArA",
-      "5FojPospu463VuRr9u2xKxrfWAQ5UcJBcdUMbMcAkZpvxgNtDgwidgjpfU8sRbxdWteQ5bZuHtVE9n3E8bmuM4Cw",
-      "5ypX3HrCcNoiJz7R6QQRaQWwXD779YJUaHWFY33x8f9fWm9AB6GmEiyn3eCd2opYVi6C7wQh95wstWnygFqfd1go"
+      "336vQqVhY5UonBZXthaLbDKHBtdo3HdgexW1X3nxaxdpG3yX1TtiLE1GvDeovFEYjogwUtdyRcKLXVkZXm8FsQtr",
+      "34CGSKLCKw9Qqgiqaf1GpUfmE1HjNJLqoeJReDFkmmjxQDFSBkz74Edqursvk7gGTxXd6RuyKPPHLp2pjDWQ6wvN",
+      "4U7PPC5E5DbUyr3y15gewFZyAsiFxEjMrB9QrEvHSBFdEewqUYH8b87x4EWqvm7ezPgjHNghTmAXJsro5VYcubMD"
     ],
-    "close": "4zMY8pagKTdhkSTmbgD79bApqUPiepfdV41LqzSVYJzdgLFRAErUjRGo2RAdYwm1yeoxrwMsHSP1RisoiAPEUMWS",
-    "rotation": "4DbiSp9nbXo6nQ1zb41mLZmnNgGWCnubh8h8YnM6XoTzMuK2WtTFMf6QDmp8CLwG3JGepT8Bw4mRz4U3qXZHJsSs"
+    "close": "s86g12wa1pVsAJQ8dcXVVxqBwr1oUsD7XnWdum4yvoxhXM7fysG2aGFAr2vaSkifHcZPSYfXdrEzAFohNdxnpQ1",
+    "rotation": "rX93KmQPgqYCHSrvh4qkmgHZv8E49gaBBakmn3vQw9hMn8pEBGMYj7wggsbEBhstzgiapzHzD29X3W54z9TxBat"
   }
 }

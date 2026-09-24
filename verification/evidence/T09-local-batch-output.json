@@ -1,0 +1,197 @@
+{
+  "status": "PASS",
+  "task": "T09",
+  "cluster": "localnet",
+  "genesis": "9kCcxMX6J1zvwh2NtfcoywC19FSQVrFQLikhnjQi9jJH",
+  "program_id": "CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh",
+  "config": "5fRYV7ZrrzjzuUajpSY2pW1PYz8ap5TEz64W3GKD2Fgf",
+  "prices": "GbFGr4gjQd31Ddo8Nn6WdypdRgQzPT1fkXNGedGoseUZ",
+  "snapshot_sequence": "2",
+  "price_label": "TEST PRICES; synthetic fixture oracle; no equity price claim",
+  "batch_count": 3,
+  "owners": [
+    "3shsJjr774Jamubxm4mCVtLLzEQx9DAKQH7qx8vz4N52",
+    "BynHT2f63Q8tcVU2YSgmWnAGQLxiUafxPncF19DcmQZM",
+    "CLp9s4CfDzPNjnqZ1W3ksbMHfPuKgb9CK4jjVtsYQHyy"
+  ],
+  "mandate_hashes": [
+    "68d248c29d73e8ae59a59677f19b09a1bda4fed89534b1a8d4de58b119d979d8",
+    "ef69702f54d5a360fdc48219717bba0ff1b0b5426f1a660057b3f04504432d0c",
+    "7a2f800411c3b193012f0308625a7c6887e87debffbca25792f2362468ce154b"
+  ],
+  "crosses": [
+    {
+      "stock_index": "1",
+      "seller_index": "2",
+      "buyer_index": "1",
+      "stock_quantity": "2000000",
+      "cash_amount": "20000000"
+    }
+  ],
+  "estimated_outputs": [
+    [
+      "30000000",
+      "0",
+      "0"
+    ],
+    [
+      "20000000",
+      "2000000",
+      "0"
+    ],
+    [
+      "30000000",
+      "2000000",
+      "0"
+    ]
+  ],
+  "vault_before": [
+    [
+      "30000000",
+      "0",
+      "0"
+    ],
+    [
+      "40000000",
+      "0",
+      "0"
+    ],
+    [
+      "10000000",
+      "4000000",
+      "0"
+    ]
+  ],
+  "recipient_before": [
+    [
+      "470000000",
+      "10000000",
+      "10000000"
+    ],
+    [
+      "460000000",
+      "10000000",
+      "10000000"
+    ],
+    [
+      "490000000",
+      "6000000",
+      "10000000"
+    ]
+  ],
+  "final_status": [
+    1,
+    1,
+    1
+  ],
+  "compute_units": 208433,
+  "requested_compute_units": 1400000,
+  "serialized_settlement_bytes": 350,
+  "legacy_packet_limit": 1232,
+  "legacy_encoded_bytes": 1275,
+  "lookup_table": "5Ys72Hwg5GrMR5rYK4ZcakNQ3AUz32SrWdHj2ctD3x55",
+  "lookup_table_entries": 33,
+  "mandatory_negative_cases": 14,
+  "negativeResults": [
+    {
+      "label": "unsorted-owner-accounts",
+      "expected": "/Error Code: BatchAccount/",
+      "log": "Program ComputeBudget111111111111111111111111111111 invoke [1]\nProgram ComputeBudget111111111111111111111111111111 success\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: SettleBatch\nProgram log: AnchorError thrown in programs/crossflow/src/batch.rs:257. Error Code: BatchAccount. Error Number: 6407. Error Message: Batch account role, order or identity is invalid.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 61907 of 1399850 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x1907"
+    },
+    {
+      "label": "duplicate-intent-group",
+      "expected": "/Error Code: (?:BatchAccount|Alias)/",
+      "log": "Program ComputeBudget111111111111111111111111111111 invoke [1]\nProgram ComputeBudget111111111111111111111111111111 success\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: SettleBatch\nProgram log: AnchorError thrown in programs/crossflow/src/batch.rs:257. Error Code: BatchAccount. Error Number: 6407. Error Message: Batch account role, order or identity is invalid.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 66159 of 1399850 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x1907"
+    },
+    {
+      "label": "output-above-owner-maximum",
+      "expected": "/Error Code: Output/",
+      "log": "Program ComputeBudget111111111111111111111111111111 invoke [1]\nProgram ComputeBudget111111111111111111111111111111 success\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: SettleBatch\nProgram log: AnchorError thrown in programs/crossflow/src/batch.rs:358. Error Code: Output. Error Number: 6401. Error Message: Final output is outside its owner-approved raw bounds.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 135060 of 1399850 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x1901"
+    },
+    {
+      "label": "cross-price-outside-committed-band",
+      "expected": "/Error Code: TradePrice/",
+      "log": "Program ComputeBudget111111111111111111111111111111 invoke [1]\nProgram ComputeBudget111111111111111111111111111111 success\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: SettleBatch\nProgram log: AnchorError thrown in programs/crossflow/src/oracle.rs:341. Error Code: TradePrice. Error Number: 6011. Error Message: Trade stock/cash price is outside its approved band.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 132090 of 1399850 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x177b"
+    },
+    {
+      "label": "output-below-owner-minimum",
+      "expected": "/Error Code: Output/",
+      "log": "Program ComputeBudget111111111111111111111111111111 invoke [1]\nProgram ComputeBudget111111111111111111111111111111 success\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: SettleBatch\nProgram log: AnchorError thrown in programs/crossflow/src/batch.rs:358. Error Code: Output. Error Number: 6401. Error Message: Final output is outside its owner-approved raw bounds.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 135057 of 1399850 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x1901"
+    },
+    {
+      "label": "debit-exceeds-original-funding",
+      "expected": "/Error Code: BatchRecord/",
+      "log": "Program ComputeBudget111111111111111111111111111111 invoke [1]\nProgram ComputeBudget111111111111111111111111111111 success\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: SettleBatch\nProgram log: AnchorError thrown in programs/crossflow/src/batch.rs:355. Error Code: BatchRecord. Error Number: 6408. Error Message: Batch cross record is duplicated, unordered or out of range.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 134942 of 1399850 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x1908"
+    },
+    {
+      "label": "round-trip-buy-and-sell-same-stock",
+      "expected": "/Error Code: BatchRecord/",
+      "log": "Program ComputeBudget111111111111111111111111111111 invoke [1]\nProgram ComputeBudget111111111111111111111111111111 success\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: SettleBatch\nProgram log: AnchorError thrown in programs/crossflow/src/batch.rs:335. Error Code: BatchRecord. Error Number: 6408. Error Message: Batch cross record is duplicated, unordered or out of range.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 132245 of 1399850 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x1908"
+    },
+    {
+      "label": "substituted-vault-and-recipient",
+      "expected": "/Error Code: TokenIdentity/",
+      "log": "Program ComputeBudget111111111111111111111111111111 invoke [1]\nProgram ComputeBudget111111111111111111111111111111 success\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: SettleBatch\nProgram log: AnchorError thrown in programs/crossflow/src/batch.rs:285. Error Code: TokenIdentity. Error Number: 6304. Error Message: Token account identity or program is invalid.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 75985 of 1399850 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x18a0"
+    },
+    {
+      "label": "wrong-mint-rejected",
+      "expected": "/Error Code: Mint/",
+      "log": "Program ComputeBudget111111111111111111111111111111 invoke [1]\nProgram ComputeBudget111111111111111111111111111111 success\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: SettleBatch\nProgram log: AnchorError thrown in programs/crossflow/src/assets.rs:17. Error Code: Mint. Error Number: 6303. Error Message: Mint identity, decimals, supply authority or freeze policy is unsupported.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 41980 of 1399850 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x189f"
+    },
+    {
+      "label": "trailing-instruction-bytes-rejected",
+      "expected": "/Error Code: Instruction/",
+      "log": "Program ComputeBudget111111111111111111111111111111 invoke [1]\nProgram ComputeBudget111111111111111111111111111111 success\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: SettleBatch\nProgram log: AnchorError thrown in programs/crossflow/src/batch.rs:126. Error Code: Instruction. Error Number: 6302. Error Message: Only exact canonical top-level funding instructions are accepted.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 19856 of 1399850 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x189e"
+    },
+    {
+      "label": "wrong-snapshot-sequence",
+      "expected": "/Error Code: (?:SnapshotSequence|Sequence)/",
+      "log": "Program ComputeBudget111111111111111111111111111111 invoke [1]\nProgram ComputeBudget111111111111111111111111111111 success\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: SettleBatch\nProgram log: AnchorError thrown in programs/crossflow/src/oracle.rs:158. Error Code: Sequence. Error Number: 6005. Error Message: Wrong snapshot sequence or regressing update.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 29734 of 1399850 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x1775"
+    },
+    {
+      "label": "residual-record-rejected",
+      "expected": "/Error Code: Instruction/",
+      "log": "Program ComputeBudget111111111111111111111111111111 invoke [1]\nProgram ComputeBudget111111111111111111111111111111 success\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: SettleBatch\nProgram log: AnchorError thrown in programs/crossflow/src/batch.rs:91. Error Code: Instruction. Error Number: 6302. Error Message: Only exact canonical top-level funding instructions are accepted.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 19907 of 1399850 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x189e"
+    },
+    {
+      "label": "settlement-paused",
+      "expected": "/Error Code: Paused/",
+      "log": "Program ComputeBudget111111111111111111111111111111 invoke [1]\nProgram ComputeBudget111111111111111111111111111111 success\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: SettleBatch\nProgram log: AnchorError thrown in programs/crossflow/src/batch.rs:186. Error Code: Paused. Error Number: 6300. Error Message: Funding is paused.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 26373 of 1399850 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x189c"
+    },
+    {
+      "label": "double-settle-rejected",
+      "expected": "/Error Code: Settle/",
+      "log": "Program ComputeBudget111111111111111111111111111111 invoke [1]\nProgram ComputeBudget111111111111111111111111111111 success\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: SettleBatch\nProgram log: AnchorError thrown in programs/crossflow/src/batch.rs:251. Error Code: Settle. Error Number: 6400. Error Message: Intent is expired, not funded, or violates the thin settlement rules.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 35780 of 1399850 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x1900"
+    }
+  ],
+  "signature_count": 10,
+  "signatures": {
+    "prefund": "4TvJTsTj8ac6o9fZA9efyoutojM4ajR1LYDMcbkkomheLGVfKMqdrZttJA3xhEvyoV6bkdPUvc4Mch7jfp9VoxCZ",
+    "initialize": "39nKhXhC41o9P3ogYnrKXEoUMm76yRhoXNs95or6wApsj9PEEnBbR2rkZDNDb6GncfygudsHTAMxRHE1hapXXXCe",
+    "funding": [
+      "3FGcBtFbFSDYALmRV66dQfmYH5dMKhRLjSFj18FJjC1o42jmUuNLyGE1bRGAWZnmbTMV1xdhGbemGP8nU9cFYZR5",
+      "2hHD3H9XKHFLH8u7fBUqLBViBBFSqnNr7FuZKi6fxKhUyciXvVgGMQXsVC9kW37hRzkXdryB3pJMAhmwwR39uXDq",
+      "4gwhFD7kLNTPfW6iL6GaJFyn1boJ4GqvKPeZgN1LGkQ54bPKHaLK4YL6uaWjzABEb2V5v7SGHjRiRbjRRURX6Fjc"
+    ],
+    "createLookupTable": "4brNzFViwyM5NehboJ5rtbaJm5FpYYvxn9n3jN3LiCfbk8JsM4mLV1sh4ySekr2gEwNMD8hAzgw5Wuwq4bNGFVSr",
+    "extendLookupTable": [
+      "542FMrSbtuin2mh8upngWeLZsuLRsgraWGTYsPxx1LwebSUYWGy3WX1JPMkQBuYnYYa8NnrGxMJgANZfm3G9ySVF",
+      "3Ydyaf7hSPDEHVSVLtrBkeJBwnDEqa3M64K1Ptr1W5YK1gzsfaFvLJWPkJUeMidfWUPYT7c5qfMxBE6wDFi3Gq8a",
+      "3PQBUzDTe6XPCTxsTg8fDgbj76e1754ivdTWSngsY4sSNRiPgDRY9gE19G2kbPr2zjMUdxe5m7m6kD6oyMU9P5WR"
+    ],
+    "settle": "3pBCxpVYa2N59qtQmLkdRShhooukqKm9V4WEU1LDU2AgaAUAXvAgoD1rbspgfXt3G5EEvqormXX4R7EwivKcnVSw"
+  },
+  "hashes": {
+    "manifest": "ab1ddb483ed979cc45b60c125463cf5bab0217203d1cc4826af5290bc565a4a3",
+    "binary": "6e0206c066993176aca206a0a5475a8a0c6974b60fddf84ced27862acada54cf",
+    "body": "f7a84871e7dd0fcb7612525cb1b7d195e77e70d156c4fc045b8fc63e8dbd8bcb",
+    "batch": "57cfd7006d0b5a1bb4beaff3dccd290991d6ee29f49ff1654598accd7a6d584e",
+    "env": "fc487b692bb575e0a5b90f0ad29647d5956392a0e236e946f1ef638a1f05beb6"
+  },
+  "limitations": [
+    "Isolated local validator with synthetic TEST PRICES and three funded slices; no devnet or live equity claim.",
+    "T09 settles internal crossings only; external residual routing (T10/T16) is not exercised here.",
+    "Three-owner settlement requires an address lookup table: the identical instruction encodes to 1275 legacy bytes, above the 1232-byte packet limit.",
+    "Captured signatures are historical local evidence and require the running ledger for later RPC re-query."
+  ]
+}

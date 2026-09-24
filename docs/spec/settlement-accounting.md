@@ -101,3 +101,56 @@ T15's future Pyth adapter must authenticate native payload/verifier/feed and pro
 Pure tests: shared bytes/hashes; integer boundaries; external pro-rata ties/permutations/zero inputs; per-cross and per-external equality/one-raw-unit-outside in both directions and mixed decimals; the $10/$11 counterexample; whole-slice equality; timing/confidence/movement boundaries; exact owner shortfall identity; no-route internal-only and one-zero-residual cases.
 
 Program tests: fake owner/mint/config/PDA; wrong initializer before legitimate init; duplicate/reverse crosses; cross totals omitted from D/C; cash subsidy without matching record; internal versus external owner direction conflict; free-weight injection rejected; external output reallocated to a zero-input owner; actual X mismatch/Y belowminimum/thirdasset change; good aggregate hiding one owner failure; dust violating priceband; unmatched D/C pool residue; donations before/after closure; last-leg failure rollback; cancel/expiry/replay/pause recovery; config mutation with any claims; nonce/counter overflow; source-bound upgrade procedure. Expected balances must come from an independently written flow model, not the implementation under test.
+
+## 7. T09 implemented internal batch (local validator evidence)
+
+T09 implements steps 1, 2 (internal crosses only), 7 and 8 of the algorithm above. External
+residual records are decoded for canonical-length proof and then rejected, because the committed
+policy still carries `route_kind = 0` and zero route identities; T16 owns the admitted CPI.
+
+Instruction `settle_batch(body: Vec<u8>)` takes the T11 canonical body
+`[schema u8, batch_count u8, sequence u64, cross_count u8, crosses, residual_count u8, residuals]`
+with a four-byte Anchor length prefix. Trailing bytes, an unknown schema, a batch count outside
+1–3, more than six crosses and any residual record reject before account state is touched.
+
+Internal crossings transfer directly between the two owners' own intent vaults. Both vault
+authorities are funding intent PDAs derived from the stored nonce, so the fix the reviewer asked
+for — derive, do not trust — holds without a pooled batch vault: each cross contributes exactly
+`I_D[s,a] += q`, `I_C[b,a] += q`, `I_D[b,cash] += k`, `I_C[s,cash] += k`, and no caller-supplied
+debit, credit or allocation-weight field exists. A pooled `[b"batch", config]` vault is not needed
+for internal-only settlement and is deferred to T16, where a transient venue input must exist.
+
+The raw instruction is authenticated exactly like `create_and_fund`: the current instruction must
+be the top-level CrossFlow instruction whose data length is exactly the discriminator, the
+four-byte body length and the body, so padded trailing bytes reject instead of being ignored.
+
+Authority comes only from funded mandates. The batch instruction declares no signer account at
+all: a submitter chooses crossings, never bounds, recipients or amounts, and the program still
+requires every derived `O[i,a]` inside its signed `L/U`, at most `F` debit, and `sum(I_D) ==
+sum(I_C)` per mint. Owners, owner states, intents, vaults and recipients must be unique, in
+strictly ascending owner order, and derived rather than merely labelled. A batch of fewer than
+two intents rejects: a single intents can carry no cross, so it would be a permissionless no-op
+state transition. Single-owner settlement stays on the owner-signed `settle_thin` path.
+
+After the crossings the program transfers each owner's `O` to that owner's stored canonical ATA
+and then reloads every vault and recipient: each vault must end exactly at its owner-attributed
+starting surplus and each recipient must gain exactly `O`. Any mismatch reverts the whole batch.
+Intents move to `Settled` with cleared booked claims in the same transaction, so a second
+settlement rejects with `Settle`.
+
+Capacity: three owners and three assets need 29 accounts. With the measured 202-byte body the
+legacy 1232-byte packet cannot carry it (a legacy encoding of the same instruction measured 1284
+bytes), so the proposer must attach an address lookup table. The local evidence records the
+measured serialized size, the consumed compute units and the lookup-table entry count, and T17
+must repeat the measurement for the complete oracle-plus-route transaction before any capacity
+claim is made for the composed workflow.
+
+Evidence: `verification/evidence/T09-local-batch-output.json` is an isolated localnet transcript
+with synthetic TEST PRICES, three funded owners, one explicit cross, fourteen target-program
+rejections (ordering, duplicate group, above/below the signed bound, debit above funding,
+round trip, cross price band, vault/recipient substitution, wrong mint, padded instruction,
+snapshot sequence, residual record, pause, double settle) and a reconciled before/after balance
+record. The identical instruction encodes to 1275 legacy bytes, above the 1232-byte packet
+limit, which is why the proposer must attach a lookup table; the settled transaction measures
+350 serialized bytes and 208,433 compute units. It is not devnet, not Pyth and not an
+external-route demonstration.

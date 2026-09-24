@@ -1,12 +1,12 @@
 {
   "status": "LOCAL_CLOSED_VAULT_PASS",
   "cluster": "localnet",
-  "genesis": "EDiTLLGC2yJfPrEzt3v4hF3uTVD3TbjALaCdQ3nQS16",
+  "genesis": "2VLosE4pN2rih9S2YRddrwtixoxGZHTWq6WBhTsgDbrC",
   "program_id": "CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh",
-  "config": "ADSoJb4LUwP9pguHBGoNzySA1F53sr6eJTdvoPADL9rJ",
-  "owner": "88V95grawuEWqk7qLpjkNzYHWBGi5XcUj8GP96vLorFx",
-  "old_intent": "4aYrtMzQDuitXSbsJAbnyKneFJqkZCFknCtQrkYP7hmJ",
-  "mint": "6K1mBcYn9wgbZNUq6RwfXZbxyRXyd6QZr82akhey4ycv",
+  "config": "4cZz4hDgk4XdAmfeN9h23DkUamZLXe69z3Kjqf8a8sND",
+  "owner": "6yU3rBvmCHiCVXnSs6CHRX9yJH2SxbRbwzKR1ZMhLecP",
+  "old_intent": "JBJ84Ua7V32RGM9kvapKqkPtMHkQQN4tkgWZS6wwF6w8",
+  "mint": "rMrih1Vub9kKWepvMyW4zr1zpFwNjJVYLKHZ5owSfot",
   "nonce": "0",
   "next_nonce": "1",
   "policy_version_at_recovery": 2,
@@ -18,30 +18,34 @@
   "old_intent_remains_closed": true,
   "owner_nonce_unchanged": true,
   "signatures": {
-    "createVault": "2WMXz51yrhSqprzGPnG19eD7qounUiZbh6QZG7xHHJ6kHPrCtVYvqNuaTTwkx5yX31UzTicp8WFzCfq4SNHFfP2b",
-    "donate": "3ymJmExMSzPGaYCVuxSxoSf8Kk5KAM7FTPXAyLqHFb146jKFPjVXTT6fXEmvyHFMgugzyK1o4rfsvaxygSdFagFY",
-    "recover": "5BQpTdjxZvSVjRkb2ckAvxrfWGKPEnSQfahYw47qpXafUyvLpdkwGiuNLR8AcVXjV8NPXpRZyhLKbiFzDe1zU48"
+    "createVault": "4MLqQMeGi9fyGPDtakHNzNJ1Bwjkh4mmLS2xdYUok3FD2njgq9jmP3JccZBykGYaJgg38NZxku7vVh82vKciuUfB",
+    "donate": "23Syj8HgQQnNqGiwxse1TR5aPmrpsoJmkEMXfjsE53bvjBPYahB9PDPZRcJd5byD8uqx4RSLkRkSvjPDrRzTzwWs",
+    "recover": "4MUP2WWTZyocTByEt4n61proNQPQTvoYpp29snFUjJhHqasU8xTGNVvWcJoLCNYr3Di5rQTYTuRfFBvFZ7StPn9g"
   },
   "negativeResults": [
     {
       "label": "current-nonce-rejected",
-      "log": "Program CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: RecoverClosedVault\nProgram log: AnchorError thrown in programs/crossflow/src/recovery.rs:162. Error Code: RecoveryAuthority. Error Number: 6404. Error Message: Only the funded owner can cancel or recover this intent.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 14734 of 400000 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x1904"
+      "log": "Program CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: RecoverClosedVault\nProgram log: AnchorError thrown in programs/crossflow/src/recovery.rs:170. Error Code: RecoveryAuthority. Error Number: 6404. Error Message: Only the funded owner can cancel or recover this intent.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 23783 of 400000 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x1904"
     },
     {
       "label": "non-owner-rejected",
-      "log": "Program CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: RecoverClosedVault\nProgram log: AnchorError caused by account: owner_state. Error Code: ConstraintSeeds. Error Number: 2006. Error Message: A seeds constraint was violated.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 9079 of 400000 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x7d6"
+      "log": "Program CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: RecoverClosedVault\nProgram log: AnchorError caused by account: owner_state. Error Code: ConstraintSeeds. Error Number: 2006. Error Message: A seeds constraint was violated.\nProgram log: Left:\nProgram log: dE5Y5sFWeG9h9R5wB8GuvuHGibN6PLqK2ipwBYGPfu8\nProgram log: Right:\nProgram log: BtCUBekT3HjEqnjbT2VkuD7hJdTEt45s3wtdGxa1DERn\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 9613 of 400000 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x7d6"
     },
     {
       "label": "substituted-vault-rejected",
-      "log": "Program CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: RecoverClosedVault\nProgram log: AnchorError thrown in programs/crossflow/src/recovery.rs:177. Error Code: TokenIdentity. Error Number: 6304. Error Message: Token account identity or program is invalid.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 20822 of 400000 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x18a0"
+      "log": "Program CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: RecoverClosedVault\nProgram log: AnchorError thrown in programs/crossflow/src/recovery.rs:180. Error Code: TokenIdentity. Error Number: 6304. Error Message: Token account identity or program is invalid.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 31336 of 400000 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x18a0"
     },
     {
       "label": "substituted-recipient-rejected",
-      "log": "Program CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: RecoverClosedVault\nProgram log: AnchorError thrown in programs/crossflow/src/recovery.rs:177. Error Code: TokenIdentity. Error Number: 6304. Error Message: Token account identity or program is invalid.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 20845 of 400000 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x18a0"
+      "log": "Program CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: RecoverClosedVault\nProgram log: AnchorError thrown in programs/crossflow/src/recovery.rs:180. Error Code: TokenIdentity. Error Number: 6304. Error Message: Token account identity or program is invalid.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 31359 of 400000 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x18a0"
+    },
+    {
+      "label": "wrong-token-program-rejected",
+      "log": "Program CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: RecoverClosedVault\nProgram log: AnchorError caused by account: token_program. Error Code: InvalidProgramId. Error Number: 3008. Error Message: Program ID was not as expected.\nProgram log: Left:\nProgram log: 11111111111111111111111111111111\nProgram log: Right:\nProgram log: TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 6138 of 400000 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0xbc0"
     },
     {
       "label": "empty-vault-replay-rejected",
-      "log": "Program CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: RecoverClosedVault\nProgram log: AnchorError thrown in programs/crossflow/src/funding.rs:87. Error Code: TokenIdentity. Error Number: 6304. Error Message: Token account identity or program is invalid.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 21200 of 400000 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x18a0"
+      "log": "Program CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: RecoverClosedVault\nProgram log: AnchorError thrown in programs/crossflow/src/funding.rs:87. Error Code: TokenIdentity. Error Number: 6304. Error Message: Token account identity or program is invalid.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 31714 of 400000 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x18a0"
     }
   ]
 }

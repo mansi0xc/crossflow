@@ -1,0 +1,67 @@
+{
+  "task": "T10",
+  "sourceFiles": [
+    "programs/test-venue/src/lib.rs",
+    "programs/test-venue/Cargo.toml",
+    "programs/crossflow/src/batch.rs",
+    "Cargo.toml",
+    "Cargo.lock",
+    "Anchor.toml",
+    "packages/adapters/src/types.ts",
+    "packages/adapters/src/controlled.ts",
+    "scripts/demo-t10-venue.ts",
+    "scripts/check-t10-runtime-evidence.mjs",
+    "scripts/local-env.ts",
+    "scripts/verify-task.mjs",
+    "tests/adapters/controlled-venue.test.ts",
+    "tests/workspace/verify-task.test.mjs",
+    "verification/evidence/T09-local-manifest.json",
+    "verification/evidence/T10-local-env.json",
+    "verification/evidence/T10-local-venue-output.json",
+    "verification/tasks/T10.json"
+  ],
+  "checks": [
+    {
+      "name": "venue-adapter",
+      "kind": "vitest",
+      "command": "corepack",
+      "args": ["pnpm@10.17.1", "exec", "vitest", "run", "tests/adapters/controlled-venue.test.ts", "tests/program/atomic-batch.test.ts"]
+    },
+    {
+      "name": "verification-harness",
+      "kind": "workspace",
+      "command": "corepack",
+      "args": ["pnpm@10.17.1", "check:workspace"]
+    },
+    {
+      "name": "typescript",
+      "kind": "typecheck",
+      "command": "corepack",
+      "args": ["pnpm@10.17.1", "exec", "tsc", "--noEmit"]
+    },
+    {
+      "name": "rust-host",
+      "kind": "cargo-test",
+      "command": "env",
+      "args": ["CROSSFLOW_DEPLOYMENT_MANIFEST=verification/evidence/T09-local-manifest.json", "cargo", "test", "-p", "crossflow", "-p", "test-venue", "--lib", "--locked", "--offline"]
+    },
+    {
+      "name": "sbf-idl",
+      "kind": "anchor-build",
+      "command": "env",
+      "args": ["CROSSFLOW_DEPLOYMENT_MANIFEST=verification/evidence/T09-local-manifest.json", "anchor", "build"]
+    },
+    {
+      "name": "wire-vectors",
+      "kind": "json-pass",
+      "command": "python3",
+      "args": ["docs/spec/check-wire-vectors.py"]
+    },
+    {
+      "name": "local-runtime-evidence",
+      "kind": "t10-runtime",
+      "command": "node",
+      "args": ["scripts/check-t10-runtime-evidence.mjs"]
+    }
+  ]
+}

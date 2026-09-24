@@ -10,6 +10,7 @@
     "packages/contracts/src/amounts.ts",
     "packages/client/src/recover.ts",
     "scripts/demo-local.ts",
+    "scripts/local-env.ts",
     "scripts/prepare-local-manifest.ts",
     "scripts/setup-t08-rotated-policy.ts",
     "scripts/demo-t08-closed-vault.ts",
