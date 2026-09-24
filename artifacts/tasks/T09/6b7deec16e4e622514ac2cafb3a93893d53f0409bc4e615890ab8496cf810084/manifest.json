@@ -1,0 +1,158 @@
+{
+  "task": "T09",
+  "status": "CHECKS_PASS_REVIEW_PENDING",
+  "recordedAt": "2026-09-24T19:29:48.071Z",
+  "sourceCommit": "9e209b3657bd53177f4d769a9fe612afeeb36c92",
+  "sourceTreeSha256": "6b7deec16e4e622514ac2cafb3a93893d53f0409bc4e615890ab8496cf810084",
+  "sourceFiles": {
+    "programs/crossflow/src/batch.rs": "63ed93fea6fc9cc569337e74cdf86fc344f4bff7aed22626610fb77044c8b0de",
+    "programs/crossflow/src/lib.rs": "ebaa572c86aaa7531f41a6992511cc86ac81b8e1a8aa587f297c1fcb61a9ae0d",
+    "programs/crossflow/src/funding.rs": "8157ad22cb620fcf38ca44bbc5dc92d678fd08d434009988b37b66a65d391774",
+    "programs/crossflow/src/settlement.rs": "e9601e4ba2fb4acc4d149fd2d8e3e1590c18f7ffa695e0ecbc0eb672e8faa92b",
+    "programs/crossflow/src/oracle.rs": "5f97a9cc375e5f40f62ac0dd7ce59a025d9b7ffeb3ba02f5a675f214a6101af8",
+    "packages/client/src/build-batch.ts": "01745fe0e133bb27caeb9ef316c060ec95b3d4ce67f963e6b2bdb71bb4b8692d",
+    "packages/planner/src/validate.ts": "f18dc13c024afcfa99e38e4766bebd118b95a14d7d6c066966e0925dd1ab369b",
+    "scripts/demo-t09-batch.ts": "0cae411e83285fe50a82989bffa44042749e029733b45a2e2948b938d618ec5d",
+    "scripts/local-env.ts": "966aa7d03f66cb4b2bce0144116e3bd64d67c35c5cc6704821b67dab02694aad",
+    "scripts/prepare-local-manifest.ts": "f7e06d700be666d5311ad7612ae93c66f542b468735528027f618cdcd00faf46",
+    "scripts/check-t09-runtime-evidence.mjs": "1cffa1d75ef03f5c00ddad0714abc60203646ae0f37c1156a831898452e6f2c6",
+    "scripts/verify-task.mjs": "05cb4de8880a6aae62de9846825d44f0d137fae74a581e8900a37221c3e7c7e0",
+    "tests/program/atomic-batch.test.ts": "a4b5cd12c4fea771e9872e767ac39677b760e96f58c179e78b29f3ddefa2b4d9",
+    "tests/workspace/verify-task.test.mjs": "b9159dfd4f2c6bbe5a1bac9a8d32bd3d0b22a3ef11331c991094a0fa844109c1",
+    "docs/spec/intent-contract.md": "3263fe5eb0bc17b7ad550b601134f879b19ce9b71ca3dc4acbb2ac05f9756f1d",
+    "docs/spec/settlement-accounting.md": "e5d719ed41c06946b86babec5ae78005e5bd4344faa08f3263e7781cd6590f28",
+    "verification/evidence/T09-local-manifest.json": "1757cce78fb577f4afd6ab1c6aee5f70faefe78c8b9464e83d89b264e43e162a",
+    "verification/evidence/T09-local-batch-output.json": "a00d853de70b0783c70805152f04b879ad94fc463147da1c83cd936890db5370",
+    "verification/tasks/T09.json": "da1dafb93a29ce9e5f8d827b05fa34699a60b73fe778c64bf79494d69b2b2add"
+  },
+  "policyFixtureSha256": "e31d3209a0556554172821a35f16aeeb406fa1cf27ea01512ea279b4ea370ecf",
+  "environment": "LOCAL_VALIDATOR_TRANSCRIPT",
+  "clusterGenesis": "Yj9kP7Wwdgonv7nDmWUyZVSneKxwSbZ5m7WMET2JSRc",
+  "transactionCount": 10,
+  "versions": {
+    "node": "v24.10.0",
+    "pnpm": "10.17.1",
+    "anchor": "anchor-cli 1.1.2",
+    "cargo": "cargo 1.89.0 (c24e10642 2025-06-23)"
+  },
+  "checks": [
+    {
+      "name": "batch-client",
+      "kind": "vitest",
+      "command": [
+        "corepack",
+        "pnpm@10.17.1",
+        "exec",
+        "vitest",
+        "run",
+        "tests/program/atomic-batch.test.ts",
+        "tests/planner/validation.test.ts"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "batch-client.log",
+      "outputSha256": "51ff6afb592505ed46c781c2ad22211ace39a6ac52f0400bda2b13041ac5b231",
+      "passed": true
+    },
+    {
+      "name": "verification-harness",
+      "kind": "workspace",
+      "command": [
+        "corepack",
+        "pnpm@10.17.1",
+        "check:workspace"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "verification-harness.log",
+      "outputSha256": "eb59405f73dc84ea5184813547a18482c885520a07e58c2472b2afc23f8eb5a2",
+      "passed": true
+    },
+    {
+      "name": "typescript",
+      "kind": "typecheck",
+      "command": [
+        "corepack",
+        "pnpm@10.17.1",
+        "exec",
+        "tsc",
+        "--noEmit"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "typescript.log",
+      "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "passed": true
+    },
+    {
+      "name": "rust-host",
+      "kind": "cargo-test",
+      "command": [
+        "env",
+        "CROSSFLOW_DEPLOYMENT_MANIFEST=verification/evidence/T09-local-manifest.json",
+        "cargo",
+        "test",
+        "-p",
+        "crossflow",
+        "--lib",
+        "--locked",
+        "--offline"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "rust-host.log",
+      "outputSha256": "b2ac4e09c8aa4fbeb67ed04291d2fcd74a4361eb7b5352ece331d9b5b127af1e",
+      "passed": true
+    },
+    {
+      "name": "sbf-idl",
+      "kind": "anchor-build",
+      "command": [
+        "env",
+        "CROSSFLOW_DEPLOYMENT_MANIFEST=verification/evidence/T09-local-manifest.json",
+        "anchor",
+        "build"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "sbf-idl.log",
+      "outputSha256": "d23dbeed885ba248b042c151c15cefb3321551d19c80eb1bedc5fba773c13d2b",
+      "passed": true
+    },
+    {
+      "name": "wire-vectors",
+      "kind": "json-pass",
+      "command": [
+        "python3",
+        "docs/spec/check-wire-vectors.py"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "wire-vectors.log",
+      "outputSha256": "4ba0c74daf803caec22b7ce0dfdf7f25b077c3b00595a17953d98a725c46ee5f",
+      "passed": true
+    },
+    {
+      "name": "local-runtime-evidence",
+      "kind": "t09-runtime",
+      "command": [
+        "node",
+        "scripts/check-t09-runtime-evidence.mjs"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "local-runtime-evidence.log",
+      "outputSha256": "28a43b0762ed2e7e4d05358036d7af03b61a6a7330dba9cdd3ee90f901a40687",
+      "passed": true
+    }
+  ],
+  "mandatoryCheckCount": 7,
+  "executedCheckCount": 7,
+  "reviewer": null,
+  "limits": [
+    "Isolated local validator with synthetic TEST PRICES and three funded slices; no devnet or live equity claim.",
+    "T09 settles internal crossings only; external residual routing (T10/T16) is not exercised here.",
+    "Three-owner settlement requires an address lookup table: the identical instruction encodes to 1275 legacy bytes, above the 1232-byte packet limit.",
+    "Captured signatures are historical local evidence and require the running ledger for later RPC re-query."
+  ]
+}

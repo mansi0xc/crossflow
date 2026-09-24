@@ -225,7 +225,7 @@ export function runTask(task, root = process.cwd()) {
     sourceCommit: version('git', ['rev-parse', 'HEAD'], root), sourceTreeSha256: source.sha256, sourceFiles: source.files,
     policyFixtureSha256: hash(readFileSync(resolve(root, 'docs/spec/wire-vectors.json'))),
     environment: runtimeEvidence ? (runtimeMode ?? 'LOCAL_VALIDATOR') : 'LOCAL_NO_TRANSACTION', clusterGenesis: runtimeEvidence?.genesis ?? null,
-    transactionCount: runtimeEvidence ? Object.keys(runtimeEvidence.transaction_signatures).length : 0,
+    transactionCount: runtimeEvidence ? Object.keys(runtimeEvidence.transaction_signatures ?? runtimeEvidence.signatures ?? {}).length : 0,
     versions: { node: process.version, pnpm: version('corepack', ['pnpm@10.17.1', '--version'], root),
       anchor: version('anchor', ['--version'], root), cargo: version('cargo', ['--version'], root) },
     checks, mandatoryCheckCount: manifest.checks.length, executedCheckCount: checks.length,

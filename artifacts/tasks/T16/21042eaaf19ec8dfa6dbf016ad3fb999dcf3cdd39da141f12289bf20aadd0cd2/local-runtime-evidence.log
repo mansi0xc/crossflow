@@ -1,0 +1,61 @@
+{
+  "status": "PASS",
+  "task": "T16",
+  "cluster": "localnet",
+  "genesis": "DbjSFL31FcnwuenztcvwJXvHjugbJc38tfQga94Wndf5",
+  "program_id": "CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh",
+  "config": "7K5jSoXJCYtBzzCP1DprpWtE5BTj13zo7qjG3z9dKwxr",
+  "batch_authority": "CnorwQxrKJhXrjbuLRqh3VKtNm4vsS2p5hdcV6vnXrmW",
+  "route": {
+    "program": "Bq1FxNWHnmnZgJRi6fsRKrvLTbBf6uDTXjaawzdnkw1Q",
+    "pool": "5BzLwg18tRneFjj4ZgBJUPmfiEbkFPTKoxZ3tihAF9af",
+    "fee_bps": 30,
+    "vaults": [
+      "8qxrLVHu6qxyMkNPLjk1fUw2RnXoAks6tH6RLVj6Np53",
+      "DabWKpxbBPhKJYXpkPbaZo6cnRYVVskMhqq7vBnLdcZZ",
+      "2Z6hD1zAna7rNe4pJ55GdcLbkDf8enGu4UTx6Aha3KVP"
+    ],
+    "vaults_are_pool_atas": true
+  },
+  "pools": [
+    "FxUtLMRJq99cPvj1evWQmxTvhV98m8g3fQ6frEEwg28s",
+    "27TYE2WBGxP9kP4exVZc2EGVcHXz33fLgPLyTR6FzUMr",
+    "8jfcRxJM4ecnTGu3j4Lcxec5NmgXiT6viTi4yCuL9bW5"
+  ],
+  "mandatory_negative_cases": 6,
+  "compute_units": 340091,
+  "serialized_settlement_bytes": 451,
+  "lookup_table_entries": 43,
+  "measured_external_input": "50000",
+  "measured_external_output": "493579",
+  "external_deviation_bps": "128",
+  "measured_outputs": [
+    [
+      "10493579",
+      "2950000",
+      "0"
+    ],
+    [
+      "30000000",
+      "0",
+      "0"
+    ],
+    [
+      "30000000",
+      "1000000",
+      "0"
+    ]
+  ],
+  "hashes": {
+    "report": "1bc3bc9b77417d6b3e04cd99aefcb9e3fa9142ff2796930eda08520060c8f98d",
+    "manifest": "a533c4879a5dda29f8fd0bbd11df7ba95bfba1dd4fadf1346bf77270bc3b0a58",
+    "binary": "312c37085937c69ceeb35c6a9af5929a17ec68090b5bf57dfaaebf1d34ab391b",
+    "venue_binary": "72876b85282964798b1e606626aea010b5ad9bd73ceb48b4d6277c45b515dfe9",
+    "body": "36e715900e1d72a2fcafbf646b0effa445d2e674312d786396a0d8dd0200cff6"
+  },
+  "limitations": [
+    "Isolated local validator with synthetic TEST PRICES and test-token venue liquidity; no devnet, market or equity claim.",
+    "The venue is a fixed constant-product test venue pinned by the committed policy; it is not Meteora, Jupiter or a real market.",
+    "The routed leg is a single small sell; larger legs would exceed the committed ±200 bps per-owner execution band and must be rejected."
+  ]
+}

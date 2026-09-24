@@ -75,7 +75,7 @@ describe('T17 property tests — accounting invariants hold across generated por
     for (let iteration = 0; iteration < 60; iteration++) {
       // Quantity in [1, 1_000_000) raw stock; cash around the 10:1 reference inside the ±100 bps band.
       const quantity = BigInt(1 + Math.floor(random() * 999_999));
-      const drift = Math.floor(random() * 199) - 99; // basis points, strictly inside the band
+      const drift = Math.floor(random() * 261) - 130; // some draws fall outside the 100 bps band on purpose
       const cash = quantity * 10n + (quantity * 10n * BigInt(drift)) / 10_000n;
       const candidate = plan([{ stock_index: '1', seller_index: '0', buyer_index: '1',
         stock_quantity: quantity.toString(), cash_amount: cash.toString() }], hashes);
@@ -150,6 +150,7 @@ describe('T17 property tests — accounting invariants hold across generated por
     const { context, hashes } = await fixture(owners);
     const starved = structuredClone(context);
     starved.intents[1].mandate.assets[1].min_output = '3000000';
+    starved.intents[1].mandate.assets[1].max_output = '3000000';
     starved.intents[1].stored_mandate_hash = await sha256Hex(mandateBytes(starved.intents[1].mandate));
     const rebuilt = await sha256Hex(mandateBytes(starved.intents[1].mandate));
     await expect(validateCandidatePlan(plan([{ stock_index: '1', seller_index: '0', buyer_index: '1',

@@ -1,0 +1,45 @@
+{
+  "status": "PASS",
+  "task": "T09",
+  "cluster": "localnet",
+  "genesis": "Yj9kP7Wwdgonv7nDmWUyZVSneKxwSbZ5m7WMET2JSRc",
+  "config": "GjtR6dYZBsNmQnPmdebmgnusBaWGW8br6sptq8hhAB1T",
+  "program_id": "CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh",
+  "batch_count": 3,
+  "mandatory_negative_cases": 14,
+  "transaction_signatures_count": 10,
+  "transaction_signatures": [
+    "4CyvyqNSMuAiz3QQ38SokV6AibpVNH3B7z5Aa94aJwX4r7ZKADb4WZEDPbt96CWStMZgUy84v6wgcZMv8ZT9eYWN",
+    "3K6xvoTAqrzX3kuKnaUqSF2zZFfpVhJhnhev1o5QUFJwiqCuDXYfCzwAtTBoYX4eG6YWNP85aHfkqgGAr8tmYfkt",
+    "62mQ8MwxZyvogmwSgddtuPGGHvtRcnhfjKZK7gtkShBAs2S1EjnH6eVUpV4qzSk5xjZjUFnsg4P5m2mgPGozvMHy",
+    "Fta32PAc5n3z2g5wkGxFFv3fgWj1mr54ACZFUa9Q4EsXaif6sNMoBYxeZVHgxiGPCp4cfd1enaMLTBhma9UiSAU",
+    "4gzt2Tenwd1HgfLQXLBmEFBTbEbngHKKMngc4zfAT3RYez5v2yH8wiptWqe9HNoi12Co6k4c7E4RVPxYS3zB2LXn",
+    "4cZYn4ZLRyMcWcBMoELqzeX2nr4tsGp1uzvuvmXs2BpaG29yKuH8WhXnDU1MhTGdLvq15NTYqryMkJHExuuYWbpc",
+    "48bHLs4FnCbgcVATkbxKSFZzwSbJH6wECv4rYRUQsfqgWGByDKsMztVKBCxXsHtWxbmc3PYoFLGBjUSYGSgqPEMW",
+    "4LTE2ab4S3TWBwNr4LSRjvK7H5p6s52mdd3vakSxyoSL1eg8BEw9uuF1oiP6PXSxJ9qUHrutmtjLYnt56Q9fPWkb",
+    "4ELjPnLyRfxURQzwNWZKsWTHooCTK3vtFZtRQQDFjFJoHtWSRD6iTvdvbjUKRqVCQvKP5sarSiDqHdKQXmyr7mNS",
+    "uvMrvopX3bXeCVF3PQYQVbJqPFBLme6YLAs8cKYQY5dHpp2ZxnRgBSApmaSFdmZyGbtp47ANAcM5aoswkXqy42Z"
+  ],
+  "compute_units": 210339,
+  "serialized_settlement_bytes": 350,
+  "lookup_table_entries": 33,
+  "snapshot_sequence": "2",
+  "final_status": [
+    1,
+    1,
+    1
+  ],
+  "hashes": {
+    "report": "a00d853de70b0783c70805152f04b879ad94fc463147da1c83cd936890db5370",
+    "manifest": "1757cce78fb577f4afd6ab1c6aee5f70faefe78c8b9464e83d89b264e43e162a",
+    "binary": "af80a32d1cf66161f28c36c1294a70bcb2c343e38b7b7b4c1cce1fd3fbc4be9e",
+    "body": "b5f7fd2dd50153a16249af826a01daa7a1da1c56a3b1e19273f9d7cee329b742",
+    "env": "8de467611fcf5c543097f3b78a5c812fb26c152be934c0f151b7a0a9e2bd8402"
+  },
+  "limitations": [
+    "Isolated local validator with synthetic TEST PRICES and three funded slices; no devnet or live equity claim.",
+    "T09 settles internal crossings only; external residual routing (T10/T16) is not exercised here.",
+    "Three-owner settlement requires an address lookup table: the identical instruction encodes to 1275 legacy bytes, above the 1232-byte packet limit.",
+    "Captured signatures are historical local evidence and require the running ledger for later RPC re-query."
+  ]
+}

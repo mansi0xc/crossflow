@@ -1,0 +1,8 @@
+
+[stderr]
+    Finished `release` profile [optimized] target(s) in 0.21s
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.25s
+     Running unittests src/lib.rs (/Users/mansitibrewal/chronicles/crossflow/target/debug/deps/crossflow-97da5b81c430801f)
+    Finished `release` profile [optimized] target(s) in 0.10s
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.13s
+     Running unittests src/lib.rs (/Users/mansitibrewal/chronicles/crossflow/target/debug/deps/test_venue-fa2ce4216d46d710)

@@ -1,0 +1,39 @@
+{
+  "status": "PASS",
+  "task": "T10",
+  "cluster": "localnet",
+  "genesis": "2kXVjWg73KKsAdfjvshoTPc78gXHuxZtoQBzxHSio1S6",
+  "program_id": "Bq1FxNWHnmnZgJRi6fsRKrvLTbBf6uDTXjaawzdnkw1Q",
+  "pool": "8Zc3yFETMij2kzUCsBiBfzZeWsBdRMsqWRNQHnXC5WXj",
+  "fee_bps": 30,
+  "mandatory_negative_cases": 7,
+  "transaction_signatures_count": 7,
+  "transaction_signatures": [
+    "WhGHp1Bq72xiWz8zR1HVcRcNLSkA9v3Fm5qEKd1VJtPMuBLLec1FLHMHECyb62o4u3idJuESg31dbgDKisHqfy5",
+    "4LVsrYN3EyVyXdrquaQhTWkBU6eLad2hfuKRtcvVRy4XM1YqNPA869Q583o4AioratrGmCGtuwB1odMWKDJkA54L",
+    "5Yvwgb1d3j8KhhCWtDv818okNSbhsGYk3cM26Qz6LpJ6e9tyc7NCDFQt8dDDd9t3ekGtxa2FPGiYi1txVm88ZtEQ",
+    "36tFvd7BBaTygQeDHr7FFs8JG56GPapR41HrvypngQuUmtSd78PyQSvgHEWvBiqHFUXKyB5ppE42K6teQ9FuWyAS",
+    "3XBMZ1prSb1PHHU6bVgcoQ6AG8TMrvLFyT6GiNZZAW1HFCjc5GbmVXQLk5kUErQh68CsSwVpwpWBwr83o6HJf1yT",
+    "3VF3FwZ7UyykXzDdo273YjtPLCTH8uzZMxd9TcZftHGxK1Fa1jpm8LMTz7o5AkaNbviUDC3pkdVAwCmKSHvb5CAC",
+    "2W1skNmF1X85Ek2Xsc3BBVQMBrDaZzucLM6DPrruEhTvV9BZcMfH956sioLBmSpKyc8J1H71DhzwL5NqUcwo2Co5"
+  ],
+  "compute_units": 44379,
+  "amount_in": "1000000",
+  "quoted_out": "8312489",
+  "measured_out": "8312489",
+  "reserves_after": [
+    "41687511",
+    "6000000",
+    "0"
+  ],
+  "hashes": {
+    "report": "5769f7a47aa3cc5108938730822e2e2c3684889dada7efda687608f23886ee2a",
+    "env": "61ac0e2e8f9eb1d81cb5a97ecfceebbcdf49d146defcbaa27c6b57cb020cf2b4",
+    "binary": "72876b85282964798b1e606626aea010b5ad9bd73ceb48b4d6277c45b515dfe9"
+  },
+  "limitations": [
+    "Synthetic test-token liquidity on an isolated local validator; no market, no real price impact, no devnet claim.",
+    "T10 proves the venue stays real execution; composing it with CrossFlow settlement is T16 and is not exercised here.",
+    "Captured signatures are historical local evidence and require the running ledger for later RPC re-query."
+  ]
+}

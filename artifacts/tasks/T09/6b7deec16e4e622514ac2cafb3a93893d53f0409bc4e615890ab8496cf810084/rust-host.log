@@ -1,0 +1,38 @@
+
+running 28 tests
+test config::tests::absent_manifest_disables_public_initialization ... ok
+test config::tests::unsupported_policy_never_initializes ... ok
+test batch::tests::maximum_body_is_bounded ... ok
+test batch::tests::residual_records_decode_with_their_exact_input_weights ... ok
+test assets::tests::rejects_wrong_program_extension_authority_decimals_and_mint ... ok
+test batch::tests::canonical_body_decodes_and_noncanonical_bodies_reject ... ok
+test funding::tests::cpi_program_and_sysvar_substitution_rejected ... ok
+test funding::tests::exact_top_level_funding_instruction_and_trailing_bytes ... ok
+test funding::tests::mint_policy_rejects_identity_and_decimal_mismatch ... ok
+test math::tests::bounds_and_nonparticipant_guards ... ok
+test intent::tests::zero_funding_and_policy_substitution_reject ... ok
+test intent::tests::fixed_funding_body_and_bounds ... ok
+test config::tests::policy_schema_accepts_monotonic_rotation_version_without_changing_identity ... ok
+test math::tests::largest_remainder_examples_and_permutation ... ok
+test config::tests::canonical_policy_matches_frozen_hash_and_rejects_mutation ... ok
+test intent::tests::canonical_mandate_matches_frozen_cross_language_vector ... ok
+test oracle::tests::per_trade_and_portfolio_guards_are_distinct ... ok
+test oracle::tests::corrupt_discriminator_rejects_read_and_publish_without_mutation ... ok
+test oracle::tests::reference_movement_equality_and_one_unit ... ok
+test oracle::tests::time_confidence_and_identity_boundaries ... ok
+test oracle::tests::wrong_modes_feeds_interpretation_and_market_fail ... ok
+test oracle::tests::wrong_program_owner_rejects_read_and_publish_without_mutation ... ok
+test recovery::tests::closed_nonce_recovery_never_authorizes_current_or_active_intent ... ok
+test oracle::tests::real_account_binding_and_update_signature_monotonicity ... ok
+test route::tests::venue_discriminator_matches_the_pinned_instruction_name ... ok
+test settlement::tests::expiry_is_strict_before_at_and_after ... ok
+test oracle::tests::wrong_snapshot_pda_rejects_read_and_publish_without_mutation ... ok
+test test_id ... ok
+
+test result: ok. 28 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+[stderr]
+   Compiling crossflow v0.1.0 (/Users/mansitibrewal/chronicles/crossflow/programs/crossflow)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.41s
+     Running unittests src/lib.rs (target/debug/deps/crossflow-b34776dde19ade09)
