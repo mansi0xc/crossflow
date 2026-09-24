@@ -1,0 +1,79 @@
+# CrossFlow
+
+An operator running several independently constrained stock strategies pays spread, impact and
+network cost once per strategy. Where those strategies want opposing trades, part of that cost is
+avoidable: the orders can cross internally, and only the leftover needs an external venue.
+CrossFlow makes that safe to do: each owner signs raw-unit bounds, and a Solana program either
+settles the whole bounded batch inside every owner's bounds or reverts it entirely.
+
+**Everything here is devnet/test-asset work.** No mainnet, no issuer-backed shares, no audit.
+
+## What actually works today
+
+| Capability | Status | Evidence |
+|---|---|---|
+| Per-owner funded intent with signed raw bounds | works, local + devnet | `verification/evidence/T05-local-runtime.json`, `T24-devnet-output.json` |
+| Thin settle → reject → cancel/refund | works, local | `verification/evidence/T06-local-runtime.json` |
+| Lifecycle: expiry, nonces, config rotation, owner ATA recreation | works, local | `artifacts/tasks/T07/**` |
+| Asset admission, exact raw amounts, deterministic dust, old-vault donation recovery | works, local | `verification/evidence/T08-local-*.json` |
+| Three-owner atomic internal crossing + residual route composition | works, local | `verification/evidence/T09-local-batch-output.json`, `T16-local-route-output.json` |
+| Controlled synthetic residual venue (real transfers) | works, local | `verification/evidence/T10-local-venue-output.json` |
+| Isolated three-owner fund → batch settle → reject → recover on public devnet | probe passed | `verification/evidence/T24-devnet-output.json` |
+| Three-engine economic comparison + held-out evaluation | works | `docs/evidence/economic-report.md` |
+| Authenticated Pyth equity prices | **excluded** | T15 unstarted; fixture oracle only |
+| Service layer, web UI, submission portal | **not implemented** | — |
+
+## The honest headline
+
+On the frozen held-out suite the cooperative engine's gain over plain netting has a median of
+**+16,200 micro-USD** and is never negative — but it is positive in only 4 of 6 eligible scenarios,
+and only **36 of 72** declared sensitivity points keep it positive. One scenario's netting costs
+*more* than independent execution. The cooperative-superiority claim therefore does **not** survive
+modest fee or latency change and is narrowed accordingly in `docs/evidence/economic-report.md`.
+The internal crossing itself is the mechanism that holds up; the "cooperative adjustment adds
+value on top of netting" claim is the one that does not.
+
+## Layout
+
+```
+programs/crossflow/     Anchor program: funding, batch settlement, routing, recovery, oracle guard
+programs/test-venue/    controlled synthetic residual venue (test liquidity only)
+packages/contracts/     canonical byte encodings, hashes, exact raw amounts
+packages/client/        instruction builders (fund, settle, route, recover, config)
+packages/planner/       solver-independent plan validator
+packages/adapters/      residual venue adapter interface
+services/optimizer/     independent / netting / cooperative engines
+scripts/                local harness, devnet tooling, capacity probe, evidence checkers
+verification/           per-task manifests and committed runtime evidence
+docs/                   specification, operations, evidence, submission kit
+```
+
+## Running it
+
+```sh
+corepack pnpm@10.17.1 check:workspace                 # harness, secrets, RPC guard, schema vectors
+corepack pnpm@10.17.1 exec vitest run                 # TypeScript suites (see note below)
+python3 -m unittest discover -s services/optimizer -p 'test_engines.py'
+python3 scripts/evaluate-economics.py --split holdout
+CROSSFLOW_DEPLOYMENT_MANIFEST=verification/evidence/T09-local-manifest.json cargo test -p crossflow --lib
+corepack pnpm@10.17.1 verify:task -- T09              # full per-task check set
+```
+
+Note: `vitest run` with no arguments also picks up `tests/**/*.test.mjs`, which are `node:test`
+files and report "No test suite found". Use `check:workspace` (which runs them with `node --test`)
+or pass explicit paths.
+
+Nothing here requires a paid service, a funded wallet or mainnet. Devnet tooling refuses any
+destination whose live genesis is not the reviewed devnet genesis.
+
+## Limitations a reader should know before trusting anything
+
+- **No audit, no formal verification.** Invariant coverage is tabulated in
+  `docs/evidence/security-matrix.md`, including the rows that are *not* exercised.
+- **The residual route is composed only against a synthetic venue** with test tokens, and the
+  leg size is bounded by the committed ±200 bps execution band rather than by demand.
+- **Pyth is excluded.** Prices are a labelled fixture oracle; no live equity claim is made.
+- **The service and UI layers do not exist.** Anything about wallet flows, approvals or hosted
+  demos is planned, not built.
+- **Retained upgrade authority** on the devnet program is a trust assumption, disclosed in
+  `docs/operations/deployment.md`.

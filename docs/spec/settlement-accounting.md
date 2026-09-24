@@ -228,3 +228,20 @@ an address lookup table. The leg size is deliberately small because a larger sal
 committed ±200 bps per-owner execution band against this synthetic pool — the band, not the code,
 is what bounds the demonstrable residual size. This is not Meteora, not Jupiter, not a market, and
 not a devnet deployment.
+
+## 10. Capacity measurement (T17)
+
+`scripts/measure-batch.ts` reports the envelope the composed transaction actually needs, and
+refuses to describe an estimate as an execution. It reads the T16 evidence for the measured
+composed run, `scripts/probe-capacity.ts` for the pre-implementation estimate, and prints both so
+the two can never be confused.
+
+Measured on the local validator (route enabled, three owners, one internal cross and one residual
+leg): **311,591 compute units**, **451 serialized bytes**, **43 lookup-table entries**. The same
+instruction without a lookup table does not fit the legacy 1232-byte packet.
+
+Two limits are worth stating plainly. Compute headroom above the measured 311,591 CU is not
+"capacity for more legs" — a second residual leg would need another venue CPI and more accounts.
+And the *economic* bound bites before the technical one: this synthetic pool can only absorb a leg
+small enough to stay inside the committed ±200 bps per-owner execution band, so the demonstrable
+residual size is limited by the band, not by the transaction.
