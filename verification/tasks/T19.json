@@ -1,0 +1,58 @@
+{
+  "task": "T19",
+  "sourceFiles": [
+    "apps/web/src/App.tsx",
+    "apps/web/src/api.ts",
+    "apps/web/src/wallet.ts",
+    "apps/web/src/main.tsx",
+    "apps/web/src/polyfill.ts",
+    "apps/web/src/routes/prepare.tsx",
+    "apps/web/src/routes/compare.tsx",
+    "apps/web/src/routes/approve.tsx",
+    "apps/web/src/routes/intent.tsx",
+    "apps/web/src/components/PortfolioSlice.tsx",
+    "apps/web/index.html",
+    "vite.config.ts",
+    "scripts/verify-task.mjs",
+    "tests/ui/harness.ts",
+    "packages/client/src/fund.ts",
+    "packages/client/src/discriminators.ts",
+    "tests/ui/approval.spec.ts",
+    "playwright.config.ts",
+    "verification/tasks/T19.json"
+  ],
+  "checks": [
+    {
+      "name": "approval-flow",
+      "kind": "playwright",
+      "command": "corepack",
+      "args": [
+        "pnpm@10.17.1",
+        "exec",
+        "playwright",
+        "test",
+        "tests/ui/approval.spec.ts"
+      ]
+    },
+    {
+      "name": "discriminators",
+      "kind": "workspace",
+      "command": "corepack",
+      "args": [
+        "pnpm@10.17.1",
+        "check:workspace"
+      ]
+    },
+    {
+      "name": "typescript",
+      "kind": "typecheck",
+      "command": "corepack",
+      "args": [
+        "pnpm@10.17.1",
+        "exec",
+        "tsc",
+        "--noEmit"
+      ]
+    }
+  ]
+}

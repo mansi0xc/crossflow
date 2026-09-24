@@ -1,5 +1,6 @@
-import { createHash } from 'node:crypto';
 import { AccountMeta, PublicKey, TransactionInstruction } from '@solana/web3.js';
+import { discriminator } from './discriminators.js';
+import { Buffer } from 'buffer';
 
 const TOKEN_PROGRAM = new PublicKey('TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA');
 const ASSOCIATED_TOKEN_PROGRAM = new PublicKey('ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL');
@@ -17,9 +18,6 @@ export interface RecoveryAccounts {
   recipients: PublicKey[];
 }
 
-function discriminator(name: string): Buffer {
-  return createHash('sha256').update(`global:${name}`).digest().subarray(0, 8);
-}
 function u64(value: string): Buffer {
   if (!/^(0|[1-9][0-9]*)$/.test(value)) throw new TypeError('u64 must be a canonical unsigned decimal string');
   const n = BigInt(value);

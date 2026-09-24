@@ -1,0 +1,48 @@
+{
+  "task": "T32",
+  "sourceFiles": [
+    "services/api/src/server.ts",
+    "services/api/src/intent-index.ts",
+    "services/api/src/optimizer-runner.ts",
+    "services/api/src/batch-coordinator.ts",
+    "services/optimizer/run_plan.py",
+    "scripts/verify-task.mjs",
+    "tests/services/resource-limits.test.ts",
+    "docs/spec/service-api.md",
+    "verification/tasks/T32.json"
+  ],
+  "checks": [
+    {
+      "name": "service-limits",
+      "kind": "vitest",
+      "command": "corepack",
+      "args": [
+        "pnpm@10.17.1",
+        "exec",
+        "vitest",
+        "run",
+        "tests/services/resource-limits.test.ts"
+      ]
+    },
+    {
+      "name": "verification-harness",
+      "kind": "workspace",
+      "command": "corepack",
+      "args": [
+        "pnpm@10.17.1",
+        "check:workspace"
+      ]
+    },
+    {
+      "name": "typescript",
+      "kind": "typecheck",
+      "command": "corepack",
+      "args": [
+        "pnpm@10.17.1",
+        "exec",
+        "tsc",
+        "--noEmit"
+      ]
+    }
+  ]
+}

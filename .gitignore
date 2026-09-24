@@ -11,3 +11,10 @@ test-ledger/
 .secrets/
 artifacts/tasks/T00/working/
 .planning/research/.cache/
+
+# Build output and test artifacts
+dist/
+test-results/
+playwright-report/
+__pycache__/
+*.pyc

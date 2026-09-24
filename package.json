@@ -8,16 +8,29 @@
     "check:workspace": "node scripts/check-workspace.mjs && node --test tests/workspace/*.test.mjs && tsc --noEmit && vitest run tests/spec/wire-vectors.test.ts",
     "test:vectors": "vitest run tests/spec/wire-vectors.test.ts",
     "verify:task": "node scripts/verify-task.mjs",
-    "probe:capacity": "node --import tsx scripts/probe-capacity.ts"
+    "probe:capacity": "node --import tsx scripts/probe-capacity.ts",
+    "check:discriminators": "tsx scripts/check-discriminators.mjs",
+    "test:ui": "playwright test",
+    "serve:api": "tsx services/api/src/server.ts",
+    "build:web": "vite build",
+    "dev:web": "vite"
   },
   "dependencies": {
     "@anchor-lang/core": "1.1.2",
-    "@solana/web3.js": "1.98.4"
+    "@solana/web3.js": "1.98.4",
+    "buffer": "6.0.3"
   },
   "devDependencies": {
+    "@playwright/test": "1.55.1",
     "@types/node": "24.10.0",
+    "@types/react": "19.2.2",
+    "@types/react-dom": "19.2.1",
+    "@vitejs/plugin-react": "5.0.4",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
     "tsx": "4.20.6",
     "typescript": "5.9.3",
+    "vite": "7.1.5",
     "vitest": "5.0.1"
   },
   "pnpm": {

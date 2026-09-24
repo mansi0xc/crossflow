@@ -1,0 +1,18 @@
+:root { color-scheme: light dark; font-family: ui-sans-serif, system-ui, sans-serif; }
+body { margin: 0; padding: 1.5rem; max-width: 64rem; }
+h1 { margin: 0 0 .25rem; font-size: 1.5rem; }
+.cluster { background: #4a3f00; color: #ffe9a8; padding: .35rem .6rem; border-radius: 4px; font-size: .85rem; }
+nav { display: flex; gap: .5rem; margin: .75rem 0; }
+nav button.active { font-weight: 700; outline: 2px solid currentColor; }
+table { border-collapse: collapse; width: 100%; margin: .75rem 0; }
+th, td { border: 1px solid #8884; padding: .35rem .5rem; text-align: left; font-size: .9rem; }
+caption { text-align: left; font-size: .8rem; opacity: .8; padding-bottom: .25rem; }
+input { width: 9rem; font-family: ui-monospace, monospace; }
+.note { font-size: .85rem; opacity: .85; }
+.warn { background: #4a2000; color: #ffcf9a; padding: .5rem; border-radius: 4px; }
+.error { background: #4a0000; color: #ffb4b4; padding: .5rem; border-radius: 4px; }
+.ok { background: #023c1b; color: #b6ffcf; padding: .5rem; border-radius: 4px; word-break: break-all; }
+.busy { opacity: .7; }
+.wallet { font-family: ui-monospace, monospace; font-size: .85rem; }
+footer { margin-top: 2rem; opacity: .7; }
+.scenarios { list-style: none; display: flex; gap: .5rem; padding: 0; flex-wrap: wrap; }

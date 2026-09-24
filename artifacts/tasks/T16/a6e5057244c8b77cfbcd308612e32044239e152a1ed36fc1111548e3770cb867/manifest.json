@@ -1,0 +1,163 @@
+{
+  "task": "T16",
+  "status": "CHECKS_PASS_REVIEW_PENDING",
+  "recordedAt": "2026-09-24T20:07:20.784Z",
+  "sourceCommit": "827218d4fb3f993a1bd7b170e856fecd40f7ec6b",
+  "sourceTreeSha256": "a6e5057244c8b77cfbcd308612e32044239e152a1ed36fc1111548e3770cb867",
+  "sourceFiles": {
+    "programs/crossflow/src/route.rs": "fefb0d4ff703534d4919ce0da9617461219ddf7503b05bddc6fc3461849d9e19",
+    "programs/crossflow/src/batch.rs": "87a06e9f3bff477caf2c0f7f7103f98d49136e013ba3aa3eee300f7d192c72fe",
+    "programs/crossflow/src/config.rs": "57d3268a2535ae3af0082eb9b5602dcb77fec8080879b1f4bdacdb631563fa8e",
+    "programs/crossflow/src/lib.rs": "ebaa572c86aaa7531f41a6992511cc86ac81b8e1a8aa587f297c1fcb61a9ae0d",
+    "programs/test-venue/src/lib.rs": "24ffc8896b0d90b6c1fce00a253fa4ac0fe8d8e40d639d7cde9b6030f3d0c1dd",
+    "packages/client/src/build-batch.ts": "58e362d2f06ee81ddcda9ab0cb3bd667c505cb5ed7203a9287ad8e6537ff90b4",
+    "packages/adapters/src/controlled.ts": "4cf3fe5cda29642f7af817aa61dc3077c0fb680b948baa6e2afc55b453d65e5a",
+    "packages/planner/src/validate.ts": "f18dc13c024afcfa99e38e4766bebd118b95a14d7d6c066966e0925dd1ab369b",
+    "scripts/demo-t16-route.ts": "db13059aec47b8daa591f27ba00f2a3a96425e93eab35f248d6d0a32c698d343",
+    "scripts/prepare-route-manifest.ts": "cd43344ac14f497df248d148f2a6fada29b99ea2ca9712b2fb80f9cdcd2df4d7",
+    "scripts/check-t16-runtime-evidence.mjs": "57a8f46443894d0e2b021c4846f744ad2c1baae50471219fd98e2b7e36d79d9c",
+    "scripts/local-env.ts": "966aa7d03f66cb4b2bce0144116e3bd64d67c35c5cc6704821b67dab02694aad",
+    "scripts/verify-task.mjs": "f9d55571f7b0c2f47f536f9e9cf74c7bc0f9131de10b6672488ce78832a98267",
+    "tests/program/atomic-batch.test.ts": "a4b5cd12c4fea771e9872e767ac39677b760e96f58c179e78b29f3ddefa2b4d9",
+    "tests/adapters/controlled-venue.test.ts": "c9f5ba39f9ee99ad5f7dedcdfae75ac52c3fe45932d82113734a4b0c246bd552",
+    "tests/workspace/verify-task.test.mjs": "b9159dfd4f2c6bbe5a1bac9a8d32bd3d0b22a3ef11331c991094a0fa844109c1",
+    "verification/evidence/T16-local-manifest.json": "615a44c726f0b72c955b25e92775f15fe3ca550968b753f1d9109fd1276ac20e",
+    "verification/evidence/T16-local-route-output.json": "19003f78bd271205bc82a64b083ad70c5d425b971b7e0d53dbe6664172ffdad2",
+    "verification/tasks/T16.json": "3580b4577e551979ea5b45380063d641440de8dddfd9f5812f53e7c2b2a0390f"
+  },
+  "policyFixtureSha256": "e31d3209a0556554172821a35f16aeeb406fa1cf27ea01512ea279b4ea370ecf",
+  "environment": "LOCAL_VALIDATOR_TRANSCRIPT",
+  "clusterGenesis": "2nq3rzqWSN1A2UYcjKtJ7Q5EaVpXh3GG33goxUqPMGrG",
+  "transactionCount": 0,
+  "versions": {
+    "node": "v24.10.0",
+    "pnpm": "10.17.1",
+    "anchor": "anchor-cli 1.1.2",
+    "cargo": "cargo 1.89.0 (c24e10642 2025-06-23)"
+  },
+  "checks": [
+    {
+      "name": "routed-client",
+      "kind": "vitest",
+      "command": [
+        "corepack",
+        "pnpm@10.17.1",
+        "exec",
+        "vitest",
+        "run",
+        "tests/program/atomic-batch.test.ts",
+        "tests/adapters/controlled-venue.test.ts",
+        "tests/planner/validation.test.ts"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "routed-client.log",
+      "outputSha256": "bb51d211be4c48cb19cc2ab99b4f0f33ea28164f4bfb138477b16101670f510f",
+      "passed": true
+    },
+    {
+      "name": "verification-harness",
+      "kind": "workspace",
+      "command": [
+        "corepack",
+        "pnpm@10.17.1",
+        "check:workspace"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "verification-harness.log",
+      "outputSha256": "8c3d7b53b239a01ef6a0d1e234c48503825c0ce1273acce4d6bdc2334974b116",
+      "passed": true
+    },
+    {
+      "name": "typescript",
+      "kind": "typecheck",
+      "command": [
+        "corepack",
+        "pnpm@10.17.1",
+        "exec",
+        "tsc",
+        "--noEmit"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "typescript.log",
+      "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "passed": true
+    },
+    {
+      "name": "rust-host",
+      "kind": "cargo-test",
+      "command": [
+        "env",
+        "CROSSFLOW_DEPLOYMENT_MANIFEST=verification/evidence/T16-local-manifest.json",
+        "cargo",
+        "test",
+        "-p",
+        "crossflow",
+        "-p",
+        "test-venue",
+        "--lib",
+        "--locked",
+        "--offline"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "rust-host.log",
+      "outputSha256": "9cc1d402dbec34fcabec3c251eb7310681a99b4b515d0d401ae27960775b1d02",
+      "passed": true
+    },
+    {
+      "name": "sbf-idl",
+      "kind": "anchor-build",
+      "command": [
+        "env",
+        "CROSSFLOW_DEPLOYMENT_MANIFEST=verification/evidence/T16-local-manifest.json",
+        "anchor",
+        "build"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "sbf-idl.log",
+      "outputSha256": "bbdd352052dd21a6bdbf7a8b1d381175c78ec542fa0ccb8d3fe32a07aca00f90",
+      "passed": true
+    },
+    {
+      "name": "wire-vectors",
+      "kind": "json-pass",
+      "command": [
+        "python3",
+        "docs/spec/check-wire-vectors.py"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "wire-vectors.log",
+      "outputSha256": "4ba0c74daf803caec22b7ce0dfdf7f25b077c3b00595a17953d98a725c46ee5f",
+      "passed": true
+    },
+    {
+      "name": "local-runtime-evidence",
+      "kind": "t16-runtime",
+      "command": [
+        "corepack",
+        "pnpm@10.17.1",
+        "exec",
+        "tsx",
+        "scripts/check-t16-runtime-evidence.mjs"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "local-runtime-evidence.log",
+      "outputSha256": "775f80cbede599acbee19232ba6872c36acaff7f728fa7c67b99cb0fedad07d1",
+      "passed": true
+    }
+  ],
+  "mandatoryCheckCount": 7,
+  "executedCheckCount": 7,
+  "reviewer": "independent review agent — .planning/T16-INDEPENDENT-REVIEW.md",
+  "limits": [
+    "Isolated local validator with synthetic TEST PRICES and test-token venue liquidity; no devnet, market or equity claim.",
+    "The venue is a fixed constant-product test venue pinned by the committed policy; it is not Meteora, Jupiter or a real market.",
+    "The routed leg is a single small sell; larger legs would exceed the committed ±200 bps per-owner execution band and must be rejected."
+  ]
+}

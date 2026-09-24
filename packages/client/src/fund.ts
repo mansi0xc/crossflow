@@ -1,5 +1,6 @@
-import { createHash } from 'node:crypto';
 import { AccountMeta, ComputeBudgetProgram, PublicKey, SystemProgram, Transaction, TransactionInstruction } from '@solana/web3.js';
+import { discriminator } from './discriminators.js';
+import { Buffer } from 'buffer';
 
 const TOKEN_PROGRAM = new PublicKey('TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA');
 const ASSOCIATED_TOKEN_PROGRAM = new PublicKey('ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL');
@@ -26,7 +27,7 @@ function u64(value: bigint): Buffer { const bytes = Buffer.alloc(8); bytes.write
 function ata(owner: PublicKey, mint: PublicKey): PublicKey {
   return PublicKey.findProgramAddressSync([owner.toBuffer(), TOKEN_PROGRAM.toBuffer(), mint.toBuffer()], ASSOCIATED_TOKEN_PROGRAM)[0];
 }
-function discriminator() { return createHash('sha256').update('global:create_and_fund').digest().subarray(0, 8); }
+
 
 export function deriveFundAccounts(program: PublicKey, config: PublicKey, prices: PublicKey, owner: PublicKey, nonce: bigint, mints: PublicKey[]): FundAccounts {
   if (!PublicKey.isOnCurve(owner.toBytes())) throw new TypeError('funding owner must be an on-curve wallet');
@@ -72,7 +73,7 @@ export function buildCreateAndFundInstruction(program: PublicKey, owner: PublicK
     { pubkey: SystemProgram.programId, isSigner: false, isWritable: false },
     { pubkey: INSTRUCTIONS_SYSVAR, isSigner: false, isWritable: false },
   ];
-  return new TransactionInstruction({ programId: program, keys, data: Buffer.concat([discriminator(), data]) });
+  return new TransactionInstruction({ programId: program, keys, data: Buffer.concat([discriminator('create_and_fund'), data]) });
 }
 
 /** Funding creates up to three ATAs and performs three checked transfers; simulations use an explicit bounded CU budget. */

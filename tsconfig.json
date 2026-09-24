@@ -7,7 +7,9 @@
     "noEmit": true,
     "resolveJsonModule": true,
     "types": ["node", "vitest/globals"],
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "jsx": "react-jsx",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"]
   },
-  "include": ["packages/**/*.ts", "scripts/**/*.ts", "tests/**/*.ts"]
+  "include": ["packages/**/*.ts", "scripts/**/*.ts", "tests/**/*.ts", "services/**/*.ts", "apps/**/*.ts", "apps/**/*.tsx"]
 }

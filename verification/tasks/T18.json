@@ -1,0 +1,47 @@
+{
+  "task": "T18",
+  "sourceFiles": [
+    "apps/web/src/App.tsx",
+    "apps/web/src/api.ts",
+    "apps/web/src/wallet.ts",
+    "apps/web/src/main.tsx",
+    "apps/web/src/polyfill.ts",
+    "apps/web/src/routes/prepare.tsx",
+    "apps/web/src/routes/compare.tsx",
+    "apps/web/src/routes/approve.tsx",
+    "apps/web/src/routes/intent.tsx",
+    "apps/web/src/components/PortfolioSlice.tsx",
+    "apps/web/index.html",
+    "vite.config.ts",
+    "scripts/verify-task.mjs",
+    "tests/ui/harness.ts",
+    "tests/ui/prepare.spec.ts",
+    "playwright.config.ts",
+    "verification/tasks/T18.json"
+  ],
+  "checks": [
+    {
+      "name": "prepare-flow",
+      "kind": "playwright",
+      "command": "corepack",
+      "args": [
+        "pnpm@10.17.1",
+        "exec",
+        "playwright",
+        "test",
+        "tests/ui/prepare.spec.ts"
+      ]
+    },
+    {
+      "name": "typescript",
+      "kind": "typecheck",
+      "command": "corepack",
+      "args": [
+        "pnpm@10.17.1",
+        "exec",
+        "tsc",
+        "--noEmit"
+      ]
+    }
+  ]
+}

@@ -1,5 +1,6 @@
-import { createHash } from 'node:crypto';
 import { AccountMeta, ComputeBudgetProgram, PublicKey, Transaction, TransactionInstruction } from '@solana/web3.js';
+import { discriminator } from './discriminators.js';
+import { Buffer } from 'buffer';
 
 const TOKEN_PROGRAM = new PublicKey('TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA');
 const ASSOCIATED_TOKEN_PROGRAM = new PublicKey('ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL');
@@ -65,7 +66,7 @@ export function deriveBatchAccounts(program: PublicKey, config: PublicKey, price
 export function encodeSettleBatchData(body: Uint8Array): Buffer {
   if (!(body instanceof Uint8Array) || body.length === 0 || body.length > 194) throw new RangeError('settlement body must be 1–194 bytes');
   const length = Buffer.alloc(4); length.writeUInt32LE(body.length);
-  return Buffer.concat([createHash('sha256').update('global:settle_batch').digest().subarray(0, 8), length, Buffer.from(body)]);
+  return Buffer.concat([discriminator('settle_batch'), length, Buffer.from(body)]);
 }
 
 export function buildSettleBatchInstruction(program: PublicKey, accounts: BatchAccounts, body: Uint8Array): TransactionInstruction {
@@ -100,8 +101,8 @@ export interface RoutedBatchAccounts extends BatchAccounts {
   venue: { program: PublicKey; pool: PublicKey; vaults: PublicKey[] };
 }
 
-/** `sha256("global:settle_routed")[..8]` for the pinned CrossFlow program. */
-export const SETTLE_ROUTED_DISCRIMINATOR = Buffer.from([0xf9, 0x3a, 0xb0, 0x2c, 0xd2, 0xdc, 0x77, 0xa7]);
+/** `sha256("global:settle_routed")[..8]`, verified against its name by the discriminator check. */
+export const SETTLE_ROUTED_DISCRIMINATOR = discriminator('settle_routed');
 
 export function deriveBatchAuthority(program: PublicKey, config: PublicKey): PublicKey {
   return PublicKey.findProgramAddressSync([Buffer.from('batch'), config.toBuffer()], program)[0];

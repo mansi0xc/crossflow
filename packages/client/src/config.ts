@@ -1,17 +1,15 @@
-import { createHash } from 'node:crypto';
 import { AccountMeta, PublicKey, TransactionInstruction } from '@solana/web3.js';
+import { discriminator, type InstructionName } from './discriminators.js';
+import { Buffer } from 'buffer';
 
 const SYSTEM_PROGRAM = new PublicKey('11111111111111111111111111111111');
-function discriminator(name: string): Buffer {
-  return createHash('sha256').update(`global:${name}`).digest().subarray(0, 8);
-}
 function versionBytes(value: number): Buffer {
   if (!Number.isSafeInteger(value) || value < 1 || value >= 0xffff_ffff) throw new RangeError('configuration version out of range');
   const result = Buffer.alloc(4);
   result.writeUInt32LE(value);
   return result;
 }
-function ix(program: PublicKey, name: string, admin: PublicKey, config: PublicKey, args: Buffer,
+function ix(program: PublicKey, name: InstructionName, admin: PublicKey, config: PublicKey, args: Buffer,
   extraKeys: AccountMeta[] = []): TransactionInstruction {
   const keys: AccountMeta[] = [
     { pubkey: admin, isSigner: true, isWritable: false },
