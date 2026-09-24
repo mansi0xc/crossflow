@@ -86,7 +86,7 @@ export function assertFreshOutput(kind, stdout, stderr, root) {
     const result = JSON.parse(stdout.trim());
     if (result.status !== 'PASS' || result.task !== 'T07' || result.cluster !== 'localnet' ||
         !/^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(result.genesis) ||
-        result.mandatory_negative_cases < 30 || result.transaction_signatures_count < 27 ||
+        result.mandatory_negative_cases < 31 || result.transaction_signatures_count < 27 ||
         result.settlement_rollback_cpis_per_case !== 2 || result.final_nonce !== '3' ||
         result.outstanding_claim_intents !== '0' ||
         !/^[0-9a-f]{64}$/.test(result.demo_transcript_sha256 ?? '') ||

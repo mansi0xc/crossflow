@@ -5,6 +5,7 @@
     "programs/crossflow/src/intent.rs",
     "programs/crossflow/src/lib.rs",
     "programs/crossflow/src/recovery.rs",
+    "programs/crossflow/src/settlement.rs",
     "packages/client/src/config.ts",
     "packages/client/src/recover.ts",
     "scripts/demo-local.ts",

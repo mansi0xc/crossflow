@@ -18,6 +18,7 @@ const required = new Map([
   ['third-leg-output-below-minimum', /Error Code: Output/],
   ['double-settle', /Error Code: Settle/],
   ['cancel-after-settle', /Error Code: RecoveryStatus/],
+  ['wrong-rent-recipient-close', /Error Code: ConstraintSeeds/],
   ['settlement-paused', /Error Code: Paused/],
   ['policy-update-with-outstanding-claim', /Error Code: ClaimsOutstanding/],
   ['changed-feed-with-outstanding-claim', /Error Code: ClaimsOutstanding/],

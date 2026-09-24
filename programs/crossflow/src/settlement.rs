@@ -41,6 +41,10 @@ pub struct SettleThin<'info> {
     pub instructions_sysvar: UncheckedAccount<'info>,
 }
 
+fn within_settlement_window(now: i64, expiry_unix_seconds: u64) -> bool {
+    u64::try_from(now).is_ok_and(|now| now < expiry_unix_seconds)
+}
+
 pub fn settle_thin(ctx: Context<SettleThin>, request: ThinSettleRequest) -> Result<()> {
     let config_key = ctx.accounts.config.key();
     let policy = ctx.accounts.config.validate(config_key)?;
@@ -51,10 +55,9 @@ pub fn settle_thin(ctx: Context<SettleThin>, request: ThinSettleRequest) -> Resu
     let intent = &ctx.accounts.intent;
     let state = &ctx.accounts.owner_state;
     let now = Clock::get()?.unix_timestamp;
-    let now_u64 = u64::try_from(now).map_err(|_| SettlementError::Settle)?;
     require!(intent.config == config_key && intent.owner == owner, SettlementError::Settle);
     require!(intent.status == IntentStatus::Funded, SettlementError::Settle);
-    require!(now_u64 < intent.expiry_unix_seconds, SettlementError::Settle);
+    require!(within_settlement_window(now, intent.expiry_unix_seconds), SettlementError::Settle);
     require!(state.config == config_key && state.owner == owner && state.active_intent == Some(intent_key), SettlementError::Settle);
     require!(ctx.accounts.prices.sequence == request.expected_snapshot_sequence, SettlementError::SnapshotSequence);
     let price_guard = oracle::read_fixture(
@@ -160,3 +163,16 @@ pub struct ThinIntentSettled {
 }
 
 pub use crate::CrossflowError as SettlementError;
+
+#[cfg(test)]
+mod tests {
+    use super::within_settlement_window;
+
+    #[test]
+    fn expiry_is_strict_before_at_and_after() {
+        assert!(within_settlement_window(999, 1000));
+        assert!(!within_settlement_window(1000, 1000));
+        assert!(!within_settlement_window(1001, 1000));
+        assert!(!within_settlement_window(-1, 1000));
+    }
+}

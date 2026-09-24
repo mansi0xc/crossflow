@@ -247,6 +247,7 @@ if (!ownerStateInfo || !ownerStateInfo.owner.equals(PROGRAM) || ownerStateInfo.d
 const lifecycleSignatures: Record<string, string> = {};
 let lifecycleEvidence: Record<string, unknown> | undefined;
 if (completeLifecycle) {
+  const attackerOwner = Keypair.generate();
   const recovery0 = deriveRecoveryAccounts(PROGRAM, config, prices, signer.publicKey, 0n, mints);
   const currentPricesInfo = await connection.getAccountInfo(prices, 'confirmed');
   if (!currentPricesInfo) throw new Error('current fixture snapshot disappeared');
@@ -285,6 +286,12 @@ if (completeLifecycle) {
   rejectedCases.push('double-settle');
   await simulateExpectedReject('cancel-after-settle', buildCancelIntentInstruction(PROGRAM, signer.publicKey, recovery0), /Error Code: RecoveryStatus/);
   rejectedCases.push('cancel-after-settle');
+  const wrongClose = buildCloseIntentInstruction(PROGRAM, signer.publicKey, recovery0);
+  const wrongCloseKeys = wrongClose.keys.map(meta => ({ ...meta }));
+  wrongCloseKeys[0] = { pubkey: attackerOwner.publicKey, isSigner: true, isWritable: true };
+  await simulateExpectedReject('wrong-rent-recipient-close', instruction(wrongCloseKeys, wrongClose.data),
+    /Error Code: ConstraintSeeds/, [attackerOwner]);
+  rejectedCases.push('wrong-rent-recipient-close');
   const rent0 = (await Promise.all(recovery0.vaults.map(key => connection.getAccountInfo(key, 'confirmed'))))
     .reduce((sum, info) => sum + BigInt(info?.lamports ?? 0), 0n) + BigInt((await connection.getAccountInfo(recovery0.intent, 'confirmed'))?.lamports ?? 0);
   lifecycleSignatures.closeSettled = await send(buildCloseIntentInstruction(PROGRAM, signer.publicKey, recovery0));
@@ -349,7 +356,6 @@ if (completeLifecycle) {
     recovery1, readU64(pausedPrices.data, 105).toString(), expectedFunding.map(String)), /Error Code: Settle/);
   rejectedCases.push('settlement-after-cancel');
   lifecycleSignatures.repauseForWithdrawals = await send(adminConfigIx('set_pause', Buffer.from([1, 1])));
-  const attackerOwner = Keypair.generate();
   const attackerCancelKeys = cancelIx.keys.map(meta => ({ ...meta }));
   attackerCancelKeys[0] = { pubkey: attackerOwner.publicKey, isSigner: true, isWritable: false };
   const attackerCancelIx = instruction(attackerCancelKeys, cancelIx.data);
