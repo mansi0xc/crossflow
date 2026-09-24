@@ -1,0 +1,8 @@
+
+Running 3 tests using 1 worker
+
+  ✓  1 tests/ui/prepare.spec.ts:8:3 › T18 prepare screen › states the cluster, the test assets and the escrow terms before anything is funded (285ms)
+  ✓  2 tests/ui/prepare.spec.ts:20:3 › T18 prepare screen › the identity shown is the identity the service reported, not a hard-coded value (101ms)
+  ✓  3 tests/ui/prepare.spec.ts:34:3 › T18 prepare screen › review and approval are gated on a comparison that actually exists (94ms)
+
+  3 passed (2.2s)

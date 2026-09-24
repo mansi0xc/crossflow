@@ -8,8 +8,12 @@ atomic three-owner batch that crosses orders internally, a composed residual leg
 synthetic venue, owner-controlled recovery, a fair three-engine economic comparison with a
 held-out result, and an isolated public-devnet probe.
 
-What does not exist: the service and UI layers, any real venue, authenticated Pyth prices, and the
-release package with a recorded demo.
+A bounded local service and a review → compare → approve → recover UI now exist and passed an
+independent review, which found one high defect — recovery was unreachable when the service was
+offline — and nine lower ones, all fixed.
+
+What does not exist: any real venue, authenticated Pyth prices, a recorded demo, a devnet run of
+the current build, and any hosting.
 
 ## The decision a human must take
 
@@ -22,8 +26,8 @@ Three honest options:
 
 1. **Submit what is real**, with the claim narrowed to what the evidence supports and the missing
    layers named as missing. This is what `docs/submission-draft.md` is written for.
-2. **Build the service and UI first** (T18–T20/T32) and submit a demonstrable product with the same
-   narrowed economic claim.
+2. **Record the demo and submit** — the product surface now exists, so the remaining gap is
+   presentation (T30/T31) rather than build.
 3. **Re-frame the value proposition** around internal crossing alone, which is the part that holds
    up, and treat the cooperative premium as future work.
 

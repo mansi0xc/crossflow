@@ -46,6 +46,14 @@ and test cash.
 - **Three fair engines and a held-out evaluation** — independent, fixed-order-netting and
   cooperative, sharing one frozen model, with an independent ledger checker and a validator that
   refuses a report with a dropped scenario, a missing cost field or an overstated claim.
+- **Bounded local service** — a loopback operator tool that serves the deployment identity, the
+  labelled fixture snapshot, funded intents read from chain, the three engine proposals, and an
+  **unsigned** settlement transaction built only from a plan the independent validator accepted.
+  It holds no key and accepts none, and it never signs.
+- **Review → compare → approve → recover UI** — the three approaches with their attribution and
+  negatives, the exact raw-unit mandate with its recomputed hash, an explicit affirmation gate
+  before the wallet is asked to sign, and per-asset recovery read from chain. Recovery works with
+  the service completely offline.
 - **Isolated public-devnet probe** — the program is deployed to devnet and a three-owner fund →
   atomic batch settle → rejection → cancel/refund probe passed with reconciled balances.
 
@@ -64,10 +72,11 @@ tuning the baseline until it looks good.
 ## What is deliberately absent
 
 Authenticated equity prices (Pyth is excluded; the oracle is a labelled fixture), any real venue
-(not Meteora, not Jupiter, not an AMM), the service and UI layers, mainnet, production liquidity,
-issuer-backed assets, and any security audit. `docs/evidence/security-matrix.md` tabulates all 24
-design invariants against where they are enforced and which check exercises them, including the
-rows with no implementation behind them.
+(not Meteora, not Jupiter, not an AMM), mainnet, production liquidity, issuer-backed assets, and any
+security audit. The browser flow is exercised with an injected wallet stub and a stubbed RPC, so
+the real Phantom extension path and any hosting remain untested. `docs/evidence/security-matrix.md`
+tabulates all 24 design invariants against where they are enforced and which check exercises them,
+including the rows that are only partly exercised.
 
 ## Where to look
 

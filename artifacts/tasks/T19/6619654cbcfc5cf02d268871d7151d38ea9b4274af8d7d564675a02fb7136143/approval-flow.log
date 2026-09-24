@@ -1,0 +1,8 @@
+
+Running 3 tests using 1 worker
+
+  ✓  1 tests/ui/approval.spec.ts:16:3 › T19 compare and approve › the three approaches are compared under identical constraints, with negatives shown (276ms)
+  ✓  2 tests/ui/approval.spec.ts:26:3 › T19 compare and approve › the signed funding instruction carries exactly the mandate the page displayed (521ms)
+  ✓  3 tests/ui/approval.spec.ts:67:3 › T19 compare and approve › the displayed mandate hash is the hash of the signed instruction payload (576ms)
+
+  3 passed (2.5s)

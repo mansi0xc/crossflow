@@ -1,0 +1,9 @@
+
+Running 4 tests using 1 worker
+
+  ✓  1 tests/ui/recovery.spec.ts:11:3 › T20 status, receipt and recovery › a funded intent offers cancellation and states the recovery guarantees (233ms)
+  ✓  2 tests/ui/recovery.spec.ts:30:3 › T20 status, receipt and recovery › a cancelled intent offers per-asset withdrawal rather than a single opaque refund (154ms)
+  ✓  3 tests/ui/recovery.spec.ts:45:3 › T20 status, receipt and recovery › recovery stays reachable with no intents, and no success is claimed without a receipt (175ms)
+  ✓  4 tests/ui/recovery.spec.ts:64:3 › T20 status, receipt and recovery › recovery works with the service entirely offline (166ms)
+
+  4 passed (1.9s)

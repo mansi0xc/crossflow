@@ -61,25 +61,25 @@ for (const owner of extraOwners) {
   }
 }
 
-let mintKeys: Keypair[] = (env.mints ?? []).map((entry: number[]) => Keypair.fromSecretKey(Uint8Array.from(entry)));
-if (mintKeys.length !== 3) {
-  for (let attempt = 0; attempt < 20000; attempt++) {
-    const candidate = Array.from({ length: 3 }, () => Keypair.generate());
-    if (candidate.every((entry, i) => i === 0 || Buffer.compare(candidate[i - 1].publicKey.toBuffer(), entry.publicKey.toBuffer()) < 0)) {
-      mintKeys = candidate;
-      break;
-    }
+// A fresh asset set every run. Test mints are immutable once their supply is fixed, and repeated
+// probe cycles over the same set eventually leave an owner short of the stock it must fund.
+let mintKeys: Keypair[] = [];
+for (let attempt = 0; attempt < 20000; attempt++) {
+  const candidate = Array.from({ length: 3 }, () => Keypair.generate());
+  if (candidate.every((entry, i) => i === 0 || Buffer.compare(candidate[i - 1].publicKey.toBuffer(), entry.publicKey.toBuffer()) < 0)) {
+    mintKeys = candidate;
+    break;
   }
-  if (mintKeys.length !== 3) throw new Error('could not draw a sorted devnet mint set');
-  for (const mint of mintKeys) {
-    await send(new Transaction().add(
-      SystemProgram.createAccount({ fromPubkey: operator.publicKey, newAccountPubkey: mint.publicKey,
-        lamports: await connection.getMinimumBalanceForRentExemption(82), space: 82, programId: TOKEN_PROGRAM }),
-      new TransactionInstruction({ programId: TOKEN_PROGRAM,
-        data: Buffer.concat([Buffer.from([20, DECIMALS]), operator.publicKey.toBuffer(), Buffer.from([1]), operator.publicKey.toBuffer()]),
-        keys: [{ pubkey: mint.publicKey, isSigner: false, isWritable: true },
-               { pubkey: RENT_SYSVAR, isSigner: false, isWritable: false }] })), [operator, mint], 'create devnet mint');
-  }
+}
+if (mintKeys.length !== 3) throw new Error('could not draw a sorted devnet mint set');
+for (const mint of mintKeys) {
+  await send(new Transaction().add(
+    SystemProgram.createAccount({ fromPubkey: operator.publicKey, newAccountPubkey: mint.publicKey,
+      lamports: await connection.getMinimumBalanceForRentExemption(82), space: 82, programId: TOKEN_PROGRAM }),
+    new TransactionInstruction({ programId: TOKEN_PROGRAM,
+      data: Buffer.concat([Buffer.from([20, DECIMALS]), operator.publicKey.toBuffer(), Buffer.from([1]), operator.publicKey.toBuffer()]),
+      keys: [{ pubkey: mint.publicKey, isSigner: false, isWritable: true },
+             { pubkey: RENT_SYSVAR, isSigner: false, isWritable: false }] })), [operator, mint], 'create devnet mint');
 }
 const mints = mintKeys.map(entry => entry.publicKey);
 for (const mint of mints) {

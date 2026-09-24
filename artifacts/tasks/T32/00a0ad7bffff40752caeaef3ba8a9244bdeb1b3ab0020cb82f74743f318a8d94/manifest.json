@@ -1,0 +1,85 @@
+{
+  "task": "T32",
+  "status": "CHECKS_PASS_REVIEW_PENDING",
+  "recordedAt": "2026-09-24T22:27:05.756Z",
+  "sourceCommit": "06ffa6a307cee8bd995180d0414d5022d4e11f45",
+  "sourceTreeSha256": "00a0ad7bffff40752caeaef3ba8a9244bdeb1b3ab0020cb82f74743f318a8d94",
+  "sourceFiles": {
+    "services/api/src/server.ts": "0365a68d0c09b094eb2719d856c3fa1638e037f7d4d277ba4e8138f76a643015",
+    "services/api/src/intent-index.ts": "d5e7c4279e11fd3caa6c6d68298eb473f8913661626df5f9f99805121bc1346c",
+    "services/api/src/optimizer-runner.ts": "58608ab9bf06208d3e7fe51a5798d11db3699b21b1998d66a4f8c7b2e69451f1",
+    "services/api/src/batch-coordinator.ts": "2d0048750f9666344de1933557bb19fe85e983610e39d9a4dc60dcc55bb4df92",
+    "services/optimizer/run_plan.py": "3cf9af39266b835ef85fd1702fd48d3ccbffe63b6f197b17de6225ef8a27e58d",
+    "scripts/verify-task.mjs": "f7a6dcef807b1b6c10ddce0a4abecbe3e4a7cc1d0f3b52de5bbfd325933afcae",
+    "tests/services/resource-limits.test.ts": "b1fa0293ff9e14bf7cfd57d92829677b5e9ad35f2dca05b2313a2c66ee3fcfff",
+    "docs/spec/service-api.md": "db23be816aa20d388f48e3fe5554b202d4a27b2c13238fcca4864fa0c4e86196",
+    "tests/services/orchestration.test.ts": "a0199bb9a25145943ab73880a2b7286078936a184df43fc3c700b551c3cde3a1",
+    "verification/tasks/T32.json": "a0a932900ddbc3605166a8736fb135d16045bbea0a46b6bd19b8f4c3a3b5046b"
+  },
+  "policyFixtureSha256": "e31d3209a0556554172821a35f16aeeb406fa1cf27ea01512ea279b4ea370ecf",
+  "environment": "LOCAL_NO_TRANSACTION",
+  "clusterGenesis": null,
+  "transactionCount": 0,
+  "versions": {
+    "node": "v24.10.0",
+    "pnpm": "10.17.1",
+    "anchor": "anchor-cli 1.1.2",
+    "cargo": "cargo 1.89.0 (c24e10642 2025-06-23)"
+  },
+  "checks": [
+    {
+      "name": "service-limits",
+      "kind": "vitest",
+      "command": [
+        "corepack",
+        "pnpm@10.17.1",
+        "exec",
+        "vitest",
+        "run",
+        "tests/services/resource-limits.test.ts",
+        "tests/services/orchestration.test.ts"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "service-limits.log",
+      "outputSha256": "13620a102491d81a63ae2b369eaf4cddebb00da9693ed53be6b6fce3dd42b612",
+      "passed": true
+    },
+    {
+      "name": "verification-harness",
+      "kind": "workspace",
+      "command": [
+        "corepack",
+        "pnpm@10.17.1",
+        "check:workspace"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "verification-harness.log",
+      "outputSha256": "57e7c3dd2973cd0a236bb8d230f73a7f887c23ad82fc46e74259ce2a975899f9",
+      "passed": true
+    },
+    {
+      "name": "typescript",
+      "kind": "typecheck",
+      "command": [
+        "corepack",
+        "pnpm@10.17.1",
+        "exec",
+        "tsc",
+        "--noEmit"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "typescript.log",
+      "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "passed": true
+    }
+  ],
+  "mandatoryCheckCount": 3,
+  "executedCheckCount": 3,
+  "reviewer": null,
+  "limits": [
+    "Checks only; independent reviewer and actual runtime/compute capacity remain open"
+  ]
+}
