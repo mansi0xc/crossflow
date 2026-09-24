@@ -1,33 +1,33 @@
 {
   "task": "T09",
   "status": "CHECKS_PASS_REVIEW_PENDING",
-  "recordedAt": "2026-09-24T19:29:48.071Z",
-  "sourceCommit": "9e209b3657bd53177f4d769a9fe612afeeb36c92",
-  "sourceTreeSha256": "6b7deec16e4e622514ac2cafb3a93893d53f0409bc4e615890ab8496cf810084",
+  "recordedAt": "2026-09-24T20:00:08.641Z",
+  "sourceCommit": "e444e45b944114d298cb6817c0900aaeda858a5e",
+  "sourceTreeSha256": "ec6f35f7d05103b3719d16cd5f9d0b98f612c2c84909a5f7f155f1eff43303cc",
   "sourceFiles": {
-    "programs/crossflow/src/batch.rs": "63ed93fea6fc9cc569337e74cdf86fc344f4bff7aed22626610fb77044c8b0de",
+    "programs/crossflow/src/batch.rs": "87a06e9f3bff477caf2c0f7f7103f98d49136e013ba3aa3eee300f7d192c72fe",
     "programs/crossflow/src/lib.rs": "ebaa572c86aaa7531f41a6992511cc86ac81b8e1a8aa587f297c1fcb61a9ae0d",
     "programs/crossflow/src/funding.rs": "8157ad22cb620fcf38ca44bbc5dc92d678fd08d434009988b37b66a65d391774",
     "programs/crossflow/src/settlement.rs": "e9601e4ba2fb4acc4d149fd2d8e3e1590c18f7ffa695e0ecbc0eb672e8faa92b",
     "programs/crossflow/src/oracle.rs": "5f97a9cc375e5f40f62ac0dd7ce59a025d9b7ffeb3ba02f5a675f214a6101af8",
-    "packages/client/src/build-batch.ts": "01745fe0e133bb27caeb9ef316c060ec95b3d4ce67f963e6b2bdb71bb4b8692d",
+    "packages/client/src/build-batch.ts": "58e362d2f06ee81ddcda9ab0cb3bd667c505cb5ed7203a9287ad8e6537ff90b4",
     "packages/planner/src/validate.ts": "f18dc13c024afcfa99e38e4766bebd118b95a14d7d6c066966e0925dd1ab369b",
     "scripts/demo-t09-batch.ts": "0cae411e83285fe50a82989bffa44042749e029733b45a2e2948b938d618ec5d",
     "scripts/local-env.ts": "966aa7d03f66cb4b2bce0144116e3bd64d67c35c5cc6704821b67dab02694aad",
     "scripts/prepare-local-manifest.ts": "f7e06d700be666d5311ad7612ae93c66f542b468735528027f618cdcd00faf46",
     "scripts/check-t09-runtime-evidence.mjs": "1cffa1d75ef03f5c00ddad0714abc60203646ae0f37c1156a831898452e6f2c6",
-    "scripts/verify-task.mjs": "05cb4de8880a6aae62de9846825d44f0d137fae74a581e8900a37221c3e7c7e0",
+    "scripts/verify-task.mjs": "af2a4ec95ec04956525b8e5dfd1dc88c027a021c835a24a3b3f72a4ad8ddd5d0",
     "tests/program/atomic-batch.test.ts": "a4b5cd12c4fea771e9872e767ac39677b760e96f58c179e78b29f3ddefa2b4d9",
     "tests/workspace/verify-task.test.mjs": "b9159dfd4f2c6bbe5a1bac9a8d32bd3d0b22a3ef11331c991094a0fa844109c1",
     "docs/spec/intent-contract.md": "3263fe5eb0bc17b7ad550b601134f879b19ce9b71ca3dc4acbb2ac05f9756f1d",
-    "docs/spec/settlement-accounting.md": "e5d719ed41c06946b86babec5ae78005e5bd4344faa08f3263e7781cd6590f28",
-    "verification/evidence/T09-local-manifest.json": "1757cce78fb577f4afd6ab1c6aee5f70faefe78c8b9464e83d89b264e43e162a",
-    "verification/evidence/T09-local-batch-output.json": "a00d853de70b0783c70805152f04b879ad94fc463147da1c83cd936890db5370",
+    "docs/spec/settlement-accounting.md": "2cfbbf7efd2edde1e10f63e092ea21adaeef7b79fe45afafa95b54ad28f9bd4f",
+    "verification/evidence/T09-local-manifest.json": "52ea5cfb34a3b5fc3daaad0824cd4470e9ae0adebd28dbee9609e8bd06e146a3",
+    "verification/evidence/T09-local-batch-output.json": "920525256737c73d7747cee70c0885d9377b43cac9e5c10de7cddd49b4b9b6cc",
     "verification/tasks/T09.json": "da1dafb93a29ce9e5f8d827b05fa34699a60b73fe778c64bf79494d69b2b2add"
   },
   "policyFixtureSha256": "e31d3209a0556554172821a35f16aeeb406fa1cf27ea01512ea279b4ea370ecf",
   "environment": "LOCAL_VALIDATOR_TRANSCRIPT",
-  "clusterGenesis": "Yj9kP7Wwdgonv7nDmWUyZVSneKxwSbZ5m7WMET2JSRc",
+  "clusterGenesis": "2vWRaSz1Diq23jGHs88JChb7qgNqpgBCbXza7hnodFpz",
   "transactionCount": 10,
   "versions": {
     "node": "v24.10.0",
@@ -51,7 +51,7 @@
       "exit": 0,
       "signal": null,
       "output": "batch-client.log",
-      "outputSha256": "51ff6afb592505ed46c781c2ad22211ace39a6ac52f0400bda2b13041ac5b231",
+      "outputSha256": "237a1837fb680e4db728be28418f77c7d8da01045853298d06e6409cdc2ae5a5",
       "passed": true
     },
     {
@@ -65,7 +65,7 @@
       "exit": 0,
       "signal": null,
       "output": "verification-harness.log",
-      "outputSha256": "eb59405f73dc84ea5184813547a18482c885520a07e58c2472b2afc23f8eb5a2",
+      "outputSha256": "284d78c6233ec3d3ffd1cd7985d64b3e442eec36ac5e30138c2f6060c761528a",
       "passed": true
     },
     {
@@ -101,7 +101,7 @@
       "exit": 0,
       "signal": null,
       "output": "rust-host.log",
-      "outputSha256": "b2ac4e09c8aa4fbeb67ed04291d2fcd74a4361eb7b5352ece331d9b5b127af1e",
+      "outputSha256": "0af091dc182ea5da6a1c1e4e71cd63ee493178eba8db15c593655aae2564eb90",
       "passed": true
     },
     {
@@ -116,7 +116,7 @@
       "exit": 0,
       "signal": null,
       "output": "sbf-idl.log",
-      "outputSha256": "d23dbeed885ba248b042c151c15cefb3321551d19c80eb1bedc5fba773c13d2b",
+      "outputSha256": "a33e966b1f85c934c17b05ecaac76a59338498cddb6556bf83102fb42ea5a89c",
       "passed": true
     },
     {
@@ -142,7 +142,7 @@
       "exit": 0,
       "signal": null,
       "output": "local-runtime-evidence.log",
-      "outputSha256": "28a43b0762ed2e7e4d05358036d7af03b61a6a7330dba9cdd3ee90f901a40687",
+      "outputSha256": "bcf56112552928b808dcc2a0213c0bab31c9af375cb5cf4352a47b35bc2bd15d",
       "passed": true
     }
   ],

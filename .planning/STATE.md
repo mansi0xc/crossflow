@@ -1,6 +1,9 @@
 # Execution state
 
-Updated: 25 September 2026, after T16 routed composition.
+Updated: 25 September 2026, after T16 review closure.
+
+- T16 independent review: 3 medium findings, all real and all fixed — (1) the residual decoder read a fixed three weights regardless of `batch_count`, so a two-owner routed body from the shipping client could not execute and a crafted one fed a phantom weight into the allocation; (2) `load_group` was not in fact shared with `settle_batch` and substituted values in the mint-authority slots, making the routed path validate mints MORE weakly than the internal path; (3) the evidence checker compared two generator-written fields instead of recomputing. Six low findings also fixed. `settle_batch` and `settle_routed` now share one loader.
+- Submission kit: README, `docs/claims-ledger.csv`, `docs/THIRD_PARTY_NOTICES.md`, `docs/evidence/security-matrix.md`, `docs/submission-draft.md`, `docs/demo-script.md`, `docs/submission-checklist.md`, `docs/final-handoff.md`. No video recorded; nothing submitted.
 
 - Execution repository: `/Users/mansitibrewal/chronicles/crossflow`.
 - T00: DONE for preflight scope; independent findings resolved and devnet funding prerequisite resolved via user-authorized CLI wallet.

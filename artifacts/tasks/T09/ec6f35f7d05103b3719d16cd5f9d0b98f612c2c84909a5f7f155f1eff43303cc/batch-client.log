@@ -2,10 +2,10 @@
 [1m[30m[46m RUN [49m[39m[22m [36mv5.0.1 [39m[90m/Users/mansitibrewal/chronicles/crossflow[39m
 
  [32m✓[39m tests/program/atomic-batch.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 28[2mms[22m[39m
- [32m✓[39m tests/planner/validation.test.ts [2m([22m[2m15 tests[22m[2m)[22m[32m 95[2mms[22m[39m
+ [32m✓[39m tests/planner/validation.test.ts [2m([22m[2m15 tests[22m[2m)[22m[32m 82[2mms[22m[39m
 
 [2m Test Files [22m [1m[32m2 passed[39m[22m[90m (2)[39m
 [2m      Tests [22m [1m[32m20 passed[39m[22m[90m (20)[39m
-[2m   Start at [22m 00:59:36
-[2m   Duration [22m 289ms[2m (import 37%, transform 32%, tests 30%, worker 1%)[22m
+[2m   Start at [22m 01:29:57
+[2m   Duration [22m 288ms[2m (import 37%, transform 36%, tests 26%, worker 1%)[22m
 

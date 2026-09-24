@@ -229,7 +229,7 @@ export function runTask(task, root = process.cwd()) {
     versions: { node: process.version, pnpm: version('corepack', ['pnpm@10.17.1', '--version'], root),
       anchor: version('anchor', ['--version'], root), cargo: version('cargo', ['--version'], root) },
     checks, mandatoryCheckCount: manifest.checks.length, executedCheckCount: checks.length,
-    reviewer: null, limits: runtimeEvidence?.limitations ?? ['Checks only; independent reviewer and actual runtime/compute capacity remain open'],
+    reviewer: manifest.reviewer ?? null, limits: runtimeEvidence?.limitations ?? ['Checks only; independent reviewer and actual runtime/compute capacity remain open'],
   };
   writeFileSync(resolve(outDir, 'manifest.json'), JSON.stringify(evidence, null, 2) + '\n');
   writeFileSync(resolve(outDir, 'result.md'), `# ${task} verification\n\nStatus: ${evidence.status}. Executed ${checks.length}/${manifest.checks.length} mandatory checks. Source snapshot: ${source.sha256}.\n`);

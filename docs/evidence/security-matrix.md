@@ -48,4 +48,4 @@ Legend for evidence: `unit` = Rust/Vitest unit test · `local` = local-validator
 - **S11 rollback is asserted through simulations and the local transcripts**, not through an
   explicit failing-transaction-on-chain capture on devnet.
 - **S23 composed capacity is measured on the local validator** (T16: 451 serialized bytes,
-  43 lookup entries, 311,591 CU). Devnet route capacity is unmeasured.
+  43 lookup entries, 330,095 CU). Devnet route capacity is unmeasured.

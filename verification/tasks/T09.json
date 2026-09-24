@@ -26,43 +26,76 @@
       "name": "batch-client",
       "kind": "vitest",
       "command": "corepack",
-      "args": ["pnpm@10.17.1", "exec", "vitest", "run", "tests/program/atomic-batch.test.ts", "tests/planner/validation.test.ts"]
+      "args": [
+        "pnpm@10.17.1",
+        "exec",
+        "vitest",
+        "run",
+        "tests/program/atomic-batch.test.ts",
+        "tests/planner/validation.test.ts"
+      ]
     },
     {
       "name": "verification-harness",
       "kind": "workspace",
       "command": "corepack",
-      "args": ["pnpm@10.17.1", "check:workspace"]
+      "args": [
+        "pnpm@10.17.1",
+        "check:workspace"
+      ]
     },
     {
       "name": "typescript",
       "kind": "typecheck",
       "command": "corepack",
-      "args": ["pnpm@10.17.1", "exec", "tsc", "--noEmit"]
+      "args": [
+        "pnpm@10.17.1",
+        "exec",
+        "tsc",
+        "--noEmit"
+      ]
     },
     {
       "name": "rust-host",
       "kind": "cargo-test",
       "command": "env",
-      "args": ["CROSSFLOW_DEPLOYMENT_MANIFEST=verification/evidence/T09-local-manifest.json", "cargo", "test", "-p", "crossflow", "--lib", "--locked", "--offline"]
+      "args": [
+        "CROSSFLOW_DEPLOYMENT_MANIFEST=verification/evidence/T09-local-manifest.json",
+        "cargo",
+        "test",
+        "-p",
+        "crossflow",
+        "--lib",
+        "--locked",
+        "--offline"
+      ]
     },
     {
       "name": "sbf-idl",
       "kind": "anchor-build",
       "command": "env",
-      "args": ["CROSSFLOW_DEPLOYMENT_MANIFEST=verification/evidence/T09-local-manifest.json", "anchor", "build"]
+      "args": [
+        "CROSSFLOW_DEPLOYMENT_MANIFEST=verification/evidence/T09-local-manifest.json",
+        "anchor",
+        "build"
+      ]
     },
     {
       "name": "wire-vectors",
       "kind": "json-pass",
       "command": "python3",
-      "args": ["docs/spec/check-wire-vectors.py"]
+      "args": [
+        "docs/spec/check-wire-vectors.py"
+      ]
     },
     {
       "name": "local-runtime-evidence",
       "kind": "t09-runtime",
       "command": "node",
-      "args": ["scripts/check-t09-runtime-evidence.mjs"]
+      "args": [
+        "scripts/check-t09-runtime-evidence.mjs"
+      ]
     }
-  ]
+  ],
+  "reviewer": "independent review agent \u2014 .planning/T09-INDEPENDENT-REVIEW.md"
 }

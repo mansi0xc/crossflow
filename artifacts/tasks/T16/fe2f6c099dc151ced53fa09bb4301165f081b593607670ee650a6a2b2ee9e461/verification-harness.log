@@ -1,0 +1,50 @@
+
+> crossflow@0.1.0 check:workspace /Users/mansitibrewal/chronicles/crossflow
+> node scripts/check-workspace.mjs && node --test tests/workspace/*.test.mjs && tsc --noEmit && vitest run tests/spec/wire-vectors.test.ts
+
+Workspace pinning, local default, tracked secret names, and RPC destination checks passed.
+✔ devnet exact genesis allows signing callback (0.388333ms)
+✔ mainnet URL cannot reach signing callback (0.466875ms)
+✔ testnet URL cannot reach signing callback (0.066708ms)
+✔ wrong expected genesis cannot reach signing callback (0.052292ms)
+✔ local public genesis cannot reach signing callback (0.07325ms)
+✔ local no port cannot reach signing callback (0.055542ms)
+✔ embedded credentials cannot reach signing callback (0.058917ms)
+✔ unknown mode cannot reach signing callback (0.040208ms)
+✔ RPC genesis mismatch blocks signing callback (0.147708ms)
+✔ owned local validator exact genesis allows operation (0.123125ms)
+✔ write destinations reject mainnet, testnet, unknown host and missing URL (0.675833ms)
+✔ pinning rejects a moving version and mainnet Anchor default (1.385542ms)
+✔ tracked keypair filename is rejected (43.658375ms)
+✔ missing task selector, source, checks and duplicate checks fail closed (0.737042ms)
+✔ forged success text without selected tests is rejected (0.3735ms)
+✔ locked install requires frozen-lockfile completion evidence (0.075292ms)
+✔ focused Vitest evidence requires selected passing tests and no skips (0.722458ms)
+✔ skipped or failed mandatory tests are rejected (0.277917ms)
+✔ mainnet and parent path in manifest are rejected (0.099042ms)
+✔ local runtime evidence requires real local identities, guarded rollback and conserved asset deltas (0.336416ms)
+✔ T06 runtime evidence requires both settlement bounds to roll back after prior token CPIs (0.082334ms)
+✔ T07 runtime evidence requires the full lifecycle and source-bound transcript (0.094958ms)
+✔ T08 runtime evidence requires old-mint removal before owner closed-vault recovery (0.136791ms)
+✔ T09 runtime evidence requires a three-owner lookup-backed atomic batch (0.131375ms)
+✔ T10 runtime evidence requires real measured venue deltas and a labelled synthetic pool (0.096375ms)
+✔ colourised test-runner output is interpreted rather than rejected (0.097708ms)
+✔ T16 runtime evidence requires a composed route with intact reserves and measured deltas (0.150417ms)
+ℹ tests 27
+ℹ suites 0
+ℹ pass 27
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 79.829583
+
+[1m[30m[46m RUN [49m[39m[22m [36mv5.0.1 [39m[90m/Users/mansitibrewal/chronicles/crossflow[39m
+
+ [32m✓[39m tests/spec/wire-vectors.test.ts [2m([22m[2m21 tests[22m[2m)[22m[32m 9[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m21 passed[39m[22m[90m (21)[39m
+[2m   Start at [22m 01:30:15
+[2m   Duration [22m 90ms[2m (transform 58%, tests 23%, import 15%, worker 4%)[22m
+

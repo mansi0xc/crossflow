@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "scope": "CrossFlow v1 money path: funding, internal batch settlement, composed residual routing, recovery",
+  "reviews": [
+    {
+      "id": "T09-INTERNAL-BATCH",
+      "record": ".planning/T09-INDEPENDENT-REVIEW.md",
+      "verdict": "PASS after fixes",
+      "reviewer": "independent review agent, no prior context, static review",
+      "findings": [
+        { "id": "M1", "severity": "medium", "summary": "The local buy-and-sell-same-stock case was rejected by the ordering rule before reaching the no-round-trip guard, so that guard was labelled tested but unexercised.", "status": "fixed", "fix": "Ascending cross tuples plus widened cash bounds so the round-trip rule is what fires." },
+        { "id": "M2", "severity": "medium", "summary": "Rust accepted a one-owner batch that the off-chain validator and the spec reject, a permissionless no-op state transition.", "status": "fixed", "fix": "settle_batch requires batch_count >= 2; single-owner settlement stays on the owner-signed thin path." },
+        { "id": "L1", "severity": "low", "summary": "Bytes appended after the declared body were ignored by the argument decoder.", "status": "fixed", "fix": "Exact top-level instruction length is authenticated through the instructions sysvar." },
+        { "id": "L2", "severity": "low", "summary": "Rust capped intermediate debits at MAX_POOL_AMOUNT while the TS model caps at MAX_AMOUNT.", "status": "accepted", "fix": "No acceptance difference: debit <= funding <= MAX_AMOUNT is enforced in both." },
+        { "id": "L3", "severity": "low", "summary": "The settled event emitted three rows regardless of batch_count.", "status": "fixed", "fix": "Event matrices are truncated to the participating rows." },
+        { "id": "L4", "severity": "low", "summary": "The checker recomputed the binary hash but never compared it, and the legacy-size claim was prose only.", "status": "fixed", "fix": "The checker binds the built binary and the committed manifest, and the demo records the measured legacy size." },
+        { "id": "L5", "severity": "low", "summary": "Several spec-required negatives had no local transcript case.", "status": "fixed", "fix": "Six more negatives added; the matrix is now fourteen named rejections." }
+      ]
+    },
+    {
+      "id": "T16-COMPOSED-ROUTE",
+      "record": ".planning/T16-INDEPENDENT-REVIEW.md",
+      "verdict": "PASS after fixes",
+      "reviewer": "independent review agent, no prior context, static review",
+      "findings": [
+        { "id": "M1", "severity": "medium", "summary": "The on-chain residual decoder read a fixed three weights regardless of batch_count, so a two-owner routed body from the shipping client could not decode and a crafted one fed a phantom weight into the allocation.", "status": "fixed", "fix": "The decoder reads exactly batch_count weights; unit tests cover a two-owner residual and a truncated one." },
+        { "id": "M2", "severity": "medium", "summary": "load_group was not in fact shared with settle_batch, and it substituted values in the mint-authority slots, making the routed path validate mints more weakly than the internal path.", "status": "fixed", "fix": "settle_batch calls load_group; the loader reads the real COption tags and fails closed on a short mint account." },
+        { "id": "M3", "severity": "medium", "summary": "The evidence checker compared two generator-written fields, never asserted the payout array length, and read the committed policy from decoded JSON.", "status": "fixed", "fix": "The checker recomputes the venue quote, rebuilds every payout from funding plus cross plus residual, re-hashes the recorded policy bytes and reproduces the recorded body hash." },
+        { "id": "L1", "severity": "low", "summary": "RoutePolicy.pool_authority was parsed but never used.", "status": "fixed", "fix": "The admitted vaults are derived from pool_authority, so the field is load-bearing." },
+        { "id": "L2", "severity": "low", "summary": "The spec quoted compute numbers the evidence did not contain.", "status": "fixed", "fix": "The spec quotes the measured values." },
+        { "id": "L3", "severity": "low", "summary": "A client guard that could never fire.", "status": "fixed", "fix": "Replaced with real alias assertions for pools and venue vaults." },
+        { "id": "L4", "severity": "low", "summary": "An unguarded mint-data index in the shared loader.", "status": "fixed", "fix": "Length-checked before indexing." },
+        { "id": "L5", "severity": "low", "summary": "The spec asked for venue vault delta reconciliation; only the output pool was re-read.", "status": "fixed", "fix": "Both pinned venue vaults are re-read and must move by exactly the typed input and measured output." },
+        { "id": "L6", "severity": "low", "summary": "Pool/vault aliasing was enforced off-chain only.", "status": "fixed", "fix": "The handler rejects any pool colliding with an intent vault, a recipient or a venue vault." }
+      ]
+    }
+  ],
+  "open_findings": [],
+  "not_established": [
+    "No devnet deployment of the routed path and no real venue (not Meteora, not Jupiter, not an AMM).",
+    "No Pyth integration and no authenticated equity prices.",
+    "No service or UI layer, so the secret-handling and reconciled-status invariants have nothing to enforce.",
+    "No formal verification, no third-party audit, and no adversarial runtime matrix against the deployed instructions.",
+    "Two reviews were static: neither reviewer executed the validator, the suites or the checkers."
+  ]
+}

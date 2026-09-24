@@ -1,33 +1,34 @@
 {
-  "task": "T10",
+  "task": "T16",
   "status": "CHECKS_PASS_REVIEW_PENDING",
-  "recordedAt": "2026-09-24T19:34:16.484Z",
-  "sourceCommit": "08e4d09b7ed0f68aa1f7a68cf32121f6bf9bc40e",
-  "sourceTreeSha256": "76a092f6aa063d41c338c103e5c8413f5bc77fde09e58ec07f3c7384a8ef58e0",
+  "recordedAt": "2026-09-24T20:00:23.120Z",
+  "sourceCommit": "e444e45b944114d298cb6817c0900aaeda858a5e",
+  "sourceTreeSha256": "fe2f6c099dc151ced53fa09bb4301165f081b593607670ee650a6a2b2ee9e461",
   "sourceFiles": {
+    "programs/crossflow/src/route.rs": "fefb0d4ff703534d4919ce0da9617461219ddf7503b05bddc6fc3461849d9e19",
+    "programs/crossflow/src/batch.rs": "87a06e9f3bff477caf2c0f7f7103f98d49136e013ba3aa3eee300f7d192c72fe",
+    "programs/crossflow/src/config.rs": "57d3268a2535ae3af0082eb9b5602dcb77fec8080879b1f4bdacdb631563fa8e",
+    "programs/crossflow/src/lib.rs": "ebaa572c86aaa7531f41a6992511cc86ac81b8e1a8aa587f297c1fcb61a9ae0d",
     "programs/test-venue/src/lib.rs": "24ffc8896b0d90b6c1fce00a253fa4ac0fe8d8e40d639d7cde9b6030f3d0c1dd",
-    "programs/test-venue/Cargo.toml": "a6be20154e069ef661cdda8533fd8f8b196df1c6ced03c7840f901fab8b74612",
-    "programs/crossflow/src/batch.rs": "63ed93fea6fc9cc569337e74cdf86fc344f4bff7aed22626610fb77044c8b0de",
-    "Cargo.toml": "1d92d53c62df8f99c76b6d7309471a455f828c39d973e8830d08eff1ce30a046",
-    "Cargo.lock": "ab891565c7cbc74fc67dd73644ef9e498261e6d230742e926630877979217113",
-    "Anchor.toml": "870e9066086e34f807ab3d35c056bc4c6926027f537ec692d93597993d5b0f59",
-    "packages/adapters/src/types.ts": "de6d3590176b4ca3a540ccce96baed86b167221adfdc6a3a4f4884bf6d812e8c",
+    "packages/client/src/build-batch.ts": "58e362d2f06ee81ddcda9ab0cb3bd667c505cb5ed7203a9287ad8e6537ff90b4",
     "packages/adapters/src/controlled.ts": "4cf3fe5cda29642f7af817aa61dc3077c0fb680b948baa6e2afc55b453d65e5a",
-    "scripts/demo-t10-venue.ts": "2b76d6b3081c8fbb8bc708d790c05688296e876f4bc8de0513f73a5d0f74f4e1",
-    "scripts/check-t10-runtime-evidence.mjs": "6f9b1eaad1c2944087b31247d10df418ec40db9fd39bf8a62c061481d1c8e98f",
+    "packages/planner/src/validate.ts": "f18dc13c024afcfa99e38e4766bebd118b95a14d7d6c066966e0925dd1ab369b",
+    "scripts/demo-t16-route.ts": "db13059aec47b8daa591f27ba00f2a3a96425e93eab35f248d6d0a32c698d343",
+    "scripts/prepare-route-manifest.ts": "cd43344ac14f497df248d148f2a6fada29b99ea2ca9712b2fb80f9cdcd2df4d7",
+    "scripts/check-t16-runtime-evidence.mjs": "57a8f46443894d0e2b021c4846f744ad2c1baae50471219fd98e2b7e36d79d9c",
     "scripts/local-env.ts": "966aa7d03f66cb4b2bce0144116e3bd64d67c35c5cc6704821b67dab02694aad",
     "scripts/verify-task.mjs": "af2a4ec95ec04956525b8e5dfd1dc88c027a021c835a24a3b3f72a4ad8ddd5d0",
+    "tests/program/atomic-batch.test.ts": "a4b5cd12c4fea771e9872e767ac39677b760e96f58c179e78b29f3ddefa2b4d9",
     "tests/adapters/controlled-venue.test.ts": "c9f5ba39f9ee99ad5f7dedcdfae75ac52c3fe45932d82113734a4b0c246bd552",
     "tests/workspace/verify-task.test.mjs": "b9159dfd4f2c6bbe5a1bac9a8d32bd3d0b22a3ef11331c991094a0fa844109c1",
-    "verification/evidence/T09-local-manifest.json": "1757cce78fb577f4afd6ab1c6aee5f70faefe78c8b9464e83d89b264e43e162a",
-    "verification/evidence/T10-local-env.json": "61ac0e2e8f9eb1d81cb5a97ecfceebbcdf49d146defcbaa27c6b57cb020cf2b4",
-    "verification/evidence/T10-local-venue-output.json": "5769f7a47aa3cc5108938730822e2e2c3684889dada7efda687608f23886ee2a",
-    "verification/tasks/T10.json": "61f4c5a2d611f26d5cdb4de422f4c022d1012eb6d11734ea3fb8da956f6c0b7c"
+    "verification/evidence/T16-local-manifest.json": "615a44c726f0b72c955b25e92775f15fe3ca550968b753f1d9109fd1276ac20e",
+    "verification/evidence/T16-local-route-output.json": "19003f78bd271205bc82a64b083ad70c5d425b971b7e0d53dbe6664172ffdad2",
+    "verification/tasks/T16.json": "401e1ad92fe20bbc8868d42fa3e473654f687c98fa399cdc232dff5002d47250"
   },
   "policyFixtureSha256": "e31d3209a0556554172821a35f16aeeb406fa1cf27ea01512ea279b4ea370ecf",
   "environment": "LOCAL_VALIDATOR_TRANSCRIPT",
-  "clusterGenesis": "2kXVjWg73KKsAdfjvshoTPc78gXHuxZtoQBzxHSio1S6",
-  "transactionCount": 7,
+  "clusterGenesis": "2nq3rzqWSN1A2UYcjKtJ7Q5EaVpXh3GG33goxUqPMGrG",
+  "transactionCount": 0,
   "versions": {
     "node": "v24.10.0",
     "pnpm": "10.17.1",
@@ -36,7 +37,7 @@
   },
   "checks": [
     {
-      "name": "venue-adapter",
+      "name": "routed-client",
       "kind": "vitest",
       "command": [
         "corepack",
@@ -44,13 +45,14 @@
         "exec",
         "vitest",
         "run",
+        "tests/program/atomic-batch.test.ts",
         "tests/adapters/controlled-venue.test.ts",
-        "tests/program/atomic-batch.test.ts"
+        "tests/planner/validation.test.ts"
       ],
       "exit": 0,
       "signal": null,
-      "output": "venue-adapter.log",
-      "outputSha256": "3a0d2deea47f696b2674a674b8612d2af1bef0754683a2e73e34a3e3b8460ba9",
+      "output": "routed-client.log",
+      "outputSha256": "f03b51b05cb7e19f9f2d0fd60700a02a02a403867ff7795b24a3a735c2d62219",
       "passed": true
     },
     {
@@ -64,7 +66,7 @@
       "exit": 0,
       "signal": null,
       "output": "verification-harness.log",
-      "outputSha256": "c984b1d4b67f717fe9522cea53abae900989e139a7b3ff761e0e87c7c49c4ae3",
+      "outputSha256": "2dd1f9808d70211c7dc677bbc709aaa60be5fec1e13488ba4cacdd0f32d00a7f",
       "passed": true
     },
     {
@@ -88,7 +90,7 @@
       "kind": "cargo-test",
       "command": [
         "env",
-        "CROSSFLOW_DEPLOYMENT_MANIFEST=verification/evidence/T09-local-manifest.json",
+        "CROSSFLOW_DEPLOYMENT_MANIFEST=verification/evidence/T16-local-manifest.json",
         "cargo",
         "test",
         "-p",
@@ -102,7 +104,7 @@
       "exit": 0,
       "signal": null,
       "output": "rust-host.log",
-      "outputSha256": "3c51733217c7bd4d7e0b3a98a9d3c3ca6f36717280185c869e07ca30f8d8009c",
+      "outputSha256": "12ee85258cf3e4cfd4f68dfd4a35c4f1e4c3831981262a1bbf3696f013673479",
       "passed": true
     },
     {
@@ -110,14 +112,14 @@
       "kind": "anchor-build",
       "command": [
         "env",
-        "CROSSFLOW_DEPLOYMENT_MANIFEST=verification/evidence/T09-local-manifest.json",
+        "CROSSFLOW_DEPLOYMENT_MANIFEST=verification/evidence/T16-local-manifest.json",
         "anchor",
         "build"
       ],
       "exit": 0,
       "signal": null,
       "output": "sbf-idl.log",
-      "outputSha256": "a19d93ddef933848b86ffafffb67956e9ad36b694cee23e7770684aef167d0b9",
+      "outputSha256": "897156ad0d3eabf8299c6b61943c6da2656034f85f48c078df01762d2424a890",
       "passed": true
     },
     {
@@ -135,15 +137,18 @@
     },
     {
       "name": "local-runtime-evidence",
-      "kind": "t10-runtime",
+      "kind": "t16-runtime",
       "command": [
-        "node",
-        "scripts/check-t10-runtime-evidence.mjs"
+        "corepack",
+        "pnpm@10.17.1",
+        "exec",
+        "tsx",
+        "scripts/check-t16-runtime-evidence.mjs"
       ],
       "exit": 0,
       "signal": null,
       "output": "local-runtime-evidence.log",
-      "outputSha256": "b4525937dc1fe71c58ba398406d3b2b225ff14c84ce558a30cf44bfd95316315",
+      "outputSha256": "775f80cbede599acbee19232ba6872c36acaff7f728fa7c67b99cb0fedad07d1",
       "passed": true
     }
   ],
@@ -151,8 +156,8 @@
   "executedCheckCount": 7,
   "reviewer": null,
   "limits": [
-    "Synthetic test-token liquidity on an isolated local validator; no market, no real price impact, no devnet claim.",
-    "T10 proves the venue stays real execution; composing it with CrossFlow settlement is T16 and is not exercised here.",
-    "Captured signatures are historical local evidence and require the running ledger for later RPC re-query."
+    "Isolated local validator with synthetic TEST PRICES and test-token venue liquidity; no devnet, market or equity claim.",
+    "The venue is a fixed constant-product test venue pinned by the committed policy; it is not Meteora, Jupiter or a real market.",
+    "The routed leg is a single small sell; larger legs would exceed the committed ±200 bps per-owner execution band and must be rejected."
   ]
 }
