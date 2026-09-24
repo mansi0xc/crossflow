@@ -62,7 +62,11 @@ python3 scripts/evaluate-economics.py --split holdout
 CROSSFLOW_DEPLOYMENT_MANIFEST=verification/evidence/T09-local-manifest.json cargo test -p crossflow --lib
 corepack pnpm@10.17.1 verify:task -- T09              # full per-task check set
 corepack pnpm@10.17.1 test:ui                          # browser flow (injected wallet, stubbed RPC)
+corepack pnpm@10.17.1 verify:release                   # ties the commit, tree and artifact hashes together
 ```
+
+See `docs/local-demo-runbook.md` for the full reproduction path and `docs/release-checklist.md` for
+the current gate results.
 
 Running the UI locally:
 

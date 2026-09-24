@@ -13,11 +13,12 @@ exists.
 | Architecture description | yes | `README.md`, `docs/spec/*` |
 | Dependency and licence attribution | yes | `docs/THIRD_PARTY_NOTICES.md` |
 | Environment template without secrets | yes | `.env.example` |
-| Devnet program / config / transaction identities | yes (probe) | `verification/evidence/T24-devnet-manifest.json`, `T24-devnet-output.json` |
+| Devnet program / config / transaction identities | yes (probe, current build) | `verification/evidence/T24-devnet-manifest.json`, `T24-devnet-output.json`, `docs/evidence/devnet-runs.md` |
 | Benchmark / evaluation instructions | yes | `scripts/evaluate-economics.py`, `docs/evidence/economic-report.md` |
 | Limitations section | yes | `README.md`, `docs/submission-draft.md` |
 | Claim-to-evidence ledger | yes | `docs/claims-ledger.csv` |
-| Demo video | **no** | to be recorded from `docs/demo-script.md` |
+| Demo video | **no** | to be recorded from `docs/demo-script.md`; the browser flow and the local runs are both rehearsable |
+| Service and UI | yes | `services/api`, `apps/web`, `docs/spec/service-api.md` |
 | Public repository / demo link | **no** | publication not authorised |
 | Final handoff note | `docs/final-handoff.md` | |
 

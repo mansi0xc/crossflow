@@ -13,7 +13,8 @@
     "test:ui": "playwright test",
     "serve:api": "tsx services/api/src/server.ts",
     "build:web": "vite build",
-    "dev:web": "vite"
+    "dev:web": "vite",
+    "verify:release": "node scripts/verify-release.mjs"
   },
   "dependencies": {
     "@anchor-lang/core": "1.1.2",

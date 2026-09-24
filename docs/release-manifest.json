@@ -1,0 +1,189 @@
+{
+  "schema_version": 1,
+  "release": "devnet-scope candidate",
+  "frozenAt": "2026-09-25",
+  "source": {
+    "commit": "9090fec7e1e6de00db3ca014f9225054b1348588",
+    "tree": "69682186cc265ec78714d5a24ae95aa41a60c3de",
+    "branch": "codex/t00-preflight",
+    "uncommittedAllowlist": [
+      ".commandcode/settings.json",
+      ".planning/GATES.md",
+      "docs/submission-checklist.md",
+      "docs/release-manifest.json",
+      "docs/release-checklist.md",
+      "docs/evidence/rehearsal.md",
+      "docs/local-demo-runbook.md",
+      "scripts/verify-release.mjs",
+      "package.json",
+      "pnpm-lock.yaml",
+      "README.md"
+    ],
+    "uncommittedAllowlistNote": "Files that may be edited without invalidating the artifact hashes. Empty on a truly frozen release."
+  },
+  "toolchain": {
+    "node": "24.10.0",
+    "pnpm": "10.17.1",
+    "anchor": "1.1.2",
+    "cargo": "1.89.0",
+    "rustc": "1.89.0",
+    "solana": "3.1.10",
+    "python": "3.9.6"
+  },
+  "artifacts": {
+    "target/deploy/crossflow.so": "cad74b70789432e06cf4e034afde1cb941f41e386000478f138bfeb5abf42519",
+    "verification/evidence/T16-local-manifest.json": "615a44c726f0b72c955b25e92775f15fe3ca550968b753f1d9109fd1276ac20e",
+    "verification/evidence/T16-local-route-output.json": "19003f78bd271205bc82a64b083ad70c5d425b971b7e0d53dbe6664172ffdad2",
+    "verification/evidence/T24-devnet-manifest.json": "bc862586eec51b210061033763dcfcb5c2d595cbe805c1ac1d910880e732aa04",
+    "verification/evidence/T24-devnet-output.json": "e35f71310741b44ed99d30dd355af443d9cc2f112186d6dba8374b6570357914",
+    "docs/evidence/economic-results.json": "6c9005b870c28c6c57a4423224dbcf7e14a5f73e891c1849c7b35c2011b0fdbc"
+  },
+  "deployment": {
+    "cluster": "devnet",
+    "genesis": "EtWTRABZaYq6iMfeYKouRu166VU2xqa1wcaWoxPkrZBG",
+    "programId": "CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh",
+    "configAddress": "ENcnvW9bRMTcABwniQQpUaKmTGR9q8AtjEuu1iwYCs8D",
+    "policyHash": "6479e3d704b2d8e3828a132320c87748309e7ae258e6d7cf6358b7a80659570c",
+    "routeEnabled": false,
+    "retainedUpgradeAuthority": "FSyL13FTp3Yrgdo8VWpoNtpL8FS5FcSGL3tdNp1sjw2t",
+    "outstandingClaimIntents": "0"
+  },
+  "supportedCapacity": {
+    "label": "MEASURED_LOCAL_EXECUTION",
+    "internalBatch": {
+      "owners": 3,
+      "computeUnits": 205117,
+      "serializedBytes": 350,
+      "lookupTableEntries": 33
+    },
+    "composedRoute": {
+      "owners": 3,
+      "residualLegs": 1,
+      "computeUnits": 340091,
+      "serializedBytes": 451,
+      "lookupTableEntries": 43
+    },
+    "devnetProbe": {
+      "owners": 3,
+      "computeUnits": 161316,
+      "lookupTableEntries": 33
+    },
+    "notes": [
+      "Three owners require an address lookup table; the same instruction does not fit the legacy 1232-byte packet.",
+      "The composed route has only been measured on an isolated local validator, never on devnet.",
+      "The demonstrable residual size is bounded by the committed \u00b1200 bps per-owner execution band, not by transaction size."
+    ]
+  },
+  "checks": [
+    {
+      "name": "workspace",
+      "command": "corepack pnpm@10.17.1 check:workspace",
+      "status": "PASS",
+      "evidence": [
+        "docs/spec/wire-vectors.json"
+      ]
+    },
+    {
+      "name": "typescript-suite",
+      "command": "corepack pnpm@10.17.1 exec vitest run",
+      "status": "PASS",
+      "evidence": []
+    },
+    {
+      "name": "browser-flow",
+      "command": "corepack pnpm@10.17.1 test:ui",
+      "status": "PASS",
+      "evidence": []
+    },
+    {
+      "name": "rust-host",
+      "command": "cargo test -p crossflow -p test-venue --lib",
+      "status": "PASS",
+      "evidence": []
+    },
+    {
+      "name": "economics",
+      "command": "python3 scripts/evaluate-economics.py --split holdout",
+      "status": "PASS",
+      "evidence": [
+        "docs/evidence/economic-results.json",
+        "docs/evidence/economic-report.md"
+      ]
+    },
+    {
+      "name": "T09-internal-batch",
+      "command": "corepack pnpm@10.17.1 verify:task -- T09",
+      "status": "PASS",
+      "evidence": [
+        "verification/evidence/T09-local-batch-output.json"
+      ]
+    },
+    {
+      "name": "T10-venue",
+      "command": "corepack pnpm@10.17.1 verify:task -- T10",
+      "status": "PASS",
+      "evidence": [
+        "verification/evidence/T10-local-venue-output.json"
+      ]
+    },
+    {
+      "name": "T16-composed-route",
+      "command": "corepack pnpm@10.17.1 verify:task -- T16",
+      "status": "PASS",
+      "evidence": [
+        "verification/evidence/T16-local-route-output.json"
+      ]
+    },
+    {
+      "name": "T18-prepare",
+      "command": "corepack pnpm@10.17.1 verify:task -- T18",
+      "status": "PASS",
+      "evidence": []
+    },
+    {
+      "name": "T19-approve",
+      "command": "corepack pnpm@10.17.1 verify:task -- T19",
+      "status": "PASS",
+      "evidence": []
+    },
+    {
+      "name": "T20-recovery",
+      "command": "corepack pnpm@10.17.1 verify:task -- T20",
+      "status": "PASS",
+      "evidence": []
+    },
+    {
+      "name": "T32-service",
+      "command": "corepack pnpm@10.17.1 verify:task -- T32",
+      "status": "PASS",
+      "evidence": []
+    },
+    {
+      "name": "devnet-identity",
+      "command": "corepack pnpm@10.17.1 exec tsx scripts/check-deployment.ts",
+      "status": "PASS",
+      "evidence": [
+        "verification/evidence/T24-devnet-output.json"
+      ]
+    },
+    {
+      "name": "release-manifest",
+      "command": "corepack pnpm@10.17.1 verify:release",
+      "status": "PASS",
+      "evidence": [
+        "docs/release-manifest.json"
+      ]
+    }
+  ],
+  "disclosures": [
+    "Everything here is devnet and synthetic test assets; there is no mainnet deployment, no issuer-backed share and no production liquidity.",
+    "The program has never been security audited and has no formal verification; the reviews recorded here are scoped engineering reviews, not an audit certificate.",
+    "The upgrade authority on the devnet program is retained by the approved wallet, which is a real trust assumption.",
+    "Authenticated equity prices are excluded; the oracle is a labelled fixture publisher and the evidence says TEST PRICES.",
+    "The residual venue is CrossFlow's own controlled constant-product test venue with test tokens; it is not Meteora, not Jupiter and not a market.",
+    "The browser flow is exercised with an injected wallet stub and a stubbed RPC; the real Phantom extension flow and any hosting are untested.",
+    "The economic comparison is modelled micro-USD under one frozen cost convention on synthetic scenarios; the cooperative gain is positive in only four of six eligible held-out scenarios and 36 of 72 sensitivity points.",
+    "The service is a loopback, single-deployment, unauthenticated local operator tool; it holds no user key and never signs.",
+    "No submission has been made and no public artefact has been published."
+  ]
+}
