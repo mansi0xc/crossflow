@@ -90,7 +90,7 @@ pub fn settle_thin(ctx: Context<SettleThin>, request: ThinSettleRequest) -> Resu
         let mint = mints[i];
         let asset = policy.assets[i];
         validate_mint_policy(
-            mint.key(), mint.to_account_info().data_len(), mint.is_initialized,
+            mint.key(), *mint.to_account_info().owner, mint.to_account_info().data_len(), mint.is_initialized,
             mint.decimals, mint.mint_authority.is_none(), mint.freeze_authority.is_none(), &asset,
         )?;
         let (expected_vault, _) = Pubkey::find_program_address(

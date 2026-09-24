@@ -1,0 +1,29 @@
+{
+  "permissions": {
+    "allow": [
+      "Shell(echo \"=== programs ===\" && find programs -name '*.rs' | xargs wc -l | sort -n && echo \"=== packages ===\" && find packages -name '*.ts' -not -path '*/node_modules/*' | xargs wc -l | sort -n && echo \"=== tests ===\" && find tests -type f -not -path '*/node_modules/*' | xargs wc -l | sort -n && echo \"=== scripts ===\" && find scripts -type f | xargs wc -l | sort -n && echo \"=== docs/spec ===\" && ls -la docs/spec docs/decisions docs/operations && echo \"=== research ===\" && find research -type f | head -50)",
+      "Shell(node --version)",
+      "Shell(corepack:*)",
+      "Shell(solana:*)",
+      "Shell(anchor:*)",
+      "Shell(cargo:*)",
+      "Shell(rustc:*)",
+      "Shell(python3 --version)",
+      "Shell(2:*)",
+      "Shell(node scripts/check-t08-runtime-evidence.mjs 2 >& 1)",
+      "Shell(python3 -c  import json,sys d=json.load(sys.stdin) print('status', d.get('status')) print('keys', list(d.keys())) print('negatives', [(r.get('label'), r.get('log','')[:0]) for r in d.get('negativeResults',[])]) print('recovered_raw', d.get('recovered_raw')) print('signatures', d.get('signatures')) )",
+      "Shell(ls -la /private/tmp/ 2>/dev/null | grep -i crossflow; echo \"---\"; which spl-token solana-test-validator; echo \"---\"; ls -la test-ledger 2>/dev/null | head; echo \"--- target/deploy\"; ls -la target/deploy/ 2>/dev/null; echo \"--- solana config\"; solana config get 2>&1)",
+      "Shell(grep:*)",
+      "Shell(python3 -c  import json d=json.load(open('verification/evidence/T08-local-funding-output.json')) for k in ['status','genesis','config','intent','rollbackCases','fundingSignature','stored_mandate_hash','priceLabel','intentDataLength']: print(k, '=', json.dumps(d.get(k))[:300]) print('negatives:', [r['label'] for r in d.get('negativeResults',[])]) print('sourceBefore', d.get('sourceBefore')) print('vaultAfter', d.get('vaultAfter')) )",
+      "Shell(bash /private/tmp/commandcode-501/-Users-mansitibrewal-chronicles-crossflow/08855673-421b-4846-91be-85d078f7519b/scratchpad/run-t08.sh 2 >& 1)",
+      "Shell(cd /Users/mansitibrewal/chronicles/crossflow S=/private/tmp/commandcode-501/-Users-mansitibrewal-chronicles-crossflow/08855673-421b-4846-91be-85d078f7519b/scratchpad rm -rf $S/dbg-ledger solana-test-validator --reset --ledger $S/dbg-ledger --rpc-port 8899 --faucet-port 9900 --gossip-port 9901 --dynamic-port-range 9902-9940 --bind-address 127.0.0.1 --quiet > $S/dbg-validator.log 2>&1 & VPID=$! for i in $(seq 1 60); do solana --url http://127.0.0.1:8899 cluster-version >/dev/null 2>&1 && break; sleep 1; done solana --url http://127.0.0.1:8899 cluster-version echo \"=== airdrop 50 ===\" solana --url http://127.0.0.1:8899 airdrop 50 FSyL13FTp3Yrgdo8VWpoNtpL8FS5FcSGL3tdNp1sjw2t 2>&1 | tail -3 echo \"=== balance ===\" solana --url http://127.0.0.1:8899 balance FSyL13FTp3Yrgdo8VWpoNtpL8FS5FcSGL3tdNp1sjw2t 2>&1 kill $VPID 2>/dev/null; wait $VPID 2>/dev/null echo \"done\")",
+      "Shell(bash /private/tmp/commandcode-501/-Users-mansitibrewal-chronicles-crossflow/08855673-421b-4846-91be-85d078f7519b/scratchpad/run-t08.sh > /private/tmp/commandcode-501/-Users-mansitibrewal-chronicles-crossflow/08855673-421b-4846-91be-85d078f7519b/scratchpad/t08-run.log 2>&1; echo \"EXIT=$?\")",
+      "Shell(S=/private/tmp/commandcode-501/-Users-mansitibrewal-chronicles-crossflow/08855673-421b-4846-91be-85d078f7519b/scratchpad;:*)",
+      "Shell(S=/private/tmp/commandcode-501/-Users-mansitibrewal-chronicles-crossflow/08855673-421b-4846-91be-85d078f7519b/scratchpad; rm -f $S/t08-env.json $S/t08-wallet.json; bash $S/run-t08.sh > $S/t08-run.log 2>&1; echo \"EXIT=$?\")",
+      "Shell(tail:*)",
+      "Shell(S=/private/tmp/commandcode-501/-Users-mansitibrewal-chronicles-crossflow/08855673-421b-4846-91be-85d078f7519b/scratchpad; rm -f $S/t08-env.json $S/t08-wallet.json $S/t08-validator.log; bash $S/run-t08.sh > $S/t08-run.log 2>&1; echo \"EXIT=$?\" >> $S/t08-run.log)"
+    ],
+    "deny": [],
+    "defaultMode": "default"
+  }
+}

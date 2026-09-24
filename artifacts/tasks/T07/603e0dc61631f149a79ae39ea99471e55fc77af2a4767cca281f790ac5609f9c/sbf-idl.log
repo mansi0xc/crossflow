@@ -1,0 +1,8 @@
+
+[stderr]
+[2026-09-24T06:05:20.616079000Z WARN  cargo_build_sbf] Package 'crossflow' has two crate types defined: cdylib and lib. This setting precludes link-time optimizations (LTO). Use cdylib for programs to be deployed and rlib for packages to be imported by other programs as libraries.
+    Finished `release` profile [optimized] target(s) in 0.28s
+[2026-09-24T06:05:20.960140000Z WARN  cargo_build_sbf::post_processing] The following functions are undefined and not known syscalls ["abort", "sol_sha256", "sol_try_find_program_address", "sol_curve_validate_point", "sol_create_program_address", "sol_log_", "sol_panic_", "sol_memcpy_", "sol_get_stack_height", "sol_log_data", "sol_invoke_signed_rust", "sol_get_clock_sysvar", "sol_get_rent_sysvar", "sol_memset_", "sol_log_pubkey", "sol_memmove_", "sol_memcmp_"].
+[2026-09-24T06:05:20.960156000Z WARN  cargo_build_sbf::post_processing]          Calling them will trigger a run-time error.
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.35s
+     Running unittests src/lib.rs (/Users/mansitibrewal/chronicles/crossflow/target/debug/deps/crossflow-97da5b81c430801f)

@@ -1,4 +1,5 @@
 use crate::config::Config;
+pub(crate) use crate::assets::validate_mint_policy;
 use crate::intent::{FundRequest, Intent, IntentError, IntentStatus, OwnerState};
 use crate::oracle::{self, FixtureSnapshot};
 use anchor_lang::prelude::*;
@@ -101,27 +102,6 @@ pub(crate) fn read_token(account: &AccountInfo, owner: Pubkey, mint: Pubkey) -> 
         FundingError::TokenState
     );
     Ok(token)
-}
-
-pub(crate) fn validate_mint_policy(
-    key: Pubkey,
-    data_len: usize,
-    initialized: bool,
-    decimals: u8,
-    mint_authority_none: bool,
-    freeze_authority_none: bool,
-    asset: &crate::config::AssetPolicy,
-) -> Result<()> {
-    require!(
-        key == asset.mint
-            && data_len == 82
-            && initialized
-            && decimals == asset.decimals
-            && mint_authority_none
-            && freeze_authority_none,
-        FundingError::Mint
-    );
-    Ok(())
 }
 
 fn exact_funding_instruction(ctx: &Context<CreateAndFund>, request: &FundRequest) -> Result<()> {
@@ -238,7 +218,7 @@ pub fn create_and_fund(ctx: Context<CreateAndFund>, request: FundRequest) -> Res
         let asset = policy.assets[i];
         let mint = mints[i];
         validate_mint_policy(
-            mint.key(), mint.to_account_info().data_len(), mint.is_initialized,
+            mint.key(), *mint.to_account_info().owner, mint.to_account_info().data_len(), mint.is_initialized,
             mint.decimals, mint.mint_authority.is_none(), mint.freeze_authority.is_none(), &asset,
         )?;
         let source = read_token(&sources[i], owner, asset.mint)?;
@@ -354,9 +334,9 @@ mod tests {
     fn mint_policy_rejects_identity_and_decimal_mismatch() {
         let key = Pubkey::new_from_array([3; 32]);
         let asset = AssetPolicy { mint: key, token_program: token::ID, decimals: 6, feed_id: [4; 32] };
-        assert!(validate_mint_policy(key, 82, true, 9, true, true, &asset).is_err());
-        assert!(validate_mint_policy(Pubkey::new_from_array([5; 32]), 82, true, 6, true, true, &asset).is_err());
-        assert!(validate_mint_policy(key, 82, true, 6, true, true, &asset).is_ok());
+        assert!(validate_mint_policy(key, token::ID, 82, true, 9, true, true, &asset).is_err());
+        assert!(validate_mint_policy(Pubkey::new_from_array([5; 32]), token::ID, 82, true, 6, true, true, &asset).is_err());
+        assert!(validate_mint_policy(key, token::ID, 82, true, 6, true, true, &asset).is_ok());
     }
 
     fn request() -> FundRequest {

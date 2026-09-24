@@ -1,0 +1,73 @@
+{
+  "task": "T08",
+  "sourceFiles": [
+    "programs/crossflow/src/assets.rs",
+    "programs/crossflow/src/math.rs",
+    "programs/crossflow/src/funding.rs",
+    "programs/crossflow/src/settlement.rs",
+    "programs/crossflow/src/recovery.rs",
+    "programs/crossflow/src/lib.rs",
+    "packages/contracts/src/amounts.ts",
+    "packages/client/src/recover.ts",
+    "scripts/demo-local.ts",
+    "scripts/prepare-local-manifest.ts",
+    "scripts/setup-t08-rotated-policy.ts",
+    "scripts/demo-t08-closed-vault.ts",
+    "scripts/check-t08-runtime-evidence.mjs",
+    "scripts/verify-task.mjs",
+    "tests/contracts/amount-vectors.test.ts",
+    "tests/program/assets-math.test.ts",
+    "tests/workspace/verify-task.test.mjs",
+    "docs/spec/assets-math.md",
+    "docs/spec/settlement-accounting.md",
+    "verification/evidence/T08-local-manifest.json",
+    "verification/evidence/T08-local-funding-output.json",
+    "verification/evidence/T08-local-setup-output.json",
+    "verification/evidence/T08-local-closed-vault-output.json",
+    "verification/tasks/T08.json"
+  ],
+  "checks": [
+    {
+      "name": "amount-and-recovery-client",
+      "kind": "vitest",
+      "command": "corepack",
+      "args": ["pnpm@10.17.1", "exec", "vitest", "run", "tests/program/assets-math.test.ts", "tests/contracts/amount-vectors.test.ts"]
+    },
+    {
+      "name": "verification-harness",
+      "kind": "workspace",
+      "command": "corepack",
+      "args": ["pnpm@10.17.1", "check:workspace"]
+    },
+    {
+      "name": "typescript",
+      "kind": "typecheck",
+      "command": "corepack",
+      "args": ["pnpm@10.17.1", "exec", "tsc", "--noEmit"]
+    },
+    {
+      "name": "rust-host",
+      "kind": "cargo-test",
+      "command": "env",
+      "args": ["CROSSFLOW_DEPLOYMENT_MANIFEST=verification/evidence/T08-local-manifest.json", "cargo", "test", "-p", "crossflow", "--lib", "--locked", "--offline"]
+    },
+    {
+      "name": "sbf-idl",
+      "kind": "anchor-build",
+      "command": "env",
+      "args": ["CROSSFLOW_DEPLOYMENT_MANIFEST=verification/evidence/T08-local-manifest.json", "anchor", "build"]
+    },
+    {
+      "name": "wire-vectors",
+      "kind": "json-pass",
+      "command": "python3",
+      "args": ["docs/spec/check-wire-vectors.py"]
+    },
+    {
+      "name": "local-runtime-evidence",
+      "kind": "t08-runtime",
+      "command": "node",
+      "args": ["scripts/check-t08-runtime-evidence.mjs"]
+    }
+  ]
+}

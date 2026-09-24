@@ -1,0 +1,16 @@
+
+[stderr]
+   Compiling crossflow v0.1.0 (/Users/mansitibrewal/chronicles/crossflow/programs/crossflow)
+error: failed to run custom build command for `crossflow v0.1.0 (/Users/mansitibrewal/chronicles/crossflow/programs/crossflow)`
+
+Caused by:
+  process didn't exit successfully: `/Users/mansitibrewal/chronicles/crossflow/target/debug/build/crossflow-1477b1425e61d482/build-script-build` (exit status: 101)
+  --- stdout
+  cargo:rerun-if-env-changed=CROSSFLOW_DEPLOYMENT_MANIFEST
+  cargo:rerun-if-changed=verification/evidence/T05-local-manifest.json
+
+  --- stderr
+
+  thread 'main' panicked at programs/crossflow/build.rs:63:41:
+  read public deployment manifest: Os { code: 2, kind: NotFound, message: "No such file or directory" }
+  note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace

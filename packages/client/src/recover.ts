@@ -106,3 +106,25 @@ export function buildCloseIntentInstruction(program: PublicKey, owner: PublicKey
     { pubkey: TOKEN_PROGRAM, isSigner: false, isWritable: false },
   ] });
 }
+
+/** Reclaim a donation sent to a recreated vault of an already closed nonce. */
+export function buildRecoverClosedVaultInstruction(program: PublicKey, owner: PublicKey, config: PublicKey,
+  nonce: bigint, mint: PublicKey): TransactionInstruction {
+  if (!PublicKey.isOnCurve(owner.toBytes())) throw new TypeError('recovery owner must be a wallet signer');
+  if (nonce < 0n || nonce > (1n << 64n) - 1n) throw new RangeError('closed-vault nonce out of range');
+  const nonceBytes = Buffer.alloc(8); nonceBytes.writeBigUInt64LE(nonce);
+  const [ownerState] = PublicKey.findProgramAddressSync([Buffer.from('owner'), config.toBuffer(), owner.toBuffer()], program);
+  const [oldIntent] = PublicKey.findProgramAddressSync([Buffer.from('intent'), config.toBuffer(), owner.toBuffer(), nonceBytes], program);
+  return new TransactionInstruction({ programId: program, data: Buffer.concat([discriminator('recover_closed_vault'), nonceBytes]), keys: [
+    { pubkey: owner, isSigner: true, isWritable: true },
+    { pubkey: config, isSigner: false, isWritable: false },
+    { pubkey: ownerState, isSigner: false, isWritable: false },
+    { pubkey: oldIntent, isSigner: false, isWritable: false },
+    { pubkey: mint, isSigner: false, isWritable: false },
+    { pubkey: ata(oldIntent, mint), isSigner: false, isWritable: true },
+    { pubkey: ata(owner, mint), isSigner: false, isWritable: true },
+    { pubkey: TOKEN_PROGRAM, isSigner: false, isWritable: false },
+    { pubkey: ASSOCIATED_TOKEN_PROGRAM, isSigner: false, isWritable: false },
+    { pubkey: SYSTEM_PROGRAM, isSigner: false, isWritable: false },
+  ] });
+}

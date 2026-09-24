@@ -1,0 +1,136 @@
+{
+  "task": "T06",
+  "status": "CHECKS_PASS_REVIEW_PENDING",
+  "recordedAt": "2026-09-23T20:51:46.001Z",
+  "sourceCommit": "7d6a64e3411aeeb45f4ff8f59d5cebbe52f248ab",
+  "sourceTreeSha256": "f3b37767ef022a5262154f4193be8de07e671922e055662578f0fe6b8f187607",
+  "sourceFiles": {
+    "programs/crossflow/src/funding.rs": "bfa77f2312d67322f14333bae3ff4493f3ab013b4a416a47beff4140e591d9a5",
+    "programs/crossflow/src/intent.rs": "db3992068d11fdfa75e0ccfd94d02f8b9e338687475b64faf39cabfa65e18f27",
+    "programs/crossflow/src/lib.rs": "d263e8babee95f47c2be6e1ccec3368dfa5533afd6cf0a2131917a26ed894e66",
+    "programs/crossflow/src/recovery.rs": "5e989e8f84a0559d6f46ad2e3651d30f38aac43141e8a74261f1ff1014e7a0a0",
+    "programs/crossflow/src/settlement.rs": "38c9d9e525a8db4cd5e2728a9d2e7889568a8e6340162d443ea680f4c78d1de2",
+    "packages/client/src/recover.ts": "37addf09fdefb325ec6b24d1528e3a676b46060d06d6c85cf10f298eed11f4b5",
+    "scripts/demo-local.ts": "8230a012ad986baf3e49ea3bc32daa51a5ea5acc2b71efd74595e59f7772bf40",
+    "scripts/check-t06-runtime-evidence.mjs": "419abb7782ba103718608969ebc61756f72d076599958a8c3575119b26d2effd",
+    "scripts/verify-task.mjs": "c56ba2cfbb641c89742ca562af6e99e5917de925f761fecc260f07134e472dc2",
+    "tests/program/thin-flow.test.ts": "d715ad08f83b0b6d500998b7448084209ffff0ef3108ef8961f83dce37635f40",
+    "tests/workspace/verify-task.test.mjs": "87c939349b8dcb48802afb2e8b2d101589d7afffa0d8c0ce9e924ea880e57cbf",
+    "docs/spec/settlement-accounting.md": "7f547bfaacfa8848a6943b608afe3b28f9e3879538ff453c8b23202ba70c5cdd",
+    "verification/evidence/T06-local-manifest.json": "f22c70eb45ed4daa65033a82100d91fb0170e43d23f5202fa88e9217fc70aa5e",
+    "verification/evidence/T06-local-runtime.json": "2166fb891dcbb965c11e283a45f018befc13e2e224aee77796b0bc6394623ea9",
+    "verification/tasks/T06.json": "65107afc92cecb2fad1090ba6d31d6a1eb9f1abd8236096b1735fc93322a96ef"
+  },
+  "policyFixtureSha256": "e31d3209a0556554172821a35f16aeeb406fa1cf27ea01512ea279b4ea370ecf",
+  "environment": "LOCAL_NO_TRANSACTION",
+  "clusterGenesis": null,
+  "transactionCount": 0,
+  "versions": {
+    "node": "v24.10.0",
+    "pnpm": "10.17.1",
+    "anchor": "anchor-cli 1.1.2",
+    "cargo": "cargo 1.89.0 (c24e10642 2025-06-23)"
+  },
+  "checks": [
+    {
+      "name": "thin-flow-client",
+      "kind": "vitest",
+      "command": [
+        "corepack",
+        "pnpm@10.17.1",
+        "exec",
+        "vitest",
+        "run",
+        "tests/program/thin-flow.test.ts"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "thin-flow-client.log",
+      "outputSha256": "375f26b4829e71263c915d21bff4a61b7dcb148e9521f4573a064726e3f5c023",
+      "passed": true
+    },
+    {
+      "name": "typescript",
+      "kind": "typecheck",
+      "command": [
+        "corepack",
+        "pnpm@10.17.1",
+        "exec",
+        "tsc",
+        "--noEmit"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "typescript.log",
+      "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "passed": true
+    },
+    {
+      "name": "rust-host",
+      "kind": "cargo-test",
+      "command": [
+        "env",
+        "CROSSFLOW_DEPLOYMENT_MANIFEST=verification/evidence/T06-local-manifest.json",
+        "cargo",
+        "test",
+        "-p",
+        "crossflow",
+        "--lib",
+        "--locked",
+        "--offline"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "rust-host.log",
+      "outputSha256": "83167703d992f1ac9c104042884245ef473ba9e5c9faf20add2b48a18d4b6bc2",
+      "passed": true
+    },
+    {
+      "name": "sbf-idl",
+      "kind": "anchor-build",
+      "command": [
+        "env",
+        "CROSSFLOW_DEPLOYMENT_MANIFEST=verification/evidence/T06-local-manifest.json",
+        "anchor",
+        "build"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "sbf-idl.log",
+      "outputSha256": "d7033ae70d48cab552d94d8bdc71280c0db12e377789d065e6ca97786dfac3ea",
+      "passed": true
+    },
+    {
+      "name": "wire-vectors",
+      "kind": "json-pass",
+      "command": [
+        "python3",
+        "docs/spec/check-wire-vectors.py"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "wire-vectors.log",
+      "outputSha256": "4ba0c74daf803caec22b7ce0dfdf7f25b077c3b00595a17953d98a725c46ee5f",
+      "passed": true
+    },
+    {
+      "name": "local-runtime-evidence",
+      "kind": "t06-runtime",
+      "command": [
+        "node",
+        "scripts/check-t06-runtime-evidence.mjs"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "local-runtime-evidence.log",
+      "outputSha256": "242392f5b40e652fcfb5c5ff5aab7ec7a0fd885c8097d8c7f161af6e6834f251",
+      "passed": true
+    }
+  ],
+  "mandatoryCheckCount": 6,
+  "executedCheckCount": 6,
+  "reviewer": null,
+  "limits": [
+    "Checks only; independent reviewer and actual runtime/compute capacity remain open"
+  ]
+}

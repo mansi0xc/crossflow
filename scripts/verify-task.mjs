@@ -14,7 +14,7 @@ export function assertManifest(manifest, task) {
   for (const check of manifest.checks) {
     if (!check || typeof check.name !== 'string' || !/^[a-z0-9-]+$/.test(check.name) || names.has(check.name)) throw new Error('invalid/duplicate check name');
     names.add(check.name);
-    if (!['locked-install', 'workspace', 'vitest', 'typecheck', 'json-pass', 'cargo-test', 'anchor-build', 'capacity', 'local-runtime', 't06-runtime', 't07-runtime'].includes(check.kind)) throw new Error(`unknown evidence kind ${check.kind}`);
+    if (!['locked-install', 'workspace', 'vitest', 'typecheck', 'json-pass', 'cargo-test', 'anchor-build', 'capacity', 'local-runtime', 't06-runtime', 't07-runtime', 't08-runtime'].includes(check.kind)) throw new Error(`unknown evidence kind ${check.kind}`);
     if (typeof check.command !== 'string' || !/^[a-zA-Z0-9_-]+$/.test(check.command)) throw new Error('invalid command');
     if (!Array.isArray(check.args) || check.args.some((arg) => typeof arg !== 'string' || arg.includes('\0'))) throw new Error('invalid command args');
     if (check.args.join(' ').includes('mainnet')) throw new Error('mainnet command rejected');
@@ -93,6 +93,18 @@ export function assertFreshOutput(kind, stdout, stderr, root) {
         !/^[0-9a-f]{64}$/.test(result.program_binary_sha256 ?? '')) {
       throw new Error('T07 local lifecycle/config evidence is incomplete');
     }
+  } else if (kind === 't08-runtime') {
+    const result = JSON.parse(stdout.trim());
+    if (result.status !== 'PASS' || result.task !== 'T08' || result.cluster !== 'localnet' ||
+        !/^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(result.genesis) ||
+        result.mandatory_negative_cases < 6 || result.transaction_signatures_count !== 12 ||
+        result.old_mint_removed_before_recovery !== true || result.recovered_raw !== '1000' ||
+        result.recovered_vault_rent_lamports <= 0 || result.final_nonce !== '1' ||
+        result.outstanding_claim_intents !== '0' ||
+        Object.values(result.hashes ?? {}).length !== 5 ||
+        Object.values(result.hashes ?? {}).some(value => typeof value !== 'string' || !/^[0-9a-f]{64}$/.test(value))) {
+      throw new Error('T08 local asset/recovery evidence is incomplete');
+    }
   } else if (kind === 'capacity') {
     const start = stdout.indexOf('{');
     if (start < 0) throw new Error('capacity JSON missing');
@@ -147,6 +159,10 @@ export function runTask(task, root = process.cwd()) {
         runtimeMode = 'LOCAL_VALIDATOR_TRANSCRIPT';
       }
       else if (check.kind === 't07-runtime') {
+        runtimeEvidence = JSON.parse(stdout.trim());
+        runtimeMode = 'LOCAL_VALIDATOR_TRANSCRIPT';
+      }
+      else if (check.kind === 't08-runtime') {
         runtimeEvidence = JSON.parse(stdout.trim());
         runtimeMode = 'LOCAL_VALIDATOR_TRANSCRIPT';
       }

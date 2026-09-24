@@ -76,3 +76,16 @@ test('T07 runtime evidence requires the full lifecycle and source-bound transcri
   assert.throws(() => assertFreshOutput('t07-runtime', JSON.stringify({ ...report, final_nonce: '2' }), '', process.cwd()), /incomplete/);
   assert.throws(() => assertFreshOutput('t07-runtime', JSON.stringify({ ...report, cluster: 'devnet' }), '', process.cwd()), /incomplete/);
 });
+
+test('T08 runtime evidence requires old-mint removal before owner closed-vault recovery', () => {
+  const manifest = { ...base, task: 'T08', checks: [{ name: 'runtime', kind: 't08-runtime', command: 'node', args: ['check.mjs'] }] };
+  const report = { status: 'PASS', task: 'T08', cluster: 'localnet',
+    genesis: '87iXpApKAgTJWXhqcRMGHky12KK84bKrX5x1XRVtKWqg', mandatory_negative_cases: 6,
+    transaction_signatures_count: 12, old_mint_removed_before_recovery: true,
+    recovered_raw: '1000', recovered_vault_rent_lamports: 2039280,
+    final_nonce: '1', outstanding_claim_intents: '0',
+    hashes: Object.fromEntries(['manifest', 'funding', 'setup', 'recovery', 'binary'].map(k => [k, 'a'.repeat(64)])) };
+  assert.doesNotThrow(() => assertManifest(manifest, 'T08'));
+  assert.doesNotThrow(() => assertFreshOutput('t08-runtime', JSON.stringify(report), '', process.cwd()));
+  assert.throws(() => assertFreshOutput('t08-runtime', JSON.stringify({ ...report, old_mint_removed_before_recovery: false }), '', process.cwd()), /incomplete/);
+});

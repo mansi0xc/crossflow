@@ -1,3 +1,4 @@
+use crate::assets::validate_legacy_mint;
 use crate::config::Config;
 use crate::funding::{read_token, validate_mint_policy, FundingError};
 use crate::intent::{Intent, IntentStatus, OwnerState};
@@ -85,7 +86,7 @@ pub fn withdraw_asset(ctx: Context<WithdrawAsset>, asset_index: u8) -> Result<()
     let mints = [&ctx.accounts.mint0, &ctx.accounts.mint1, &ctx.accounts.mint2];
     let vaults = [ctx.accounts.vault0.to_account_info(), ctx.accounts.vault1.to_account_info(), ctx.accounts.vault2.to_account_info()];
     let recipients = [ctx.accounts.recipient0.to_account_info(), ctx.accounts.recipient1.to_account_info(), ctx.accounts.recipient2.to_account_info()];
-    validate_mint_policy(mints[i].key(), mints[i].to_account_info().data_len(), mints[i].is_initialized,
+    validate_mint_policy(mints[i].key(), *mints[i].to_account_info().owner, mints[i].to_account_info().data_len(), mints[i].is_initialized,
         mints[i].decimals, mints[i].mint_authority.is_none(), mints[i].freeze_authority.is_none(), &policy.assets[i])?;
     let (expected_vault, _) = Pubkey::find_program_address(
         &[intent_key.as_ref(), token::ID.as_ref(), mints[i].key().as_ref()], &associated_token::ID);
@@ -131,6 +132,84 @@ pub fn withdraw_asset(ctx: Context<WithdrawAsset>, asset_index: u8) -> Result<()
 }
 
 #[derive(Accounts)]
+pub struct RecoverClosedVault<'info> {
+    #[account(mut)]
+    pub owner: Signer<'info>,
+    #[account(seeds=[b"config",config.deployment_id.as_ref()],bump=config.bump)]
+    pub config: Box<Account<'info, Config>>,
+    #[account(seeds=[b"owner",config.key().as_ref(),owner.key().as_ref()],bump=owner_state.bump)]
+    pub owner_state: Box<Account<'info, OwnerState>>,
+    /// CHECK: derived old intent PDA used only as token authority; state is not revived.
+    pub old_intent: UncheckedAccount<'info>,
+    pub mint: Box<Account<'info, Mint>>,
+    /// CHECK: derived old-intent ATA, then decoded and closed by the handler.
+    #[account(mut)]
+    pub vault: UncheckedAccount<'info>,
+    /// CHECK: derived canonical owner ATA, created idempotently and decoded by the handler.
+    #[account(mut)]
+    pub recipient: UncheckedAccount<'info>,
+    pub token_program: Program<'info, Token>,
+    pub associated_token_program: Program<'info, AssociatedToken>,
+    pub system_program: Program<'info, System>,
+}
+
+fn closed_nonce_authorized(nonce: u64, next_nonce: u64, active_intent: Option<Pubkey>, old_intent: Pubkey) -> bool {
+    nonce < next_nonce && active_intent != Some(old_intent)
+}
+
+pub fn recover_closed_vault(ctx: Context<RecoverClosedVault>, nonce: u64) -> Result<()> {
+    let config_key = ctx.accounts.config.key();
+    ctx.accounts.config.validate(config_key)?;
+    let owner = ctx.accounts.owner.key();
+    require!(owner.is_on_curve(), FundingError::Owner);
+    let state = &ctx.accounts.owner_state;
+    require!(state.config == config_key && state.owner == owner, RecoveryError::RecoveryAuthority);
+    let nonce_bytes = nonce.to_le_bytes();
+    let (old_intent, bump) = Pubkey::find_program_address(
+        &[b"intent", config_key.as_ref(), owner.as_ref(), nonce_bytes.as_ref()], &crate::ID);
+    require!(closed_nonce_authorized(nonce, state.next_nonce, state.active_intent, old_intent), RecoveryError::RecoveryAuthority);
+    require!(ctx.accounts.old_intent.key() == old_intent, FundingError::TokenIdentity);
+    let mint = &ctx.accounts.mint;
+    validate_legacy_mint(*mint.to_account_info().owner, mint.to_account_info().data_len(), mint.is_initialized,
+        mint.decimals, mint.mint_authority.is_none(), mint.freeze_authority.is_none())?;
+    let mint_key = mint.key();
+    let (expected_vault, _) = Pubkey::find_program_address(
+        &[old_intent.as_ref(), token::ID.as_ref(), mint_key.as_ref()], &associated_token::ID);
+    let (expected_recipient, _) = Pubkey::find_program_address(
+        &[owner.as_ref(), token::ID.as_ref(), mint_key.as_ref()], &associated_token::ID);
+    require!(ctx.accounts.vault.key() == expected_vault &&
+        ctx.accounts.recipient.key() == expected_recipient, FundingError::TokenIdentity);
+    let vault_info = ctx.accounts.vault.to_account_info();
+    let recipient_info = ctx.accounts.recipient.to_account_info();
+    let vault_before = read_token(&vault_info, old_intent, mint_key)?;
+    require!(vault_before.amount > 0, RecoveryError::NothingToWithdraw);
+    let vault_rent = vault_info.lamports();
+    associated_token::create_idempotent(CpiContext::new(ctx.accounts.associated_token_program.key(), Create {
+        payer: ctx.accounts.owner.to_account_info(),
+        associated_token: recipient_info.clone(),
+        authority: ctx.accounts.owner.to_account_info(),
+        mint: mint.to_account_info(),
+        system_program: ctx.accounts.system_program.to_account_info(),
+        token_program: ctx.accounts.token_program.to_account_info(),
+    }))?;
+    let recipient_before = read_token(&recipient_info, owner, mint_key)?.amount;
+    let intent_bump = [bump];
+    let signer_seeds: &[&[u8]] = &[b"intent", config_key.as_ref(), owner.as_ref(), nonce_bytes.as_ref(), &intent_bump];
+    token::transfer_checked(CpiContext::new_with_signer(ctx.accounts.token_program.key(), TransferChecked {
+        from: vault_info.clone(), mint: mint.to_account_info(), to: recipient_info.clone(),
+        authority: ctx.accounts.old_intent.to_account_info(),
+    }, &[signer_seeds]), vault_before.amount, mint.decimals)?;
+    require!(read_token(&vault_info, old_intent, mint_key)?.amount == 0 &&
+        read_token(&recipient_info, owner, mint_key)?.amount == recipient_before.checked_add(vault_before.amount).ok_or(FundingError::Delta)?,
+        FundingError::Delta);
+    token::close_account(CpiContext::new_with_signer(ctx.accounts.token_program.key(), CloseAccount {
+        account: vault_info, destination: ctx.accounts.owner.to_account_info(), authority: ctx.accounts.old_intent.to_account_info(),
+    }, &[signer_seeds]))?;
+    emit!(ClosedVaultRecovered { old_intent, owner, nonce, mint: mint_key, amount: vault_before.amount, rent_lamports: vault_rent });
+    Ok(())
+}
+
+#[derive(Accounts)]
 pub struct CloseIntent<'info> {
     #[account(mut)]
     pub owner: Signer<'info>,
@@ -169,7 +248,7 @@ pub fn close_intent(ctx: Context<CloseIntent>) -> Result<()> {
     let mints = [&ctx.accounts.mint0, &ctx.accounts.mint1, &ctx.accounts.mint2];
     let vaults = [ctx.accounts.vault0.to_account_info(), ctx.accounts.vault1.to_account_info(), ctx.accounts.vault2.to_account_info()];
     for i in 0..3 {
-        validate_mint_policy(mints[i].key(), mints[i].to_account_info().data_len(), mints[i].is_initialized,
+        validate_mint_policy(mints[i].key(), *mints[i].to_account_info().owner, mints[i].to_account_info().data_len(), mints[i].is_initialized,
             mints[i].decimals, mints[i].mint_authority.is_none(), mints[i].freeze_authority.is_none(), &policy.assets[i])?;
         let (expected_vault, _) = Pubkey::find_program_address(
             &[intent_key.as_ref(), token::ID.as_ref(), mints[i].key().as_ref()], &associated_token::ID);
@@ -198,5 +277,24 @@ pub struct IntentCancelled { pub intent: Pubkey, pub owner: Pubkey, pub nonce: u
 pub struct AssetWithdrawn { pub intent: Pubkey, pub owner: Pubkey, pub asset_index: u8, pub amount: u64, pub status: u8 }
 #[event]
 pub struct IntentClosed { pub intent: Pubkey, pub owner: Pubkey, pub nonce: u64 }
+#[event]
+pub struct ClosedVaultRecovered { pub old_intent: Pubkey, pub owner: Pubkey, pub nonce: u64, pub mint: Pubkey, pub amount: u64, pub rent_lamports: u64 }
 
 pub use crate::CrossflowError as RecoveryError;
+
+#[cfg(test)]
+mod tests {
+    use super::closed_nonce_authorized;
+    use anchor_lang::prelude::Pubkey;
+
+    #[test]
+    fn closed_nonce_recovery_never_authorizes_current_or_active_intent() {
+        let old = Pubkey::new_from_array([1; 32]);
+        let newer = Pubkey::new_from_array([2; 32]);
+        assert!(closed_nonce_authorized(0, 1, None, old));
+        assert!(closed_nonce_authorized(0, 2, Some(newer), old));
+        assert!(!closed_nonce_authorized(1, 1, None, old));
+        assert!(!closed_nonce_authorized(0, 1, Some(old), old));
+        assert!(!closed_nonce_authorized(u64::MAX, u64::MAX, None, old));
+    }
+}

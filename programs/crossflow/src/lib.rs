@@ -1,8 +1,10 @@
 use anchor_lang::prelude::*;
 
 pub mod config;
+pub mod assets;
 pub mod funding;
 pub mod intent;
+pub mod math;
 pub mod oracle;
 pub mod recovery;
 pub mod settlement;
@@ -10,8 +12,8 @@ use config::*;
 use funding::*;
 use intent::{FundRequest, ThinSettleRequest};
 use oracle::Observation;
-use recovery::{CancelIntent, CloseIntent, WithdrawAsset};
-pub(crate) use recovery::{__client_accounts_cancel_intent, __client_accounts_close_intent, __client_accounts_withdraw_asset};
+use recovery::{CancelIntent, CloseIntent, RecoverClosedVault, WithdrawAsset};
+pub(crate) use recovery::{__client_accounts_cancel_intent, __client_accounts_close_intent, __client_accounts_recover_closed_vault, __client_accounts_withdraw_asset};
 use settlement::SettleThin;
 pub(crate) use settlement::__client_accounts_settle_thin;
 
@@ -58,6 +60,9 @@ pub mod crossflow {
     }
     pub fn withdraw_asset(ctx: Context<WithdrawAsset>, asset_index: u8) -> Result<()> {
         recovery::withdraw_asset(ctx, asset_index)
+    }
+    pub fn recover_closed_vault(ctx: Context<RecoverClosedVault>, nonce: u64) -> Result<()> {
+        recovery::recover_closed_vault(ctx, nonce)
     }
     pub fn close_intent(ctx: Context<CloseIntent>) -> Result<()> {
         recovery::close_intent(ctx)
@@ -145,6 +150,15 @@ pub enum CrossflowError {
     Alias,
     #[msg("Actual funding token deltas did not match the mandate")]
     Delta,
+
+    #[msg("Raw amount or aggregate exceeds the admitted bound")]
+    Amount = 500,
+    #[msg("Arithmetic overflow or non-conserving allocation")]
+    MathArithmetic,
+    #[msg("An external participant would receive no output")]
+    ZeroOutput,
+    #[msg("Duplicate owner identity in an allocation")]
+    DuplicateOwner,
 
     #[msg("Intent is expired, not funded, or violates the thin settlement rules")]
     Settle = 400,

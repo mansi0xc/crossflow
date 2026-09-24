@@ -1,0 +1,23 @@
+{
+  "status": "LOCAL_POLICY_REMOVAL_SETUP_PASS",
+  "cluster": "localnet",
+  "genesis": "EDiTLLGC2yJfPrEzt3v4hF3uTVD3TbjALaCdQ3nQS16",
+  "config": "ADSoJb4LUwP9pguHBGoNzySA1F53sr6eJTdvoPADL9rJ",
+  "old_mint": "6K1mBcYn9wgbZNUq6RwfXZbxyRXyd6QZr82akhey4ycv",
+  "replacement_mint": "4YnbGbURZWp1TzVjPtyM6tmu2VUoCDo3q63S4gGyXmty",
+  "policy_version": 2,
+  "old_mint_removed": true,
+  "old_intent_closed": true,
+  "next_nonce": "1",
+  "outstanding_claim_intents": "0",
+  "signatures": {
+    "cancel": "3UYDgmsoaV4TRRTpS7LDPoUpnM3o3EdzDvmvmc5WAXVh5zQ32J2nq9BYEuLhwe61Naptx7XyeQYKoYWCp3ErR3u4",
+    "withdrawals": [
+      "3LUPqT1kNsik3tD2QL8pJaPWE6yQfSmoxMLMtqPvmJZTE1rYunVMnDfFTEkhW8k6agN1YfjXyGdeyNNekyhFhArA",
+      "5FojPospu463VuRr9u2xKxrfWAQ5UcJBcdUMbMcAkZpvxgNtDgwidgjpfU8sRbxdWteQ5bZuHtVE9n3E8bmuM4Cw",
+      "5ypX3HrCcNoiJz7R6QQRaQWwXD779YJUaHWFY33x8f9fWm9AB6GmEiyn3eCd2opYVi6C7wQh95wstWnygFqfd1go"
+    ],
+    "close": "4zMY8pagKTdhkSTmbgD79bApqUPiepfdV41LqzSVYJzdgLFRAErUjRGo2RAdYwm1yeoxrwMsHSP1RisoiAPEUMWS",
+    "rotation": "4DbiSp9nbXo6nQ1zb41mLZmnNgGWCnubh8h8YnM6XoTzMuK2WtTFMf6QDmp8CLwG3JGepT8Bw4mRz4U3qXZHJsSs"
+  }
+}

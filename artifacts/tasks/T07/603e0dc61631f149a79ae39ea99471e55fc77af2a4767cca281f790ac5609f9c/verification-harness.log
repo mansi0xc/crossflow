@@ -1,0 +1,44 @@
+
+> crossflow@0.1.0 check:workspace /Users/mansitibrewal/chronicles/crossflow
+> node scripts/check-workspace.mjs && node --test tests/workspace/*.test.mjs && tsc --noEmit && vitest run tests/spec/wire-vectors.test.ts
+
+Workspace pinning, local default, tracked secret names, and RPC destination checks passed.
+✔ devnet exact genesis allows signing callback (0.840542ms)
+✔ mainnet URL cannot reach signing callback (0.753709ms)
+✔ testnet URL cannot reach signing callback (0.078042ms)
+✔ wrong expected genesis cannot reach signing callback (0.06675ms)
+✔ local public genesis cannot reach signing callback (0.158458ms)
+✔ local no port cannot reach signing callback (0.07275ms)
+✔ embedded credentials cannot reach signing callback (0.078458ms)
+✔ unknown mode cannot reach signing callback (0.054916ms)
+✔ RPC genesis mismatch blocks signing callback (0.196542ms)
+✔ owned local validator exact genesis allows operation (0.158458ms)
+✔ write destinations reject mainnet, testnet, unknown host and missing URL (1.520625ms)
+✔ pinning rejects a moving version and mainnet Anchor default (3.184625ms)
+✔ tracked keypair filename is rejected (62.366625ms)
+✔ missing task selector, source, checks and duplicate checks fail closed (1.216958ms)
+✔ forged success text without selected tests is rejected (0.54825ms)
+✔ locked install requires frozen-lockfile completion evidence (0.117667ms)
+✔ focused Vitest evidence requires selected passing tests and no skips (0.224792ms)
+✔ skipped or failed mandatory tests are rejected (0.286167ms)
+✔ mainnet and parent path in manifest are rejected (0.136083ms)
+✔ local runtime evidence requires real local identities, guarded rollback and conserved asset deltas (1.130791ms)
+✔ T06 runtime evidence requires both settlement bounds to roll back after prior token CPIs (0.134042ms)
+✔ T07 runtime evidence requires the full lifecycle and source-bound transcript (0.144625ms)
+ℹ tests 22
+ℹ suites 0
+ℹ pass 22
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 123.570625
+
+ RUN  v5.0.1 /Users/mansitibrewal/chronicles/crossflow
+
+
+ Test Files  1 passed (1)
+      Tests  21 passed (21)
+   Start at  11:35:18
+   Duration  159ms (transform 57%, tests 23%, import 15%, worker 4%)
+
