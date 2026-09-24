@@ -37,6 +37,10 @@ export const DEFAULT_SERVICE_CONFIG: ServiceConfig = {
 
 interface Bucket { count: number; resetAt: number }
 
+function isBase58Key(value: string): boolean {
+  try { new PublicKey(value); return true; } catch { return false; }
+}
+
 export function createService(config: ServiceConfig = DEFAULT_SERVICE_CONFIG) {
   const manifest = JSON.parse(readFileSync(config.manifestPath, 'utf8'));
   const programId = new PublicKey(manifest.program_id);
@@ -93,7 +97,10 @@ export function createService(config: ServiceConfig = DEFAULT_SERVICE_CONFIG) {
       return response.end();
     }
     if (rateLimited(client)) return send(response, 429, { status: 'REJECTED', reason: 'rate limit exceeded' });
-    if (inFlight >= config.maxConcurrent && request.method === 'POST') {
+    const now = Date.now();
+    if (buckets.size > 1024) for (const [key, bucket] of buckets) if (bucket.resetAt <= now) buckets.delete(key);
+    if (inFlight >= config.maxConcurrent) {
+      // Applies to reads as well: a burst of chain-reading GETs must not evict legitimate work.
       return send(response, 503, { status: 'REJECTED', reason: 'service is at its concurrency limit' });
     }
     inFlight += 1;
@@ -153,9 +160,11 @@ export function createService(config: ServiceConfig = DEFAULT_SERVICE_CONFIG) {
         const body = await readBody(request);
         let parsed: { plan?: unknown; operator?: unknown; lookupTable?: unknown; technical_probe?: unknown };
         try { parsed = JSON.parse(body); } catch { return send(response, 400, { status: 'REJECTED', reason: 'body is not JSON' }); }
-        if (typeof parsed.operator !== 'string') return send(response, 400, { status: 'REJECTED', reason: 'operator is required' });
-        if (parsed.lookupTable !== undefined && typeof parsed.lookupTable !== 'string') {
-          return send(response, 400, { status: 'REJECTED', reason: 'lookupTable must be a base58 address' });
+        if (typeof parsed.operator !== 'string' || !isBase58Key(parsed.operator)) {
+          return send(response, 400, { status: 'REJECTED', reason: 'operator must be a base58 public key' });
+        }
+        if (parsed.lookupTable !== undefined && (typeof parsed.lookupTable !== 'string' || !isBase58Key(parsed.lookupTable))) {
+          return send(response, 400, { status: 'REJECTED', reason: 'lookupTable must be a base58 public key' });
         }
         const result = await prepareBatch(coordinator, parsed as never);
         return send(response, result.status === 'PREPARED' ? 200 : 400, result);

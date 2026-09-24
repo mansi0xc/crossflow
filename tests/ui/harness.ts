@@ -1,5 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
-import { Keypair } from '@solana/web3.js';
+import { Keypair, PublicKey } from '@solana/web3.js';
 
 /**
  * Injected wallet stub.
@@ -67,32 +67,45 @@ export async function stubPrices(page: Page): Promise<void> {
   });
 }
 
-export async function stubIntents(page: Page, owner: string, status = 'Funded'): Promise<void> {
-  await page.route('**/intents', async route => {
-    await route.fulfill({
-      status: 200,
-      contentType: 'application/json',
-      body: JSON.stringify({
-        status: 'OK', observedAt: new Date().toISOString(),
-        intents: [{
-          address: 'Intent111111111111111111111111111111111111', owner, nonce: '0', status,
-          expiryUnixSeconds: '9999999999', mandateHash: 'ab'.repeat(32),
-          bookedClaims: ['10000000', '4000000', '0'], initialSurplus: ['0', '0', '0'],
-        }],
-      }),
-    });
-  });
+export interface StubIntent { address: string; owner: string; config: string; nonce: string; status?: number }
+
+/** A real base58 address; the app decodes whatever the stubbed chain returns. */
+export const STUB_INTENT_ADDRESS = 'So11111111111111111111111111111111111111112';
+export const STUB_OTHER_OWNER = 'SysvarRent111111111111111111111111111111111';
+export interface StubRpcOptions { intents?: StubIntent[] }
+
+const INTENT_DISCRIMINATOR = Buffer.from([0xf7, 0xa2, 0x23, 0xa5, 0xfe, 0x6f, 0x81, 0x6d]);
+
+/** Build a real 522-byte Intent account so the app's own decoder is what reads it. */
+export function encodeIntent(options: StubIntent): Buffer {
+  const data = Buffer.alloc(522);
+  INTENT_DISCRIMINATOR.copy(data, 0);
+  new PublicKey(options.config).toBuffer().copy(data, 8);
+  new PublicKey(options.owner).toBuffer().copy(data, 40);
+  data.writeBigUInt64LE(BigInt(options.nonce), 72);
+  data.writeBigUInt64LE(9_999_999_999n, 80);
+  data.fill(0xab, 88, 120);
+  data.fill(0xcd, 120, 152);
+  data.fill(0xef, 152, 184);
+  for (let index = 0; index < 3; index++) {
+    data.writeBigUInt64LE(BigInt(10_000_000), 184 + index * 32);
+    data.writeBigUInt64LE(0n, 192 + index * 32);
+    data.writeBigUInt64LE(60_000_000n, 200 + index * 32);
+    data.writeBigUInt64LE(1_000_000n, 208 + index * 32);
+    data.writeBigUInt64LE(10_000_000n, 472 + index * 8);
+  }
+  data[520] = options.status ?? 0;
+  data[521] = 1;
+  return data;
 }
 
 /**
- * A minimal stand-in for the JSON-RPC endpoint.
- *
- * The tests assert what the page asked the wallet to sign, so the chain itself is stubbed: only
- * the blockhash and a plausible signature are needed for the flow to complete. Anything the app
- * needs beyond that is a genuine omission rather than something to paper over.
+ * A minimal stand-in for the JSON-RPC endpoint. The tests assert what the page asked the wallet
+ * to sign, so the chain is stubbed: a blockhash, a plausible signature, and the program accounts
+ * the app scans for its own intents.
  */
 const FAKE_SIGNATURE = '4XR92Zct9ZodXzisJ4kov3upmTvMotYVrg65MHP8aoCjSPJwRzQ6rY2QeqpwzQQmuY5Fsm3QRFccAr8NaCQ4sha';
-export async function stubRpc(page: Page): Promise<void> {
+export async function stubRpc(page: Page, options: StubRpcOptions = {}): Promise<void> {
   await page.route(/127\.0\.0\.1:8899/, async route => {
     let body: { id?: number; method?: string } = {};
     try { body = JSON.parse(route.request().postData() ?? '{}'); } catch { /* fall through */ }
@@ -101,6 +114,8 @@ export async function stubRpc(page: Page): Promise<void> {
     switch (body.method) {
       case 'getLatestBlockhash':
         return respond({ context: { slot: 1 }, value: { blockhash: '11111111111111111111111111111111', lastValidBlockHeight: 1_000_000 } });
+      case 'getBlockHeight':
+        return respond(1_000);
       case 'getGenesisHash':
         return respond('EtWTRABZaYq6iMfeYKouRu166VU2xqa1wcaWoxPkrZBG');
       case 'sendTransaction':
@@ -110,6 +125,12 @@ export async function stubRpc(page: Page): Promise<void> {
         return respond({ context: { slot: 1 }, value: { err: null } });
       case 'getVersion':
         return respond({ 'solana-core': '3.1.10', 'feature-set': 0 });
+      case 'getProgramAccounts':
+        return respond((options.intents ?? []).map(intent => ({
+          pubkey: intent.address,
+          account: { owner: 'CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh', lamports: 1_000_000,
+            data: [encodeIntent(intent).toString('base64'), 'base64'], executable: false, rentEpoch: 0 },
+        })));
       default:
         return respond(null);
     }

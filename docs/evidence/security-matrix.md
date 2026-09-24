@@ -26,8 +26,8 @@ Legend for evidence: `unit` = Rust/Vitest unit test · `local` = local-validator
 | S14 | Price age, confidence, exponent and session policy are enforced | `oracle.rs` | `oracle.rs` unit tests (stale, future, wide confidence, wrong exponent, market closed, equality boundaries) | unit |
 | S15 | External routing cannot spend outside declared vaults or keep proceeds | `route.rs` (pinned program/pool/vaults, derived caller ATAs), `settle_routed` measured deltas | T16 (wrong venue program, minimum above the quote, venue reserves equal the measured leg, pools end empty) | local |
 | S16 | Unreviewed mint extensions and configurations are rejected | `assets.rs::validate_mint_policy`, `Policy::parse` route rules | `assets.rs` unit tests (wrong program, wrong length, authorities, decimals), T08 (`wrong-token-program-rejected`) | unit, local |
-| S17 | User keys never reach the solver; server keys never reach the client | no service exists yet | not exercised — no service or client bundle exists | none |
-| S18 | A UI success claim matches reconciled chain state | not implemented | none — no UI exists | none |
+| S17 | User keys never reach the solver; server keys never reach the client | `services/api/src/server.ts` holds no key and accepts none; the wallet boundary is `apps/web/src/wallet.ts` | `tests/services/resource-limits.test.ts` (no secret in any response); the service never signs and returns an unsigned transaction | unit |
+| S18 | A UI success claim matches reconciled chain state | `apps/web/src/wallet.ts` confirms before reporting; `apps/web/src/App.tsx` reads intents from chain, not from the service | `tests/ui/approval.spec.ts`, `tests/ui/recovery.spec.ts` | unit |
 | S19 | Baselines use identical feasible mandates and cost treatment | `services/optimizer/{independent,fixed_netting,cooperative}.py`, `fixed_netting.plan` baseline check | `services/optimizer/test_engines.py` (B may not rewrite A; C never worse than feasible B), `scripts/evaluate-economics.py` validator | unit |
 | S20 | Claimed savings distinguish modeled, replayed and realized quantities | `services/optimizer/shared.py` attribution, `docs/evidence/economic-report.md` | `tests/economics/test_evaluation.py` (false cooperative gain, omitted scenario, dropped sensitivity point all fail) | unit |
 | S21 | Batch benefit does not conceal worse per-account outcomes | `cooperative.compare` attribution, per-owner rows in the report | `tests/economics/test_evaluation.py`, held-out report per-owner table and one negative netting scenario retained | unit |
@@ -37,14 +37,19 @@ Legend for evidence: `unit` = Rust/Vitest unit test · `local` = local-validator
 
 ## Honest gaps
 
-- **S17/S18 have no enforcement because the service and UI layers do not exist.** The plan's
-  T18–T20/T32 are unstarted; no claim about them is made anywhere.
+- **S17/S18 now have a service and UI to enforce them, and an independent review of that surface
+  is recorded in `.planning/T32-INDEPENDENT-REVIEW.md`.** It found one high finding (recovery was
+  unreachable when the service was offline) and two medium ones, all fixed. The real Phantom
+  extension flow, any hosting and any multi-tenancy remain untested.
 - **S06/S07 are exercised at full weight only on the model and on local transcripts.** Property
   counts here are 60 generated portfolios plus the frozen suite; that is evidence, not proof.
 - **S15 is exercised for one leg shape** (a single small sell inside the committed ±200 bps band)
   and only against the synthetic venue. No real venue, no second leg, no devnet route.
 - **S13/S14 are exercised with the labelled fixture oracle only.** Pyth is excluded (T15), so no
   authenticated-equity claim is made.
+- **S17/S18 are enforced over a loopback, single-deployment, unauthenticated local service.** The
+  browser flow is tested with an injected wallet stub and a stubbed RPC; the real Phantom extension
+  path, hosting and multi-tenancy are untested.
 - **S11 rollback is asserted through simulations and the local transcripts**, not through an
   explicit failing-transaction-on-chain capture on devnet.
 - **S23 composed capacity is measured on the local validator** (T16: 451 serialized bytes,

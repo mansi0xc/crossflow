@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Connection, Keypair, PublicKey, Transaction } from '@solana/web3.js';
 import { buildCancelIntentInstruction, buildCloseIntentInstruction, buildWithdrawAssetInstruction, deriveRecoveryAccounts } from '../../../../packages/client/src/recover.js';
-import type { Deployment, IntentSummary } from '../api.js';
+import type { Deployment } from '../api.js';
+import type { OnChainIntent } from '../../../../packages/client/src/intents.js';
 import { explorerLink, signAndSend, type InjectedProvider } from '../wallet.js';
 
 /**
@@ -16,7 +17,7 @@ export function Intent({ deployment, connection, provider, wallet, owned, onRefr
   connection: Connection;
   provider: InjectedProvider | null;
   wallet: PublicKey | null;
-  owned: IntentSummary[];
+  owned: OnChainIntent[];
   onRefresh: () => Promise<void>;
 }) {
   const program = new PublicKey(deployment.programId);
@@ -27,7 +28,7 @@ export function Intent({ deployment, connection, provider, wallet, owned, onRefr
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
 
-  const act = async (intent: IntentSummary, action: 'cancel' | 'withdraw' | 'close', assetIndex = 0) => {
+  const act = async (intent: OnChainIntent, action: 'cancel' | 'withdraw' | 'close', assetIndex = 0) => {
     if (!wallet || !provider) { setError('connect the owner wallet first'); return; }
     setBusy(true); setError(null);
     try {
@@ -57,17 +58,17 @@ export function Intent({ deployment, connection, provider, wallet, owned, onRefr
           <li key={intent.address} data-testid={`intent-${intent.address}`}>
             <p>
               intent <code>{intent.address.slice(0, 16)}…</code> · nonce {intent.nonce} ·{' '}
-              <strong data-testid={`status-${intent.address}`}>{intent.status}</strong>
+              <strong data-testid={`status-${intent.address}`}>{intent.statusLabel}</strong>
             </p>
             <p className="note">
               booked claims {intent.bookedClaims.join(' / ')} · unsolicited surplus {intent.initialSurplus.join(' / ')}
               {' '}(surplus belongs to the owner and never increases solver authority)
             </p>
             <div className="actions">
-              {intent.status === 'Funded' ? (
+              {intent.statusLabel === 'Funded' ? (
                 <button data-testid={`cancel-${intent.address}`} onClick={() => act(intent, 'cancel')} disabled={busy}>cancel</button>
               ) : null}
-              {intent.status !== 'Funded' ? (
+              {intent.statusLabel !== 'Funded' ? (
                 <>
                   {[0, 1, 2].map(index => (
                     <button key={index} data-testid={`withdraw-${index}-${intent.address}`}

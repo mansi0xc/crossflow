@@ -52,8 +52,12 @@ export async function signAndSend(provider: InjectedProvider, connection: Connec
   } else {
     throw new Error('wallet cannot sign or send transactions');
   }
-  const latest = await connection.getLatestBlockhash('confirmed');
-  const confirmation = await connection.confirmTransaction({ signature, blockhash: latest.blockhash, lastValidBlockHeight: latest.lastValidBlockHeight }, 'confirmed');
+  // Confirm against the blockhash the transaction was actually built with, so a stale or
+  // replaced blockhash cannot make the result ambiguous.
+  const blockhash = transaction.recentBlockhash;
+  if (!blockhash) throw new Error('transaction is missing a recent blockhash');
+  const height = await connection.getBlockHeight('confirmed');
+  const confirmation = await connection.confirmTransaction({ signature, blockhash, lastValidBlockHeight: height + 150 }, 'confirmed');
   if (confirmation.value.err) throw new Error(`transaction failed on chain: ${JSON.stringify(confirmation.value.err)}`);
   return signature;
 }

@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Connection, PublicKey } from '@solana/web3.js';
-import { api, type Deployment, type IntentSummary, type PlanResponse } from './api.js';
+import { api, type Deployment, type PlanResponse } from './api.js';
+import { listOwnerIntents, type OnChainIntent } from '../../../packages/client/src/intents.js';
 import { connect, detectProvider, providerLabel, type InjectedProvider } from './wallet.js';
 import { Prepare } from './routes/prepare.js';
 import { Compare } from './routes/compare.js';
@@ -14,7 +15,7 @@ export interface SessionState {
   plan: PlanResponse | null;
   selectedSlice: { funding: string; minOutput: string; maxOutput: string }[] | null;
   signature: string | null;
-  intent: IntentSummary | null;
+  intent: OnChainIntent | null;
 }
 
 const SCENARIOS = ['opposite-01', 'all-buy-01', 'asymmetric-01', 'tight-01', 'expensive-01', 'noise-01'];
@@ -25,8 +26,9 @@ export default function App() {
   const [plan, setPlan] = useState<PlanResponse | null>(null);
   const [provider, setProvider] = useState<InjectedProvider | null>(null);
   const [wallet, setWallet] = useState<PublicKey | null>(null);
-  const [intents, setIntents] = useState<IntentSummary[]>([]);
+  const [intents, setIntents] = useState<OnChainIntent[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [intentError, setIntentError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
 
   useEffect(() => { setProvider(detectProvider()); }, []);
@@ -40,12 +42,20 @@ export default function App() {
     [deployment],
   );
 
+  // Intents are read from chain, not from the service: recovery must stay reachable when the
+  // service is down, which is exactly the situation the recovery path exists for.
   const refreshIntents = useCallback(async () => {
-    try { setIntents((await api.intents()).intents); }
-    catch { setIntents([]); }
-  }, []);
+    if (!connection || !wallet || !deployment) return;
+    try {
+      setIntents(await listOwnerIntents(connection, new PublicKey(deployment.programId), new PublicKey(deployment.config), wallet));
+      setIntentError(null);
+    } catch (reason) {
+      // A failed refresh must never erase what the user could already see.
+      setIntentError(`could not read intents from chain: ${String((reason as Error).message ?? reason)}`);
+    }
+  }, [connection, wallet, deployment]);
 
-  useEffect(() => { if (deployment) void refreshIntents(); }, [deployment, refreshIntents]);
+  useEffect(() => { void refreshIntents(); }, [refreshIntents]);
 
   const runPlan = useCallback(async (scenarioId: string) => {
     setBusy(true); setError(null);
@@ -62,7 +72,7 @@ export default function App() {
     catch (reason) { setError(String((reason as Error).message ?? reason)); }
   }, [provider]);
 
-  const owned = wallet ? intents.filter(intent => intent.owner === wallet.toBase58()) : [];
+  const owned = intents;
 
   return (
     <div className="app">
@@ -82,7 +92,7 @@ export default function App() {
               disabled={
                 (candidate === 'compare' && !plan) ||
                 (candidate === 'approve' && !plan) ||
-                (candidate === 'intent' && owned.length === 0)
+                (candidate === 'intent' && !wallet)
               }
             >
               {candidate}
@@ -97,6 +107,7 @@ export default function App() {
       </p>
 
       {error ? <p className="error" data-testid="error">{error}</p> : null}
+      {intentError ? <p className="warn" data-testid="intent-error-banner">{intentError}</p> : null}
       {busy ? <p className="busy">working…</p> : null}
 
       {step === 'prepare' ? (

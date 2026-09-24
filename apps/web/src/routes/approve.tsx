@@ -44,12 +44,14 @@ export function Approve({ deployment, plan, connection, provider, wallet, onConn
       .catch(reason => setError(String(reason.message ?? reason)));
   }, []);
 
-  const expiry = BigInt(Math.floor(Date.now() / 1000) + 890);
+  // Computed once so the expiry that is displayed is the expiry that is signed.
+  const [expiry] = useState(() => BigInt(Math.floor(Date.now() / 1000) + 890));
   const [commitment, setCommitment] = useState<string | null>(null);
   useEffect(() => {
     let cancelled = false;
     sha256Hex(new TextEncoder().encode(JSON.stringify({ scenario: plan.scenario_id, funding, bounds })))
-      .then(digest => { if (!cancelled) setCommitment(digest); });
+      .then(digest => { if (!cancelled) setCommitment(digest); })
+      .catch(reason => { if (!cancelled) setError(`could not compute the optimization commitment: ${String(reason.message ?? reason)}`); });
     return () => { cancelled = true; };
   }, [plan.scenario_id, funding, bounds]);
 
@@ -69,22 +71,26 @@ export function Approve({ deployment, plan, connection, provider, wallet, onConn
 
   const [mandateHash, setMandateHash] = useState<string | null>(null);
   useEffect(() => {
-    if (!mandate || !wallet) { setMandateHash(null); return; }
+    // Every field must be resolved before the canonical bytes can be built; building them early
+    // would throw during commit and blank the page.
+    if (!mandate || !wallet || !commitment || !referencePrices) { setMandateHash(null); return; }
     let cancelled = false;
-    // The hash is recomputed from the same bytes the transaction carries, so the display and the
-    // signed mandate cannot drift apart silently.
     // Every identity in the canonical mandate is 32-byte hex. The service also exposes base58
     // forms for display and for RPC use, and the two are not interchangeable.
     const canonical = deployment.policy as { genesis: string; program_id: string; config_address: string };
-    sha256Hex(mandateBytes({
+    // The hash is recomputed from the same bytes the transaction carries, so the display and the
+    // signed mandate cannot drift apart silently.
+    Promise.resolve().then(() => mandateBytes({
       genesis: canonical.genesis, program_id: canonical.program_id, config_address: canonical.config_address,
       schema_version: '1', policy_hash: deployment.policyHash, owner: wallet.toBuffer().toString('hex'),
       nonce: '0', expiry_unix_seconds: expiry.toString(), optimization_commitment: commitment,
       assets: mandate.assets,
-    })).then(digest => { if (!cancelled) setMandateHash(digest); })
+    }))
+      .then(bytes => sha256Hex(bytes))
+      .then(digest => { if (!cancelled) setMandateHash(digest); })
       .catch(reason => { if (!cancelled) setError(String(reason.message ?? reason)); });
     return () => { cancelled = true; };
-  }, [mandate, wallet, deployment, expiry, commitment]);
+  }, [mandate, wallet, deployment, expiry, commitment, referencePrices]);
 
   const fund = async () => {
     setError(null);

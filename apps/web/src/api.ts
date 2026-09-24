@@ -49,17 +49,27 @@ export const api = {
   prepare: (body: { plan: unknown; operator: string }) => request<{ status: string; reason?: string; transaction?: string; preview?: Record<string, unknown>; outputs?: string[][] }>('/batches/prepare', { method: 'POST', body: JSON.stringify(body) }),
 };
 
-/** Exact rationals arrive as numerator/denominator pairs; display them without floating point. */
+/**
+ * Exact rationals arrive as numerator/denominator pairs. They are formatted with BigInt long
+ * division: these are display values, but the compare screen exists to compare exactly, and
+ * modelled micro-USD totals can exceed 2^53.
+ */
 export function micro(value: unknown): string {
   if (value === null || value === undefined) return '—';
-  if (typeof value === 'string') return `${value} µUSD`;
-  if (typeof value === 'number') return `${value} µUSD`;
+  if (typeof value === 'string' || typeof value === 'number') return `${value} µUSD`;
   if (typeof value === 'object') {
-    const { numerator, denominator } = value as { numerator: number; denominator: number };
-    if (!denominator) return '—';
-    const whole = Math.trunc(numerator / denominator);
-    const remainder = Math.abs(numerator % denominator);
-    return remainder === 0 ? `${whole} µUSD` : `${whole}.${String(Math.round((remainder / denominator) * 1000)).padStart(3, '0')} µUSD`;
+    const pair = value as { numerator?: unknown; denominator?: unknown };
+    if (typeof pair.numerator !== 'number' || typeof pair.denominator !== 'number' || pair.denominator === 0) return '—';
+    const numerator = BigInt(pair.numerator);
+    const denominator = BigInt(pair.denominator);
+    const negative = numerator < 0n;
+    const absolute = negative ? -numerator : numerator;
+    const whole = absolute / denominator;
+    const remainder = absolute % denominator;
+    const sign = negative ? '-' : '';
+    if (remainder === 0n) return `${sign}${whole} µUSD`;
+    const fraction = ((remainder * 1000n) / denominator).toString().padStart(3, '0').replace(/0+$/, '');
+    return `${sign}${whole}.${fraction} µUSD`;
   }
   return '—';
 }

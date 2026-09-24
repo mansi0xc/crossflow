@@ -19,7 +19,9 @@ for (const [, name, bytes] of entries) {
 }
 // Every instruction the program exposes must be present in the client table.
 const rust = readFileSync('programs/crossflow/src/lib.rs', 'utf8');
-const programInstructions = [...rust.matchAll(/pub fn (\w+)\(/g)].map(match => match[1])
+// Generic parameters (`pub fn settle_batch<'info>(`) must match too, or the two most
+// security-critical instructions would be silently skipped.
+const programInstructions = [...rust.matchAll(/pub fn (\w+)[<(]/g)].map(match => match[1])
   .filter(name => name !== 'schema_marker');
 const declaredNames = new Set(entries.map(([, name]) => name));
 for (const name of programInstructions) {
