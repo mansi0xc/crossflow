@@ -1,0 +1,3174 @@
+{
+  "schema_version": 1,
+  "split": "holdout",
+  "suite_id": "crossflow-synthetic-v1",
+  "suite_sha256": "f8ce9388d0280a9faa92327d9f341fc9f265f22cc271f25f4d106ae60d7b59e7",
+  "seed": 22092026,
+  "frozen_before_optimizer_tuning": true,
+  "budget": {
+    "max_candidates": 16384,
+    "grid_step": 1
+  },
+  "numeric_policy": "exact rational micro-USD; integer raw token/cash outputs; no floating point",
+  "scenarios": [
+    {
+      "id": "opposite-02",
+      "category": "opposite_flow",
+      "scenario_sha256": "df8f71aa33c4bde96f40c12fb0e882ff9fdb1047ea474f33fb914a69745dcd1c",
+      "declared_rejections": [],
+      "methods": {
+        "A": {
+          "status": "ok",
+          "feasible": true,
+          "reasons": [],
+          "ledger_errors": [],
+          "candidates_evaluated": 19,
+          "budget_exhausted": false,
+          "totals": {
+            "venue_cost_micro_usd": 179200,
+            "price_difference_micro_usd": 0,
+            "network_micro_usd": {
+              "numerator": 1800,
+              "denominator": 1
+            },
+            "expected_retry_micro_usd": {
+              "numerator": 18,
+              "denominator": 1
+            },
+            "waiting_micro_usd": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "preference_micro_usd": {
+              "numerator": 10000,
+              "denominator": 1
+            },
+            "recurring_micro_usd": {
+              "numerator": 181018,
+              "denominator": 1
+            },
+            "objective_micro_usd": {
+              "numerator": 191018,
+              "denominator": 1
+            },
+            "after_error_micro_usd": 20000000,
+            "turnover_micro_usd": 110000000,
+            "transactions_allocated": {
+              "numerator": 2,
+              "denominator": 1
+            },
+            "upfront_recoverable_rent_lamports": 0
+          }
+        },
+        "B": {
+          "status": "ok",
+          "feasible": true,
+          "reasons": [],
+          "ledger_errors": [],
+          "candidates_evaluated": 19,
+          "budget_exhausted": false,
+          "totals": {
+            "venue_cost_micro_usd": 16200,
+            "price_difference_micro_usd": 0,
+            "network_micro_usd": {
+              "numerator": 3600,
+              "denominator": 1
+            },
+            "expected_retry_micro_usd": {
+              "numerator": 36,
+              "denominator": 1
+            },
+            "waiting_micro_usd": {
+              "numerator": 7925,
+              "denominator": 3
+            },
+            "preference_micro_usd": {
+              "numerator": 10000,
+              "denominator": 1
+            },
+            "recurring_micro_usd": {
+              "numerator": 67433,
+              "denominator": 3
+            },
+            "objective_micro_usd": {
+              "numerator": 97433,
+              "denominator": 3
+            },
+            "after_error_micro_usd": 20000000,
+            "turnover_micro_usd": 110000000,
+            "transactions_allocated": {
+              "numerator": 4,
+              "denominator": 1
+            },
+            "upfront_recoverable_rent_lamports": 11000000
+          }
+        },
+        "C": {
+          "status": "ok",
+          "feasible": true,
+          "reasons": [],
+          "ledger_errors": [],
+          "candidates_evaluated": 100,
+          "budget_exhausted": false,
+          "totals": {
+            "venue_cost_micro_usd": 0,
+            "price_difference_micro_usd": 0,
+            "network_micro_usd": {
+              "numerator": 3600,
+              "denominator": 1
+            },
+            "expected_retry_micro_usd": {
+              "numerator": 36,
+              "denominator": 1
+            },
+            "waiting_micro_usd": {
+              "numerator": 7925,
+              "denominator": 3
+            },
+            "preference_micro_usd": {
+              "numerator": 5000,
+              "denominator": 1
+            },
+            "recurring_micro_usd": {
+              "numerator": 18833,
+              "denominator": 3
+            },
+            "objective_micro_usd": {
+              "numerator": 33833,
+              "denominator": 3
+            },
+            "after_error_micro_usd": 10000000,
+            "turnover_micro_usd": 120000000,
+            "transactions_allocated": {
+              "numerator": 4,
+              "denominator": 1
+            },
+            "upfront_recoverable_rent_lamports": 11000000
+          }
+        }
+      },
+      "comparison": {
+        "valid_baselines": true,
+        "netting_gain_micro_usd": {
+          "numerator": 475621,
+          "denominator": 3
+        },
+        "cooperative_raw_difference_micro_usd": {
+          "numerator": 16200,
+          "denominator": 1
+        },
+        "cooperative_gain_micro_usd": {
+          "numerator": 16200,
+          "denominator": 1
+        },
+        "cooperative_trading_benefit_eligible": true,
+        "attribution": "both baselines execute nonzero trades under identical mandates"
+      }
+    },
+    {
+      "id": "all-buy-02",
+      "category": "all_buy",
+      "scenario_sha256": "9f14b5af38008b81ac633d670e690ce86c579d621a0e25435770850081997f9b",
+      "declared_rejections": [],
+      "methods": {
+        "A": {
+          "status": "ok",
+          "feasible": true,
+          "reasons": [],
+          "ledger_errors": [],
+          "candidates_evaluated": 18,
+          "budget_exhausted": false,
+          "totals": {
+            "venue_cost_micro_usd": 159600,
+            "price_difference_micro_usd": 0,
+            "network_micro_usd": {
+              "numerator": 1800,
+              "denominator": 1
+            },
+            "expected_retry_micro_usd": {
+              "numerator": 18,
+              "denominator": 1
+            },
+            "waiting_micro_usd": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "preference_micro_usd": {
+              "numerator": 30000,
+              "denominator": 1
+            },
+            "recurring_micro_usd": {
+              "numerator": 161418,
+              "denominator": 1
+            },
+            "objective_micro_usd": {
+              "numerator": 191418,
+              "denominator": 1
+            },
+            "after_error_micro_usd": 60000000,
+            "turnover_micro_usd": 100000000,
+            "transactions_allocated": {
+              "numerator": 2,
+              "denominator": 1
+            },
+            "upfront_recoverable_rent_lamports": 0
+          }
+        },
+        "B": {
+          "status": "ok",
+          "feasible": true,
+          "reasons": [],
+          "ledger_errors": [],
+          "candidates_evaluated": 18,
+          "budget_exhausted": false,
+          "totals": {
+            "venue_cost_micro_usd": 162400,
+            "price_difference_micro_usd": 0,
+            "network_micro_usd": {
+              "numerator": 2700,
+              "denominator": 1
+            },
+            "expected_retry_micro_usd": {
+              "numerator": 27,
+              "denominator": 1
+            },
+            "waiting_micro_usd": {
+              "numerator": 5125,
+              "denominator": 3
+            },
+            "preference_micro_usd": {
+              "numerator": 30000,
+              "denominator": 1
+            },
+            "recurring_micro_usd": {
+              "numerator": 500506,
+              "denominator": 3
+            },
+            "objective_micro_usd": {
+              "numerator": 590506,
+              "denominator": 3
+            },
+            "after_error_micro_usd": 60000000,
+            "turnover_micro_usd": 100000000,
+            "transactions_allocated": {
+              "numerator": 3,
+              "denominator": 1
+            },
+            "upfront_recoverable_rent_lamports": 8000000
+          }
+        },
+        "C": {
+          "status": "ok",
+          "feasible": true,
+          "reasons": [],
+          "ledger_errors": [],
+          "candidates_evaluated": 99,
+          "budget_exhausted": false,
+          "totals": {
+            "venue_cost_micro_usd": 162400,
+            "price_difference_micro_usd": 0,
+            "network_micro_usd": {
+              "numerator": 2700,
+              "denominator": 1
+            },
+            "expected_retry_micro_usd": {
+              "numerator": 27,
+              "denominator": 1
+            },
+            "waiting_micro_usd": {
+              "numerator": 5125,
+              "denominator": 3
+            },
+            "preference_micro_usd": {
+              "numerator": 30000,
+              "denominator": 1
+            },
+            "recurring_micro_usd": {
+              "numerator": 500506,
+              "denominator": 3
+            },
+            "objective_micro_usd": {
+              "numerator": 590506,
+              "denominator": 3
+            },
+            "after_error_micro_usd": 60000000,
+            "turnover_micro_usd": 100000000,
+            "transactions_allocated": {
+              "numerator": 3,
+              "denominator": 1
+            },
+            "upfront_recoverable_rent_lamports": 8000000
+          }
+        }
+      },
+      "comparison": {
+        "valid_baselines": true,
+        "netting_gain_micro_usd": {
+          "numerator": -16252,
+          "denominator": 3
+        },
+        "cooperative_raw_difference_micro_usd": {
+          "numerator": 0,
+          "denominator": 1
+        },
+        "cooperative_gain_micro_usd": {
+          "numerator": 0,
+          "denominator": 1
+        },
+        "cooperative_trading_benefit_eligible": true,
+        "attribution": "both baselines execute nonzero trades under identical mandates"
+      }
+    },
+    {
+      "id": "asymmetric-02",
+      "category": "asymmetric",
+      "scenario_sha256": "9c483eec564532cac414523856a20b3e464ef08b40c83dfe92e3cdf4ede6962b",
+      "declared_rejections": [],
+      "methods": {
+        "A": {
+          "status": "ok",
+          "feasible": true,
+          "reasons": [],
+          "ledger_errors": [],
+          "candidates_evaluated": 12,
+          "budget_exhausted": false,
+          "totals": {
+            "venue_cost_micro_usd": 636000,
+            "price_difference_micro_usd": 0,
+            "network_micro_usd": {
+              "numerator": 1800,
+              "denominator": 1
+            },
+            "expected_retry_micro_usd": {
+              "numerator": 18,
+              "denominator": 1
+            },
+            "waiting_micro_usd": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "preference_micro_usd": {
+              "numerator": 10000,
+              "denominator": 1
+            },
+            "recurring_micro_usd": {
+              "numerator": 637818,
+              "denominator": 1
+            },
+            "objective_micro_usd": {
+              "numerator": 647818,
+              "denominator": 1
+            },
+            "after_error_micro_usd": 20000000,
+            "turnover_micro_usd": 310000000,
+            "transactions_allocated": {
+              "numerator": 2,
+              "denominator": 1
+            },
+            "upfront_recoverable_rent_lamports": 0
+          }
+        },
+        "B": {
+          "status": "ok",
+          "feasible": true,
+          "reasons": [],
+          "ledger_errors": [],
+          "candidates_evaluated": 12,
+          "budget_exhausted": false,
+          "totals": {
+            "venue_cost_micro_usd": 551800,
+            "price_difference_micro_usd": 0,
+            "network_micro_usd": {
+              "numerator": 2700,
+              "denominator": 1
+            },
+            "expected_retry_micro_usd": {
+              "numerator": 27,
+              "denominator": 1
+            },
+            "waiting_micro_usd": {
+              "numerator": 16250,
+              "denominator": 3
+            },
+            "preference_micro_usd": {
+              "numerator": 10000,
+              "denominator": 1
+            },
+            "recurring_micro_usd": {
+              "numerator": 1679831,
+              "denominator": 3
+            },
+            "objective_micro_usd": {
+              "numerator": 1709831,
+              "denominator": 3
+            },
+            "after_error_micro_usd": 20000000,
+            "turnover_micro_usd": 310000000,
+            "transactions_allocated": {
+              "numerator": 3,
+              "denominator": 1
+            },
+            "upfront_recoverable_rent_lamports": 8000000
+          }
+        },
+        "C": {
+          "status": "ok",
+          "feasible": true,
+          "reasons": [],
+          "ledger_errors": [],
+          "candidates_evaluated": 39,
+          "budget_exhausted": false,
+          "totals": {
+            "venue_cost_micro_usd": 501000,
+            "price_difference_micro_usd": 0,
+            "network_micro_usd": {
+              "numerator": 2700,
+              "denominator": 1
+            },
+            "expected_retry_micro_usd": {
+              "numerator": 27,
+              "denominator": 1
+            },
+            "waiting_micro_usd": {
+              "numerator": 16250,
+              "denominator": 3
+            },
+            "preference_micro_usd": {
+              "numerator": 10000,
+              "denominator": 1
+            },
+            "recurring_micro_usd": {
+              "numerator": 1527431,
+              "denominator": 3
+            },
+            "objective_micro_usd": {
+              "numerator": 1557431,
+              "denominator": 3
+            },
+            "after_error_micro_usd": 20000000,
+            "turnover_micro_usd": 330000000,
+            "transactions_allocated": {
+              "numerator": 3,
+              "denominator": 1
+            },
+            "upfront_recoverable_rent_lamports": 8000000
+          }
+        }
+      },
+      "comparison": {
+        "valid_baselines": true,
+        "netting_gain_micro_usd": {
+          "numerator": 233623,
+          "denominator": 3
+        },
+        "cooperative_raw_difference_micro_usd": {
+          "numerator": 50800,
+          "denominator": 1
+        },
+        "cooperative_gain_micro_usd": {
+          "numerator": 50800,
+          "denominator": 1
+        },
+        "cooperative_trading_benefit_eligible": true,
+        "attribution": "both baselines execute nonzero trades under identical mandates"
+      }
+    },
+    {
+      "id": "tight-02",
+      "category": "tight_bands",
+      "scenario_sha256": "95772dd16f029fc4a217babb3d0b98eb651baa58e869fd389b2c414bced950f0",
+      "declared_rejections": [],
+      "methods": {
+        "A": {
+          "status": "ok",
+          "feasible": true,
+          "reasons": [],
+          "ledger_errors": [],
+          "candidates_evaluated": 2,
+          "budget_exhausted": false,
+          "totals": {
+            "venue_cost_micro_usd": 256800,
+            "price_difference_micro_usd": 0,
+            "network_micro_usd": {
+              "numerator": 1800,
+              "denominator": 1
+            },
+            "expected_retry_micro_usd": {
+              "numerator": 18,
+              "denominator": 1
+            },
+            "waiting_micro_usd": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "preference_micro_usd": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "recurring_micro_usd": {
+              "numerator": 258618,
+              "denominator": 1
+            },
+            "objective_micro_usd": {
+              "numerator": 258618,
+              "denominator": 1
+            },
+            "after_error_micro_usd": 0,
+            "turnover_micro_usd": 160000000,
+            "transactions_allocated": {
+              "numerator": 2,
+              "denominator": 1
+            },
+            "upfront_recoverable_rent_lamports": 0
+          }
+        },
+        "B": {
+          "status": "ok",
+          "feasible": true,
+          "reasons": [],
+          "ledger_errors": [],
+          "candidates_evaluated": 2,
+          "budget_exhausted": false,
+          "totals": {
+            "venue_cost_micro_usd": 0,
+            "price_difference_micro_usd": 0,
+            "network_micro_usd": {
+              "numerator": 2700,
+              "denominator": 1
+            },
+            "expected_retry_micro_usd": {
+              "numerator": 27,
+              "denominator": 1
+            },
+            "waiting_micro_usd": {
+              "numerator": 5300,
+              "denominator": 3
+            },
+            "preference_micro_usd": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "recurring_micro_usd": {
+              "numerator": 13481,
+              "denominator": 3
+            },
+            "objective_micro_usd": {
+              "numerator": 13481,
+              "denominator": 3
+            },
+            "after_error_micro_usd": 0,
+            "turnover_micro_usd": 160000000,
+            "transactions_allocated": {
+              "numerator": 3,
+              "denominator": 1
+            },
+            "upfront_recoverable_rent_lamports": 8000000
+          }
+        },
+        "C": {
+          "status": "ok",
+          "feasible": true,
+          "reasons": [],
+          "ledger_errors": [],
+          "candidates_evaluated": 3,
+          "budget_exhausted": false,
+          "totals": {
+            "venue_cost_micro_usd": 0,
+            "price_difference_micro_usd": 0,
+            "network_micro_usd": {
+              "numerator": 2700,
+              "denominator": 1
+            },
+            "expected_retry_micro_usd": {
+              "numerator": 27,
+              "denominator": 1
+            },
+            "waiting_micro_usd": {
+              "numerator": 5300,
+              "denominator": 3
+            },
+            "preference_micro_usd": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "recurring_micro_usd": {
+              "numerator": 13481,
+              "denominator": 3
+            },
+            "objective_micro_usd": {
+              "numerator": 13481,
+              "denominator": 3
+            },
+            "after_error_micro_usd": 0,
+            "turnover_micro_usd": 160000000,
+            "transactions_allocated": {
+              "numerator": 3,
+              "denominator": 1
+            },
+            "upfront_recoverable_rent_lamports": 8000000
+          }
+        }
+      },
+      "comparison": {
+        "valid_baselines": true,
+        "netting_gain_micro_usd": {
+          "numerator": 762373,
+          "denominator": 3
+        },
+        "cooperative_raw_difference_micro_usd": {
+          "numerator": 0,
+          "denominator": 1
+        },
+        "cooperative_gain_micro_usd": {
+          "numerator": 0,
+          "denominator": 1
+        },
+        "cooperative_trading_benefit_eligible": true,
+        "attribution": "both baselines execute nonzero trades under identical mandates"
+      }
+    },
+    {
+      "id": "high-fee-02",
+      "category": "high_network_fees",
+      "scenario_sha256": "57806194fc128028f1454965a7c6b8928037458bb233bf22f9a82c799918e155",
+      "declared_rejections": [],
+      "methods": {
+        "A": {
+          "status": "ok",
+          "feasible": true,
+          "reasons": [],
+          "ledger_errors": [],
+          "candidates_evaluated": 6,
+          "budget_exhausted": false,
+          "totals": {
+            "venue_cost_micro_usd": 48000,
+            "price_difference_micro_usd": 0,
+            "network_micro_usd": {
+              "numerator": 31500,
+              "denominator": 1
+            },
+            "expected_retry_micro_usd": {
+              "numerator": 315,
+              "denominator": 1
+            },
+            "waiting_micro_usd": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "preference_micro_usd": {
+              "numerator": 10000,
+              "denominator": 1
+            },
+            "recurring_micro_usd": {
+              "numerator": 79815,
+              "denominator": 1
+            },
+            "objective_micro_usd": {
+              "numerator": 89815,
+              "denominator": 1
+            },
+            "after_error_micro_usd": 20000000,
+            "turnover_micro_usd": 30000000,
+            "transactions_allocated": {
+              "numerator": 2,
+              "denominator": 1
+            },
+            "upfront_recoverable_rent_lamports": 0
+          }
+        },
+        "B": {
+          "status": "ok",
+          "feasible": true,
+          "reasons": [],
+          "ledger_errors": [],
+          "candidates_evaluated": 6,
+          "budget_exhausted": false,
+          "totals": {
+            "venue_cost_micro_usd": 16200,
+            "price_difference_micro_usd": 0,
+            "network_micro_usd": {
+              "numerator": 47250,
+              "denominator": 1
+            },
+            "expected_retry_micro_usd": {
+              "numerator": 945,
+              "denominator": 2
+            },
+            "waiting_micro_usd": {
+              "numerator": 5150,
+              "denominator": 3
+            },
+            "preference_micro_usd": {
+              "numerator": 10000,
+              "denominator": 1
+            },
+            "recurring_micro_usd": {
+              "numerator": 393835,
+              "denominator": 6
+            },
+            "objective_micro_usd": {
+              "numerator": 453835,
+              "denominator": 6
+            },
+            "after_error_micro_usd": 20000000,
+            "turnover_micro_usd": 30000000,
+            "transactions_allocated": {
+              "numerator": 3,
+              "denominator": 1
+            },
+            "upfront_recoverable_rent_lamports": 8000000
+          }
+        },
+        "C": {
+          "status": "ok",
+          "feasible": true,
+          "reasons": [],
+          "ledger_errors": [],
+          "candidates_evaluated": 15,
+          "budget_exhausted": false,
+          "totals": {
+            "venue_cost_micro_usd": 0,
+            "price_difference_micro_usd": 0,
+            "network_micro_usd": {
+              "numerator": 47250,
+              "denominator": 1
+            },
+            "expected_retry_micro_usd": {
+              "numerator": 945,
+              "denominator": 2
+            },
+            "waiting_micro_usd": {
+              "numerator": 5150,
+              "denominator": 3
+            },
+            "preference_micro_usd": {
+              "numerator": 5000,
+              "denominator": 1
+            },
+            "recurring_micro_usd": {
+              "numerator": 296635,
+              "denominator": 6
+            },
+            "objective_micro_usd": {
+              "numerator": 326635,
+              "denominator": 6
+            },
+            "after_error_micro_usd": 10000000,
+            "turnover_micro_usd": 40000000,
+            "transactions_allocated": {
+              "numerator": 3,
+              "denominator": 1
+            },
+            "upfront_recoverable_rent_lamports": 8000000
+          }
+        }
+      },
+      "comparison": {
+        "valid_baselines": true,
+        "netting_gain_micro_usd": {
+          "numerator": 85055,
+          "denominator": 6
+        },
+        "cooperative_raw_difference_micro_usd": {
+          "numerator": 16200,
+          "denominator": 1
+        },
+        "cooperative_gain_micro_usd": {
+          "numerator": 16200,
+          "denominator": 1
+        },
+        "cooperative_trading_benefit_eligible": true,
+        "attribution": "both baselines execute nonzero trades under identical mandates"
+      }
+    },
+    {
+      "id": "noise-02",
+      "category": "price_disturbance",
+      "scenario_sha256": "7d85784193ed13666782aa7159d0ff16edd529aca191a7aec8c5ece98deffd91",
+      "declared_rejections": [
+        "price_deviation"
+      ],
+      "methods": {
+        "A": {
+          "status": "rejected",
+          "feasible": false,
+          "reasons": [
+            "price_deviation"
+          ],
+          "ledger_errors": [],
+          "candidates_evaluated": 0,
+          "budget_exhausted": false,
+          "totals": {}
+        },
+        "B": {
+          "status": "rejected",
+          "feasible": false,
+          "reasons": [
+            "price_deviation"
+          ],
+          "ledger_errors": [],
+          "candidates_evaluated": 0,
+          "budget_exhausted": false,
+          "totals": {}
+        },
+        "C": {
+          "status": "rejected",
+          "feasible": false,
+          "reasons": [
+            "price_deviation"
+          ],
+          "ledger_errors": [],
+          "candidates_evaluated": 0,
+          "budget_exhausted": false,
+          "totals": {}
+        }
+      },
+      "comparison": {
+        "valid_baselines": false,
+        "reason": "A, B and C must all be feasible before any savings claim",
+        "netting_gain_micro_usd": null,
+        "cooperative_gain_micro_usd": null
+      }
+    },
+    {
+      "id": "confidence-02",
+      "category": "wide_confidence",
+      "scenario_sha256": "653767a5b154550946e5f2eb9ebcf13a66cde334502e1cddb954534e8d2a968e",
+      "declared_rejections": [
+        "wide_confidence"
+      ],
+      "methods": {
+        "A": {
+          "status": "rejected",
+          "feasible": false,
+          "reasons": [
+            "wide_confidence"
+          ],
+          "ledger_errors": [],
+          "candidates_evaluated": 0,
+          "budget_exhausted": false,
+          "totals": {}
+        },
+        "B": {
+          "status": "rejected",
+          "feasible": false,
+          "reasons": [
+            "wide_confidence"
+          ],
+          "ledger_errors": [],
+          "candidates_evaluated": 0,
+          "budget_exhausted": false,
+          "totals": {}
+        },
+        "C": {
+          "status": "rejected",
+          "feasible": false,
+          "reasons": [
+            "wide_confidence"
+          ],
+          "ledger_errors": [],
+          "candidates_evaluated": 0,
+          "budget_exhausted": false,
+          "totals": {}
+        }
+      },
+      "comparison": {
+        "valid_baselines": false,
+        "reason": "A, B and C must all be feasible before any savings claim",
+        "netting_gain_micro_usd": null,
+        "cooperative_gain_micro_usd": null
+      }
+    },
+    {
+      "id": "slow-02",
+      "category": "waiting_and_retry",
+      "scenario_sha256": "4e18c9337aa48f114e63b0bf695b279ae1df4db13e8d1c538fe45001c48ae445",
+      "declared_rejections": [],
+      "methods": {
+        "A": {
+          "status": "ok",
+          "feasible": true,
+          "reasons": [],
+          "ledger_errors": [],
+          "candidates_evaluated": 6,
+          "budget_exhausted": false,
+          "totals": {
+            "venue_cost_micro_usd": 112000,
+            "price_difference_micro_usd": 0,
+            "network_micro_usd": {
+              "numerator": 1800,
+              "denominator": 1
+            },
+            "expected_retry_micro_usd": {
+              "numerator": 360,
+              "denominator": 1
+            },
+            "waiting_micro_usd": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "preference_micro_usd": {
+              "numerator": 10000,
+              "denominator": 1
+            },
+            "recurring_micro_usd": {
+              "numerator": 114160,
+              "denominator": 1
+            },
+            "objective_micro_usd": {
+              "numerator": 124160,
+              "denominator": 1
+            },
+            "after_error_micro_usd": 20000000,
+            "turnover_micro_usd": 70000000,
+            "transactions_allocated": {
+              "numerator": 2,
+              "denominator": 1
+            },
+            "upfront_recoverable_rent_lamports": 0
+          }
+        },
+        "B": {
+          "status": "ok",
+          "feasible": true,
+          "reasons": [],
+          "ledger_errors": [],
+          "candidates_evaluated": 6,
+          "budget_exhausted": false,
+          "totals": {
+            "venue_cost_micro_usd": 16200,
+            "price_difference_micro_usd": 0,
+            "network_micro_usd": {
+              "numerator": 2700,
+              "denominator": 1
+            },
+            "expected_retry_micro_usd": {
+              "numerator": 540,
+              "denominator": 1
+            },
+            "waiting_micro_usd": {
+              "numerator": 5250000,
+              "denominator": 1
+            },
+            "preference_micro_usd": {
+              "numerator": 10000,
+              "denominator": 1
+            },
+            "recurring_micro_usd": {
+              "numerator": 5269440,
+              "denominator": 1
+            },
+            "objective_micro_usd": {
+              "numerator": 5279440,
+              "denominator": 1
+            },
+            "after_error_micro_usd": 20000000,
+            "turnover_micro_usd": 70000000,
+            "transactions_allocated": {
+              "numerator": 3,
+              "denominator": 1
+            },
+            "upfront_recoverable_rent_lamports": 8000000
+          }
+        },
+        "C": {
+          "status": "ok",
+          "feasible": true,
+          "reasons": [],
+          "ledger_errors": [],
+          "candidates_evaluated": 15,
+          "budget_exhausted": false,
+          "totals": {
+            "venue_cost_micro_usd": 0,
+            "price_difference_micro_usd": 0,
+            "network_micro_usd": {
+              "numerator": 2700,
+              "denominator": 1
+            },
+            "expected_retry_micro_usd": {
+              "numerator": 540,
+              "denominator": 1
+            },
+            "waiting_micro_usd": {
+              "numerator": 5250000,
+              "denominator": 1
+            },
+            "preference_micro_usd": {
+              "numerator": 5000,
+              "denominator": 1
+            },
+            "recurring_micro_usd": {
+              "numerator": 5253240,
+              "denominator": 1
+            },
+            "objective_micro_usd": {
+              "numerator": 5258240,
+              "denominator": 1
+            },
+            "after_error_micro_usd": 10000000,
+            "turnover_micro_usd": 80000000,
+            "transactions_allocated": {
+              "numerator": 3,
+              "denominator": 1
+            },
+            "upfront_recoverable_rent_lamports": 8000000
+          }
+        }
+      },
+      "comparison": {
+        "valid_baselines": true,
+        "netting_gain_micro_usd": {
+          "numerator": -5155280,
+          "denominator": 1
+        },
+        "cooperative_raw_difference_micro_usd": {
+          "numerator": 16200,
+          "denominator": 1
+        },
+        "cooperative_gain_micro_usd": {
+          "numerator": 16200,
+          "denominator": 1
+        },
+        "cooperative_trading_benefit_eligible": true,
+        "attribution": "both baselines execute nonzero trades under identical mandates"
+      }
+    }
+  ],
+  "per_owner": [
+    {
+      "id": "opposite-02",
+      "split": "holdout",
+      "method": "A",
+      "owner": "a",
+      "recurring_micro_usd": {
+        "numerator": 99109,
+        "denominator": 1
+      },
+      "objective_micro_usd": {
+        "numerator": 104109,
+        "denominator": 1
+      },
+      "after_error_micro_usd": 10000000,
+      "turnover_micro_usd": 60000000,
+      "venue_cost_micro_usd": 98200,
+      "network_micro_usd": {
+        "numerator": 900,
+        "denominator": 1
+      },
+      "waiting_micro_usd": {
+        "numerator": 0,
+        "denominator": 1
+      },
+      "price_difference_micro_usd": 0,
+      "failures": []
+    },
+    {
+      "id": "opposite-02",
+      "split": "holdout",
+      "method": "A",
+      "owner": "b",
+      "recurring_micro_usd": {
+        "numerator": 81909,
+        "denominator": 1
+      },
+      "objective_micro_usd": {
+        "numerator": 86909,
+        "denominator": 1
+      },
+      "after_error_micro_usd": 10000000,
+      "turnover_micro_usd": 50000000,
+      "venue_cost_micro_usd": 81000,
+      "network_micro_usd": {
+        "numerator": 900,
+        "denominator": 1
+      },
+      "waiting_micro_usd": {
+        "numerator": 0,
+        "denominator": 1
+      },
+      "price_difference_micro_usd": 0,
+      "failures": []
+    },
+    {
+      "id": "opposite-02",
+      "split": "holdout",
+      "method": "A",
+      "owner": "c",
+      "recurring_micro_usd": {
+        "numerator": 0,
+        "denominator": 1
+      },
+      "objective_micro_usd": {
+        "numerator": 0,
+        "denominator": 1
+      },
+      "after_error_micro_usd": 0,
+      "turnover_micro_usd": 0,
+      "venue_cost_micro_usd": 0,
+      "network_micro_usd": {
+        "numerator": 0,
+        "denominator": 1
+      },
+      "waiting_micro_usd": {
+        "numerator": 0,
+        "denominator": 1
+      },
+      "price_difference_micro_usd": 0,
+      "failures": []
+    },
+    {
+      "id": "opposite-02",
+      "split": "holdout",
+      "method": "B",
+      "owner": "a",
+      "recurring_micro_usd": {
+        "numerator": 18262,
+        "denominator": 1
+      },
+      "objective_micro_usd": {
+        "numerator": 23262,
+        "denominator": 1
+      },
+      "after_error_micro_usd": 10000000,
+      "turnover_micro_usd": 60000000,
+      "venue_cost_micro_usd": 16200,
+      "network_micro_usd": {
+        "numerator": 1200,
+        "denominator": 1
+      },
+      "waiting_micro_usd": {
+        "numerator": 850,
+        "denominator": 1
+      },
+      "price_difference_micro_usd": 0,
+      "failures": []
+    },
+    {
+      "id": "opposite-02",
+      "split": "holdout",
+      "method": "B",
+      "owner": "b",
+      "recurring_micro_usd": {
+        "numerator": 2162,
+        "denominator": 1
+      },
+      "objective_micro_usd": {
+        "numerator": 7162,
+        "denominator": 1
+      },
+      "after_error_micro_usd": 10000000,
+      "turnover_micro_usd": 50000000,
+      "venue_cost_micro_usd": 0,
+      "network_micro_usd": {
+        "numerator": 1200,
+        "denominator": 1
+      },
+      "waiting_micro_usd": {
+        "numerator": 950,
+        "denominator": 1
+      },
+      "price_difference_micro_usd": 0,
+      "failures": []
+    },
+    {
+      "id": "opposite-02",
+      "split": "holdout",
+      "method": "B",
+      "owner": "c",
+      "recurring_micro_usd": {
+        "numerator": 6161,
+        "denominator": 3
+      },
+      "objective_micro_usd": {
+        "numerator": 6161,
+        "denominator": 3
+      },
+      "after_error_micro_usd": 0,
+      "turnover_micro_usd": 0,
+      "venue_cost_micro_usd": 0,
+      "network_micro_usd": {
+        "numerator": 1200,
+        "denominator": 1
+      },
+      "waiting_micro_usd": {
+        "numerator": 2525,
+        "denominator": 3
+      },
+      "price_difference_micro_usd": 0,
+      "failures": []
+    },
+    {
+      "id": "opposite-02",
+      "split": "holdout",
+      "method": "C",
+      "owner": "a",
+      "recurring_micro_usd": {
+        "numerator": 2062,
+        "denominator": 1
+      },
+      "objective_micro_usd": {
+        "numerator": 7062,
+        "denominator": 1
+      },
+      "after_error_micro_usd": 10000000,
+      "turnover_micro_usd": 60000000,
+      "venue_cost_micro_usd": 0,
+      "network_micro_usd": {
+        "numerator": 1200,
+        "denominator": 1
+      },
+      "waiting_micro_usd": {
+        "numerator": 850,
+        "denominator": 1
+      },
+      "price_difference_micro_usd": 0,
+      "failures": []
+    },
+    {
+      "id": "opposite-02",
+      "split": "holdout",
+      "method": "C",
+      "owner": "b",
+      "recurring_micro_usd": {
+        "numerator": 2162,
+        "denominator": 1
+      },
+      "objective_micro_usd": {
+        "numerator": 2162,
+        "denominator": 1
+      },
+      "after_error_micro_usd": 0,
+      "turnover_micro_usd": 60000000,
+      "venue_cost_micro_usd": 0,
+      "network_micro_usd": {
+        "numerator": 1200,
+        "denominator": 1
+      },
+      "waiting_micro_usd": {
+        "numerator": 950,
+        "denominator": 1
+      },
+      "price_difference_micro_usd": 0,
+      "failures": []
+    },
+    {
+      "id": "opposite-02",
+      "split": "holdout",
+      "method": "C",
+      "owner": "c",
+      "recurring_micro_usd": {
+        "numerator": 6161,
+        "denominator": 3
+      },
+      "objective_micro_usd": {
+        "numerator": 6161,
+        "denominator": 3
+      },
+      "after_error_micro_usd": 0,
+      "turnover_micro_usd": 0,
+      "venue_cost_micro_usd": 0,
+      "network_micro_usd": {
+        "numerator": 1200,
+        "denominator": 1
+      },
+      "waiting_micro_usd": {
+        "numerator": 2525,
+        "denominator": 3
+      },
+      "price_difference_micro_usd": 0,
+      "failures": []
+    },
+    {
+      "id": "all-buy-02",
+      "split": "holdout",
+      "method": "A",
+      "owner": "a",
+      "recurring_micro_usd": {
+        "numerator": 96909,
+        "denominator": 1
+      },
+      "objective_micro_usd": {
+        "numerator": 111909,
+        "denominator": 1
+      },
+      "after_error_micro_usd": 30000000,
+      "turnover_micro_usd": 60000000,
+      "venue_cost_micro_usd": 96000,
+      "network_micro_usd": {
+        "numerator": 900,
+        "denominator": 1
+      },
+      "waiting_micro_usd": {
+        "numerator": 0,
+        "denominator": 1
+      },
+      "price_difference_micro_usd": 0,
+      "failures": []
+    },
+    {
+      "id": "all-buy-02",
+      "split": "holdout",
+      "method": "A",
+      "owner": "b",
+      "recurring_micro_usd": {
+        "numerator": 64509,
+        "denominator": 1
+      },
+      "objective_micro_usd": {
+        "numerator": 79509,
+        "denominator": 1
+      },
+      "after_error_micro_usd": 30000000,
+      "turnover_micro_usd": 40000000,
+      "venue_cost_micro_usd": 63600,
+      "network_micro_usd": {
+        "numerator": 900,
+        "denominator": 1
+      },
+      "waiting_micro_usd": {
+        "numerator": 0,
+        "denominator": 1
+      },
+      "price_difference_micro_usd": 0,
+      "failures": []
+    },
+    {
+      "id": "all-buy-02",
+      "split": "holdout",
+      "method": "B",
+      "owner": "a",
+      "recurring_micro_usd": {
+        "numerator": 598633,
+        "denominator": 6
+      },
+      "objective_micro_usd": {
+        "numerator": 688633,
+        "denominator": 6
+      },
+      "after_error_micro_usd": 30000000,
+      "turnover_micro_usd": 60000000,
+      "venue_cost_micro_usd": 97567,
+      "network_micro_usd": {
+        "numerator": 1350,
+        "denominator": 1
+      },
+      "waiting_micro_usd": {
+        "numerator": 2525,
+        "denominator": 3
+      },
+      "price_difference_micro_usd": 0,
+      "failures": []
+    },
+    {
+      "id": "all-buy-02",
+      "split": "holdout",
+      "method": "B",
+      "owner": "b",
+      "recurring_micro_usd": {
+        "numerator": 402379,
+        "denominator": 6
+      },
+      "objective_micro_usd": {
+        "numerator": 492379,
+        "denominator": 6
+      },
+      "after_error_micro_usd": 30000000,
+      "turnover_micro_usd": 40000000,
+      "venue_cost_micro_usd": 64833,
+      "network_micro_usd": {
+        "numerator": 1350,
+        "denominator": 1
+      },
+      "waiting_micro_usd": {
+        "numerator": 2600,
+        "denominator": 3
+      },
+      "price_difference_micro_usd": 0,
+      "failures": []
+    },
+    {
+      "id": "all-buy-02",
+      "split": "holdout",
+      "method": "C",
+      "owner": "a",
+      "recurring_micro_usd": {
+        "numerator": 598633,
+        "denominator": 6
+      },
+      "objective_micro_usd": {
+        "numerator": 688633,
+        "denominator": 6
+      },
+      "after_error_micro_usd": 30000000,
+      "turnover_micro_usd": 60000000,
+      "venue_cost_micro_usd": 97567,
+      "network_micro_usd": {
+        "numerator": 1350,
+        "denominator": 1
+      },
+      "waiting_micro_usd": {
+        "numerator": 2525,
+        "denominator": 3
+      },
+      "price_difference_micro_usd": 0,
+      "failures": []
+    },
+    {
+      "id": "all-buy-02",
+      "split": "holdout",
+      "method": "C",
+      "owner": "b",
+      "recurring_micro_usd": {
+        "numerator": 402379,
+        "denominator": 6
+      },
+      "objective_micro_usd": {
+        "numerator": 492379,
+        "denominator": 6
+      },
+      "after_error_micro_usd": 30000000,
+      "turnover_micro_usd": 40000000,
+      "venue_cost_micro_usd": 64833,
+      "network_micro_usd": {
+        "numerator": 1350,
+        "denominator": 1
+      },
+      "waiting_micro_usd": {
+        "numerator": 2600,
+        "denominator": 3
+      },
+      "price_difference_micro_usd": 0,
+      "failures": []
+    },
+    {
+      "id": "asymmetric-02",
+      "split": "holdout",
+      "method": "A",
+      "owner": "a",
+      "recurring_micro_usd": {
+        "numerator": 605109,
+        "denominator": 1
+      },
+      "objective_micro_usd": {
+        "numerator": 610109,
+        "denominator": 1
+      },
+      "after_error_micro_usd": 10000000,
+      "turnover_micro_usd": 290000000,
+      "venue_cost_micro_usd": 604200,
+      "network_micro_usd": {
+        "numerator": 900,
+        "denominator": 1
+      },
+      "waiting_micro_usd": {
+        "numerator": 0,
+        "denominator": 1
+      },
+      "price_difference_micro_usd": 0,
+      "failures": []
+    },
+    {
+      "id": "asymmetric-02",
+      "split": "holdout",
+      "method": "A",
+      "owner": "b",
+      "recurring_micro_usd": {
+        "numerator": 32709,
+        "denominator": 1
+      },
+      "objective_micro_usd": {
+        "numerator": 37709,
+        "denominator": 1
+      },
+      "after_error_micro_usd": 10000000,
+      "turnover_micro_usd": 20000000,
+      "venue_cost_micro_usd": 31800,
+      "network_micro_usd": {
+        "numerator": 900,
+        "denominator": 1
+      },
+      "waiting_micro_usd": {
+        "numerator": 0,
+        "denominator": 1
+      },
+      "price_difference_micro_usd": 0,
+      "failures": []
+    },
+    {
+      "id": "asymmetric-02",
+      "split": "holdout",
+      "method": "B",
+      "owner": "a",
+      "recurring_micro_usd": {
+        "numerator": 3346481,
+        "denominator": 6
+      },
+      "objective_micro_usd": {
+        "numerator": 3376481,
+        "denominator": 6
+      },
+      "after_error_micro_usd": 10000000,
+      "turnover_micro_usd": 290000000,
+      "venue_cost_micro_usd": 551800,
+      "network_micro_usd": {
+        "numerator": 1350,
+        "denominator": 1
+      },
+      "waiting_micro_usd": {
+        "numerator": 13750,
+        "denominator": 3
+      },
+      "price_difference_micro_usd": 0,
+      "failures": []
+    },
+    {
+      "id": "asymmetric-02",
+      "split": "holdout",
+      "method": "B",
+      "owner": "b",
+      "recurring_micro_usd": {
+        "numerator": 13181,
+        "denominator": 6
+      },
+      "objective_micro_usd": {
+        "numerator": 43181,
+        "denominator": 6
+      },
+      "after_error_micro_usd": 10000000,
+      "turnover_micro_usd": 20000000,
+      "venue_cost_micro_usd": 0,
+      "network_micro_usd": {
+        "numerator": 1350,
+        "denominator": 1
+      },
+      "waiting_micro_usd": {
+        "numerator": 2500,
+        "denominator": 3
+      },
+      "price_difference_micro_usd": 0,
+      "failures": []
+    },
+    {
+      "id": "asymmetric-02",
+      "split": "holdout",
+      "method": "C",
+      "owner": "a",
+      "recurring_micro_usd": {
+        "numerator": 3041681,
+        "denominator": 6
+      },
+      "objective_micro_usd": {
+        "numerator": 3071681,
+        "denominator": 6
+      },
+      "after_error_micro_usd": 10000000,
+      "turnover_micro_usd": 290000000,
+      "venue_cost_micro_usd": 501000,
+      "network_micro_usd": {
+        "numerator": 1350,
+        "denominator": 1
+      },
+      "waiting_micro_usd": {
+        "numerator": 13750,
+        "denominator": 3
+      },
+      "price_difference_micro_usd": 0,
+      "failures": []
+    },
+    {
+      "id": "asymmetric-02",
+      "split": "holdout",
+      "method": "C",
+      "owner": "b",
+      "recurring_micro_usd": {
+        "numerator": 13181,
+        "denominator": 6
+      },
+      "objective_micro_usd": {
+        "numerator": 43181,
+        "denominator": 6
+      },
+      "after_error_micro_usd": 10000000,
+      "turnover_micro_usd": 40000000,
+      "venue_cost_micro_usd": 0,
+      "network_micro_usd": {
+        "numerator": 1350,
+        "denominator": 1
+      },
+      "waiting_micro_usd": {
+        "numerator": 2500,
+        "denominator": 3
+      },
+      "price_difference_micro_usd": 0,
+      "failures": []
+    },
+    {
+      "id": "tight-02",
+      "split": "holdout",
+      "method": "A",
+      "owner": "a",
+      "recurring_micro_usd": {
+        "numerator": 129309,
+        "denominator": 1
+      },
+      "objective_micro_usd": {
+        "numerator": 129309,
+        "denominator": 1
+      },
+      "after_error_micro_usd": 0,
+      "turnover_micro_usd": 80000000,
+      "venue_cost_micro_usd": 128400,
+      "network_micro_usd": {
+        "numerator": 900,
+        "denominator": 1
+      },
+      "waiting_micro_usd": {
+        "numerator": 0,
+        "denominator": 1
+      },
+      "price_difference_micro_usd": 0,
+      "failures": []
+    },
+    {
+      "id": "tight-02",
+      "split": "holdout",
+      "method": "A",
+      "owner": "b",
+      "recurring_micro_usd": {
+        "numerator": 129309,
+        "denominator": 1
+      },
+      "objective_micro_usd": {
+        "numerator": 129309,
+        "denominator": 1
+      },
+      "after_error_micro_usd": 0,
+      "turnover_micro_usd": 80000000,
+      "venue_cost_micro_usd": 128400,
+      "network_micro_usd": {
+        "numerator": 900,
+        "denominator": 1
+      },
+      "waiting_micro_usd": {
+        "numerator": 0,
+        "denominator": 1
+      },
+      "price_difference_micro_usd": 0,
+      "failures": []
+    },
+    {
+      "id": "tight-02",
+      "split": "holdout",
+      "method": "B",
+      "owner": "a",
+      "recurring_micro_usd": {
+        "numerator": 13481,
+        "denominator": 6
+      },
+      "objective_micro_usd": {
+        "numerator": 13481,
+        "denominator": 6
+      },
+      "after_error_micro_usd": 0,
+      "turnover_micro_usd": 80000000,
+      "venue_cost_micro_usd": 0,
+      "network_micro_usd": {
+        "numerator": 1350,
+        "denominator": 1
+      },
+      "waiting_micro_usd": {
+        "numerator": 2650,
+        "denominator": 3
+      },
+      "price_difference_micro_usd": 0,
+      "failures": []
+    },
+    {
+      "id": "tight-02",
+      "split": "holdout",
+      "method": "B",
+      "owner": "b",
+      "recurring_micro_usd": {
+        "numerator": 13481,
+        "denominator": 6
+      },
+      "objective_micro_usd": {
+        "numerator": 13481,
+        "denominator": 6
+      },
+      "after_error_micro_usd": 0,
+      "turnover_micro_usd": 80000000,
+      "venue_cost_micro_usd": 0,
+      "network_micro_usd": {
+        "numerator": 1350,
+        "denominator": 1
+      },
+      "waiting_micro_usd": {
+        "numerator": 2650,
+        "denominator": 3
+      },
+      "price_difference_micro_usd": 0,
+      "failures": []
+    },
+    {
+      "id": "tight-02",
+      "split": "holdout",
+      "method": "C",
+      "owner": "a",
+      "recurring_micro_usd": {
+        "numerator": 13481,
+        "denominator": 6
+      },
+      "objective_micro_usd": {
+        "numerator": 13481,
+        "denominator": 6
+      },
+      "after_error_micro_usd": 0,
+      "turnover_micro_usd": 80000000,
+      "venue_cost_micro_usd": 0,
+      "network_micro_usd": {
+        "numerator": 1350,
+        "denominator": 1
+      },
+      "waiting_micro_usd": {
+        "numerator": 2650,
+        "denominator": 3
+      },
+      "price_difference_micro_usd": 0,
+      "failures": []
+    },
+    {
+      "id": "tight-02",
+      "split": "holdout",
+      "method": "C",
+      "owner": "b",
+      "recurring_micro_usd": {
+        "numerator": 13481,
+        "denominator": 6
+      },
+      "objective_micro_usd": {
+        "numerator": 13481,
+        "denominator": 6
+      },
+      "after_error_micro_usd": 0,
+      "turnover_micro_usd": 80000000,
+      "venue_cost_micro_usd": 0,
+      "network_micro_usd": {
+        "numerator": 1350,
+        "denominator": 1
+      },
+      "waiting_micro_usd": {
+        "numerator": 2650,
+        "denominator": 3
+      },
+      "price_difference_micro_usd": 0,
+      "failures": []
+    },
+    {
+      "id": "high-fee-02",
+      "split": "holdout",
+      "method": "A",
+      "owner": "a",
+      "recurring_micro_usd": {
+        "numerator": 95415,
+        "denominator": 2
+      },
+      "objective_micro_usd": {
+        "numerator": 105415,
+        "denominator": 2
+      },
+      "after_error_micro_usd": 10000000,
+      "turnover_micro_usd": 20000000,
+      "venue_cost_micro_usd": 31800,
+      "network_micro_usd": {
+        "numerator": 15750,
+        "denominator": 1
+      },
+      "waiting_micro_usd": {
+        "numerator": 0,
+        "denominator": 1
+      },
+      "price_difference_micro_usd": 0,
+      "failures": []
+    },
+    {
+      "id": "high-fee-02",
+      "split": "holdout",
+      "method": "A",
+      "owner": "b",
+      "recurring_micro_usd": {
+        "numerator": 64215,
+        "denominator": 2
+      },
+      "objective_micro_usd": {
+        "numerator": 74215,
+        "denominator": 2
+      },
+      "after_error_micro_usd": 10000000,
+      "turnover_micro_usd": 10000000,
+      "venue_cost_micro_usd": 16200,
+      "network_micro_usd": {
+        "numerator": 15750,
+        "denominator": 1
+      },
+      "waiting_micro_usd": {
+        "numerator": 0,
+        "denominator": 1
+      },
+      "price_difference_micro_usd": 0,
+      "failures": []
+    },
+    {
+      "id": "high-fee-02",
+      "split": "holdout",
+      "method": "B",
+      "owner": "a",
+      "recurring_micro_usd": {
+        "numerator": 490735,
+        "denominator": 12
+      },
+      "objective_micro_usd": {
+        "numerator": 550735,
+        "denominator": 12
+      },
+      "after_error_micro_usd": 10000000,
+      "turnover_micro_usd": 20000000,
+      "venue_cost_micro_usd": 16200,
+      "network_micro_usd": {
+        "numerator": 23625,
+        "denominator": 1
+      },
+      "waiting_micro_usd": {
+        "numerator": 2500,
+        "denominator": 3
+      },
+      "price_difference_micro_usd": 0,
+      "failures": []
+    },
+    {
+      "id": "high-fee-02",
+      "split": "holdout",
+      "method": "B",
+      "owner": "b",
+      "recurring_micro_usd": {
+        "numerator": 296935,
+        "denominator": 12
+      },
+      "objective_micro_usd": {
+        "numerator": 356935,
+        "denominator": 12
+      },
+      "after_error_micro_usd": 10000000,
+      "turnover_micro_usd": 10000000,
+      "venue_cost_micro_usd": 0,
+      "network_micro_usd": {
+        "numerator": 23625,
+        "denominator": 1
+      },
+      "waiting_micro_usd": {
+        "numerator": 2650,
+        "denominator": 3
+      },
+      "price_difference_micro_usd": 0,
+      "failures": []
+    },
+    {
+      "id": "high-fee-02",
+      "split": "holdout",
+      "method": "C",
+      "owner": "a",
+      "recurring_micro_usd": {
+        "numerator": 296335,
+        "denominator": 12
+      },
+      "objective_micro_usd": {
+        "numerator": 356335,
+        "denominator": 12
+      },
+      "after_error_micro_usd": 10000000,
+      "turnover_micro_usd": 20000000,
+      "venue_cost_micro_usd": 0,
+      "network_micro_usd": {
+        "numerator": 23625,
+        "denominator": 1
+      },
+      "waiting_micro_usd": {
+        "numerator": 2500,
+        "denominator": 3
+      },
+      "price_difference_micro_usd": 0,
+      "failures": []
+    },
+    {
+      "id": "high-fee-02",
+      "split": "holdout",
+      "method": "C",
+      "owner": "b",
+      "recurring_micro_usd": {
+        "numerator": 296935,
+        "denominator": 12
+      },
+      "objective_micro_usd": {
+        "numerator": 296935,
+        "denominator": 12
+      },
+      "after_error_micro_usd": 0,
+      "turnover_micro_usd": 20000000,
+      "venue_cost_micro_usd": 0,
+      "network_micro_usd": {
+        "numerator": 23625,
+        "denominator": 1
+      },
+      "waiting_micro_usd": {
+        "numerator": 2650,
+        "denominator": 3
+      },
+      "price_difference_micro_usd": 0,
+      "failures": []
+    },
+    {
+      "id": "slow-02",
+      "split": "holdout",
+      "method": "A",
+      "owner": "a",
+      "recurring_micro_usd": {
+        "numerator": 65280,
+        "denominator": 1
+      },
+      "objective_micro_usd": {
+        "numerator": 70280,
+        "denominator": 1
+      },
+      "after_error_micro_usd": 10000000,
+      "turnover_micro_usd": 40000000,
+      "venue_cost_micro_usd": 64200,
+      "network_micro_usd": {
+        "numerator": 900,
+        "denominator": 1
+      },
+      "waiting_micro_usd": {
+        "numerator": 0,
+        "denominator": 1
+      },
+      "price_difference_micro_usd": 0,
+      "failures": []
+    },
+    {
+      "id": "slow-02",
+      "split": "holdout",
+      "method": "A",
+      "owner": "b",
+      "recurring_micro_usd": {
+        "numerator": 48880,
+        "denominator": 1
+      },
+      "objective_micro_usd": {
+        "numerator": 53880,
+        "denominator": 1
+      },
+      "after_error_micro_usd": 10000000,
+      "turnover_micro_usd": 30000000,
+      "venue_cost_micro_usd": 47800,
+      "network_micro_usd": {
+        "numerator": 900,
+        "denominator": 1
+      },
+      "waiting_micro_usd": {
+        "numerator": 0,
+        "denominator": 1
+      },
+      "price_difference_micro_usd": 0,
+      "failures": []
+    },
+    {
+      "id": "slow-02",
+      "split": "holdout",
+      "method": "B",
+      "owner": "a",
+      "recurring_micro_usd": {
+        "numerator": 2517820,
+        "denominator": 1
+      },
+      "objective_micro_usd": {
+        "numerator": 2522820,
+        "denominator": 1
+      },
+      "after_error_micro_usd": 10000000,
+      "turnover_micro_usd": 40000000,
+      "venue_cost_micro_usd": 16200,
+      "network_micro_usd": {
+        "numerator": 1350,
+        "denominator": 1
+      },
+      "waiting_micro_usd": {
+        "numerator": 2500000,
+        "denominator": 1
+      },
+      "price_difference_micro_usd": 0,
+      "failures": []
+    },
+    {
+      "id": "slow-02",
+      "split": "holdout",
+      "method": "B",
+      "owner": "b",
+      "recurring_micro_usd": {
+        "numerator": 2751620,
+        "denominator": 1
+      },
+      "objective_micro_usd": {
+        "numerator": 2756620,
+        "denominator": 1
+      },
+      "after_error_micro_usd": 10000000,
+      "turnover_micro_usd": 30000000,
+      "venue_cost_micro_usd": 0,
+      "network_micro_usd": {
+        "numerator": 1350,
+        "denominator": 1
+      },
+      "waiting_micro_usd": {
+        "numerator": 2750000,
+        "denominator": 1
+      },
+      "price_difference_micro_usd": 0,
+      "failures": []
+    },
+    {
+      "id": "slow-02",
+      "split": "holdout",
+      "method": "C",
+      "owner": "a",
+      "recurring_micro_usd": {
+        "numerator": 2501620,
+        "denominator": 1
+      },
+      "objective_micro_usd": {
+        "numerator": 2506620,
+        "denominator": 1
+      },
+      "after_error_micro_usd": 10000000,
+      "turnover_micro_usd": 40000000,
+      "venue_cost_micro_usd": 0,
+      "network_micro_usd": {
+        "numerator": 1350,
+        "denominator": 1
+      },
+      "waiting_micro_usd": {
+        "numerator": 2500000,
+        "denominator": 1
+      },
+      "price_difference_micro_usd": 0,
+      "failures": []
+    },
+    {
+      "id": "slow-02",
+      "split": "holdout",
+      "method": "C",
+      "owner": "b",
+      "recurring_micro_usd": {
+        "numerator": 2751620,
+        "denominator": 1
+      },
+      "objective_micro_usd": {
+        "numerator": 2751620,
+        "denominator": 1
+      },
+      "after_error_micro_usd": 0,
+      "turnover_micro_usd": 40000000,
+      "venue_cost_micro_usd": 0,
+      "network_micro_usd": {
+        "numerator": 1350,
+        "denominator": 1
+      },
+      "waiting_micro_usd": {
+        "numerator": 2750000,
+        "denominator": 1
+      },
+      "price_difference_micro_usd": 0,
+      "failures": []
+    }
+  ],
+  "sensitivity": [
+    {
+      "scenario": "opposite-02",
+      "parameter": "external_fee_multiplier_bps",
+      "value": 5000,
+      "input_sha256": "8f2c9e14368f142bd11707c8b07c05c2086b23c8ebd442eda35d932daabbb451",
+      "valid_baselines": true,
+      "netting_gain_micro_usd": {
+        "numerator": 472151,
+        "denominator": 6
+      },
+      "cooperative_gain_micro_usd": {
+        "numerator": 8200,
+        "denominator": 1
+      },
+      "cooperative_trading_benefit_eligible": true
+    },
+    {
+      "scenario": "opposite-02",
+      "parameter": "external_fee_multiplier_bps",
+      "value": 10000,
+      "input_sha256": "df8f71aa33c4bde96f40c12fb0e882ff9fdb1047ea474f33fb914a69745dcd1c",
+      "valid_baselines": true,
+      "netting_gain_micro_usd": {
+        "numerator": 475621,
+        "denominator": 3
+      },
+      "cooperative_gain_micro_usd": {
+        "numerator": 16200,
+        "denominator": 1
+      },
+      "cooperative_trading_benefit_eligible": true
+    },
+    {
+      "scenario": "opposite-02",
+      "parameter": "external_fee_multiplier_bps",
+      "value": 20000,
+      "input_sha256": "c94e4db58a7a44a8fd2283578da93bce991e3bc83bb57d1ee18da0fc3e87f03e",
+      "valid_baselines": true,
+      "netting_gain_micro_usd": {
+        "numerator": 924712,
+        "denominator": 3
+      },
+      "cooperative_gain_micro_usd": {
+        "numerator": 31200,
+        "denominator": 1
+      },
+      "cooperative_trading_benefit_eligible": true
+    },
+    {
+      "scenario": "opposite-02",
+      "parameter": "batch_wait_seconds",
+      "value": 0,
+      "input_sha256": "c4a1f1cf0e878a6489962f1ec01eeaf43c08a72b374005e27ab514b5e634227b",
+      "valid_baselines": true,
+      "netting_gain_micro_usd": {
+        "numerator": 161182,
+        "denominator": 1
+      },
+      "cooperative_gain_micro_usd": {
+        "numerator": 16200,
+        "denominator": 1
+      },
+      "cooperative_trading_benefit_eligible": true
+    },
+    {
+      "scenario": "opposite-02",
+      "parameter": "batch_wait_seconds",
+      "value": 300,
+      "input_sha256": "dc732c842e8fd2abe0de842bc7e6d853ec247c6354ef988370063f3e3b080b49",
+      "valid_baselines": true,
+      "netting_gain_micro_usd": {
+        "numerator": 458296,
+        "denominator": 3
+      },
+      "cooperative_gain_micro_usd": {
+        "numerator": 16200,
+        "denominator": 1
+      },
+      "cooperative_trading_benefit_eligible": true
+    },
+    {
+      "scenario": "opposite-02",
+      "parameter": "batch_wait_seconds",
+      "value": 3600,
+      "input_sha256": "dc804fa6cdd604870968128a8def2444f8e1870bacd2ea17a8ffaad0585cb54c",
+      "valid_baselines": true,
+      "netting_gain_micro_usd": {
+        "numerator": 60182,
+        "denominator": 1
+      },
+      "cooperative_gain_micro_usd": {
+        "numerator": 16200,
+        "denominator": 1
+      },
+      "cooperative_trading_benefit_eligible": true
+    },
+    {
+      "scenario": "opposite-02",
+      "parameter": "liquidity_depth_multiplier_bps",
+      "value": 2500,
+      "input_sha256": "205ccc54f43d0a60e1535cd05d71b5661c05393f42133f12c98e89b98685a90f",
+      "valid_baselines": true,
+      "netting_gain_micro_usd": {
+        "numerator": 583621,
+        "denominator": 3
+      },
+      "cooperative_gain_micro_usd": {
+        "numerator": 16800,
+        "denominator": 1
+      },
+      "cooperative_trading_benefit_eligible": true
+    },
+    {
+      "scenario": "opposite-02",
+      "parameter": "liquidity_depth_multiplier_bps",
+      "value": 10000,
+      "input_sha256": "df8f71aa33c4bde96f40c12fb0e882ff9fdb1047ea474f33fb914a69745dcd1c",
+      "valid_baselines": true,
+      "netting_gain_micro_usd": {
+        "numerator": 475621,
+        "denominator": 3
+      },
+      "cooperative_gain_micro_usd": {
+        "numerator": 16200,
+        "denominator": 1
+      },
+      "cooperative_trading_benefit_eligible": true
+    },
+    {
+      "scenario": "opposite-02",
+      "parameter": "liquidity_depth_multiplier_bps",
+      "value": 40000,
+      "input_sha256": "7871e63a4a233dadc54885a1e0ca8967cd42b0fe870c0cc99cf20bd069e5163a",
+      "valid_baselines": true,
+      "netting_gain_micro_usd": {
+        "numerator": 448621,
+        "denominator": 3
+      },
+      "cooperative_gain_micro_usd": {
+        "numerator": 16050,
+        "denominator": 1
+      },
+      "cooperative_trading_benefit_eligible": true
+    },
+    {
+      "scenario": "all-buy-02",
+      "parameter": "external_fee_multiplier_bps",
+      "value": 5000,
+      "input_sha256": "d517fe1e5ef89322d3414a8c32b69f63fd716e6436c3d82e1945250bfa681877",
+      "valid_baselines": true,
+      "netting_gain_micro_usd": {
+        "numerator": -64099,
+        "denominator": 12
+      },
+      "cooperative_gain_micro_usd": {
+        "numerator": 0,
+        "denominator": 1
+      },
+      "cooperative_trading_benefit_eligible": true
+    },
+    {
+      "scenario": "all-buy-02",
+      "parameter": "external_fee_multiplier_bps",
+      "value": 10000,
+      "input_sha256": "9f14b5af38008b81ac633d670e690ce86c579d621a0e25435770850081997f9b",
+      "valid_baselines": true,
+      "netting_gain_micro_usd": {
+        "numerator": -16252,
+        "denominator": 3
+      },
+      "cooperative_gain_micro_usd": {
+        "numerator": 0,
+        "denominator": 1
+      },
+      "cooperative_trading_benefit_eligible": true
+    },
+    {
+      "scenario": "all-buy-02",
+      "parameter": "external_fee_multiplier_bps",
+      "value": 20000,
+      "input_sha256": "5c5633e0709cb861eee64af04229abe0862d3796a351e6c654a68af647a13e80",
+      "valid_baselines": true,
+      "netting_gain_micro_usd": {
+        "numerator": -33413,
+        "denominator": 6
+      },
+      "cooperative_gain_micro_usd": {
+        "numerator": 0,
+        "denominator": 1
+      },
+      "cooperative_trading_benefit_eligible": true
+    },
+    {
+      "scenario": "all-buy-02",
+      "parameter": "batch_wait_seconds",
+      "value": 0,
+      "input_sha256": "d70d84a29cec36fa903290c2daa4573b9bfa5904738bfa62b3659372f64e77b8",
+      "valid_baselines": true,
+      "netting_gain_micro_usd": {
+        "numerator": -3709,
+        "denominator": 1
+      },
+      "cooperative_gain_micro_usd": {
+        "numerator": 0,
+        "denominator": 1
+      },
+      "cooperative_trading_benefit_eligible": true
+    },
+    {
+      "scenario": "all-buy-02",
+      "parameter": "batch_wait_seconds",
+      "value": 300,
+      "input_sha256": "3789e317c8f7bb7407d1e56ed5223dbec80aae275550d787924f125f365c9b5a",
+      "valid_baselines": true,
+      "netting_gain_micro_usd": {
+        "numerator": -3709,
+        "denominator": 1
+      },
+      "cooperative_gain_micro_usd": {
+        "numerator": 0,
+        "denominator": 1
+      },
+      "cooperative_trading_benefit_eligible": true
+    },
+    {
+      "scenario": "all-buy-02",
+      "parameter": "batch_wait_seconds",
+      "value": 3600,
+      "input_sha256": "8cb13bdba4e0a85b0fcf40809ecc4e5c7c5e262af0ca3509bb5820849673e82b",
+      "valid_baselines": true,
+      "netting_gain_micro_usd": {
+        "numerator": -3709,
+        "denominator": 1
+      },
+      "cooperative_gain_micro_usd": {
+        "numerator": 0,
+        "denominator": 1
+      },
+      "cooperative_trading_benefit_eligible": true
+    },
+    {
+      "scenario": "all-buy-02",
+      "parameter": "liquidity_depth_multiplier_bps",
+      "value": 2500,
+      "input_sha256": "bb4607c769036efa35ee902976623838f4f589cab906558541593ff64cf82efb",
+      "valid_baselines": true,
+      "netting_gain_micro_usd": {
+        "numerator": -59452,
+        "denominator": 3
+      },
+      "cooperative_gain_micro_usd": {
+        "numerator": 0,
+        "denominator": 1
+      },
+      "cooperative_trading_benefit_eligible": true
+    },
+    {
+      "scenario": "all-buy-02",
+      "parameter": "liquidity_depth_multiplier_bps",
+      "value": 10000,
+      "input_sha256": "9f14b5af38008b81ac633d670e690ce86c579d621a0e25435770850081997f9b",
+      "valid_baselines": true,
+      "netting_gain_micro_usd": {
+        "numerator": -16252,
+        "denominator": 3
+      },
+      "cooperative_gain_micro_usd": {
+        "numerator": 0,
+        "denominator": 1
+      },
+      "cooperative_trading_benefit_eligible": true
+    },
+    {
+      "scenario": "all-buy-02",
+      "parameter": "liquidity_depth_multiplier_bps",
+      "value": 40000,
+      "input_sha256": "a67de75fb71d96aa393797adbd78430e7bae495449bd41d61ff8168a738d33a2",
+      "valid_baselines": true,
+      "netting_gain_micro_usd": {
+        "numerator": -5452,
+        "denominator": 3
+      },
+      "cooperative_gain_micro_usd": {
+        "numerator": 0,
+        "denominator": 1
+      },
+      "cooperative_trading_benefit_eligible": true
+    },
+    {
+      "scenario": "asymmetric-02",
+      "parameter": "external_fee_multiplier_bps",
+      "value": 5000,
+      "input_sha256": "8d31cb00aeb1b43e138ed9ceef95c04a058361c2f41b6b22163be526b1a498c7",
+      "valid_baselines": true,
+      "netting_gain_micro_usd": {
+        "numerator": 551401,
+        "denominator": 12
+      },
+      "cooperative_gain_micro_usd": {
+        "numerator": 34800,
+        "denominator": 1
+      },
+      "cooperative_trading_benefit_eligible": true
+    },
+    {
+      "scenario": "asymmetric-02",
+      "parameter": "external_fee_multiplier_bps",
+      "value": 10000,
+      "input_sha256": "9c483eec564532cac414523856a20b3e464ef08b40c83dfe92e3cdf4ede6962b",
+      "valid_baselines": true,
+      "netting_gain_micro_usd": {
+        "numerator": 233623,
+        "denominator": 3
+      },
+      "cooperative_gain_micro_usd": {
+        "numerator": 50800,
+        "denominator": 1
+      },
+      "cooperative_trading_benefit_eligible": true
+    },
+    {
+      "scenario": "asymmetric-02",
+      "parameter": "external_fee_multiplier_bps",
+      "value": 20000,
+      "input_sha256": "b1bea61442c01edbc6bb86fc68d99b0c4d991345eb917929b3d016ab855f9682",
+      "valid_baselines": true,
+      "netting_gain_micro_usd": {
+        "numerator": 826337,
+        "denominator": 6
+      },
+      "cooperative_gain_micro_usd": {
+        "numerator": 80800,
+        "denominator": 1
+      },
+      "cooperative_trading_benefit_eligible": true
+    },
+    {
+      "scenario": "asymmetric-02",
+      "parameter": "batch_wait_seconds",
+      "value": 0,
+      "input_sha256": "d7c1559fd11e0e5f751dada2bcdf27b29b9f729255411a8386c36e41b28b3cd6",
+      "valid_baselines": true,
+      "netting_gain_micro_usd": {
+        "numerator": 83291,
+        "denominator": 1
+      },
+      "cooperative_gain_micro_usd": {
+        "numerator": 50800,
+        "denominator": 1
+      },
+      "cooperative_trading_benefit_eligible": true
+    },
+    {
+      "scenario": "asymmetric-02",
+      "parameter": "batch_wait_seconds",
+      "value": 300,
+      "input_sha256": "1d270f447780588d6c0a3f3d09309032052aea3bfcb4132a3a1ca6765c929a88",
+      "valid_baselines": true,
+      "netting_gain_micro_usd": {
+        "numerator": 83291,
+        "denominator": 1
+      },
+      "cooperative_gain_micro_usd": {
+        "numerator": 50800,
+        "denominator": 1
+      },
+      "cooperative_trading_benefit_eligible": true
+    },
+    {
+      "scenario": "asymmetric-02",
+      "parameter": "batch_wait_seconds",
+      "value": 3600,
+      "input_sha256": "7c0767077233511c94a4689440669162c8f5e00e18ecce78ebda751dc7ed6b04",
+      "valid_baselines": true,
+      "netting_gain_micro_usd": {
+        "numerator": 83291,
+        "denominator": 1
+      },
+      "cooperative_gain_micro_usd": {
+        "numerator": 50800,
+        "denominator": 1
+      },
+      "cooperative_trading_benefit_eligible": true
+    },
+    {
+      "scenario": "asymmetric-02",
+      "parameter": "liquidity_depth_multiplier_bps",
+      "value": 2500,
+      "input_sha256": "dfb10e8bb994414366cda01715a506ebaf39c5eb6f7b8ce9fa7f860ffb67b544",
+      "valid_baselines": true,
+      "netting_gain_micro_usd": {
+        "numerator": 442423,
+        "denominator": 3
+      },
+      "cooperative_gain_micro_usd": {
+        "numerator": 113200,
+        "denominator": 1
+      },
+      "cooperative_trading_benefit_eligible": true
+    },
+    {
+      "scenario": "asymmetric-02",
+      "parameter": "liquidity_depth_multiplier_bps",
+      "value": 10000,
+      "input_sha256": "9c483eec564532cac414523856a20b3e464ef08b40c83dfe92e3cdf4ede6962b",
+      "valid_baselines": true,
+      "netting_gain_micro_usd": {
+        "numerator": 233623,
+        "denominator": 3
+      },
+      "cooperative_gain_micro_usd": {
+        "numerator": 50800,
+        "denominator": 1
+      },
+      "cooperative_trading_benefit_eligible": true
+    },
+    {
+      "scenario": "asymmetric-02",
+      "parameter": "liquidity_depth_multiplier_bps",
+      "value": 40000,
+      "input_sha256": "cb0fd9e711c48f0ac3d87fa9eea98ef91ceaca0f679ede4f4d65b8f7514e586a",
+      "valid_baselines": true,
+      "netting_gain_micro_usd": {
+        "numerator": 181423,
+        "denominator": 3
+      },
+      "cooperative_gain_micro_usd": {
+        "numerator": 35200,
+        "denominator": 1
+      },
+      "cooperative_trading_benefit_eligible": true
+    },
+    {
+      "scenario": "tight-02",
+      "parameter": "external_fee_multiplier_bps",
+      "value": 5000,
+      "input_sha256": "570cbe0de690edfde6698364fca001e076889f4220b87f00940d8469da78867f",
+      "valid_baselines": true,
+      "netting_gain_micro_usd": {
+        "numerator": 1514401,
+        "denominator": 12
+      },
+      "cooperative_gain_micro_usd": {
+        "numerator": 0,
+        "denominator": 1
+      },
+      "cooperative_trading_benefit_eligible": true
+    },
+    {
+      "scenario": "tight-02",
+      "parameter": "external_fee_multiplier_bps",
+      "value": 10000,
+      "input_sha256": "95772dd16f029fc4a217babb3d0b98eb651baa58e869fd389b2c414bced950f0",
+      "valid_baselines": true,
+      "netting_gain_micro_usd": {
+        "numerator": 762373,
+        "denominator": 3
+      },
+      "cooperative_gain_micro_usd": {
+        "numerator": 0,
+        "denominator": 1
+      },
+      "cooperative_trading_benefit_eligible": true
+    },
+    {
+      "scenario": "tight-02",
+      "parameter": "external_fee_multiplier_bps",
+      "value": 20000,
+      "input_sha256": "a390e3b035c529791ce598f152be4b9053243c5d414635b3563053700b09a88e",
+      "valid_baselines": true,
+      "netting_gain_micro_usd": {
+        "numerator": 2963837,
+        "denominator": 6
+      },
+      "cooperative_gain_micro_usd": {
+        "numerator": 0,
+        "denominator": 1
+      },
+      "cooperative_trading_benefit_eligible": true
+    },
+    {
+      "scenario": "tight-02",
+      "parameter": "batch_wait_seconds",
+      "value": 0,
+      "input_sha256": "2f8d88a15557243a482365adba53385325e21a3472719e5956e996700e59bb4d",
+      "valid_baselines": true,
+      "netting_gain_micro_usd": {
+        "numerator": 255891,
+        "denominator": 1
+      },
+      "cooperative_gain_micro_usd": {
+        "numerator": 0,
+        "denominator": 1
+      },
+      "cooperative_trading_benefit_eligible": true
+    },
+    {
+      "scenario": "tight-02",
+      "parameter": "batch_wait_seconds",
+      "value": 300,
+      "input_sha256": "df1a307701c73652cb1ec3f46db60d48e329992e677de374a4f60cf254e95f29",
+      "valid_baselines": true,
+      "netting_gain_micro_usd": {
+        "numerator": 255891,
+        "denominator": 1
+      },
+      "cooperative_gain_micro_usd": {
+        "numerator": 0,
+        "denominator": 1
+      },
+      "cooperative_trading_benefit_eligible": true
+    },
+    {
+      "scenario": "tight-02",
+      "parameter": "batch_wait_seconds",
+      "value": 3600,
+      "input_sha256": "23956132168719f8075887a42f715d14bc0284f347803199a9716d1d1f1e3733",
+      "valid_baselines": true,
+      "netting_gain_micro_usd": {
+        "numerator": 255891,
+        "denominator": 1
+      },
+      "cooperative_gain_micro_usd": {
+        "numerator": 0,
+        "denominator": 1
+      },
+      "cooperative_trading_benefit_eligible": true
+    },
+    {
+      "scenario": "tight-02",
+      "parameter": "liquidity_depth_multiplier_bps",
+      "value": 2500,
+      "input_sha256": "f823b5f57b057ba844c3a3e8a6e7bbea10650bbe49875cbc650aa8881125190d",
+      "valid_baselines": true,
+      "netting_gain_micro_usd": {
+        "numerator": 877573,
+        "denominator": 3
+      },
+      "cooperative_gain_micro_usd": {
+        "numerator": 0,
+        "denominator": 1
+      },
+      "cooperative_trading_benefit_eligible": true
+    },
+    {
+      "scenario": "tight-02",
+      "parameter": "liquidity_depth_multiplier_bps",
+      "value": 10000,
+      "input_sha256": "95772dd16f029fc4a217babb3d0b98eb651baa58e869fd389b2c414bced950f0",
+      "valid_baselines": true,
+      "netting_gain_micro_usd": {
+        "numerator": 762373,
+        "denominator": 3
+      },
+      "cooperative_gain_micro_usd": {
+        "numerator": 0,
+        "denominator": 1
+      },
+      "cooperative_trading_benefit_eligible": true
+    },
+    {
+      "scenario": "tight-02",
+      "parameter": "liquidity_depth_multiplier_bps",
+      "value": 40000,
+      "input_sha256": "a234517e0953ef8e83ca102ea5872edd83330dd6e3b42a6e98ea642dc11d55a9",
+      "valid_baselines": true,
+      "netting_gain_micro_usd": {
+        "numerator": 733573,
+        "denominator": 3
+      },
+      "cooperative_gain_micro_usd": {
+        "numerator": 0,
+        "denominator": 1
+      },
+      "cooperative_trading_benefit_eligible": true
+    },
+    {
+      "scenario": "high-fee-02",
+      "parameter": "external_fee_multiplier_bps",
+      "value": 5000,
+      "input_sha256": "1f8a3cfa1984f1543358c5b4c657bb4e7430425ab61b09b4d93737ad07a94a21",
+      "valid_baselines": true,
+      "netting_gain_micro_usd": {
+        "numerator": 34505,
+        "denominator": 6
+      },
+      "cooperative_gain_micro_usd": {
+        "numerator": 8200,
+        "denominator": 1
+      },
+      "cooperative_trading_benefit_eligible": true
+    },
+    {
+      "scenario": "high-fee-02",
+      "parameter": "external_fee_multiplier_bps",
+      "value": 10000,
+      "input_sha256": "57806194fc128028f1454965a7c6b8928037458bb233bf22f9a82c799918e155",
+      "valid_baselines": true,
+      "netting_gain_micro_usd": {
+        "numerator": 85055,
+        "denominator": 6
+      },
+      "cooperative_gain_micro_usd": {
+        "numerator": 16200,
+        "denominator": 1
+      },
+      "cooperative_trading_benefit_eligible": true
+    },
+    {
+      "scenario": "high-fee-02",
+      "parameter": "external_fee_multiplier_bps",
+      "value": 20000,
+      "input_sha256": "d218c7496a0dfc6ec3211e9c82db47dca06b42afa3ad3730ea240f61850de421",
+      "valid_baselines": true,
+      "netting_gain_micro_usd": {
+        "numerator": 174155,
+        "denominator": 6
+      },
+      "cooperative_gain_micro_usd": {
+        "numerator": 31200,
+        "denominator": 1
+      },
+      "cooperative_trading_benefit_eligible": true
+    },
+    {
+      "scenario": "high-fee-02",
+      "parameter": "batch_wait_seconds",
+      "value": 0,
+      "input_sha256": "02d68a22d10a6280a99495a78d89d51010265ea79505bd4efe125e5b5d5f3fad",
+      "valid_baselines": true,
+      "netting_gain_micro_usd": {
+        "numerator": 31785,
+        "denominator": 2
+      },
+      "cooperative_gain_micro_usd": {
+        "numerator": 16200,
+        "denominator": 1
+      },
+      "cooperative_trading_benefit_eligible": true
+    },
+    {
+      "scenario": "high-fee-02",
+      "parameter": "batch_wait_seconds",
+      "value": 300,
+      "input_sha256": "d7256011d0963be7db946fbc1f977e4b8562fc46d38cf6dfccf061683795a388",
+      "valid_baselines": true,
+      "netting_gain_micro_usd": {
+        "numerator": 31785,
+        "denominator": 2
+      },
+      "cooperative_gain_micro_usd": {
+        "numerator": 16200,
+        "denominator": 1
+      },
+      "cooperative_trading_benefit_eligible": true
+    },
+    {
+      "scenario": "high-fee-02",
+      "parameter": "batch_wait_seconds",
+      "value": 3600,
+      "input_sha256": "e29e2f56318c805ecd49bdf32b2cd130531da8380c45217752c0df760fcd8fc4",
+      "valid_baselines": true,
+      "netting_gain_micro_usd": {
+        "numerator": 31785,
+        "denominator": 2
+      },
+      "cooperative_gain_micro_usd": {
+        "numerator": 16200,
+        "denominator": 1
+      },
+      "cooperative_trading_benefit_eligible": true
+    },
+    {
+      "scenario": "high-fee-02",
+      "parameter": "liquidity_depth_multiplier_bps",
+      "value": 2500,
+      "input_sha256": "8b29413e89f69ef76738db0db5e54518c735cbe9887f1c676461fc0a90b9aadd",
+      "valid_baselines": true,
+      "netting_gain_micro_usd": {
+        "numerator": 99455,
+        "denominator": 6
+      },
+      "cooperative_gain_micro_usd": {
+        "numerator": 16800,
+        "denominator": 1
+      },
+      "cooperative_trading_benefit_eligible": true
+    },
+    {
+      "scenario": "high-fee-02",
+      "parameter": "liquidity_depth_multiplier_bps",
+      "value": 10000,
+      "input_sha256": "57806194fc128028f1454965a7c6b8928037458bb233bf22f9a82c799918e155",
+      "valid_baselines": true,
+      "netting_gain_micro_usd": {
+        "numerator": 85055,
+        "denominator": 6
+      },
+      "cooperative_gain_micro_usd": {
+        "numerator": 16200,
+        "denominator": 1
+      },
+      "cooperative_trading_benefit_eligible": true
+    },
+    {
+      "scenario": "high-fee-02",
+      "parameter": "liquidity_depth_multiplier_bps",
+      "value": 40000,
+      "input_sha256": "704be15b57aa536491cebd71e5bdb0745e36bf1988cad9a26712b64bc7a9abb0",
+      "valid_baselines": true,
+      "netting_gain_micro_usd": {
+        "numerator": 81455,
+        "denominator": 6
+      },
+      "cooperative_gain_micro_usd": {
+        "numerator": 16050,
+        "denominator": 1
+      },
+      "cooperative_trading_benefit_eligible": true
+    },
+    {
+      "scenario": "noise-02",
+      "parameter": "external_fee_multiplier_bps",
+      "value": 5000,
+      "input_sha256": "4a0e3df811fa2882a152f860e71416d57f2e0b8849acc2d9c584568dd463a942",
+      "valid_baselines": false,
+      "netting_gain_micro_usd": null,
+      "cooperative_gain_micro_usd": null,
+      "cooperative_trading_benefit_eligible": false
+    },
+    {
+      "scenario": "noise-02",
+      "parameter": "external_fee_multiplier_bps",
+      "value": 10000,
+      "input_sha256": "7d85784193ed13666782aa7159d0ff16edd529aca191a7aec8c5ece98deffd91",
+      "valid_baselines": false,
+      "netting_gain_micro_usd": null,
+      "cooperative_gain_micro_usd": null,
+      "cooperative_trading_benefit_eligible": false
+    },
+    {
+      "scenario": "noise-02",
+      "parameter": "external_fee_multiplier_bps",
+      "value": 20000,
+      "input_sha256": "aa72a31115ecd0943028ebf1c3ebca51c6bb260ea45e8a507eb8d01080157057",
+      "valid_baselines": false,
+      "netting_gain_micro_usd": null,
+      "cooperative_gain_micro_usd": null,
+      "cooperative_trading_benefit_eligible": false
+    },
+    {
+      "scenario": "noise-02",
+      "parameter": "batch_wait_seconds",
+      "value": 0,
+      "input_sha256": "e33d2b4321d04b51a5e1a237d49892612f9d16ae221dec3c3e9c877dfba8ff61",
+      "valid_baselines": false,
+      "netting_gain_micro_usd": null,
+      "cooperative_gain_micro_usd": null,
+      "cooperative_trading_benefit_eligible": false
+    },
+    {
+      "scenario": "noise-02",
+      "parameter": "batch_wait_seconds",
+      "value": 300,
+      "input_sha256": "b3ac9a6c1a3c80c43f08d014f69542590182e77ab98e8ad8da908cc67958cb3d",
+      "valid_baselines": false,
+      "netting_gain_micro_usd": null,
+      "cooperative_gain_micro_usd": null,
+      "cooperative_trading_benefit_eligible": false
+    },
+    {
+      "scenario": "noise-02",
+      "parameter": "batch_wait_seconds",
+      "value": 3600,
+      "input_sha256": "d8799b6b4be8ef8f4c560d0927cf468c264ff5d30b66e30d50429fba6e7d6104",
+      "valid_baselines": false,
+      "netting_gain_micro_usd": null,
+      "cooperative_gain_micro_usd": null,
+      "cooperative_trading_benefit_eligible": false
+    },
+    {
+      "scenario": "noise-02",
+      "parameter": "liquidity_depth_multiplier_bps",
+      "value": 2500,
+      "input_sha256": "fcadf64b39828f90613d995a009583f5854ce9bb726326bed75d277ca1dc4c02",
+      "valid_baselines": false,
+      "netting_gain_micro_usd": null,
+      "cooperative_gain_micro_usd": null,
+      "cooperative_trading_benefit_eligible": false
+    },
+    {
+      "scenario": "noise-02",
+      "parameter": "liquidity_depth_multiplier_bps",
+      "value": 10000,
+      "input_sha256": "7d85784193ed13666782aa7159d0ff16edd529aca191a7aec8c5ece98deffd91",
+      "valid_baselines": false,
+      "netting_gain_micro_usd": null,
+      "cooperative_gain_micro_usd": null,
+      "cooperative_trading_benefit_eligible": false
+    },
+    {
+      "scenario": "noise-02",
+      "parameter": "liquidity_depth_multiplier_bps",
+      "value": 40000,
+      "input_sha256": "a0472fbdbc0cdf6800028c3773c190db51a99517986f5bb00dfb90c2a8299204",
+      "valid_baselines": false,
+      "netting_gain_micro_usd": null,
+      "cooperative_gain_micro_usd": null,
+      "cooperative_trading_benefit_eligible": false
+    },
+    {
+      "scenario": "confidence-02",
+      "parameter": "external_fee_multiplier_bps",
+      "value": 5000,
+      "input_sha256": "f279224bed07e91c4b50c2cd1fee9efc7273be8824a8eb2160471b4e9b629b4d",
+      "valid_baselines": false,
+      "netting_gain_micro_usd": null,
+      "cooperative_gain_micro_usd": null,
+      "cooperative_trading_benefit_eligible": false
+    },
+    {
+      "scenario": "confidence-02",
+      "parameter": "external_fee_multiplier_bps",
+      "value": 10000,
+      "input_sha256": "653767a5b154550946e5f2eb9ebcf13a66cde334502e1cddb954534e8d2a968e",
+      "valid_baselines": false,
+      "netting_gain_micro_usd": null,
+      "cooperative_gain_micro_usd": null,
+      "cooperative_trading_benefit_eligible": false
+    },
+    {
+      "scenario": "confidence-02",
+      "parameter": "external_fee_multiplier_bps",
+      "value": 20000,
+      "input_sha256": "448aac7d407878a87ed07576e6b85c052495c946ac944596ece4a05778170cf7",
+      "valid_baselines": false,
+      "netting_gain_micro_usd": null,
+      "cooperative_gain_micro_usd": null,
+      "cooperative_trading_benefit_eligible": false
+    },
+    {
+      "scenario": "confidence-02",
+      "parameter": "batch_wait_seconds",
+      "value": 0,
+      "input_sha256": "d7f1e3a3d1b739f708fcde01834c9d2392f11ff73004c9e17d2d7f67f2a72c75",
+      "valid_baselines": false,
+      "netting_gain_micro_usd": null,
+      "cooperative_gain_micro_usd": null,
+      "cooperative_trading_benefit_eligible": false
+    },
+    {
+      "scenario": "confidence-02",
+      "parameter": "batch_wait_seconds",
+      "value": 300,
+      "input_sha256": "7b01626ca69a07964ab2b218a885ff4eead3686d798586a20d74c6a45b01958f",
+      "valid_baselines": false,
+      "netting_gain_micro_usd": null,
+      "cooperative_gain_micro_usd": null,
+      "cooperative_trading_benefit_eligible": false
+    },
+    {
+      "scenario": "confidence-02",
+      "parameter": "batch_wait_seconds",
+      "value": 3600,
+      "input_sha256": "a8ed5c3f11b9169eb3d2eb62c49f4c7eebdcddea65edb736cdb6e735d7643176",
+      "valid_baselines": false,
+      "netting_gain_micro_usd": null,
+      "cooperative_gain_micro_usd": null,
+      "cooperative_trading_benefit_eligible": false
+    },
+    {
+      "scenario": "confidence-02",
+      "parameter": "liquidity_depth_multiplier_bps",
+      "value": 2500,
+      "input_sha256": "ceda34c0eedb2522be53b7b20ebdcf96e5476254e2e7024e7ac2d98615f51fca",
+      "valid_baselines": false,
+      "netting_gain_micro_usd": null,
+      "cooperative_gain_micro_usd": null,
+      "cooperative_trading_benefit_eligible": false
+    },
+    {
+      "scenario": "confidence-02",
+      "parameter": "liquidity_depth_multiplier_bps",
+      "value": 10000,
+      "input_sha256": "653767a5b154550946e5f2eb9ebcf13a66cde334502e1cddb954534e8d2a968e",
+      "valid_baselines": false,
+      "netting_gain_micro_usd": null,
+      "cooperative_gain_micro_usd": null,
+      "cooperative_trading_benefit_eligible": false
+    },
+    {
+      "scenario": "confidence-02",
+      "parameter": "liquidity_depth_multiplier_bps",
+      "value": 40000,
+      "input_sha256": "b2e015399bdb308d0ee9b12e2e913d2b3ac5eccb5ad2a9c38d254b292df82d3b",
+      "valid_baselines": false,
+      "netting_gain_micro_usd": null,
+      "cooperative_gain_micro_usd": null,
+      "cooperative_trading_benefit_eligible": false
+    },
+    {
+      "scenario": "slow-02",
+      "parameter": "external_fee_multiplier_bps",
+      "value": 5000,
+      "input_sha256": "7b7dfa518b33c0b672283a5f6b48b3fa6a3e01dc6df86774c5a0270f17ae3a7c",
+      "valid_baselines": true,
+      "netting_gain_micro_usd": {
+        "numerator": -5203190,
+        "denominator": 1
+      },
+      "cooperative_gain_micro_usd": {
+        "numerator": 8200,
+        "denominator": 1
+      },
+      "cooperative_trading_benefit_eligible": true
+    },
+    {
+      "scenario": "slow-02",
+      "parameter": "external_fee_multiplier_bps",
+      "value": 10000,
+      "input_sha256": "4e18c9337aa48f114e63b0bf695b279ae1df4db13e8d1c538fe45001c48ae445",
+      "valid_baselines": true,
+      "netting_gain_micro_usd": {
+        "numerator": -5155280,
+        "denominator": 1
+      },
+      "cooperative_gain_micro_usd": {
+        "numerator": 16200,
+        "denominator": 1
+      },
+      "cooperative_trading_benefit_eligible": true
+    },
+    {
+      "scenario": "slow-02",
+      "parameter": "external_fee_multiplier_bps",
+      "value": 20000,
+      "input_sha256": "9d5e468a31f667f04c84723ff9bbe56d44c28622ebf204ad8595f5076c99c83b",
+      "valid_baselines": true,
+      "netting_gain_micro_usd": {
+        "numerator": -5065460,
+        "denominator": 1
+      },
+      "cooperative_gain_micro_usd": {
+        "numerator": 31200,
+        "denominator": 1
+      },
+      "cooperative_trading_benefit_eligible": true
+    },
+    {
+      "scenario": "slow-02",
+      "parameter": "batch_wait_seconds",
+      "value": 0,
+      "input_sha256": "746dabab31085c242b79858a6df2fa309d03c02d8efa42d1f2755c0d940e7e26",
+      "valid_baselines": true,
+      "netting_gain_micro_usd": {
+        "numerator": 94720,
+        "denominator": 1
+      },
+      "cooperative_gain_micro_usd": {
+        "numerator": 16200,
+        "denominator": 1
+      },
+      "cooperative_trading_benefit_eligible": true
+    },
+    {
+      "scenario": "slow-02",
+      "parameter": "batch_wait_seconds",
+      "value": 300,
+      "input_sha256": "127fa22c0c71d5e0fcf512f4f8f1516b2f77c49b2bb27cba5fa3ee488acb03c4",
+      "valid_baselines": true,
+      "netting_gain_micro_usd": {
+        "numerator": 94720,
+        "denominator": 1
+      },
+      "cooperative_gain_micro_usd": {
+        "numerator": 16200,
+        "denominator": 1
+      },
+      "cooperative_trading_benefit_eligible": true
+    },
+    {
+      "scenario": "slow-02",
+      "parameter": "batch_wait_seconds",
+      "value": 3600,
+      "input_sha256": "b4363a8815ee5340b01ea3ee1c224607009e2efd2c68624dda6ff1c21e2e66a5",
+      "valid_baselines": true,
+      "netting_gain_micro_usd": {
+        "numerator": 94720,
+        "denominator": 1
+      },
+      "cooperative_gain_micro_usd": {
+        "numerator": 16200,
+        "denominator": 1
+      },
+      "cooperative_trading_benefit_eligible": true
+    },
+    {
+      "scenario": "slow-02",
+      "parameter": "liquidity_depth_multiplier_bps",
+      "value": 2500,
+      "input_sha256": "b061538d0818f042391c9108855e663295ce2184c449243aca58499fe23cb2f0",
+      "valid_baselines": true,
+      "netting_gain_micro_usd": {
+        "numerator": -5140880,
+        "denominator": 1
+      },
+      "cooperative_gain_micro_usd": {
+        "numerator": 16800,
+        "denominator": 1
+      },
+      "cooperative_trading_benefit_eligible": true
+    },
+    {
+      "scenario": "slow-02",
+      "parameter": "liquidity_depth_multiplier_bps",
+      "value": 10000,
+      "input_sha256": "4e18c9337aa48f114e63b0bf695b279ae1df4db13e8d1c538fe45001c48ae445",
+      "valid_baselines": true,
+      "netting_gain_micro_usd": {
+        "numerator": -5155280,
+        "denominator": 1
+      },
+      "cooperative_gain_micro_usd": {
+        "numerator": 16200,
+        "denominator": 1
+      },
+      "cooperative_trading_benefit_eligible": true
+    },
+    {
+      "scenario": "slow-02",
+      "parameter": "liquidity_depth_multiplier_bps",
+      "value": 40000,
+      "input_sha256": "d8b2f518e1c8a1a8367413bfe5240f066a1a552c457cf08744099ba5097b7314",
+      "valid_baselines": true,
+      "netting_gain_micro_usd": {
+        "numerator": -5158880,
+        "denominator": 1
+      },
+      "cooperative_gain_micro_usd": {
+        "numerator": 16050,
+        "denominator": 1
+      },
+      "cooperative_trading_benefit_eligible": true
+    }
+  ],
+  "summary": {
+    "scenarios_evaluated": 8,
+    "scenarios_with_three_feasible_methods": 6,
+    "scenarios_rejected_before_search": 2,
+    "cooperative_trading_benefit_eligible_scenarios": 6,
+    "netting_gain_micro_usd": {
+      "median": 46025,
+      "min": {
+        "numerator": -5155280,
+        "denominator": 1
+      },
+      "max": {
+        "numerator": 762373,
+        "denominator": 3
+      },
+      "positive_scenarios": 4,
+      "negative_scenarios": 2
+    },
+    "cooperative_gain_micro_usd": {
+      "median": 16200,
+      "min": {
+        "numerator": 0,
+        "denominator": 1
+      },
+      "max": {
+        "numerator": 50800,
+        "denominator": 1
+      },
+      "positive_scenarios": 4,
+      "negative_scenarios": 0
+    },
+    "sensitivity_runs": 72,
+    "sensitivity_cooperative_gain_positive": 36,
+    "sensitivity_cooperative_gain_negative_or_zero": 18,
+    "holds_under_sensitivity": false
+  }
+}

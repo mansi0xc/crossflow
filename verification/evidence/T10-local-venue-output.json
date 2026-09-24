@@ -1,0 +1,96 @@
+{
+  "status": "PASS",
+  "task": "T10",
+  "cluster": "localnet",
+  "genesis": "2kXVjWg73KKsAdfjvshoTPc78gXHuxZtoQBzxHSio1S6",
+  "program_id": "Bq1FxNWHnmnZgJRi6fsRKrvLTbBf6uDTXjaawzdnkw1Q",
+  "pool": "8Zc3yFETMij2kzUCsBiBfzZeWsBdRMsqWRNQHnXC5WXj",
+  "fee_bps": 30,
+  "label": "CONTROLLED SYNTHETIC VENUE; seeded with test tokens only; not an AMM or a real market",
+  "mints": [
+    "CVDbeu5H3TiPX9ADJbsAKUKrFxuZzPPU8xiyiyo2eXUU",
+    "GF6sqjRJFtyiDtvNnYL8A9CE6kuJZc9Z75EE45SkTY2d",
+    "GvZTrpNqS73Yn47nxEGgcKbHixT7ytJ2AkPZNyignWeW"
+  ],
+  "vaults": [
+    "9P3QecsiXZa2WgKsE9WB3GCjXtevoViCKmVuTVpvH1CK",
+    "884qyDMv3Ykq69h98xvSgEu6yXXTuVbxyudaayRgUd7X",
+    "6NkGwNiX2q7Mdq6jpyUBQfMRsG11wp9kqFNEpQmA3TCq"
+  ],
+  "reserves_before": [
+    "50000000",
+    "5000000",
+    "0"
+  ],
+  "reserves_after": [
+    "41687511",
+    "6000000",
+    "0"
+  ],
+  "amount_in": "1000000",
+  "quoted_out": "8312489",
+  "measured_out": "8312489",
+  "requoted_after_move": "5940038",
+  "min_out": "8270926",
+  "compute_units": 44379,
+  "requested_compute_units": 200000,
+  "mandatory_negative_cases": 7,
+  "negativeResults": [
+    {
+      "label": "empty-reserve-swap",
+      "expected": "/Error Code: Reserves/",
+      "log": "Program ComputeBudget111111111111111111111111111111 invoke [1]\nProgram ComputeBudget111111111111111111111111111111 success\nProgram Bq1FxNWHnmnZgJRi6fsRKrvLTbBf6uDTXjaawzdnkw1Q invoke [1]\nProgram log: Instruction: Swap\nProgram log: AnchorError thrown in programs/test-venue/src/lib.rs:64. Error Code: Reserves. Error Number: 6005. Error Message: A reserve is empty; the operator must seed test liquidity.\nProgram Bq1FxNWHnmnZgJRi6fsRKrvLTbBf6uDTXjaawzdnkw1Q consumed 23773 of 199850 compute units\nProgram Bq1FxNWHnmnZgJRi6fsRKrvLTbBf6uDTXjaawzdnkw1Q failed: custom program error: 0x1775"
+    },
+    {
+      "label": "substituted-pool-vault",
+      "expected": "/Error Code: (?:Vault|ConstraintDuplicateMutableAccount)/",
+      "log": "Program ComputeBudget111111111111111111111111111111 invoke [1]\nProgram ComputeBudget111111111111111111111111111111 success\nProgram Bq1FxNWHnmnZgJRi6fsRKrvLTbBf6uDTXjaawzdnkw1Q invoke [1]\nProgram log: Instruction: Swap\nProgram log: AnchorError caused by account: vault_out. Error Code: ConstraintDuplicateMutableAccount. Error Number: 2040. Error Message: A duplicate mutable account constraint was violated.\nProgram Bq1FxNWHnmnZgJRi6fsRKrvLTbBf6uDTXjaawzdnkw1Q consumed 10860 of 199850 compute units\nProgram Bq1FxNWHnmnZgJRi6fsRKrvLTbBf6uDTXjaawzdnkw1Q failed: custom program error: 0x7f8"
+    },
+    {
+      "label": "redirected-destination",
+      "expected": "/Error Code: Vault/",
+      "log": "Program ComputeBudget111111111111111111111111111111 invoke [1]\nProgram ComputeBudget111111111111111111111111111111 success\nProgram Bq1FxNWHnmnZgJRi6fsRKrvLTbBf6uDTXjaawzdnkw1Q invoke [1]\nProgram log: Instruction: Swap\nProgram log: AnchorError thrown in programs/test-venue/src/lib.rs:52. Error Code: Vault. Error Number: 6004. Error Message: Pool vault identity or caller account is not the derived canonical account.\nProgram Bq1FxNWHnmnZgJRi6fsRKrvLTbBf6uDTXjaawzdnkw1Q consumed 22305 of 199850 compute units\nProgram Bq1FxNWHnmnZgJRi6fsRKrvLTbBf6uDTXjaawzdnkw1Q failed: custom program error: 0x1774"
+    },
+    {
+      "label": "min-out-above-the-quote",
+      "expected": "/Error Code: MinOut/",
+      "log": "Program ComputeBudget111111111111111111111111111111 invoke [1]\nProgram ComputeBudget111111111111111111111111111111 success\nProgram Bq1FxNWHnmnZgJRi6fsRKrvLTbBf6uDTXjaawzdnkw1Q invoke [1]\nProgram log: Instruction: Swap\nProgram log: AnchorError thrown in programs/test-venue/src/lib.rs:66. Error Code: MinOut. Error Number: 6006. Error Message: Measured output is below the caller's minimum or nonpositive.\nProgram Bq1FxNWHnmnZgJRi6fsRKrvLTbBf6uDTXjaawzdnkw1Q consumed 22726 of 199850 compute units\nProgram Bq1FxNWHnmnZgJRi6fsRKrvLTbBf6uDTXjaawzdnkw1Q failed: custom program error: 0x1776"
+    },
+    {
+      "label": "relabelled-mint",
+      "expected": "/Error Code: Mints/",
+      "log": "Program ComputeBudget111111111111111111111111111111 invoke [1]\nProgram ComputeBudget111111111111111111111111111111 success\nProgram Bq1FxNWHnmnZgJRi6fsRKrvLTbBf6uDTXjaawzdnkw1Q invoke [1]\nProgram log: Instruction: Swap\nProgram log: AnchorError thrown in programs/test-venue/src/lib.rs:50. Error Code: Mints. Error Number: 6001. Error Message: Pool mint identity is invalid or unsorted.\nProgram Bq1FxNWHnmnZgJRi6fsRKrvLTbBf6uDTXjaawzdnkw1Q consumed 12729 of 199850 compute units\nProgram Bq1FxNWHnmnZgJRi6fsRKrvLTbBf6uDTXjaawzdnkw1Q failed: custom program error: 0x1771"
+    },
+    {
+      "label": "same-direction",
+      "expected": "/Error Code: Direction/",
+      "log": "Program ComputeBudget111111111111111111111111111111 invoke [1]\nProgram ComputeBudget111111111111111111111111111111 success\nProgram Bq1FxNWHnmnZgJRi6fsRKrvLTbBf6uDTXjaawzdnkw1Q invoke [1]\nProgram log: Instruction: Swap\nProgram log: AnchorError thrown in programs/test-venue/src/lib.rs:47. Error Code: Direction. Error Number: 6002. Error Message: Swap direction must name two distinct configured reserves.\nProgram Bq1FxNWHnmnZgJRi6fsRKrvLTbBf6uDTXjaawzdnkw1Q consumed 12930 of 199850 compute units\nProgram Bq1FxNWHnmnZgJRi6fsRKrvLTbBf6uDTXjaawzdnkw1Q failed: custom program error: 0x1772"
+    },
+    {
+      "label": "zero-amount",
+      "expected": "/Error Code: Amount/",
+      "log": "Program ComputeBudget111111111111111111111111111111 invoke [1]\nProgram ComputeBudget111111111111111111111111111111 success\nProgram Bq1FxNWHnmnZgJRi6fsRKrvLTbBf6uDTXjaawzdnkw1Q invoke [1]\nProgram log: Instruction: Swap\nProgram log: AnchorError thrown in programs/test-venue/src/lib.rs:48. Error Code: Amount. Error Number: 6003. Error Message: Amount is zero or exceeds the caller's balance.\nProgram Bq1FxNWHnmnZgJRi6fsRKrvLTbBf6uDTXjaawzdnkw1Q consumed 12920 of 199850 compute units\nProgram Bq1FxNWHnmnZgJRi6fsRKrvLTbBf6uDTXjaawzdnkw1Q failed: custom program error: 0x1773"
+    }
+  ],
+  "signatures": {
+    "initialize": "WhGHp1Bq72xiWz8zR1HVcRcNLSkA9v3Fm5qEKd1VJtPMuBLLec1FLHMHECyb62o4u3idJuESg31dbgDKisHqfy5",
+    "seed": [
+      "4LVsrYN3EyVyXdrquaQhTWkBU6eLad2hfuKRtcvVRy4XM1YqNPA869Q583o4AioratrGmCGtuwB1odMWKDJkA54L",
+      "5Yvwgb1d3j8KhhCWtDv818okNSbhsGYk3cM26Qz6LpJ6e9tyc7NCDFQt8dDDd9t3ekGtxa2FPGiYi1txVm88ZtEQ",
+      "36tFvd7BBaTygQeDHr7FFs8JG56GPapR41HrvypngQuUmtSd78PyQSvgHEWvBiqHFUXKyB5ppE42K6teQ9FuWyAS",
+      "3XBMZ1prSb1PHHU6bVgcoQ6AG8TMrvLFyT6GiNZZAW1HFCjc5GbmVXQLk5kUErQh68CsSwVpwpWBwr83o6HJf1yT",
+      "3VF3FwZ7UyykXzDdo273YjtPLCTH8uzZMxd9TcZftHGxK1Fa1jpm8LMTz7o5AkaNbviUDC3pkdVAwCmKSHvb5CAC"
+    ],
+    "swap": "2W1skNmF1X85Ek2Xsc3BBVQMBrDaZzucLM6DPrruEhTvV9BZcMfH956sioLBmSpKyc8J1H71DhzwL5NqUcwo2Co5"
+  },
+  "hashes": {
+    "env": "61ac0e2e8f9eb1d81cb5a97ecfceebbcdf49d146defcbaa27c6b57cb020cf2b4",
+    "binary": "72876b85282964798b1e606626aea010b5ad9bd73ceb48b4d6277c45b515dfe9",
+    "instruction": "a5c124ad4958abfb2740f9d3f68c464aa5b39765046b9dc402312a90baefac6b"
+  },
+  "limitations": [
+    "Synthetic test-token liquidity on an isolated local validator; no market, no real price impact, no devnet claim.",
+    "T10 proves the venue stays real execution; composing it with CrossFlow settlement is T16 and is not exercised here.",
+    "Captured signatures are historical local evidence and require the running ledger for later RPC re-query."
+  ]
+}

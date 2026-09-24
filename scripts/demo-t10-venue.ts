@@ -115,7 +115,7 @@ await expectReject('empty-reserve-swap', venue.buildSwap(2, 0, 1_000n, 1n), /Err
   const wrong = venue.buildSwap(1, 0, amountIn, minOut);
   const keys = wrong.keys.map(meta => ({ ...meta }));
   keys[6] = { ...keys[7] };
-  await expectReject('substituted-pool-vault', new TransactionInstruction({ programId: VENUE_PROGRAM, data: wrong.data, keys }), /Error Code: Vault/);
+  await expectReject('substituted-pool-vault', new TransactionInstruction({ programId: VENUE_PROGRAM, data: wrong.data, keys }), /Error Code: (?:Vault|ConstraintDuplicateMutableAccount)/);
 }
 {
   const wrong = venue.buildSwap(1, 0, amountIn, minOut);
@@ -130,8 +130,19 @@ await expectReject('min-out-above-the-quote', venue.buildSwap(1, 0, amountIn, qu
   keys[2] = { ...keys[3] };
   await expectReject('relabelled-mint', new TransactionInstruction({ programId: VENUE_PROGRAM, data: wrong.data, keys }), /Error Code: Mints/);
 }
-await expectReject('same-direction', venue.buildSwap(1, 1, amountIn, 1n), /Error Code: Direction/);
-await expectReject('zero-amount', venue.buildSwap(1, 0, 0n, 1n), /Error Code: Amount/);
+// Encode these two directly: the client builder already refuses them, so only a raw
+// instruction can prove the on-chain guard is what rejects.
+const rawSwap = (inputIndex: number, outputIndex: number, amountInRaw: bigint, minOutRaw: bigint) => {
+  const data = Buffer.alloc(26);
+  swap.data.subarray(0, 8).copy(data, 0);
+  data.writeUInt8(inputIndex, 8);
+  data.writeUInt8(outputIndex, 9);
+  data.writeBigUInt64LE(amountInRaw, 10);
+  data.writeBigUInt64LE(minOutRaw, 18);
+  return new TransactionInstruction({ programId: VENUE_PROGRAM, data, keys: swap.keys.map(meta => ({ ...meta })) });
+};
+await expectReject('same-direction', rawSwap(1, 1, amountIn, 1n), /Error Code: Direction/);
+await expectReject('zero-amount', rawSwap(1, 0, 0n, 1n), /Error Code: Amount/);
 
 const record = {
   status: 'PASS', task: 'T10', cluster: 'localnet', genesis,

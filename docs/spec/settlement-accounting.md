@@ -154,3 +154,29 @@ record. The identical instruction encodes to 1275 legacy bytes, above the 1232-b
 limit, which is why the proposer must attach a lookup table; the settled transaction measures
 350 serialized bytes and 208,433 compute units. It is not devnet, not Pyth and not an
 external-route demonstration.
+
+## 8. T10 controlled residual venue
+
+`programs/test-venue` is the labelled synthetic liquidity the core fallback calls for. It is not
+an AMM, not a Meteora or Jupiter integration, and its reserves are test tokens. It publishes one
+frozen quote model: exact-in, fee charged on the input, floored, against pairwise reserves.
+
+- The pool address is the derived `[b"pool", mint0, mint1, mint2]` PDA for the sorted configured
+  mints, and each pool vault is the canonical associated token account of that PDA. Neither the
+  pool nor its vaults are caller-chosen.
+- Reserves are the **measured vault balances**, never a separately stored number, so a donation
+  cannot desynchronise the quote from the tokens the venue actually holds.
+- The swap signer is CrossFlow's batch PDA. The venue spends only from that signer's canonical
+  account for the input mint and pays only into its canonical account for the output mint, so a
+  venue can never redirect funds to a third party.
+- The handler re-reads the four token accounts after the two transfers and requires the exact
+  measured deltas, and it rejects a measured output below the caller's `min_out`. Anchor caches a
+  deserialized token account, so comparing the cached field would silently compare pre-transfer
+  state; the venue reads the account data instead.
+
+Evidence: `verification/evidence/T10-local-venue-output.json` records the seeded reserves, the
+frozen quote, the measured output, the moved reserves, seven named target-program rejections
+(empty reserve, substituted pool vault, redirected destination, minimum above the quote,
+relabelled mint, equal direction, zero amount), 44,379 compute units and the built binary hash.
+Composing this venue with CrossFlow settlement, the transient batch pool and the pro-rata
+allocation remains **T16** and is not implemented; there is no devnet venue deployment.

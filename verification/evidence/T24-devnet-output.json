@@ -1,0 +1,143 @@
+{
+  "status": "PASS",
+  "task": "T24",
+  "scope": "ISOLATED DEVNET PROBE — not a release and not the integrated workflow",
+  "cluster": "devnet",
+  "genesis": "EtWTRABZaYq6iMfeYKouRu166VU2xqa1wcaWoxPkrZBG",
+  "rpc_host": "api.devnet.solana.com",
+  "program_id": "CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh",
+  "config": "7Fw4sjvYFCsdXPLFLqd5soPMnmKca2tojkgE2AVudnS2",
+  "prices": "5UD3EmSYQ3zVAhAk2cTYijMBuYUZrkw9SjTBcj2E5prE",
+  "deployment_id": "4067d358ee8107f605f24712d8562c6e49e6b31785fc91cc18312810dff906ba",
+  "policy_hash": "ea3c9f8865318cdc004f3151984d3c1a82ab4bb21393d09c3e59c69dfc9e242f",
+  "price_label": "TEST PRICES; synthetic fixture oracle; no equity price claim",
+  "mints": [
+    "6CGjZ7o4X1xC2DGZeDnStkZhx3L3tywJXXVsApPddEW3",
+    "6nXpNT9oqMoEKCQG8x2MmL6NZCURztN9LGxYHCHmhqZe",
+    "CeFt8s9Miy6W4tJj93ZcFhZtbtUxX6YEmed2dMjE2JCv"
+  ],
+  "owners": [
+    "6QSdqjbPCsm8dqyGwKmELLMSr9WNprXfijGmRFsmzrDq",
+    "Cpt4WR3T5g8RJJTM3gxuKCCcKNXsyiKt3QRYhmDaDgEW",
+    "FSyL13FTp3Yrgdo8VWpoNtpL8FS5FcSGL3tdNp1sjw2t"
+  ],
+  "snapshot_sequence": "12",
+  "cross": {
+    "stock_index": "1",
+    "seller_index": "2",
+    "buyer_index": "0",
+    "stock_quantity": "2000000",
+    "cash_amount": "20000000"
+  },
+  "estimated_outputs": [
+    [
+      "20000000",
+      "2000000",
+      "0"
+    ],
+    [
+      "30000000",
+      "0",
+      "0"
+    ],
+    [
+      "30000000",
+      "2000000",
+      "0"
+    ]
+  ],
+  "vault_before": [
+    [
+      "40000000",
+      "0",
+      "0"
+    ],
+    [
+      "30000000",
+      "0",
+      "0"
+    ],
+    [
+      "10000000",
+      "4000000",
+      "0"
+    ]
+  ],
+  "recipient_before": [
+    [
+      "0",
+      "16000000",
+      "10000000"
+    ],
+    [
+      "70000000",
+      "10000000",
+      "10000000"
+    ],
+    [
+      "150000000",
+      "0",
+      "10000000"
+    ]
+  ],
+  "compute_units": 158632,
+  "requested_compute_units": 1400000,
+  "lookup_table": "7uz2A6D5EYQr9o2guLrS6123PvgbHAnnBsUhhPV2fU3u",
+  "lookup_table_entries": 33,
+  "mandatory_negative_cases": 7,
+  "negativeResults": [
+    {
+      "label": "unsorted-owner-accounts",
+      "log": "Program log: AnchorError thrown in programs/crossflow/src/batch.rs:257. Error Code: BatchAccount. Error Number: 6407. Error Message: Batch account role, order or identity is invalid.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x1907"
+    },
+    {
+      "label": "output-above-owner-maximum",
+      "log": "Program log: AnchorError thrown in programs/crossflow/src/batch.rs:358. Error Code: Output. Error Number: 6401. Error Message: Final output is outside its owner-approved raw bounds.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x1901"
+    },
+    {
+      "label": "cross-price-outside-committed-band",
+      "log": "Program log: AnchorError thrown in programs/crossflow/src/oracle.rs:341. Error Code: TradePrice. Error Number: 6011. Error Message: Trade stock/cash price is outside its approved band.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x177b"
+    },
+    {
+      "label": "wrong-snapshot-sequence",
+      "log": "Program log: AnchorError thrown in programs/crossflow/src/oracle.rs:158. Error Code: Sequence. Error Number: 6005. Error Message: Wrong snapshot sequence or regressing update.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x1775"
+    },
+    {
+      "label": "double-settle-rejected",
+      "log": "Program log: AnchorError thrown in programs/crossflow/src/batch.rs:251. Error Code: Settle. Error Number: 6400. Error Message: Intent is expired, not funded, or violates the thin settlement rules.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x1900"
+    },
+    {
+      "label": "empty-claim-withdrawal-1",
+      "log": "Error Code: NothingToWithdraw"
+    },
+    {
+      "label": "empty-claim-withdrawal-2",
+      "log": "Error Code: NothingToWithdraw"
+    }
+  ],
+  "recovery": {
+    "funded": "5000000",
+    "returned": "5000000",
+    "cancel_signature": "43MWgyY2KY1whacL5f6QE4G2rpA65w6nmx7QavG6kBXHmQ5KQm9QZrvqZCLJ5UXbY9BT1R7pNDuDDhn3NMqZzhXr",
+    "withdrawals": [
+      "WS2TL4CJxzhSCUuytUZckLUaHrhAkXbmKnYEcusrapbkeEzLriyQzujVQjntNfqWHVhY1wSZ5hc6nYZX79fg1zb"
+    ],
+    "close_signature": "5YPpYf1MCPndJx7DLQpaYSz62SEwueCSv73dCbNTJLAUqemZBxFTJA8FmSsLuGVmfFU9jHwNEGGmjY4LhJk7GFvt"
+  },
+  "signatures": {
+    "fund0": "5wyc2J6mWnUjzVUCQtda2EWb4dfz3B4wVCoDtUS69aHabENuRvxXpjnKuisUq6MmrfbwPf3uUWd2wpQPYgfBB28X",
+    "fund1": "4cjzEqkym4kteTRjQxsRqYBYqwuzDpLdQq1YWwEM8c5b1ZwDSXDomAz19NZnus2pjJiBDUxARmfd7b74pfPBBMZ5",
+    "fund2": "3LNT2XseEdwjg3KqYQtTWQEv1aGC6amzkMzQvzAg5ij6Uap699zK1CS1AyHvZN8W6xMNKfdY4GYTTChtxmiQKzxm",
+    "settle": "2jqpiVDGyUpF84yG86gXp8y6e5n4ax93pwvUaSDedgQcoRws8TeDKzvVSE7G3G5FLSwfyw9m5hu52FdQwgRDtFt6",
+    "close_settled": [
+      "1cAKSRxgwYxm2whttdvckNTcHZzHrDSVGhVZKU5oZYgYBDHiBZzJMgiQfvtttDdcNpZTrNpFjYy2Qwp9RrbKGiL",
+      "gnB74BkowiT2jGe3bqSVE1iFejMcjqy8rzq582LCZtuN7Y6dKbZEKKCVcbkWk2BqYm9WKrA1HxmNkgeQphAmEsv",
+      "27Au2cjmP1qXbgWsNwAieKj4kXNdj5whkJBN8CEykJaCJV6qEUH4817LjfcQYPiQNcfonUMwcRP4PqrqT9RWzzrt"
+    ]
+  },
+  "limitations": [
+    "Isolated public-devnet probe under the scoped-probe exception: no shared funded intents, no external route, no Pyth, no integration or release claim.",
+    "Test assets are devnet mints with revoked authorities, not issuer-backed shares; liquidity, Pyth and the routed residual remain unimplemented (T15/T16).",
+    "Upgrade authority is retained by the approved devnet wallet; that is a trust assumption and is disclosed."
+  ]
+}

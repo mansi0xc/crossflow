@@ -1,6 +1,6 @@
 # Execution state
 
-Updated: 24 September 2026, after the T09 independent review.
+Updated: 25 September 2026, after T09 review, T10 venue, T12/T21 economics and the isolated T24 devnet probe.
 
 - Execution repository: `/Users/mansitibrewal/chronicles/crossflow`.
 - T00: DONE for preflight scope; independent findings resolved and devnet funding prerequisite resolved via user-authorized CLI wallet.
@@ -11,5 +11,8 @@ Updated: 24 September 2026, after the T09 independent review.
 - Spending: no new real-money spend authorized. No mainnet writes. Use explicit devnet RPC/genesis and verify wallet before signing.
 - Known dependency follow-ups: two moderate JS advisories/optional peer warning; revisit in T22. No Rust advisory audit claimed.
 - Deadline: 26 September 2026 01:30 IST; internal readiness 25 September 19:30 IST. The old 22 Sep 23:00 IST G0 target was missed; G0 and G1 have now passed late in narrow technical scope. Preserve security/economic gates and cut optional scope first.
+- T10: the controlled synthetic residual venue (`programs/test-venue`) builds, executes a real exact-in swap locally (44,379 CU, quote 8,312,489 == measured 8,312,489, moved reserves) and rejects seven named cases. Routing it through CrossFlow settlement is still T16 and unimplemented.
+- T21 (held-out, run once, all outcomes preserved): 8 scenarios, 6 feasible across A/B/C, 2 rejected before search; cooperative gain median +16,200 micro-USD, positive in 4 of 6 eligible, never negative; **not robust** — only 36 of 72 declared sensitivity points keep a positive cooperative gain, and one scenario's netting is worse than independent execution. The headline cooperative claim must be narrowed accordingly. T12 engines and T21 evaluation reproduce byte-identically.
+- T24 devnet probe PASS (probe scope only): program `CW1jt…XbRkh` deployed to public devnet with config `7Fw4sjv…udnS2`; three owners funded their own slices; one explicit internal cross settled atomically at 158,632 CU behind a 33-entry address lookup table; seven invalid variants rejected with named errors; a fresh intent was cancelled, withdrawn per asset and closed, returning exactly 5,000,000 cash and resetting the outstanding-claim counter to zero. No route, no Pyth, no UI. The free public RPC rate-limits heavily and every read is paced with backoff. Upgrade authority is retained and disclosed.
 - T09 scope note: settlement is internal-crossings-only. `settle_batch` declares no signer; authority comes only from funded mandates. Three owners need an address lookup table (the identical instruction is 1275 legacy bytes). Single-owner settlement stays on the owner-signed `settle_thin` path.
 - Resume: read AGENTS.md and active task evidence; latest concurrency policy supersedes earlier per-task review instructions.

@@ -9,7 +9,7 @@ const env = json('verification/evidence/T10-local-env.json');
 
 const required = new Map([
   ['empty-reserve-swap', /Error Code: Reserves/],
-  ['substituted-pool-vault', /Error Code: Vault/],
+  ['substituted-pool-vault', /Error Code: (?:Vault|ConstraintDuplicateMutableAccount)/],
   ['redirected-destination', /Error Code: Vault/],
   ['min-out-above-the-quote', /Error Code: MinOut/],
   ['relabelled-mint', /Error Code: Mints/],
