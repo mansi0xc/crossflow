@@ -119,12 +119,16 @@ export function deriveRoutedBatchAccounts(
   const batch_authority = deriveBatchAuthority(program, config);
   const pools = mints.map(mint => ata(batch_authority, mint));
   const vaults = mints.map(mint => ata(venue.pool, mint));
-  const seen = new Set([...base.owner_states, ...base.intents, ...base.vaults.flat(), ...base.recipients.flat(),
-    batch_authority, ...pools, ...vaults].map(key => key.toBase58()));
-  if (base.vaults.flat().some(key => pools.some(pool => pool.equals(key)))) throw new TypeError('pool aliases an intent vault');
   if (venue.program.equals(program)) throw new TypeError('the venue must be a distinct program from CrossFlow');
   if (venue.pool.equals(batch_authority)) throw new TypeError('venue pool aliases the batch authority');
-  if (seen.size === 0) throw new TypeError('unreachable');
+  const reserved = new Set([...base.owner_states, ...base.intents, ...base.vaults.flat(), ...base.recipients.flat(), batch_authority]
+    .map(key => key.toBase58()));
+  for (const pool of pools) {
+    if (reserved.has(pool.toBase58())) throw new TypeError(`a batch pool aliases an intent account: ${pool.toBase58()}`);
+  }
+  for (const vault of vaults) {
+    if (reserved.has(vault.toBase58())) throw new TypeError(`a venue vault aliases a batch account: ${vault.toBase58()}`);
+  }
   return { ...base, batch_authority, pools, venue: { ...venue, vaults } };
 }
 

@@ -138,9 +138,8 @@ starting surplus and each recipient must gain exactly `O`. Any mismatch reverts 
 Intents move to `Settled` with cleared booked claims in the same transaction, so a second
 settlement rejects with `Settle`.
 
-Capacity: three owners and three assets need 29 accounts. With the measured 202-byte body the
-legacy 1232-byte packet cannot carry it (a legacy encoding of the same instruction measured 1284
-bytes), so the proposer must attach an address lookup table. The local evidence records the
+Capacity: three owners and three assets need 29 accounts. With the measured body the legacy 1232-byte packet cannot carry it (the identical instruction
+encodes to 1275 legacy bytes), so the proposer must attach an address lookup table. The local evidence records the
 measured serialized size, the consumed compute units and the lookup-table entry count, and T17
 must repeat the measurement for the complete oracle-plus-route transaction before any capacity
 claim is made for the composed workflow.
@@ -152,7 +151,7 @@ round trip, cross price band, vault/recipient substitution, wrong mint, padded i
 snapshot sequence, residual record, pause, double settle) and a reconciled before/after balance
 record. The identical instruction encodes to 1275 legacy bytes, above the 1232-byte packet
 limit, which is why the proposer must attach a lookup table; the settled transaction measures
-350 serialized bytes and 208,433 compute units. It is not devnet, not Pyth and not an
+350 serialized bytes, 33 lookup-table entries and 205,117 compute units. It is not devnet, not Pyth and not an
 external-route demonstration.
 
 ## 8. T10 controlled residual venue
@@ -218,7 +217,7 @@ not an outer signer; `invoke_signed` grants it inside the CPI.
 
 Evidence: `verification/evidence/T16-local-route-output.json` records a composed settlement — one
 internal cross plus one 50,000 raw stock leg executed against a pool seeded with 50,000,000 cash
-and 5,000,000 test stock — settling at 311,591 compute units behind a 43-entry lookup table, with
+and 5,000,000 test stock — settling at 330,095 compute units behind a 43-entry lookup table (451 serialized bytes), with
 every owner's payout equal to the independent expectation, the venue reserves moved by exactly the
 measured leg, and six named rejections. The realized external leg came in at 1.28% from the
 reference, inside the committed 2% band.
@@ -237,10 +236,10 @@ composed run, `scripts/probe-capacity.ts` for the pre-implementation estimate, a
 the two can never be confused.
 
 Measured on the local validator (route enabled, three owners, one internal cross and one residual
-leg): **311,591 compute units**, **451 serialized bytes**, **43 lookup-table entries**. The same
+leg): **330,095 compute units**, **451 serialized bytes**, **43 lookup-table entries**. The same
 instruction without a lookup table does not fit the legacy 1232-byte packet.
 
-Two limits are worth stating plainly. Compute headroom above the measured 311,591 CU is not
+Two limits are worth stating plainly. Compute headroom above the measured 330,095 CU is not
 "capacity for more legs" — a second residual leg would need another venue CPI and more accounts.
 And the *economic* bound bites before the technical one: this synthetic pool can only absorb a leg
 small enough to stay inside the committed ±200 bps per-owner execution band, so the demonstrable

@@ -303,6 +303,7 @@ for (let a = 0; a < 3; a++) {
 const record = {
   status: 'PASS', task: 'T16', cluster: 'localnet', genesis, program_id: PROGRAM.toBase58(),
   config: config.toBase58(), prices: priceFeed.toBase58(), snapshot_sequence: sequence.toString(),
+  deployment_id: manifest.deployment_id, policy_hash: manifest.initial_policy_hash,
   price_label: 'TEST PRICES; synthetic fixture oracle; no equity price claim',
   route: { program: VENUE_PROGRAM.toBase58(), pool: pool.toBase58(), fee_bps: FEE_BPS,
     vaults: venue.vaults().map(vault => vault.toBase58()), vaults_are_pool_atas: venue.vaults().every(

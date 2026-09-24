@@ -1,0 +1,11 @@
+
+[1m[30m[46m RUN [49m[39m[22m [36mv5.0.1 [39m[90m/Users/mansitibrewal/chronicles/crossflow[39m
+
+ [32m✓[39m tests/adapters/controlled-venue.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 7[2mms[22m[39m
+ [32m✓[39m tests/program/atomic-batch.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 25[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m2 passed[39m[22m[90m (2)[39m
+[2m      Tests [22m [1m[32m9 passed[39m[22m[90m (9)[39m
+[2m   Start at [22m 01:04:06
+[2m   Duration [22m 234ms[2m (import 47%, transform 41%, tests 10%, worker 1%)[22m
+

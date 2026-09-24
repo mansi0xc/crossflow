@@ -61,8 +61,8 @@
     {
       "name": "local-runtime-evidence",
       "kind": "t16-runtime",
-      "command": "node",
-      "args": ["scripts/check-t16-runtime-evidence.mjs"]
+      "command": "corepack",
+      "args": ["pnpm@10.17.1", "exec", "tsx", "scripts/check-t16-runtime-evidence.mjs"]
     }
   ]
 }

@@ -101,8 +101,9 @@ pub fn decode_batch_body(bytes: &[u8]) -> Result<BatchBody> {
             .ok_or(SettlementError::Instruction)?;
         let mut inputs = [0u64; MAX_BATCH];
         cursor += 10;
-        for (i, slot) in inputs.iter_mut().enumerate() {
-            let _ = i;
+        // Exactly `batch_count` weights, matching the canonical encoder and the spec; reading a
+        // fixed three would admit a phantom participant for a two-owner batch.
+        for slot in inputs.iter_mut().take(batch_count as usize) {
             *slot = read_u64(bytes, cursor)?;
             cursor += 8;
         }
@@ -176,6 +177,16 @@ fn read_owner_state(info: &AccountInfo) -> Result<Box<OwnerState>> {
     let mut slice = &data[..];
     let value = OwnerState::try_deserialize(&mut slice).map_err(|_| error!(SettlementError::BatchAccount))?;
     Ok(Box::new(value))
+}
+
+/// Anchor caches a deserialized token account, so any post-CPI comparison must re-read the
+/// account data rather than the stale cached field.
+fn raw_amount(info: &AccountInfo) -> Result<u64> {
+    let data = info.try_borrow_data()?;
+    require!(data.len() == 165 && *info.owner == token::ID, FundingError::TokenIdentity);
+    let mut bytes = [0u8; 8];
+    bytes.copy_from_slice(&data[64..72]);
+    Ok(u64::from_le_bytes(bytes))
 }
 
 fn vault_for(intent: Pubkey, mint: Pubkey) -> Result<Pubkey> {
@@ -257,20 +268,26 @@ pub(crate) fn load_group(
     let mut recipient_before = [0u64; 3];
     for a in 0..3 {
         let mint = &mints[a];
+        // Read the real mint flags. Substituting `*mint.owner == token::ID` and `true` for the
+        // authority checks would make this path admit a mint the funding path rejects.
+        let (initialized, decimals, mint_authority_none, freeze_authority_none) = {
+            let data = mint.try_borrow_data()?;
+            require!(data.len() == 82, FundingError::Mint);
+            (
+                data[45] == 1,
+                data[44],
+                data[0..4] == [0, 0, 0, 0],
+                data[46..50] == [0, 0, 0, 0],
+            )
+        };
         validate_mint_policy(
             mint.key(),
             *mint.owner,
             mint.data_len(),
-            {
-                let data = mint.try_borrow_data()?;
-                data.len() == 82 && data[45] == 1
-            },
-            {
-                let data = mint.try_borrow_data()?;
-                data[44]
-            },
-            *mint.owner == token::ID,
-            true,
+            initialized,
+            decimals,
+            mint_authority_none,
+            freeze_authority_none,
             &policy.assets[a],
         )?;
         let vault_info = &accounts[base + 2 + a];
@@ -340,11 +357,6 @@ pub fn settle_batch<'info>(
         now,
     )?;
 
-    let mints = [
-        ctx.accounts.mint0.to_account_info(),
-        ctx.accounts.mint1.to_account_info(),
-        ctx.accounts.mint2.to_account_info(),
-    ];
     let token_program = ctx.accounts.token_program.to_account_info();
     let accounts = ctx.remaining_accounts;
     require!(
@@ -352,111 +364,40 @@ pub fn settle_batch<'info>(
         SettlementError::BatchAccount
     );
 
-    // Accumulators live on the heap: the SBF stack cannot hold several 3x3 matrices plus the
-    // deserialized intent and token accounts in one frame.
-    let mut intents: Vec<Box<Intent>> = Vec::with_capacity(batch_count);
+    // One shared validation pass, identical to the routed path.
+    let mints = vec![
+        ctx.accounts.mint0.to_account_info(),
+        ctx.accounts.mint1.to_account_info(),
+        ctx.accounts.mint2.to_account_info(),
+    ];
+    let mut loaded: Vec<Box<LoadedGroup>> = Vec::with_capacity(batch_count);
     let mut owners: Vec<Pubkey> = Vec::with_capacity(batch_count);
     let mut funding: Vec<[u64; 3]> = vec![[0u64; 3]; MAX_BATCH];
     let mut surplus: Vec<[u64; 3]> = vec![[0u64; 3]; MAX_BATCH];
     let mut recipient_before: Vec<[u64; 3]> = vec![[0u64; 3]; MAX_BATCH];
     let mut identities: Vec<Pubkey> = Vec::new();
-
     for i in 0..batch_count {
-        let base = i * ACCOUNTS_PER_INTENT;
-        let owner_state_info = &accounts[base];
-        let intent_info = &accounts[base + 1];
-        let intent = read_intent(intent_info)?;
-        let owner_state = read_owner_state(owner_state_info)?;
-        let owner = intent.owner;
-        require!(owner.is_on_curve(), FundingError::Owner);
-        require!(
-            intent.config == config_key && owner_state.config == config_key,
-            SettlementError::BatchAccount
-        );
-        require!(
-            owner_state.owner == owner && owner_state.active_intent == Some(intent_info.key()),
-            SettlementError::BatchAccount
-        );
-        require!(
-            Pubkey::find_program_address(
-                &[b"owner", config_key.as_ref(), owner.as_ref()],
-                &crate::ID
-            )
-            .0 == owner_state_info.key()
-                && Pubkey::find_program_address(
-                    &[
-                        b"intent",
-                        config_key.as_ref(),
-                        owner.as_ref(),
-                        intent.nonce.to_le_bytes().as_ref()
-                    ],
-                    &crate::ID
-                )
-                .0 == intent_info.key(),
-            SettlementError::BatchAccount
-        );
-        require!(
-            intent.status == IntentStatus::Funded
-                && u64::try_from(now).is_ok_and(|value| value < intent.expiry_unix_seconds),
-            SettlementError::Settle
-        );
-        if i > 0 {
-            require!(owners[i - 1] < owner, SettlementError::BatchAccount);
-        }
-        owners.push(owner);
-        identities.push(owner_state_info.key());
-        identities.push(intent_info.key());
-
-        for a in 0..3 {
-            let typed = match a {
-                0 => &ctx.accounts.mint0,
-                1 => &ctx.accounts.mint1,
-                _ => &ctx.accounts.mint2,
-            };
-            validate_mint_policy(
-                typed.key(),
-                *typed.to_account_info().owner,
-                typed.to_account_info().data_len(),
-                typed.is_initialized,
-                typed.decimals,
-                typed.mint_authority.is_none(),
-                typed.freeze_authority.is_none(),
-                &policy.assets[a],
-            )?;
-            let vault_info = &accounts[base + 2 + a];
-            let recipient_info = &accounts[base + 5 + a];
-            require!(
-                vault_info.is_writable && recipient_info.is_writable,
-                SettlementError::BatchAccount
-            );
-            require!(
-                vault_info.key() == vault_for(intent_info.key(), typed.key())?
-                    && recipient_info.key() == recipient_for(owner, typed.key())?
-                    && intent.vaults[a] == vault_info.key()
-                    && intent.recipients[a] == recipient_info.key(),
-                FundingError::TokenIdentity
-            );
-            let vault = read_token(vault_info, intent_info.key(), typed.key())?;
-            let recipient = read_token(recipient_info, owner, typed.key())?;
-            require!(
-                intent.booked_claims[a] == intent.assets[a].funding
-                    && vault.amount >= intent.booked_claims[a],
-                SettlementError::Settle
-            );
-            require!(
-                vault.amount <= MAX_POOL_AMOUNT && intent.assets[a].funding <= MAX_AMOUNT,
-                SettlementError::Amount
-            );
-            funding[i][a] = intent.assets[a].funding;
-            surplus[i][a] = vault.amount - intent.assets[a].funding;
-            recipient_before[i][a] = recipient.amount;
-            identities.push(vault_info.key());
-            identities.push(recipient_info.key());
-        }
-        price_guard
-            .check_reference_move(intent.assets.map(|asset| asset.funding_reference_price))?;
-        intents.push(intent);
+        let group = load_group(
+            accounts,
+            i * ACCOUNTS_PER_INTENT,
+            i,
+            owners.last().copied(),
+            config_key,
+            now,
+            &policy,
+            &mints,
+        )?;
+        price_guard.check_reference_move(
+            group.intent.assets.map(|asset| asset.funding_reference_price),
+        )?;
+        owners.push(group.owner);
+        funding[i] = group.funding;
+        surplus[i] = group.surplus;
+        recipient_before[i] = group.recipient_before;
+        identities.extend(group.identities.iter().copied());
+        loaded.push(group);
     }
+
     identity_separation(&identities, config_key, &[mints[0].key(), mints[1].key(), mints[2].key()])?;
 
     // Derive the only permitted debits and credits from the explicit cross records.
@@ -500,7 +441,7 @@ pub fn settle_batch<'info>(
         for a in 0..3 {
             require!(sides[i][a] != 3, SettlementError::BatchRecord);
             require!(debit[i][a] <= funding[i][a], SettlementError::BatchRecord);
-            let asset = intents[i].assets[a];
+            let asset = loaded[i].intent.assets[a];
             let output = checked_add_amount(funding[i][a] - debit[i][a], credit[i][a])?;
             require!(
                 output >= asset.min_output && output <= asset.max_output,
@@ -531,8 +472,8 @@ pub fn settle_batch<'info>(
         let buyer = cross.buyer_index as usize;
         let seller_base = seller * ACCOUNTS_PER_INTENT;
         let buyer_base = buyer * ACCOUNTS_PER_INTENT;
-        let seller_nonce = intents[seller].nonce.to_le_bytes();
-        let seller_bump = [intents[seller].bump];
+        let seller_nonce = loaded[seller].intent.nonce.to_le_bytes();
+        let seller_bump = [loaded[seller].intent.bump];
         let seller_seeds: &[&[u8]] = &[
             b"intent",
             config_key.as_ref(),
@@ -540,8 +481,8 @@ pub fn settle_batch<'info>(
             seller_nonce.as_ref(),
             &seller_bump,
         ];
-        let buyer_nonce = intents[buyer].nonce.to_le_bytes();
-        let buyer_bump = [intents[buyer].bump];
+        let buyer_nonce = loaded[buyer].intent.nonce.to_le_bytes();
+        let buyer_bump = [loaded[buyer].intent.bump];
         let buyer_seeds: &[&[u8]] = &[
             b"intent",
             config_key.as_ref(),
@@ -581,8 +522,8 @@ pub fn settle_batch<'info>(
 
     for i in 0..batch_count {
         let base = i * ACCOUNTS_PER_INTENT;
-        let nonce = intents[i].nonce.to_le_bytes();
-        let bump = [intents[i].bump];
+        let nonce = loaded[i].intent.nonce.to_le_bytes();
+        let bump = [loaded[i].intent.bump];
         let signer_seeds: &[&[u8]] = &[
             b"intent",
             config_key.as_ref(),
@@ -636,7 +577,7 @@ pub fn settle_batch<'info>(
         let intent_info = &accounts[i * ACCOUNTS_PER_INTENT + 1];
         let mut encoded = Vec::with_capacity(Intent::SPACE);
         {
-            let intent = &mut intents[i];
+            let intent = &mut loaded[i].intent;
             intent.booked_claims = [0; 3];
             intent.status = IntentStatus::Settled;
             intent.try_serialize(&mut encoded)?;
@@ -728,8 +669,13 @@ mod tests {
         assert!(decode_batch_body(&wrong_schema).is_err());
         assert!(decode_batch_body(&body(0, 1, &[], &[])).is_err());
         assert!(decode_batch_body(&body(4, 1, &[], &[])).is_err());
-        // A residual whose inputs were never written is truncated, not silently zero-filled.
-        assert!(decode_batch_body(&body(1, 1, &[], &[(1, 0, 10, [0; 3])])).is_err());
+        // A residual whose weights were never written is truncated, not silently zero-filled.
+        let short = body(3, 1, &[], &[(1, 0, 10, [1, 1, 1])]);
+        assert!(decode_batch_body(&short[..short.len() - 8]).is_err());
+        // A two-owner residual carries exactly two weights, as the canonical encoder writes.
+        let two = body(2, 1, &[], &[(1, 0, 10, [4, 5, 0])]);
+        let decoded = decode_batch_body(&two).unwrap();
+        assert_eq!(decoded.residual_inputs[0], [4, 5, 0]);
         let seven = body(3, 1, &[(1, 0, 1, 1, 1); 7], &[]);
         assert!(decode_batch_body(&seven).is_err());
         let truncated = canonical[..canonical.len() - 1].to_vec();
@@ -893,6 +839,15 @@ pub fn settle_routed<'info>(
                 && pool_accounts[a].is_writable,
             RouteError::RouteVault
         );
+        for i in 0..batch_count {
+            let base = i * ACCOUNTS_PER_INTENT;
+            require!(
+                *pool_accounts[a].key != accounts[base + 2 + a].key()
+                    && *pool_accounts[a].key != accounts[base + 5 + a].key()
+                    && *pool_accounts[a].key != policy.route.vaults[a],
+                FundingError::Alias
+            );
+        }
     }
     let venue_vaults = vec![
         ctx.accounts.venue_vault0.to_account_info(),
@@ -1027,6 +982,8 @@ pub fn settle_routed<'info>(
         let total_input = inputs.iter().take(batch_count).try_fold(0u64, |sum, value| {
             checked_add_amount(sum, *value)
         })?;
+        let venue_in_before = raw_amount(&venue_vaults[*input_asset])?;
+        let venue_out_before = raw_amount(&venue_vaults[*output_asset])?;
         let destination_before =
             read_token(&pool_accounts[*output_asset], batch_authority, policy.assets[*output_asset].mint)?.amount;
         let third = 3 - input_asset - output_asset;
@@ -1063,6 +1020,14 @@ pub fn settle_routed<'info>(
         let third_after =
             read_token(&pool_accounts[third], batch_authority, policy.assets[third].mint)?.amount;
         require!(third_after == third_before, RouteError::RouteOutput);
+        // The pinned venue's own reserves must move by exactly the typed input and measured output.
+        require!(
+            raw_amount(&venue_vaults[*input_asset])?
+                == venue_in_before.checked_add(total_input).ok_or(SettlementError::Conservation)?
+                && raw_amount(&venue_vaults[*output_asset])?
+                    == venue_out_before.checked_sub(measured).ok_or(SettlementError::Conservation)?,
+            RouteError::RouteOutput
+        );
         let stock = if *input_asset == cash_index { *output_asset } else { *input_asset };
         let allocation = crate::math::largest_remainder_three(measured, *inputs, [
             owners[0],

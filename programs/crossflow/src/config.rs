@@ -140,9 +140,11 @@ impl Policy {
                         && route.max_legs == 2,
                     ConfigError::RouteDisabled
                 );
+                // The admitted vaults are the canonical ATAs of the pool authority, so
+                // `pool_authority` is load-bearing rather than decorative.
                 for (i, asset) in assets.iter().enumerate() {
                     let (expected, _) = Pubkey::find_program_address(
-                        &[route.pool.as_ref(), anchor_spl::token::ID.as_ref(), asset.mint.as_ref()],
+                        &[route.pool_authority.as_ref(), anchor_spl::token::ID.as_ref(), asset.mint.as_ref()],
                         &anchor_spl::associated_token::ID,
                     );
                     require!(route.vaults[i] == expected, ConfigError::RouteDisabled);
