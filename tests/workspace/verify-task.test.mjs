@@ -63,3 +63,16 @@ test('T06 runtime evidence requires both settlement bounds to roll back after pr
     mandatory_negative_cases: 15, transaction_signatures: 13, settlement_rollback_cpis_per_case: 2,
     final_nonce: '2', outstanding_claim_intents: '0' }), '', process.cwd()), /incomplete/);
 });
+
+test('T07 runtime evidence requires the full lifecycle and source-bound transcript', () => {
+  const manifest = { ...base, task: 'T07', checks: [{ name: 'runtime', kind: 't07-runtime', command: 'node', args: ['check.mjs'] }] };
+  const report = { status: 'PASS', task: 'T07', cluster: 'localnet',
+    genesis: '87iXpApKAgTJWXhqcRMGHky12KK84bKrX5x1XRVtKWqg',
+    mandatory_negative_cases: 30, transaction_signatures_count: 27,
+    settlement_rollback_cpis_per_case: 2, final_nonce: '3', outstanding_claim_intents: '0',
+    demo_transcript_sha256: 'a'.repeat(64), program_binary_sha256: 'b'.repeat(64) };
+  assert.doesNotThrow(() => assertManifest(manifest, 'T07'));
+  assert.doesNotThrow(() => assertFreshOutput('t07-runtime', JSON.stringify(report), '', process.cwd()));
+  assert.throws(() => assertFreshOutput('t07-runtime', JSON.stringify({ ...report, final_nonce: '2' }), '', process.cwd()), /incomplete/);
+  assert.throws(() => assertFreshOutput('t07-runtime', JSON.stringify({ ...report, cluster: 'devnet' }), '', process.cwd()), /incomplete/);
+});

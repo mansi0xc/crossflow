@@ -69,7 +69,7 @@ impl Policy {
         let version = r.u32()?;
         let mode = r.byte()?;
         let cash_index = r.byte()?;
-        require!(version == 1 && r.byte()? == 3, ConfigError::ConfigPolicy);
+        require!(version > 0 && r.byte()? == 3, ConfigError::ConfigPolicy);
         let mut assets = [AssetPolicy {
             mint: Pubkey::default(),
             token_program: Pubkey::default(),
@@ -175,7 +175,7 @@ impl Config {
                 && self.genesis == deployment::GENESIS
                 && self.program_id == crate::ID
                 && address == deployment::CONFIG_ADDRESS
-                && self.admin == deployment::EXPECTED_INITIAL_ADMIN,
+                && self.admin != Pubkey::default(),
             ConfigError::DeploymentIdentity
         );
         let (expected, bump) =
@@ -184,17 +184,13 @@ impl Config {
             expected == address && bump == self.bump,
             ConfigError::DeploymentIdentity
         );
-        require!(
-            self.policy_bytes == deployment::INITIAL_POLICY_BYTES
-                && self.policy_hash == deployment::INITIAL_POLICY_HASH
-                && hash(&self.policy_bytes).to_bytes() == self.policy_hash,
-            ConfigError::ConfigPolicy
-        );
+        require!(hash(&self.policy_bytes).to_bytes() == self.policy_hash, ConfigError::ConfigPolicy);
         let policy = Policy::parse(&self.policy_bytes)?;
         require!(
             policy.genesis == self.genesis
                 && policy.program_id == self.program_id
-                && policy.config_address == address,
+                && policy.config_address == address
+                && policy.version > 0,
             ConfigError::DeploymentIdentity
         );
         Ok(policy)
@@ -276,12 +272,90 @@ pub fn publish(
     )
 }
 
+#[derive(Accounts)]
+pub struct SetPause<'info> {
+    pub admin: Signer<'info>,
+    #[account(mut, seeds=[b"config",config.deployment_id.as_ref()],bump=config.bump)]
+    pub config: Box<Account<'info, Config>>,
+}
+
+pub fn set_pause(ctx: Context<SetPause>, pause_funding: bool, pause_settlement: bool) -> Result<()> {
+    ctx.accounts.config.validate(ctx.accounts.config.key())?;
+    require_keys_eq!(ctx.accounts.admin.key(), ctx.accounts.config.admin, ConfigError::Admin);
+    ctx.accounts.config.funding_paused = pause_funding;
+    ctx.accounts.config.settlement_paused = pause_settlement;
+    emit!(PauseUpdated { config: ctx.accounts.config.key(), funding_paused: pause_funding, settlement_paused: pause_settlement });
+    Ok(())
+}
+
+#[derive(Accounts)]
+pub struct UpdatePolicy<'info> {
+    pub admin: Signer<'info>,
+    #[account(mut, seeds=[b"config",config.deployment_id.as_ref()],bump=config.bump)]
+    pub config: Box<Account<'info, Config>>,
+    pub publisher: Signer<'info>,
+    #[account(mut, seeds=[b"prices",config.key().as_ref()],bump)]
+    pub prices: Box<Account<'info, FixtureSnapshot>>,
+}
+
+pub fn update_policy(ctx: Context<UpdatePolicy>, expected_version: u32, policy_bytes: [u8; 652], observations: [Observation; 3]) -> Result<()> {
+    let current = ctx.accounts.config.validate(ctx.accounts.config.key())?;
+    require_keys_eq!(ctx.accounts.admin.key(), ctx.accounts.config.admin, ConfigError::Admin);
+    require!(ctx.accounts.config.outstanding_claim_intents == 0, ConfigError::ClaimsOutstanding);
+    require!(current.version == expected_version, ConfigError::StaleVersion);
+    require!(ctx.accounts.prices.to_account_info().data_len() == FixtureSnapshot::SPACE
+        && ctx.accounts.prices.config == ctx.accounts.config.key()
+        && ctx.accounts.prices.policy_hash == ctx.accounts.config.policy_hash
+        && ctx.accounts.prices.publisher == current.fixture_publisher
+        && ctx.accounts.prices.mode == 0
+        && ctx.accounts.prices.sequence > 0, ConfigError::ConfigPolicy);
+    let next_version = expected_version.checked_add(1).ok_or(ConfigError::ConfigPolicy)?;
+    let next = Policy::parse(&policy_bytes)?;
+    require!(next.version == next_version
+        && next.genesis == ctx.accounts.config.genesis
+        && next.program_id == crate::ID
+        && next.config_address == ctx.accounts.config.key(), ConfigError::ConfigPolicy);
+    require_keys_eq!(ctx.accounts.publisher.key(), next.fixture_publisher, ConfigError::Publisher);
+    let next_hash = hash(&policy_bytes).to_bytes();
+    let snapshot = oracle::initial_snapshot(&next.binding(next_hash), observations, Clock::get()?.unix_timestamp)?;
+    ctx.accounts.config.policy_hash = next_hash;
+    ctx.accounts.config.policy_bytes = policy_bytes;
+    ctx.accounts.prices.set_inner(snapshot);
+    emit!(PolicyUpdated { config: ctx.accounts.config.key(), version: next_version, policy_hash: ctx.accounts.config.policy_hash });
+    Ok(())
+}
+
+#[derive(Accounts)]
+pub struct UpdateAdmin<'info> {
+    pub admin: Signer<'info>,
+    #[account(mut, seeds=[b"config",config.deployment_id.as_ref()],bump=config.bump)]
+    pub config: Box<Account<'info, Config>>,
+}
+
+pub fn update_admin(ctx: Context<UpdateAdmin>, expected_version: u32, next_admin: Pubkey) -> Result<()> {
+    let policy = ctx.accounts.config.validate(ctx.accounts.config.key())?;
+    require_keys_eq!(ctx.accounts.admin.key(), ctx.accounts.config.admin, ConfigError::Admin);
+    require!(ctx.accounts.config.outstanding_claim_intents == 0, ConfigError::ClaimsOutstanding);
+    require!(policy.version == expected_version, ConfigError::StaleVersion);
+    require!(next_admin != Pubkey::default() && next_admin != crate::ID, ConfigError::Admin);
+    ctx.accounts.config.admin = next_admin;
+    emit!(AdminUpdated { config: ctx.accounts.config.key(), previous_admin: ctx.accounts.admin.key(), next_admin });
+    Ok(())
+}
+
 #[event]
 pub struct ConfigurationInitialized {
     pub config: Pubkey,
     pub policy_hash: [u8; 32],
     pub publisher: Pubkey,
 }
+
+#[event]
+pub struct PauseUpdated { pub config: Pubkey, pub funding_paused: bool, pub settlement_paused: bool }
+#[event]
+pub struct PolicyUpdated { pub config: Pubkey, pub version: u32, pub policy_hash: [u8; 32] }
+#[event]
+pub struct AdminUpdated { pub config: Pubkey, pub previous_admin: Pubkey, pub next_admin: Pubkey }
 
 pub use crate::CrossflowError as ConfigError;
 
@@ -316,6 +390,16 @@ pub(crate) mod tests {
         invalid = bytes;
         invalid[402] = 1;
         assert!(Policy::parse(&invalid).is_err());
+    }
+    #[test]
+    fn policy_schema_accepts_monotonic_rotation_version_without_changing_identity() {
+        let mut bytes = golden_policy_bytes();
+        bytes[104..108].copy_from_slice(&2u32.to_le_bytes());
+        let policy = Policy::parse(&bytes).unwrap();
+        assert_eq!(policy.version, 2);
+        assert_eq!(policy.config_address, Pubkey::new_from_array(bytes[72..104].try_into().unwrap()));
+        bytes[104..108].copy_from_slice(&0u32.to_le_bytes());
+        assert!(Policy::parse(&bytes).is_err());
     }
     #[test]
     fn unsupported_policy_never_initializes() {

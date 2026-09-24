@@ -1,0 +1,66 @@
+{
+  "task": "T07",
+  "sourceFiles": [
+    "programs/crossflow/src/config.rs",
+    "programs/crossflow/src/intent.rs",
+    "programs/crossflow/src/lib.rs",
+    "programs/crossflow/src/recovery.rs",
+    "packages/client/src/config.ts",
+    "packages/client/src/recover.ts",
+    "scripts/demo-local.ts",
+    "scripts/check-t07-runtime-evidence.mjs",
+    "scripts/verify-task.mjs",
+    "tests/program/config.test.ts",
+    "tests/program/lifecycle.test.ts",
+    "tests/program/thin-flow.test.ts",
+    "tests/workspace/verify-task.test.mjs",
+    "docs/spec/oracle-policy.md",
+    "verification/evidence/T07-local-manifest.json",
+    "verification/evidence/T07-local-demo-output.json",
+    "verification/tasks/T07.json"
+  ],
+  "checks": [
+    {
+      "name": "lifecycle-client",
+      "kind": "vitest",
+      "command": "corepack",
+      "args": ["pnpm@10.17.1", "exec", "vitest", "run", "tests/program/lifecycle.test.ts", "tests/program/config.test.ts", "tests/program/thin-flow.test.ts"]
+    },
+    {
+      "name": "verification-harness",
+      "kind": "workspace",
+      "command": "corepack",
+      "args": ["pnpm@10.17.1", "check:workspace"]
+    },
+    {
+      "name": "typescript",
+      "kind": "typecheck",
+      "command": "corepack",
+      "args": ["pnpm@10.17.1", "exec", "tsc", "--noEmit"]
+    },
+    {
+      "name": "rust-host",
+      "kind": "cargo-test",
+      "command": "env",
+      "args": ["CROSSFLOW_DEPLOYMENT_MANIFEST=verification/evidence/T07-local-manifest.json", "cargo", "test", "-p", "crossflow", "--lib", "--locked", "--offline"]
+    },
+    {
+      "name": "sbf-idl",
+      "kind": "anchor-build",
+      "command": "env",
+      "args": ["CROSSFLOW_DEPLOYMENT_MANIFEST=verification/evidence/T07-local-manifest.json", "anchor", "build"]
+    },
+    {
+      "name": "wire-vectors",
+      "kind": "json-pass",
+      "command": "python3",
+      "args": ["docs/spec/check-wire-vectors.py"]
+    },
+    {
+      "name": "local-runtime-evidence",
+      "kind": "t07-runtime",
+      "command": "node",
+      "args": ["scripts/check-t07-runtime-evidence.mjs"]
+    }
+  ]
+}

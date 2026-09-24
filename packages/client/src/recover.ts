@@ -4,6 +4,7 @@ import { AccountMeta, PublicKey, TransactionInstruction } from '@solana/web3.js'
 const TOKEN_PROGRAM = new PublicKey('TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA');
 const ASSOCIATED_TOKEN_PROGRAM = new PublicKey('ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL');
 const INSTRUCTIONS_SYSVAR = new PublicKey('Sysvar1nstructions1111111111111111111111111');
+const SYSTEM_PROGRAM = new PublicKey('11111111111111111111111111111111');
 
 export interface RecoveryAccounts {
   config: PublicKey;
@@ -88,6 +89,8 @@ export function buildWithdrawAssetInstruction(program: PublicKey, owner: PublicK
     ...accounts.vaults.map(pubkey => ({ pubkey, isSigner: false, isWritable: true })),
     ...accounts.recipients.map(pubkey => ({ pubkey, isSigner: false, isWritable: true })),
     { pubkey: TOKEN_PROGRAM, isSigner: false, isWritable: false },
+    { pubkey: ASSOCIATED_TOKEN_PROGRAM, isSigner: false, isWritable: false },
+    { pubkey: SYSTEM_PROGRAM, isSigner: false, isWritable: false },
   ] });
 }
 

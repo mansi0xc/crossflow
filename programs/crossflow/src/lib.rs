@@ -38,6 +38,15 @@ pub mod crossflow {
     ) -> Result<()> {
         config::publish(ctx, next_sequence, observations)
     }
+    pub fn set_pause(ctx: Context<SetPause>, pause_funding: bool, pause_settlement: bool) -> Result<()> {
+        config::set_pause(ctx, pause_funding, pause_settlement)
+    }
+    pub fn update_policy(ctx: Context<UpdatePolicy>, expected_version: u32, policy_bytes: [u8; 652], observations: [Observation; 3]) -> Result<()> {
+        config::update_policy(ctx, expected_version, policy_bytes, observations)
+    }
+    pub fn update_admin(ctx: Context<UpdateAdmin>, expected_version: u32, next_admin: Pubkey) -> Result<()> {
+        config::update_admin(ctx, expected_version, next_admin)
+    }
     pub fn create_and_fund(ctx: Context<CreateAndFund>, request: FundRequest) -> Result<()> {
         funding::create_and_fund(ctx, request)
     }
@@ -100,6 +109,12 @@ pub enum CrossflowError {
     ConfigPolicy,
     #[msg("Residual routing is not enabled in T05")]
     RouteDisabled,
+    #[msg("Registered config admin signature required")]
+    Admin,
+    #[msg("Expected configuration version is stale")]
+    StaleVersion,
+    #[msg("Outstanding escrow claims prevent policy/admin rotation")]
+    ClaimsOutstanding,
 
     #[msg("Mandate fields or policy hash are invalid")]
     Mandate = 200,

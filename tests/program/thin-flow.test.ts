@@ -35,7 +35,10 @@ describe('T06 thin lifecycle client', () => {
     expect(cancel.keys).toHaveLength(4);
     const withdraw = buildWithdrawAssetInstruction(program, owner, accounts, 2);
     expect(withdraw.data).toEqual(Buffer.concat([disc('withdraw_asset'), Buffer.from([2])]));
-    expect(withdraw.keys).toHaveLength(14);
+    expect(withdraw.keys).toHaveLength(16);
+    expect(withdraw.keys[13].pubkey.toBase58()).toBe('TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA');
+    expect(withdraw.keys[14].pubkey.toBase58()).toBe('ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL');
+    expect(withdraw.keys[15].pubkey.toBase58()).toBe('11111111111111111111111111111111');
     const close = buildCloseIntentInstruction(program, owner, accounts);
     expect(close.data).toEqual(disc('close_intent'));
     expect(close.keys).toHaveLength(11);

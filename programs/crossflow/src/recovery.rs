@@ -2,8 +2,8 @@ use crate::config::Config;
 use crate::funding::{read_token, validate_mint_policy, FundingError};
 use crate::intent::{Intent, IntentStatus, OwnerState};
 use anchor_lang::prelude::*;
-use anchor_spl::associated_token;
-use anchor_spl::token::{self, CloseAccount, Mint, Token, TokenAccount, TransferChecked};
+use anchor_spl::associated_token::{self, AssociatedToken, Create};
+use anchor_spl::token::{self, CloseAccount, Mint, Token, TransferChecked};
 
 #[derive(Accounts)]
 pub struct CancelIntent<'info> {
@@ -53,13 +53,18 @@ pub struct WithdrawAsset<'info> {
     /// CHECK: exact intent ATA and token state are checked by the handler.
     #[account(mut)]
     pub vault2: UncheckedAccount<'info>,
-    #[account(mut, associated_token::mint=mint0, associated_token::authority=owner)]
-    pub recipient0: Box<Account<'info, TokenAccount>>,
-    #[account(mut, associated_token::mint=mint1, associated_token::authority=owner)]
-    pub recipient1: Box<Account<'info, TokenAccount>>,
-    #[account(mut, associated_token::mint=mint2, associated_token::authority=owner)]
-    pub recipient2: Box<Account<'info, TokenAccount>>,
+    /// CHECK: only the selected canonical owner ATA is created/decoded by the handler.
+    #[account(mut)]
+    pub recipient0: UncheckedAccount<'info>,
+    /// CHECK: only the selected canonical owner ATA is created/decoded by the handler.
+    #[account(mut)]
+    pub recipient1: UncheckedAccount<'info>,
+    /// CHECK: only the selected canonical owner ATA is created/decoded by the handler.
+    #[account(mut)]
+    pub recipient2: UncheckedAccount<'info>,
     pub token_program: Program<'info, Token>,
+    pub associated_token_program: Program<'info, AssociatedToken>,
+    pub system_program: Program<'info, System>,
 }
 
 pub fn withdraw_asset(ctx: Context<WithdrawAsset>, asset_index: u8) -> Result<()> {
@@ -84,8 +89,23 @@ pub fn withdraw_asset(ctx: Context<WithdrawAsset>, asset_index: u8) -> Result<()
         mints[i].decimals, mints[i].mint_authority.is_none(), mints[i].freeze_authority.is_none(), &policy.assets[i])?;
     let (expected_vault, _) = Pubkey::find_program_address(
         &[intent_key.as_ref(), token::ID.as_ref(), mints[i].key().as_ref()], &associated_token::ID);
-    require!(*vaults[i].key == expected_vault && *recipients[i].key == intent.recipients[i], FundingError::TokenIdentity);
+    let (expected_recipient, _) = Pubkey::find_program_address(
+        &[owner.as_ref(), token::ID.as_ref(), mints[i].key().as_ref()], &associated_token::ID);
+    require!(*vaults[i].key == expected_vault && *recipients[i].key == expected_recipient
+        && intent.recipients[i] == expected_recipient, FundingError::TokenIdentity);
     let vault_before = read_token(&vaults[i], intent_key, policy.assets[i].mint)?;
+    require!(vault_before.amount > 0, RecoveryError::NothingToWithdraw);
+    associated_token::create_idempotent(CpiContext::new(
+        ctx.accounts.associated_token_program.key(),
+        Create {
+            payer: ctx.accounts.owner.to_account_info(),
+            associated_token: recipients[i].clone(),
+            authority: ctx.accounts.owner.to_account_info(),
+            mint: mints[i].to_account_info(),
+            system_program: ctx.accounts.system_program.to_account_info(),
+            token_program: ctx.accounts.token_program.to_account_info(),
+        },
+    ))?;
     let recipient_before = read_token(&recipients[i], owner, policy.assets[i].mint)?;
     let amount = vault_before.amount;
     let nonce = intent.nonce.to_le_bytes();
