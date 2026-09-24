@@ -1,4 +1,4 @@
-import { Connection, PublicKey, Transaction, VersionedTransaction } from '@solana/web3.js';
+import { ComputeBudgetProgram, Connection, PublicKey, Transaction, TransactionMessage, VersionedTransaction } from '@solana/web3.js';
 import { buildSettleBatchInstruction, buildSettleRoutedInstruction, deriveBatchAccounts, deriveBatchAuthority, deriveRoutedBatchAccounts } from '../../../packages/client/src/build-batch.js';
 import { encodeSettlementBody, validateCandidatePlan } from '../../../packages/planner/src/validate.js';
 import { decodeIntent, listFundedIntents, readOwnerState, withTimeout, type OnChainIntent } from './intent-index.js';
@@ -10,6 +10,9 @@ import { decodeIntent, listFundedIntents, readOwnerState, withTimeout, type OnCh
  * validates the plan through the independent planner, and only then builds the instruction. A
  * plan that the validator rejects never becomes a transaction.
  */
+/// Comfortably above the measured 205k for an internal batch; the network rejects the excess anyway.
+export const COMPUTE_UNIT_LIMIT = 1_400_000;
+
 export const SNAPSHOT_SPACE = 419;
 const OBSERVATION_SIZE = 102;
 const OBSERVATION_START = 113;
@@ -44,7 +47,8 @@ export function decodeSnapshot(data: Buffer): ReadSnapshot {
   });
   return {
     policyHash: data.subarray(40, 72).toString('hex'),
-    publisher: new PublicKey(data.subarray(72, 104)).toBase58(),
+    // Hex, not base58: the planner compares this against the policy's hex fixture publisher.
+    publisher: data.subarray(72, 104).toString('hex'),
     sequence: data.readBigUInt64LE(105).toString(),
     marketClosed: assets.some((_, i) => data[OBSERVATION_START + i * OBSERVATION_SIZE + 101] === 1),
     assets,
@@ -101,6 +105,9 @@ export async function prepareBatch(options: CoordinatorOptions, request: Prepare
     return { status: 'REJECTED', reason: `expected 2–${options.maxOwners} funded intents, found ${funded.length}` };
   }
 
+  // Every identity in the canonical mandate is 32-byte hex; the service also carries base58 forms
+  // for RPC use, and the two are not interchangeable.
+  const canonical = options.manifest.policy as { genesis: string; program_id: string; config_address: string };
   const snapshot = await readSnapshot(options, observedAt);
   const config = new PublicKey(options.manifest.config_address);
   const contextIntents = [];
@@ -112,14 +119,15 @@ export async function prepareBatch(options: CoordinatorOptions, request: Prepare
     const balances = await vaultBalances(options, vaults);
     contextIntents.push({
       mandate: {
-        genesis: options.manifest.genesis, program_id: options.programId.toBase58(),
-        config_address: options.manifest.config_address, schema_version: '1',
-        policy_hash: intent.policyHash, owner: intent.owner, nonce: intent.nonce,
+        genesis: canonical.genesis, program_id: canonical.program_id,
+        config_address: canonical.config_address, schema_version: '1',
+        policy_hash: intent.policyHash, owner: Buffer.from(owner.toBytes()).toString('hex'), nonce: intent.nonce,
         expiry_unix_seconds: intent.expiryUnixSeconds, optimization_commitment: intent.optimizationCommitment,
         assets: (options.manifest.policy as { assets: { mint: string; token_program: string; decimals: string }[] }).assets
           .map((asset, i) => ({
             mint: asset.mint, token_program: asset.token_program, decimals: asset.decimals,
-            recipient_ata: intent.recipients[i],
+            // Hex, like every other 32-byte identity in the canonical mandate.
+            recipient_ata: Buffer.from(new PublicKey(intent.recipients[i]).toBytes()).toString('hex'),
             funding: intent.assets[i].funding, min_output: intent.assets[i].minOutput,
             max_output: intent.assets[i].maxOutput, funding_reference_price: intent.assets[i].fundingReferencePrice,
           })),
@@ -134,7 +142,7 @@ export async function prepareBatch(options: CoordinatorOptions, request: Prepare
 
   const context = {
     policy: options.manifest.policy,
-    expected_genesis: options.manifest.genesis,
+    expected_genesis: canonical.genesis,
     now_unix_seconds: Math.floor(Date.now() / 1000).toString(),
     technical_probe: request.technicalProbe === true,
     snapshot: {
@@ -160,6 +168,7 @@ export async function prepareBatch(options: CoordinatorOptions, request: Prepare
   const route = (options.manifest.policy as { route_kind: string }).route_kind === '1';
 
   let transaction: Transaction | VersionedTransaction;
+  let blockhash: string;
   try {
     if (route) {
       if (!validated.quote_dependent) throw new Error('an enabled route requires at least one residual record');
@@ -173,8 +182,20 @@ export async function prepareBatch(options: CoordinatorOptions, request: Prepare
       const accounts = deriveBatchAccounts(options.programId, config, new PublicKey(snapshot.address), mints, members);
       transaction = new Transaction().add(buildSettleBatchInstruction(options.programId, accounts, body));
     }
+    blockhash = (await withTimeout(options.connection.getLatestBlockhash('confirmed'), options.timeoutMs, 'getLatestBlockhash')).blockhash;
+    // A three-owner batch exceeds the 200k default, so the budget must travel with the transaction.
+    (transaction as Transaction).instructions.unshift(ComputeBudgetProgram.setComputeUnitLimit({ units: COMPUTE_UNIT_LIMIT }));
     transaction.feePayer = operator;
-    transaction.recentBlockhash = (await withTimeout(options.connection.getLatestBlockhash('confirmed'), options.timeoutMs, 'getLatestBlockhash')).blockhash;
+    transaction.recentBlockhash = blockhash;
+    if (request.lookupTable) {
+      // Three owners do not fit the legacy packet, so a supplied lookup table is not optional
+      // decoration: it is how the instruction is made sendable at all.
+      const fetched = await withTimeout(options.connection.getAddressLookupTable(new PublicKey(request.lookupTable)), options.timeoutMs, 'getAddressLookupTable');
+      if (!fetched.value) throw new Error('the supplied lookup table does not exist or is not active');
+      const message = new TransactionMessage({ payerKey: operator, recentBlockhash: blockhash,
+        instructions: (transaction as Transaction).instructions }).compileToV0Message([fetched.value]);
+      transaction = new VersionedTransaction(message);
+    }
   } catch (error) {
     return { status: 'REJECTED', reason: `cannot build a settlement transaction: ${String(error instanceof Error ? error.message : error)}` };
   }
@@ -183,7 +204,7 @@ export async function prepareBatch(options: CoordinatorOptions, request: Prepare
   return {
     status: 'PREPARED',
     transaction: Buffer.from(serialized).toString('base64'),
-    versioned: false,
+    versioned: transaction instanceof VersionedTransaction,
     mandateHashes: validated.mandate_hashes,
     debits: validated.debits, credits: validated.credits, outputs: validated.outputs, externalNet: validated.external_net,
     preview: {
@@ -196,6 +217,7 @@ export async function prepareBatch(options: CoordinatorOptions, request: Prepare
       planHash: Buffer.from(body).toString('hex').slice(0, 32),
       requiresLookupTable: serialized.length > 1232,
       lookupTableProvided: Boolean(request.lookupTable),
+      legacyBytesBeforeCompilation: serialized.length,
       decoded: null,
       observedAt,
     },

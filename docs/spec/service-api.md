@@ -49,6 +49,23 @@ Request bodies are capped (default 64 KiB), requests are rate limited per client
 is capped, chain reads have their own timeout, and owners are limited to three. A missing operator,
 a malformed body and an unknown route are refused before any chain read.
 
+## End-to-end status
+
+The HTTP path is exercised by `tests/services/orchestration.test.ts` and `resource-limits.test.ts`
+(guards, decoding, bounds) and the browser specs drive the service for deployment, price and plan.
+A **live** end-to-end run — plan → funded-intent discovery → prepare → operator sign → broadcast →
+reconcile — is written as `scripts/demo-t32-service.ts` and was run repeatedly on a local validator.
+It exercised real defects, all now fixed: the service ignored its documented environment variables
+and served a different deployment; the mandate context carried base58 identities where the
+canonical encoder requires hex (genesis, program id, config, owner, recipient ATA, publisher); the
+prepared transaction carried no compute-budget instruction and would have run on the 200k default;
+and a supplied lookup table was reported in the preview but never actually used to compile a v0
+message.
+
+It has **not** yet completed: the composed transaction is built, validated, signed and broadcast,
+but in this harness it did not confirm within the window before the run was stopped for time. That
+is recorded as unfinished rather than papered over, and no passing evidence file was written.
+
 ## What this service is not
 
 It is not a hosted multi-tenant backend: it binds to loopback, serves one configured deployment,

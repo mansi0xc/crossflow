@@ -181,8 +181,17 @@ export function createService(config: ServiceConfig = DEFAULT_SERVICE_CONFIG) {
 }
 
 if (process.argv[1] && process.argv[1].endsWith('server.ts')) {
-  const { server, config } = createService({ ...DEFAULT_SERVICE_CONFIG, port: Number(process.env.CROSSFLOW_PORT ?? DEFAULT_SERVICE_CONFIG.port) });
+  // The documented environment variables must actually be honoured: a service that silently served
+  // a different deployment than the one configured would report an empty intent set.
+  const { server, config } = createService({
+    ...DEFAULT_SERVICE_CONFIG,
+    rpcUrl: process.env.CROSSFLOW_RPC_URL ?? DEFAULT_SERVICE_CONFIG.rpcUrl,
+    manifestPath: process.env.CROSSFLOW_DEVNET_MANIFEST ?? process.env.CROSSFLOW_MANIFEST ?? DEFAULT_SERVICE_CONFIG.manifestPath,
+    port: Number(process.env.CROSSFLOW_PORT ?? DEFAULT_SERVICE_CONFIG.port),
+    maxOwners: Number(process.env.CROSSFLOW_MAX_OWNERS ?? DEFAULT_SERVICE_CONFIG.maxOwners),
+  });
   server.listen(config.port, '127.0.0.1', () => {
-    console.log(JSON.stringify({ status: 'LISTENING', url: `http://127.0.0.1:${config.port}`, manifest: config.manifestPath }));
+    console.log(JSON.stringify({ status: 'LISTENING', url: `http://127.0.0.1:${config.port}`,
+      manifest: config.manifestPath, rpcUrl: config.rpcUrl }));
   });
 }

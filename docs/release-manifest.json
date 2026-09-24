@@ -3,8 +3,8 @@
   "release": "devnet-scope candidate",
   "frozenAt": "2026-09-25",
   "source": {
-    "commit": "9090fec7e1e6de00db3ca014f9225054b1348588",
-    "tree": "69682186cc265ec78714d5a24ae95aa41a60c3de",
+    "commit": "1a1889ec4b02e58e97a9ab8b6d3104b4ab87c720",
+    "tree": "cfe4f3590a96ec4733949b03ea573527c0467a04",
     "branch": "codex/t00-preflight",
     "uncommittedAllowlist": [
       ".commandcode/settings.json",
@@ -17,7 +17,12 @@
       "scripts/verify-release.mjs",
       "package.json",
       "pnpm-lock.yaml",
-      "README.md"
+      "README.md",
+      "scripts/demo-t32-service.ts",
+      "services/api/src/server.ts",
+      "services/api/src/batch-coordinator.ts",
+      "docs/spec/service-api.md",
+      ".planning/STATE.md"
     ],
     "uncommittedAllowlistNote": "Files that may be edited without invalidating the artifact hashes. Empty on a truly frozen release."
   },
@@ -31,7 +36,7 @@
     "python": "3.9.6"
   },
   "artifacts": {
-    "target/deploy/crossflow.so": "cad74b70789432e06cf4e034afde1cb941f41e386000478f138bfeb5abf42519",
+    "target/deploy/crossflow.so": "7eaed71afda075e5c2f7cd6ab88cf76f5afc63efc0cb80870292dca3a2f136ec",
     "verification/evidence/T16-local-manifest.json": "615a44c726f0b72c955b25e92775f15fe3ca550968b753f1d9109fd1276ac20e",
     "verification/evidence/T16-local-route-output.json": "19003f78bd271205bc82a64b083ad70c5d425b971b7e0d53dbe6664172ffdad2",
     "verification/evidence/T24-devnet-manifest.json": "bc862586eec51b210061033763dcfcb5c2d595cbe805c1ac1d910880e732aa04",
@@ -71,7 +76,7 @@
     "notes": [
       "Three owners require an address lookup table; the same instruction does not fit the legacy 1232-byte packet.",
       "The composed route has only been measured on an isolated local validator, never on devnet.",
-      "The demonstrable residual size is bounded by the committed \u00b1200 bps per-owner execution band, not by transaction size."
+      "The demonstrable residual size is bounded by the committed ±200 bps per-owner execution band, not by transaction size."
     ]
   },
   "checks": [

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { createHash } from 'node:crypto';
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 
 /**
@@ -9,11 +9,26 @@ import { execFileSync } from 'node:child_process';
  * A manifest that does not describe the tree it is committed next to is worse than no manifest, so
  * this fails on a missing file, a changed hash or a stale commit rather than warning.
  */
-const manifest = JSON.parse(readFileSync('docs/release-manifest.json', 'utf8'));
+const MANIFEST_PATH = 'docs/release-manifest.json';
+const manifest = JSON.parse(readFileSync(MANIFEST_PATH, 'utf8'));
+const freeze = process.argv.includes('--freeze');
 const sha256 = path => createHash('sha256').update(readFileSync(path)).digest('hex');
 const errors = [];
 
 const head = execFileSync('git', ['rev-parse', 'HEAD'], { encoding: 'utf8' }).trim();
+// `--freeze` rewrites the manifest to describe the current tree; the plain run only ever verifies.
+if (freeze) {
+  const treeNow = execFileSync('git', ['rev-parse', 'HEAD^{tree}'], { encoding: 'utf8' }).trim();
+  manifest.source.commit = head;
+  manifest.source.tree = treeNow;
+  for (const path of Object.keys(manifest.artifacts)) {
+    if (existsSync(path)) manifest.artifacts[path] = sha256(path);
+  }
+  writeFileSync(MANIFEST_PATH, `${JSON.stringify(manifest, null, 2)}\n`);
+  console.log(JSON.stringify({ status: 'FROZEN', commit: head, tree: treeNow,
+    artifacts: Object.keys(manifest.artifacts).length }, null, 2));
+  process.exit(0);
+}
 if (manifest.source.commit !== head) errors.push(`manifest commit ${manifest.source.commit} != HEAD ${head}`);
 const tree = execFileSync('git', ['rev-parse', 'HEAD^{tree}'], { encoding: 'utf8' }).trim();
 if (manifest.source.tree !== tree) errors.push(`manifest tree ${manifest.source.tree} != HEAD tree ${tree}`);
