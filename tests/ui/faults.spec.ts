@@ -31,7 +31,7 @@ test.describe('T26 fault drills', () => {
   });
 
   test('a rate-limited service surfaces as an explicit error, not an empty screen', async ({ page }) => {
-    await page.route('**/8787/plans', async route => route.fulfill({ status: 429, contentType: 'application/json',
+    await page.route('**/plans', async route => route.fulfill({ status: 429, contentType: 'application/json',
       body: JSON.stringify({ status: 'REJECTED', reason: 'rate limit exceeded' }) }));
     await page.goto('/');
     await page.getByTestId('scenario-opposite-01').click();
@@ -41,7 +41,7 @@ test.describe('T26 fault drills', () => {
   });
 
   test('an unavailable numerical engine fails the plan closed without claiming a comparison', async ({ page }) => {
-    await page.route('**/8787/plans', async route => route.fulfill({ status: 400, contentType: 'application/json',
+    await page.route('**/plans', async route => route.fulfill({ status: 400, contentType: 'application/json',
       body: JSON.stringify({ status: 'TIMEOUT', reason: 'engine exceeded 20000ms', durationMs: 20000 }) }));
     await page.goto('/');
     await page.getByTestId('scenario-tight-01').click();

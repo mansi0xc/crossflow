@@ -1,0 +1,30 @@
+{
+  "task": "T26",
+  "reviewer": "self-prepared; the service and UI review is in .planning/T32-INDEPENDENT-REVIEW.md",
+  "sourceFiles": [
+    "apps/web/src/App.tsx",
+    "apps/web/src/routes/approve.tsx",
+    "apps/web/src/routes/intent.tsx",
+    "apps/web/src/wallet.ts",
+    "tests/ui/harness.ts",
+    "tests/ui/faults.spec.ts",
+    "playwright.config.ts",
+    "scripts/verify-task.mjs",
+    "docs/operations/recovery-drills.md",
+    "verification/tasks/T26.json"
+  ],
+  "checks": [
+    {
+      "name": "fault-drills",
+      "kind": "playwright",
+      "command": "corepack",
+      "args": ["pnpm@10.17.1", "exec", "playwright", "test", "tests/ui/faults.spec.ts"]
+    },
+    {
+      "name": "typescript",
+      "kind": "typecheck",
+      "command": "corepack",
+      "args": ["pnpm@10.17.1", "exec", "tsc", "--noEmit"]
+    }
+  ]
+}
