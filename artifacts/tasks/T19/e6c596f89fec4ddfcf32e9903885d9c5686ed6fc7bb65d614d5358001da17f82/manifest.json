@@ -1,0 +1,93 @@
+{
+  "task": "T19",
+  "status": "CHECKS_PASS_REVIEW_PENDING",
+  "recordedAt": "2026-09-24T21:48:15.205Z",
+  "sourceCommit": "c2dc58f007cc37e032aff9848515a1131fc7c1b2",
+  "sourceTreeSha256": "e6c596f89fec4ddfcf32e9903885d9c5686ed6fc7bb65d614d5358001da17f82",
+  "sourceFiles": {
+    "apps/web/src/App.tsx": "efa295c1a782db6736659b0d95b6ea04790d1c0f4cf69a1ca311f944a2703002",
+    "apps/web/src/api.ts": "742c5edbd4a3ae7dcdeaa418e4fc507338327d90ea4c7feeff174012427da5ee",
+    "apps/web/src/wallet.ts": "396d5255d686795cb4c54d190c1372055c7211ce377c6403a4ca2c6c94eeebf0",
+    "apps/web/src/main.tsx": "7ac102c3c500b1eae2b3c705ac5834548eff77fdb4b9d716b56c2c3b2a2e93ac",
+    "apps/web/src/polyfill.ts": "ad1361906003d184350b0ad0e1f988cd8effeec0f5c9b148f314ea35af2c152b",
+    "apps/web/src/routes/prepare.tsx": "38df53b8b691c134d6dce440e86f8d58986f507c4e00fc6d168ad050a3ca4f7a",
+    "apps/web/src/routes/compare.tsx": "13c34f5e72137cf5012105539371c79d2ddcc6f6d810c2c407d5084ece9447a4",
+    "apps/web/src/routes/approve.tsx": "4d36ab7fc939c4b24679f3886eae2cdeb48cee804746eff72b8e8b5601612b53",
+    "apps/web/src/routes/intent.tsx": "635c789b48d1ca519aefee1398932089c52ee6f0254ccdb942c10ef59583ed8a",
+    "apps/web/src/components/PortfolioSlice.tsx": "98cef3cb4c445eed9a3d1cb18b2c457ad34aec4aa3075d29830fc0e247dd8342",
+    "apps/web/index.html": "9cba96205b8a95c4f7af4789bcb13d2dcb5e6bdabc162e1ad44c959f078d87e3",
+    "vite.config.ts": "8b53303e102c91281e278304e856b1e98b79e3198469026fad58d0433a577643",
+    "scripts/verify-task.mjs": "f7a6dcef807b1b6c10ddce0a4abecbe3e4a7cc1d0f3b52de5bbfd325933afcae",
+    "tests/ui/harness.ts": "208df35334b7f739d05da4b6fbcad3d66eddd5bb2df52e730b404155e880a788",
+    "packages/client/src/fund.ts": "4c4135da3f5459d2cfb77d01d7d91572ece86c5d823d5f01d9370df9d5d08d87",
+    "packages/client/src/discriminators.ts": "38166edf94b992477a24181e54bd9ca49f1b6ff8b649856e3d467c429db2faf9",
+    "tests/ui/approval.spec.ts": "e73396ce4847466fb87a630d3a494bee1c948a788ce6054b5362072fdb748b1e",
+    "playwright.config.ts": "98d15759f8f8c0d993938af0cde78956ce908164b50441094b6911475ce8939b",
+    "verification/tasks/T19.json": "a3fde06dc2e08bffa58802888db0dd9c5a8f3d68ffadd5f711c890e17c4cbe77"
+  },
+  "policyFixtureSha256": "e31d3209a0556554172821a35f16aeeb406fa1cf27ea01512ea279b4ea370ecf",
+  "environment": "LOCAL_NO_TRANSACTION",
+  "clusterGenesis": null,
+  "transactionCount": 0,
+  "versions": {
+    "node": "v24.10.0",
+    "pnpm": "10.17.1",
+    "anchor": "anchor-cli 1.1.2",
+    "cargo": "cargo 1.89.0 (c24e10642 2025-06-23)"
+  },
+  "checks": [
+    {
+      "name": "approval-flow",
+      "kind": "playwright",
+      "command": [
+        "corepack",
+        "pnpm@10.17.1",
+        "exec",
+        "playwright",
+        "test",
+        "tests/ui/approval.spec.ts"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "approval-flow.log",
+      "outputSha256": "05599d04a129b7020151668fba7b4fee08fa1360f3ba781f0c4684472e8fe023",
+      "passed": true
+    },
+    {
+      "name": "discriminators",
+      "kind": "workspace",
+      "command": [
+        "corepack",
+        "pnpm@10.17.1",
+        "check:workspace"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "discriminators.log",
+      "outputSha256": "4cc649b917b6e00576a2395b10ce3e69fd71707db62938a0256364f52268440f",
+      "passed": true
+    },
+    {
+      "name": "typescript",
+      "kind": "typecheck",
+      "command": [
+        "corepack",
+        "pnpm@10.17.1",
+        "exec",
+        "tsc",
+        "--noEmit"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "typescript.log",
+      "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "passed": true
+    }
+  ],
+  "mandatoryCheckCount": 3,
+  "executedCheckCount": 3,
+  "reviewer": null,
+  "limits": [
+    "Checks only; independent reviewer and actual runtime/compute capacity remain open"
+  ]
+}

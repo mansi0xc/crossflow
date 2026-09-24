@@ -9,6 +9,7 @@
     "scripts/verify-task.mjs",
     "tests/services/resource-limits.test.ts",
     "docs/spec/service-api.md",
+    "tests/services/orchestration.test.ts",
     "verification/tasks/T32.json"
   ],
   "checks": [
@@ -21,7 +22,8 @@
         "exec",
         "vitest",
         "run",
-        "tests/services/resource-limits.test.ts"
+        "tests/services/resource-limits.test.ts",
+        "tests/services/orchestration.test.ts"
       ]
     },
     {
