@@ -35,12 +35,16 @@ if (manifest.source.tree !== tree) errors.push(`manifest tree ${manifest.source.
 
 // Do not trim the whole output: the leading status space of the first line is meaningful.
 const dirty = execFileSync('git', ['status', '--porcelain'], { encoding: 'utf8' });
-// `.commandcode/` is agent tooling state (settings, learned preferences), not release content: it
-// changes as the tool is used and describes nothing about the artifact under test. It is excluded
-// here rather than allowlisted so it cannot be used to smuggle an unreviewed change into the tree.
+// Two kinds of transient state are excluded here rather than allowlisted, so neither can be used to
+// smuggle an unreviewed change into the tree:
+//   * `.commandcode/` — agent tooling state (settings, learned preferences), which changes as the
+//     tool is used and describes nothing about the artifact under test;
+//   * `artifacts/` — the generated per-task evidence log, rewritten by every `verify:task` run. The
+//     artifacts that actually ship are named in `manifest.artifacts` and are hash-checked below, so
+//     excluding this directory does not weaken the release hashing.
 const tracked = dirty.split('\n').filter(line => line.trim().length > 0)
   .filter(line => !line.startsWith('??')).map(line => line.slice(3).trim())
-  .filter(path => !path.startsWith('.commandcode/'));
+  .filter(path => !path.startsWith('.commandcode/') && !path.startsWith('artifacts/'));
 const ignored = new Set(manifest.source.uncommittedAllowlist ?? []);
 
 // The allowlist exists for the release paperwork a freeze rewrites in place — never for the code
