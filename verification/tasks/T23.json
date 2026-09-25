@@ -1,0 +1,48 @@
+{
+  "task": "T23",
+  "sourceFiles": [
+    "scripts/deploy-devnet.ts",
+    "scripts/network-guard.mjs",
+    "scripts/network-guard.d.mts",
+    "scripts/devnet-assets.ts",
+    "scripts/devnet-scenarios.ts",
+    "scripts/check-deployment.ts",
+    "docs/operations/deployment.md",
+    "tests/operations/network-guard.test.ts",
+    "verification/tasks/T23.json"
+  ],
+  "checks": [
+    {
+      "name": "network-guard",
+      "kind": "vitest",
+      "command": "corepack",
+      "args": [
+        "pnpm@10.17.1",
+        "exec",
+        "vitest",
+        "run",
+        "tests/operations/network-guard.test.ts"
+      ]
+    },
+    {
+      "name": "verification-harness",
+      "kind": "workspace",
+      "command": "corepack",
+      "args": [
+        "pnpm@10.17.1",
+        "check:workspace"
+      ]
+    },
+    {
+      "name": "typescript",
+      "kind": "typecheck",
+      "command": "corepack",
+      "args": [
+        "pnpm@10.17.1",
+        "exec",
+        "tsc",
+        "--noEmit"
+      ]
+    }
+  ]
+}

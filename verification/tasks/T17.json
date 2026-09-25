@@ -1,0 +1,48 @@
+{
+  "task": "T17",
+  "sourceFiles": [
+    "tests/security/properties.test.ts",
+    "tests/security/review-regressions.test.ts",
+    "scripts/measure-batch.ts",
+    "scripts/verify-task.mjs",
+    "docs/evidence/security-matrix.md",
+    "verification/tasks/T17.json"
+  ],
+  "checks": [
+    {
+      "name": "properties",
+      "kind": "vitest",
+      "command": "corepack",
+      "args": [
+        "pnpm@10.17.1",
+        "exec",
+        "vitest",
+        "run",
+        "tests/security"
+      ]
+    },
+    {
+      "name": "typescript",
+      "kind": "typecheck",
+      "command": "corepack",
+      "args": [
+        "pnpm@10.17.1",
+        "exec",
+        "tsc",
+        "--noEmit"
+      ]
+    },
+    {
+      "name": "composed-capacity",
+      "kind": "vitest",
+      "command": "corepack",
+      "args": [
+        "pnpm@10.17.1",
+        "exec",
+        "vitest",
+        "run",
+        "tests/program/atomic-batch.test.ts"
+      ]
+    }
+  ]
+}

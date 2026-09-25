@@ -1,0 +1,34 @@
+{
+  "task": "T24",
+  "sourceFiles": [
+    "verification/evidence/T24-devnet-output.json",
+    "verification/evidence/T24-devnet-manifest.json",
+    "scripts/check-t24-devnet-evidence.mjs",
+    "scripts/deploy-devnet.ts",
+    "scripts/devnet-scenarios.ts",
+    "docs/evidence/devnet-runs.md",
+    "scripts/verify-task.mjs",
+    "verification/tasks/T24.json"
+  ],
+  "checks": [
+    {
+      "name": "devnet-evidence",
+      "kind": "t24-runtime",
+      "command": "node",
+      "args": [
+        "scripts/check-t24-devnet-evidence.mjs"
+      ]
+    },
+    {
+      "name": "typescript",
+      "kind": "typecheck",
+      "command": "corepack",
+      "args": [
+        "pnpm@10.17.1",
+        "exec",
+        "tsc",
+        "--noEmit"
+      ]
+    }
+  ]
+}

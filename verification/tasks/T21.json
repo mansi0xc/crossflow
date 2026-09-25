@@ -1,0 +1,43 @@
+{
+  "task": "T21",
+  "sourceFiles": [
+    "services/optimizer/shared.py",
+    "scripts/evaluate-economics.py",
+    "tests/economics/test_evaluation.py",
+    "docs/evidence/economic-report.md",
+    "docs/evidence/economic-results.json",
+    "research/economics/scenarios.json",
+    "research/economics/split-manifest.json",
+    "verification/tasks/T21.json"
+  ],
+  "checks": [
+    {
+      "name": "evaluation-validator",
+      "kind": "python-test",
+      "command": "python3",
+      "args": [
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/economics",
+        "-p",
+        "test_evaluation.py"
+      ]
+    },
+    {
+      "name": "held-out-reproduces",
+      "kind": "python-test",
+      "command": "python3",
+      "args": [
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "services/optimizer",
+        "-p",
+        "test_engines.py"
+      ]
+    }
+  ]
+}

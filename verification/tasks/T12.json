@@ -1,0 +1,39 @@
+{
+  "task": "T12",
+  "sourceFiles": [
+    "services/optimizer/__init__.py",
+    "services/optimizer/shared.py",
+    "services/optimizer/independent.py",
+    "services/optimizer/fixed_netting.py",
+    "services/optimizer/cooperative.py",
+    "services/optimizer/test_engines.py",
+    "verification/tasks/T12.json"
+  ],
+  "checks": [
+    {
+      "name": "engines",
+      "kind": "python-test",
+      "command": "python3",
+      "args": [
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "services/optimizer",
+        "-p",
+        "test_engines.py"
+      ]
+    },
+    {
+      "name": "typescript",
+      "kind": "typecheck",
+      "command": "corepack",
+      "args": [
+        "pnpm@10.17.1",
+        "exec",
+        "tsc",
+        "--noEmit"
+      ]
+    }
+  ]
+}

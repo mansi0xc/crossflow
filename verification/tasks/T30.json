@@ -1,0 +1,33 @@
+{
+  "task": "T30",
+  "sourceFiles": [
+    "docs/release-manifest.json",
+    "docs/release-checklist.md",
+    "docs/evidence/rehearsal.md",
+    "docs/local-demo-runbook.md",
+    "scripts/verify-release.mjs",
+    "scripts/local-runs/README.md",
+    "verification/tasks/T30.json"
+  ],
+  "checks": [
+    {
+      "name": "release-manifest",
+      "kind": "release-manifest",
+      "command": "node",
+      "args": [
+        "scripts/verify-release.mjs"
+      ]
+    },
+    {
+      "name": "typescript",
+      "kind": "typecheck",
+      "command": "corepack",
+      "args": [
+        "pnpm@10.17.1",
+        "exec",
+        "tsc",
+        "--noEmit"
+      ]
+    }
+  ]
+}

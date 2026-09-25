@@ -1,0 +1,39 @@
+{
+  "task": "T22",
+  "sourceFiles": [
+    "docs/reviews/money-path-review.md",
+    "docs/reviews/findings.json",
+    "tests/security/review-regressions.test.ts",
+    ".planning/T09-INDEPENDENT-REVIEW.md",
+    ".planning/T16-INDEPENDENT-REVIEW.md",
+    ".planning/T32-INDEPENDENT-REVIEW.md",
+    "docs/evidence/security-matrix.md",
+    "verification/tasks/T22.json"
+  ],
+  "checks": [
+    {
+      "name": "review-regressions",
+      "kind": "vitest",
+      "command": "corepack",
+      "args": [
+        "pnpm@10.17.1",
+        "exec",
+        "vitest",
+        "run",
+        "tests/security/review-regressions.test.ts"
+      ]
+    },
+    {
+      "name": "typescript",
+      "kind": "typecheck",
+      "command": "corepack",
+      "args": [
+        "pnpm@10.17.1",
+        "exec",
+        "tsc",
+        "--noEmit"
+      ]
+    }
+  ],
+  "reviewer": "independent review agents \u2014 .planning/T09-INDEPENDENT-REVIEW.md, T16-INDEPENDENT-REVIEW.md, T32-INDEPENDENT-REVIEW.md"
+}

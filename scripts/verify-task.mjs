@@ -14,7 +14,7 @@ export function assertManifest(manifest, task) {
   for (const check of manifest.checks) {
     if (!check || typeof check.name !== 'string' || !/^[a-z0-9-]+$/.test(check.name) || names.has(check.name)) throw new Error('invalid/duplicate check name');
     names.add(check.name);
-    if (!['locked-install', 'workspace', 'vitest', 'typecheck', 'json-pass', 'cargo-test', 'anchor-build', 'capacity', 'local-runtime', 't06-runtime', 't07-runtime', 't08-runtime', 't09-runtime', 't10-runtime', 't16-runtime', 't32-runtime', 'playwright'].includes(check.kind)) throw new Error(`unknown evidence kind ${check.kind}`);
+    if (!['locked-install', 'workspace', 'vitest', 'typecheck', 'json-pass', 'cargo-test', 'anchor-build', 'capacity', 'local-runtime', 't06-runtime', 't07-runtime', 't08-runtime', 't09-runtime', 't10-runtime', 't16-runtime', 't32-runtime', 't24-runtime', 'release-manifest', 'playwright', 'python-test'].includes(check.kind)) throw new Error(`unknown evidence kind ${check.kind}`);
     if (typeof check.command !== 'string' || !/^[a-zA-Z0-9_-]+$/.test(check.command)) throw new Error('invalid command');
     if (!Array.isArray(check.args) || check.args.some((arg) => typeof arg !== 'string' || arg.includes('\0'))) throw new Error('invalid command args');
     if (check.args.join(' ').includes('mainnet')) throw new Error('mainnet command rejected');
@@ -45,6 +45,29 @@ export function assertFreshOutput(kind, stdout, stderr, root) {
     const node = combined.match(/ℹ pass\s+(\d+)/);
     const vitest = combined.match(/Tests\s+(\d+) passed/);
     if (!node || !vitest || Number(node[1]) < 1 || Number(vitest[1]) < 1 || /ℹ (?:fail|skipped|todo)\s+[1-9]|Tests\s+0 passed|\b(?:skipped|todo)\s*\([1-9]/i.test(combined)) throw new Error('workspace mandatory tests absent, failed or skipped');
+  } else if (kind === 'python-test') {
+    // `unittest` prints "Ran N tests" then "OK" on success; a skip is a missing check.
+    const ran = combined.match(/Ran (\d+) tests?/);
+    if (!ran || Number(ran[1]) < 1 || !/^OK$/m.test(combined) || /skipped=\d+/.test(combined)) {
+      throw new Error('Python test selection absent, failed or skipped');
+    }
+  } else if (kind === 'release-manifest') {
+    const result = JSON.parse(stdout.trim());
+    if (result.status !== 'PASS' || !(result.artifacts >= 1) || !(result.checks >= 1) || !(result.disclosures >= 1) ||
+        typeof result.commit !== 'string' || !/^[0-9a-f]{40}$/.test(result.commit)) {
+      throw new Error('release manifest does not describe this tree');
+    }
+  } else if (kind === 't24-runtime') {
+    const result = JSON.parse(stdout.trim());
+    if (result.status !== 'PASS' || result.task !== 'T24' || result.cluster !== 'devnet' ||
+        result.genesis !== 'EtWTRABZaYq6iMfeYKouRu166VU2xqa1wcaWoxPkrZBG' ||
+        !(result.compute_units > 0) || !(result.lookup_table_entries >= 30) ||
+        result.mandatory_negative_cases < 7 || result.recovery?.funded !== result.recovery?.returned ||
+        !(result.recovery?.assets >= 1) ||
+        Object.values(result.hashes ?? {}).length < 2 ||
+        Object.values(result.hashes ?? {}).some(value => typeof value !== 'string' || !/^[0-9a-f]{64}$/.test(value))) {
+      throw new Error('T24 devnet probe evidence is incomplete');
+    }
   } else if (kind === 'json-pass') {
     const report = JSON.parse(stdout.trim());
     if (report.status !== 'PASS' || report.positive_vectors < 1 || report.price_guard_vectors < 1 || report.flow_vectors < 1 || report.subsidy_counterexample_rejected !== true) throw new Error('wire vectors missing required positive/adversarial cases');
