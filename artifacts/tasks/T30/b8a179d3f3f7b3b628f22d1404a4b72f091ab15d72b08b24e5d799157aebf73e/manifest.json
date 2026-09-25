@@ -1,0 +1,62 @@
+{
+  "task": "T30",
+  "status": "CHECKS_PASS_REVIEW_PENDING",
+  "recordedAt": "2026-09-25T18:40:41.726Z",
+  "sourceCommit": "d64faa5af6239ac92eca76ad162719eb688f950b",
+  "sourceTreeSha256": "b8a179d3f3f7b3b628f22d1404a4b72f091ab15d72b08b24e5d799157aebf73e",
+  "sourceFiles": {
+    "docs/release-checklist.md": "51a2fb139e0aca5add6603576e55b5c8820a71a144bf3ba586ca2abf38588111",
+    "docs/evidence/rehearsal.md": "a0860a96d5f6553c23786f61a23b0df770dab419d336829822d39d644414b47a",
+    "docs/local-demo-runbook.md": "145207a329474f105974daa1f4bcf8a4ed3263d4865340e4e3a2b7f0f142fd1f",
+    "scripts/verify-release.mjs": "049ca307f66b4415410a034d29620a2a94d10acdb19864e379b62ce0b5f327dc",
+    "scripts/local-runs/README.md": "36b45585c3b753007c663fe84f9d056fdfdb19a1a94120336a19a9390be95b04",
+    "verification/tasks/T30.json": "5497e8d75063766c57dcaeaeafd7ae6507224682dfbd3cd96f0d37ba05243243"
+  },
+  "policyFixtureSha256": "e31d3209a0556554172821a35f16aeeb406fa1cf27ea01512ea279b4ea370ecf",
+  "environment": "LOCAL_NO_TRANSACTION",
+  "clusterGenesis": null,
+  "transactionCount": 0,
+  "versions": {
+    "node": "v24.10.0",
+    "pnpm": "10.17.1",
+    "anchor": "anchor-cli 1.1.2",
+    "cargo": "cargo 1.89.0 (c24e10642 2025-06-23)"
+  },
+  "checks": [
+    {
+      "name": "release-manifest",
+      "kind": "release-manifest",
+      "command": [
+        "node",
+        "scripts/verify-release.mjs"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "release-manifest.log",
+      "outputSha256": "2ade3cdf1e3ee622ca369bfb73aa1febb0b245a25bcc774c5bb5ae121df7ecb6",
+      "passed": true
+    },
+    {
+      "name": "typescript",
+      "kind": "typecheck",
+      "command": [
+        "corepack",
+        "pnpm@10.17.1",
+        "exec",
+        "tsc",
+        "--noEmit"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "typescript.log",
+      "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "passed": true
+    }
+  ],
+  "mandatoryCheckCount": 2,
+  "executedCheckCount": 2,
+  "reviewer": null,
+  "limits": [
+    "Checks only; independent reviewer and actual runtime/compute capacity remain open"
+  ]
+}

@@ -1,8 +1,8 @@
 {
   "task": "T21",
   "status": "CHECKS_PASS_REVIEW_PENDING",
-  "recordedAt": "2026-09-25T17:45:18.727Z",
-  "sourceCommit": "458b12d25d7622a1639ff166910dc107ff938285",
+  "recordedAt": "2026-09-25T18:40:21.688Z",
+  "sourceCommit": "d64faa5af6239ac92eca76ad162719eb688f950b",
   "sourceTreeSha256": "e6bacfcce997db5aee0e18e6998e5269a24c9cd0c72bc2e6f8c0c1040ca3edea",
   "sourceFiles": {
     "services/optimizer/shared.py": "b08404657b1acaf90fc6c235c68c02be20ea01ac4a9363314e0ec1e01d076e19",
@@ -41,7 +41,7 @@
       "exit": 0,
       "signal": null,
       "output": "evaluation-validator.log",
-      "outputSha256": "bdc54ab0829c85d1070df3b87ff4c8862a11fa2c1294dd024b605aa8b4ebf0c7",
+      "outputSha256": "e36b24f65b4db8c07a6098f1db5d70221c74cb25c372512f12b197c240e45e23",
       "passed": true
     },
     {
@@ -60,7 +60,7 @@
       "exit": 0,
       "signal": null,
       "output": "held-out-reproduces.log",
-      "outputSha256": "ec6af69d8b44a69b4e63545f2ddde5f8c47a7c904de9cf8dd2e44936d44a8877",
+      "outputSha256": "9702f43486c705186178da6e62c02cf67aa1bb59b15772946c07d32fc089e485",
       "passed": true
     }
   ],

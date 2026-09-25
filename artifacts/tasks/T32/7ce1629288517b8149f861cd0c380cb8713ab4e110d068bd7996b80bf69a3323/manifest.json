@@ -1,0 +1,106 @@
+{
+  "task": "T32",
+  "status": "CHECKS_PASS_REVIEW_PENDING",
+  "recordedAt": "2026-09-25T18:40:46.262Z",
+  "sourceCommit": "d64faa5af6239ac92eca76ad162719eb688f950b",
+  "sourceTreeSha256": "7ce1629288517b8149f861cd0c380cb8713ab4e110d068bd7996b80bf69a3323",
+  "sourceFiles": {
+    "services/api/src/server.ts": "5dc201da345beea8fe5c058f01e254beedcb15bb2d0a4045f684ecfa69247e90",
+    "services/api/src/intent-index.ts": "d5e7c4279e11fd3caa6c6d68298eb473f8913661626df5f9f99805121bc1346c",
+    "services/api/src/optimizer-runner.ts": "58608ab9bf06208d3e7fe51a5798d11db3699b21b1998d66a4f8c7b2e69451f1",
+    "services/api/src/batch-coordinator.ts": "e229f0c9a2970f501598d8605915e19da95fd2e86326efb689f1e91b79b0f574",
+    "services/optimizer/run_plan.py": "4580fc8a80413249826a2653ece786eeea196864d0046e8dd03901bf879b8e60",
+    "scripts/verify-task.mjs": "86339c5a9c79166809d09606f373ebb8ead9fbad821f95630d932a1617362408",
+    "tests/services/resource-limits.test.ts": "b1fa0293ff9e14bf7cfd57d92829677b5e9ad35f2dca05b2313a2c66ee3fcfff",
+    "docs/spec/service-api.md": "c86deea600befbb60f562bd142f19ce05beabccf84a6081565647524082bb0c7",
+    "tests/services/orchestration.test.ts": "1ec32b7ed61b8130c93e9f5ca78c180738729735fbd68515432306999a37a55d",
+    "verification/tasks/T32.json": "2cf6b0078be6ca1b4e609860ddd5549d979328370563bf16b5c983d733187017",
+    "scripts/demo-t32-service.ts": "bb3f5c35eca7cd57f9d41b2eb7fe11d13f9ca6ee3970111af69ecc0dfe84d475",
+    "scripts/check-t32-local-evidence.mjs": "8f46820554299e8bf74b9a3a627894f1c66c0afdca2c03be609ebb25083064fe",
+    "scripts/local-runs/run-t32.sh": "4344677c02b6a7fb2fb712d0b9ea15cbdd061775d8dc518da02bd9edf6022e3d",
+    "verification/evidence/T32-local-service-output.json": "ae6b7d05901dc78cbd039c828401a59fb1a33d754ed88c6f7fabf12587f44e3f",
+    "verification/evidence/T32-local-manifest.json": "3641cfe9ba91f0918aba60e12c65b698b0662a313c9c34491ec0e53a36c57366"
+  },
+  "policyFixtureSha256": "e31d3209a0556554172821a35f16aeeb406fa1cf27ea01512ea279b4ea370ecf",
+  "environment": "LOCAL_NO_TRANSACTION",
+  "clusterGenesis": null,
+  "transactionCount": 0,
+  "versions": {
+    "node": "v24.10.0",
+    "pnpm": "10.17.1",
+    "anchor": "anchor-cli 1.1.2",
+    "cargo": "cargo 1.89.0 (c24e10642 2025-06-23)"
+  },
+  "checks": [
+    {
+      "name": "service-limits",
+      "kind": "vitest",
+      "command": [
+        "corepack",
+        "pnpm@10.17.1",
+        "exec",
+        "vitest",
+        "run",
+        "tests/services/resource-limits.test.ts",
+        "tests/services/orchestration.test.ts"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "service-limits.log",
+      "outputSha256": "7124a8d42d5f00ec6a472482d2367e7b5bbfc318cbf58aa90179d84cddfb8dd8",
+      "passed": true
+    },
+    {
+      "name": "verification-harness",
+      "kind": "workspace",
+      "command": [
+        "corepack",
+        "pnpm@10.17.1",
+        "check:workspace"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "verification-harness.log",
+      "outputSha256": "125cdedd578cf0590ea1a857bf76c90d9e5365f574a12fc49d5c028f5d78f37e",
+      "passed": true
+    },
+    {
+      "name": "typescript",
+      "kind": "typecheck",
+      "command": [
+        "corepack",
+        "pnpm@10.17.1",
+        "exec",
+        "tsc",
+        "--noEmit"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "typescript.log",
+      "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "passed": true
+    },
+    {
+      "name": "local-service-e2e",
+      "kind": "t32-runtime",
+      "command": [
+        "corepack",
+        "pnpm@10.17.1",
+        "exec",
+        "tsx",
+        "scripts/check-t32-local-evidence.mjs"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "local-service-e2e.log",
+      "outputSha256": "3fd7fe36f291cbab1939c483e73fbceaca7da3a360affe94ab71cde5f1a97268",
+      "passed": true
+    }
+  ],
+  "mandatoryCheckCount": 4,
+  "executedCheckCount": 4,
+  "reviewer": null,
+  "limits": [
+    "Checks only; independent reviewer and actual runtime/compute capacity remain open"
+  ]
+}

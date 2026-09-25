@@ -1,0 +1,165 @@
+{
+  "task": "T16",
+  "status": "CHECKS_PASS_REVIEW_PENDING",
+  "recordedAt": "2026-09-25T18:11:20.820Z",
+  "sourceCommit": "052012d1021ae715e3c1a74c8449d237eac98be0",
+  "sourceTreeSha256": "5251b4e8d0f24e621431b38b06c41b2419d0b7ed175c87e0b14a95817ff37882",
+  "sourceFiles": {
+    "programs/crossflow/src/route.rs": "fefb0d4ff703534d4919ce0da9617461219ddf7503b05bddc6fc3461849d9e19",
+    "tests/program/routed-batch.test.ts": "5726538c97c0b731e1960bfd64ea0211472bb5cd9638cff03edbd008d92c9ca0",
+    "programs/crossflow/src/batch.rs": "87a06e9f3bff477caf2c0f7f7103f98d49136e013ba3aa3eee300f7d192c72fe",
+    "programs/crossflow/src/config.rs": "57d3268a2535ae3af0082eb9b5602dcb77fec8080879b1f4bdacdb631563fa8e",
+    "programs/crossflow/src/lib.rs": "ebaa572c86aaa7531f41a6992511cc86ac81b8e1a8aa587f297c1fcb61a9ae0d",
+    "programs/test-venue/src/lib.rs": "24ffc8896b0d90b6c1fce00a253fa4ac0fe8d8e40d639d7cde9b6030f3d0c1dd",
+    "packages/client/src/build-batch.ts": "d8757c4416da5cd692056b7d6d0682c42ba6ad55b527baf22c944e68ff21fc12",
+    "packages/adapters/src/controlled.ts": "4cf3fe5cda29642f7af817aa61dc3077c0fb680b948baa6e2afc55b453d65e5a",
+    "packages/planner/src/validate.ts": "f18dc13c024afcfa99e38e4766bebd118b95a14d7d6c066966e0925dd1ab369b",
+    "scripts/demo-t16-route.ts": "db13059aec47b8daa591f27ba00f2a3a96425e93eab35f248d6d0a32c698d343",
+    "scripts/prepare-route-manifest.ts": "cd43344ac14f497df248d148f2a6fada29b99ea2ca9712b2fb80f9cdcd2df4d7",
+    "scripts/check-t16-runtime-evidence.mjs": "57a8f46443894d0e2b021c4846f744ad2c1baae50471219fd98e2b7e36d79d9c",
+    "scripts/local-env.ts": "966aa7d03f66cb4b2bce0144116e3bd64d67c35c5cc6704821b67dab02694aad",
+    "scripts/verify-task.mjs": "37b45d2afce9cdb560983b74c30d11be39c576dfc01b46c4471b30968fc79701",
+    "tests/program/atomic-batch.test.ts": "7586c9c88a057b55118cbcfbcae0414aa8b629be379836e15523930906052802",
+    "tests/adapters/controlled-venue.test.ts": "c9f5ba39f9ee99ad5f7dedcdfae75ac52c3fe45932d82113734a4b0c246bd552",
+    "tests/workspace/verify-task.test.mjs": "b9159dfd4f2c6bbe5a1bac9a8d32bd3d0b22a3ef11331c991094a0fa844109c1",
+    "verification/evidence/T16-local-manifest.json": "615a44c726f0b72c955b25e92775f15fe3ca550968b753f1d9109fd1276ac20e",
+    "verification/evidence/T16-local-route-output.json": "19003f78bd271205bc82a64b083ad70c5d425b971b7e0d53dbe6664172ffdad2",
+    "verification/tasks/T16.json": "36016e4b95d036748e1981011f78a22ae1924091edadf5d101b20bf88a4781e3"
+  },
+  "policyFixtureSha256": "e31d3209a0556554172821a35f16aeeb406fa1cf27ea01512ea279b4ea370ecf",
+  "environment": "LOCAL_VALIDATOR_TRANSCRIPT",
+  "clusterGenesis": "2nq3rzqWSN1A2UYcjKtJ7Q5EaVpXh3GG33goxUqPMGrG",
+  "transactionCount": 0,
+  "versions": {
+    "node": "v24.10.0",
+    "pnpm": "10.17.1",
+    "anchor": "anchor-cli 1.1.2",
+    "cargo": "cargo 1.89.0 (c24e10642 2025-06-23)"
+  },
+  "checks": [
+    {
+      "name": "routed-client",
+      "kind": "vitest",
+      "command": [
+        "corepack",
+        "pnpm@10.17.1",
+        "exec",
+        "vitest",
+        "run",
+        "tests/program/routed-batch.test.ts",
+        "tests/program/atomic-batch.test.ts",
+        "tests/adapters/controlled-venue.test.ts",
+        "tests/planner/validation.test.ts"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "routed-client.log",
+      "outputSha256": "f585b84ee8035760f949b35c94de9590cd4c67ed5c2db0d5e4f8d64e138decd4",
+      "passed": true
+    },
+    {
+      "name": "verification-harness",
+      "kind": "workspace",
+      "command": [
+        "corepack",
+        "pnpm@10.17.1",
+        "check:workspace"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "verification-harness.log",
+      "outputSha256": "04ff3b024eb58fd516248f78985306f713f4cb3a6e1e30f52fbf495ca81be44a",
+      "passed": true
+    },
+    {
+      "name": "typescript",
+      "kind": "typecheck",
+      "command": [
+        "corepack",
+        "pnpm@10.17.1",
+        "exec",
+        "tsc",
+        "--noEmit"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "typescript.log",
+      "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "passed": true
+    },
+    {
+      "name": "rust-host",
+      "kind": "cargo-test",
+      "command": [
+        "env",
+        "CROSSFLOW_DEPLOYMENT_MANIFEST=verification/evidence/T16-local-manifest.json",
+        "cargo",
+        "test",
+        "-p",
+        "crossflow",
+        "-p",
+        "test-venue",
+        "--lib",
+        "--locked",
+        "--offline"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "rust-host.log",
+      "outputSha256": "6d9d3cf206dcf457234a876dc86dbdcf4ac3bcec1d58feebaafb64b8f2400e92",
+      "passed": true
+    },
+    {
+      "name": "sbf-idl",
+      "kind": "anchor-build",
+      "command": [
+        "env",
+        "CROSSFLOW_DEPLOYMENT_MANIFEST=verification/evidence/T16-local-manifest.json",
+        "anchor",
+        "build"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "sbf-idl.log",
+      "outputSha256": "aa33f42682c2897a4f6bfa5e761f21b49d968d81638dae467fe387fc41b496f8",
+      "passed": true
+    },
+    {
+      "name": "wire-vectors",
+      "kind": "json-pass",
+      "command": [
+        "python3",
+        "docs/spec/check-wire-vectors.py"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "wire-vectors.log",
+      "outputSha256": "4ba0c74daf803caec22b7ce0dfdf7f25b077c3b00595a17953d98a725c46ee5f",
+      "passed": true
+    },
+    {
+      "name": "local-runtime-evidence",
+      "kind": "t16-runtime",
+      "command": [
+        "corepack",
+        "pnpm@10.17.1",
+        "exec",
+        "tsx",
+        "scripts/check-t16-runtime-evidence.mjs"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "local-runtime-evidence.log",
+      "outputSha256": "775f80cbede599acbee19232ba6872c36acaff7f728fa7c67b99cb0fedad07d1",
+      "passed": true
+    }
+  ],
+  "mandatoryCheckCount": 7,
+  "executedCheckCount": 7,
+  "reviewer": "independent review agent — .planning/T16-INDEPENDENT-REVIEW.md",
+  "limits": [
+    "Isolated local validator with synthetic TEST PRICES and test-token venue liquidity; no devnet, market or equity claim.",
+    "The venue is a fixed constant-product test venue pinned by the committed policy; it is not Meteora, Jupiter or a real market.",
+    "The routed leg is a single small sell; larger legs would exceed the committed ±200 bps per-owner execution band and must be rejected."
+  ]
+}

@@ -1,0 +1,78 @@
+{
+  "task": "T20",
+  "status": "CHECKS_PASS_REVIEW_PENDING",
+  "recordedAt": "2026-09-25T18:40:20.429Z",
+  "sourceCommit": "d64faa5af6239ac92eca76ad162719eb688f950b",
+  "sourceTreeSha256": "84ac80287030500fa1e0cc653a7af3d74d077f052adce5ad519ef7eac63769ed",
+  "sourceFiles": {
+    "apps/web/src/App.tsx": "a436f9cb1f66eded8a80d46362937d88f54b245b3f930bdb6dac7baa5dd4c356",
+    "apps/web/src/api.ts": "00c8cdd92e98993da3fff87989087d0800826a312f2912f581eaa6e10796b18d",
+    "apps/web/src/wallet.ts": "dd463c7378a17236d43c62d88d7d8cf2c8ddc8be5a739d385ca39fe9fe0df94d",
+    "apps/web/src/main.tsx": "e680fd911c7bb12a21ba40d16d3745733d2a21e27374095fa95abef7c1f828e4",
+    "apps/web/src/polyfill.ts": "ad1361906003d184350b0ad0e1f988cd8effeec0f5c9b148f314ea35af2c152b",
+    "apps/web/src/routes/prepare.tsx": "38df53b8b691c134d6dce440e86f8d58986f507c4e00fc6d168ad050a3ca4f7a",
+    "apps/web/src/routes/compare.tsx": "d6e8e22010e201d17f9a9696cbf22aca3b0ab81e5f690dd198b6d27d77bdfdea",
+    "apps/web/src/routes/approve.tsx": "e820a5646c3e4b7a421b366cfbd260ade6f82537d82c5499c22fa8a3d92891bf",
+    "apps/web/src/routes/intent.tsx": "875e632626e0b8a6607192dd606f56480e5324a244bf2f39c5e29c3879bef3de",
+    "apps/web/src/components/PortfolioSlice.tsx": "98cef3cb4c445eed9a3d1cb18b2c457ad34aec4aa3075d29830fc0e247dd8342",
+    "apps/web/index.html": "9cba96205b8a95c4f7af4789bcb13d2dcb5e6bdabc162e1ad44c959f078d87e3",
+    "vite.config.ts": "8b53303e102c91281e278304e856b1e98b79e3198469026fad58d0433a577643",
+    "scripts/verify-task.mjs": "86339c5a9c79166809d09606f373ebb8ead9fbad821f95630d932a1617362408",
+    "tests/ui/harness.ts": "89f0d5088828f059b153f165902351abeefacc99a5320fd0871843a14ebf9842",
+    "packages/client/src/recover.ts": "69221ef3a9298ccd47977e8349b714de8c512ca179fd1c7f8b95519a0b2ca94a",
+    "tests/ui/recovery.spec.ts": "f639fa4b5d6ae08c8fa13263db9adfd5ea6ffdde9ae181e67a473af5f1a23cf5",
+    "playwright.config.ts": "146a3b646bdc8f551de9fdb7b384105ce8605dc5978981ff8ea364e1661f2aac",
+    "verification/tasks/T20.json": "3593525b2a2ce77b07c51c517afd8e4109e3ca1ad928269db42c6998958c0816"
+  },
+  "policyFixtureSha256": "e31d3209a0556554172821a35f16aeeb406fa1cf27ea01512ea279b4ea370ecf",
+  "environment": "LOCAL_NO_TRANSACTION",
+  "clusterGenesis": null,
+  "transactionCount": 0,
+  "versions": {
+    "node": "v24.10.0",
+    "pnpm": "10.17.1",
+    "anchor": "anchor-cli 1.1.2",
+    "cargo": "cargo 1.89.0 (c24e10642 2025-06-23)"
+  },
+  "checks": [
+    {
+      "name": "recovery-flow",
+      "kind": "playwright",
+      "command": [
+        "corepack",
+        "pnpm@10.17.1",
+        "exec",
+        "playwright",
+        "test",
+        "tests/ui/recovery.spec.ts"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "recovery-flow.log",
+      "outputSha256": "643a777f75efdebcf6c260c88a95160ab9b5e473faaa01589ccb93ce828b4df4",
+      "passed": true
+    },
+    {
+      "name": "typescript",
+      "kind": "typecheck",
+      "command": [
+        "corepack",
+        "pnpm@10.17.1",
+        "exec",
+        "tsc",
+        "--noEmit"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "typescript.log",
+      "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "passed": true
+    }
+  ],
+  "mandatoryCheckCount": 2,
+  "executedCheckCount": 2,
+  "reviewer": null,
+  "limits": [
+    "Checks only; independent reviewer and actual runtime/compute capacity remain open"
+  ]
+}

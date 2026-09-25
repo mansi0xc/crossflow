@@ -1,0 +1,85 @@
+{
+  "task": "T28",
+  "status": "CHECKS_PASS_REVIEW_PENDING",
+  "recordedAt": "2026-09-25T18:40:38.518Z",
+  "sourceCommit": "d64faa5af6239ac92eca76ad162719eb688f950b",
+  "sourceTreeSha256": "dd4c7deb18c8576ef8e29f5cb6e5494d6beef5e436d97d4df0798248f463f4d2",
+  "sourceFiles": {
+    "scripts/soak.ts": "88f1a14ca4af4f3e9a2351d6016bfe643e073e26ede347af308eed323e0e4fe6",
+    "scripts/local-runs/run-soak.sh": "afbc52b76ce8aaef3a4670798f0659cbedd2bbddb832f7f31b239a72e259639b",
+    "tests/security/soak-properties.test.ts": "f33cc8437b54e77d0038db80480599df3aa7776612122dc5dceba3ed6d66a12b",
+    "docs/evidence/soak-report.json": "849689ae0bf64c44c20f1fc61fd36b11ebf057f57e517a00c2dc8fe4254d57f2",
+    "docs/evidence/capacity-report.md": "930bd2de2603d4fa53cccbdb91626b49eb7fd35fc150a631079b7f2163b5a9a0",
+    "programs/crossflow/src/recovery.rs": "80ec128d89b8f1e5a0e0581cea50dd71b0a162596016736327f29e880a96ad4e",
+    "packages/client/src/fund.ts": "4c4135da3f5459d2cfb77d01d7d91572ece86c5d823d5f01d9370df9d5d08d87",
+    "scripts/verify-task.mjs": "86339c5a9c79166809d09606f373ebb8ead9fbad821f95630d932a1617362408",
+    "verification/tasks/T28.json": "88cf1f42cd19230087440f6f32e47f8af8c29ae536f459849675a45d83614e6f"
+  },
+  "policyFixtureSha256": "e31d3209a0556554172821a35f16aeeb406fa1cf27ea01512ea279b4ea370ecf",
+  "environment": "LOCAL_NO_TRANSACTION",
+  "clusterGenesis": null,
+  "transactionCount": 0,
+  "versions": {
+    "node": "v24.10.0",
+    "pnpm": "10.17.1",
+    "anchor": "anchor-cli 1.1.2",
+    "cargo": "cargo 1.89.0 (c24e10642 2025-06-23)"
+  },
+  "checks": [
+    {
+      "name": "lifecycle-soak",
+      "kind": "soak-report",
+      "command": [
+        "corepack",
+        "pnpm@10.17.1",
+        "exec",
+        "tsx",
+        "scripts/report-soak.mjs"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "lifecycle-soak.log",
+      "outputSha256": "d84cc3bc36b4ac2e89d5756866a66abef14772cafcbab4c76c4caa5282011dfc",
+      "passed": true
+    },
+    {
+      "name": "soak-properties",
+      "kind": "vitest",
+      "command": [
+        "corepack",
+        "pnpm@10.17.1",
+        "exec",
+        "vitest",
+        "run",
+        "tests/security/soak-properties.test.ts"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "soak-properties.log",
+      "outputSha256": "a1cf9466104e512093e714d0e834e629d3dd53003cab85adc635da6d70cea776",
+      "passed": true
+    },
+    {
+      "name": "typescript",
+      "kind": "typecheck",
+      "command": [
+        "corepack",
+        "pnpm@10.17.1",
+        "exec",
+        "tsc",
+        "--noEmit"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "typescript.log",
+      "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "passed": true
+    }
+  ],
+  "mandatoryCheckCount": 3,
+  "executedCheckCount": 3,
+  "reviewer": "self-prepared; the recovery semantics the soak asserts were reviewed in .planning/T07-INDEPENDENT-REVIEW.md",
+  "limits": [
+    "Checks only; independent reviewer and actual runtime/compute capacity remain open"
+  ]
+}

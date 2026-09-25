@@ -1,10 +1,10 @@
 
 Running 5 tests using 1 worker
 
-  ✓  1 tests/ui/accessibility.spec.ts:12:3 › T27 accessibility and clarity › the four steps are reachable and operable with the keyboard alone (256ms)
-  ✓  2 tests/ui/accessibility.spec.ts:37:3 › T27 accessibility and clarity › status and errors carry text, not colour alone (238ms)
-  ✓  3 tests/ui/accessibility.spec.ts:50:3 › T27 accessibility and clarity › body text meets the WCAG AA contrast ratio (96ms)
-  ✓  4 tests/ui/accessibility.spec.ts:82:3 › T27 accessibility and clarity › every input is labelled and no decision lives only in a tooltip (368ms)
-  ✓  5 tests/ui/accessibility.spec.ts:109:3 › T27 accessibility and clarity › long values stay readable and the layout survives a narrow viewport (168ms)
+  ✓  1 tests/ui/accessibility.spec.ts:12:3 › T27 accessibility and clarity › the four steps are reachable and operable with the keyboard alone (261ms)
+  ✓  2 tests/ui/accessibility.spec.ts:37:3 › T27 accessibility and clarity › status and errors carry text, not colour alone (222ms)
+  ✓  3 tests/ui/accessibility.spec.ts:50:3 › T27 accessibility and clarity › body text meets the WCAG AA contrast ratio (103ms)
+  ✓  4 tests/ui/accessibility.spec.ts:82:3 › T27 accessibility and clarity › every input is labelled and no decision lives only in a tooltip (393ms)
+  ✓  5 tests/ui/accessibility.spec.ts:109:3 › T27 accessibility and clarity › long values stay readable and the layout survives a narrow viewport (151ms)
 
   5 passed (2.3s)

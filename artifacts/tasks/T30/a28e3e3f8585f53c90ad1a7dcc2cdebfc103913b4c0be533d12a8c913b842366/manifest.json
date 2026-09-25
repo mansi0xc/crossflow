@@ -1,0 +1,46 @@
+{
+  "task": "T30",
+  "status": "CHECKS_FAILED",
+  "recordedAt": "2026-09-25T18:32:06.926Z",
+  "sourceCommit": "cdaa5f036e69027fa263162313837b28d60a48e7",
+  "sourceTreeSha256": "a28e3e3f8585f53c90ad1a7dcc2cdebfc103913b4c0be533d12a8c913b842366",
+  "sourceFiles": {
+    "docs/release-checklist.md": "51a2fb139e0aca5add6603576e55b5c8820a71a144bf3ba586ca2abf38588111",
+    "docs/evidence/rehearsal.md": "a0860a96d5f6553c23786f61a23b0df770dab419d336829822d39d644414b47a",
+    "docs/local-demo-runbook.md": "145207a329474f105974daa1f4bcf8a4ed3263d4865340e4e3a2b7f0f142fd1f",
+    "scripts/verify-release.mjs": "3323b9ae8bd13f8a24aa10835dbf7685e9d4d81490d76236901088cd76139a87",
+    "scripts/local-runs/README.md": "36b45585c3b753007c663fe84f9d056fdfdb19a1a94120336a19a9390be95b04",
+    "verification/tasks/T30.json": "5497e8d75063766c57dcaeaeafd7ae6507224682dfbd3cd96f0d37ba05243243"
+  },
+  "policyFixtureSha256": "e31d3209a0556554172821a35f16aeeb406fa1cf27ea01512ea279b4ea370ecf",
+  "environment": "LOCAL_NO_TRANSACTION",
+  "clusterGenesis": null,
+  "transactionCount": 0,
+  "versions": {
+    "node": "v24.10.0",
+    "pnpm": "10.17.1",
+    "anchor": "anchor-cli 1.1.2",
+    "cargo": "cargo 1.89.0 (c24e10642 2025-06-23)"
+  },
+  "checks": [
+    {
+      "name": "release-manifest",
+      "kind": "release-manifest",
+      "command": [
+        "node",
+        "scripts/verify-release.mjs"
+      ],
+      "exit": 1,
+      "signal": null,
+      "output": "release-manifest.log",
+      "outputSha256": "2c422d1b38883b93196c533f5da9788cf09fd7094d4cc25b184b7827feb0df36",
+      "passed": false
+    }
+  ],
+  "mandatoryCheckCount": 2,
+  "executedCheckCount": 1,
+  "reviewer": null,
+  "limits": [
+    "Checks only; independent reviewer and actual runtime/compute capacity remain open"
+  ]
+}

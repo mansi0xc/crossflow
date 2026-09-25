@@ -1,0 +1,44 @@
+{
+  "status": "PASS",
+  "task": "T33",
+  "scope": "OPTIMIZER-DRIVEN EXECUTION ON A LOCAL VALIDATOR; synthetic test assets and TEST PRICES",
+  "cluster": "localnet",
+  "genesis": "8RpdQkarC7qvYJX28DgdzUDceBctLeQL8bTfx3nYoBFJ",
+  "program_id": "CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh",
+  "config": "Ez76EU3yb6yFDDVdSLthtq6XH38Twqi3v5jJsU9eFJZb",
+  "cycles": 4,
+  "recommendation_honored": [
+    "C",
+    "C",
+    "C",
+    "A"
+  ],
+  "residual_sell": 1,
+  "residual_buy": 1,
+  "sale_leg": {
+    "direction": "0",
+    "total_input_raw": "50000",
+    "minimum_output_raw": "490000"
+  },
+  "purchase_leg": {
+    "direction": "1",
+    "total_input_raw": "500000",
+    "minimum_output_raw": "49000"
+  },
+  "in_bounds_receipts": 9,
+  "route_differences": 2,
+  "exact_matches": 7,
+  "harmful_batch_refused": true,
+  "binary_sha256": "21708d9ac02bcff0c62fd026083e24ffd6b15ebf4f60932ef9c52d8bac898b73",
+  "hashes": {
+    "manifest": "af8a813418e7dcef31cb6fe750d9a1ff5692165522ad8dc8b2325f487ac18bf2",
+    "binary": "21708d9ac02bcff0c62fd026083e24ffd6b15ebf4f60932ef9c52d8bac898b73",
+    "service_source": "5dc201da345beea8fe5c058f01e254beedcb15bb2d0a4045f684ecfa69247e90"
+  },
+  "limitations": [
+    "Local validator, synthetic test assets and a labelled fixture oracle; no devnet and no market.",
+    "The cost model and market convention come from the frozen template, not from the caller; the assumptions list records which defaults were applied.",
+    "The residual leg executes against the controlled synthetic venue, not a real one.",
+    "A residual output is a venue fill: matches_proposal is false for that asset by construction, and the receipt reports its realized value against the signed bounds instead."
+  ]
+}

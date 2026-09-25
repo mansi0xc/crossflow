@@ -1,0 +1,11 @@
+{
+  "status": "PASS",
+  "task": "T29",
+  "artefacts": 7,
+  "relativeLinks": 55,
+  "prohibitedStatusesPresent": [
+    "excluded",
+    "not implemented"
+  ],
+  "note": "submission readiness only: whether the claims are true is what the per-task checks establish"
+}

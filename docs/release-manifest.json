@@ -3,11 +3,10 @@
   "release": "devnet-scope candidate",
   "frozenAt": "2026-09-25",
   "source": {
-    "commit": "1b5c3ae0ae76033bf7b6d490149a12746a7ce517",
-    "tree": "bbc69da7cb73d66f51f1793a0e350b374c2ea121",
+    "commit": "d64faa5af6239ac92eca76ad162719eb688f950b",
+    "tree": "418a4ae201b936e22c2f3be96de620a38b5470c1",
     "branch": "codex/t00-preflight",
     "uncommittedAllowlist": [
-      ".commandcode/settings.json",
       "docs/release-manifest.json",
       "docs/release-checklist.md",
       "docs/evidence/rehearsal.md",
@@ -30,14 +29,14 @@
     "python": "3.9.6"
   },
   "artifacts": {
-    "target/deploy/crossflow.so": "7eaed71afda075e5c2f7cd6ab88cf76f5afc63efc0cb80870292dca3a2f136ec",
+    "target/deploy/crossflow.so": "dfd1a99c35c1f36c9c1f9da04876fc170e3ce7abeaa7b1c3e1a3ff096418459f",
     "verification/evidence/T16-local-manifest.json": "615a44c726f0b72c955b25e92775f15fe3ca550968b753f1d9109fd1276ac20e",
     "verification/evidence/T16-local-route-output.json": "19003f78bd271205bc82a64b083ad70c5d425b971b7e0d53dbe6664172ffdad2",
     "verification/evidence/T24-devnet-manifest.json": "bc862586eec51b210061033763dcfcb5c2d595cbe805c1ac1d910880e732aa04",
     "verification/evidence/T24-devnet-output.json": "e35f71310741b44ed99d30dd355af443d9cc2f112186d6dba8374b6570357914",
     "verification/evidence/T33-local-manifest.json": "af8a813418e7dcef31cb6fe750d9a1ff5692165522ad8dc8b2325f487ac18bf2",
     "verification/evidence/T33-optimizer-execution-output.json": "794592385d04640b6b8b7e3a5b45ab17d27c645a184b427ecacf94885fb5e212",
-    "docs/evidence/economic-results.json": "0335b3e7c6dca9d95149e0e8045a730f740e68105d11b446c4c7fa4fd6bf147c",
+    "docs/evidence/economic-results.json": "4d3298245f6e8aaa8f657adafbe8bcf238f9b5b40901e9bd089c33965d785f9d",
     "docs/evidence/soak-report.json": "849689ae0bf64c44c20f1fc61fd36b11ebf057f57e517a00c2dc8fe4254d57f2",
     "docs/evidence/capacity-report.md": "930bd2de2603d4fa53cccbdb91626b49eb7fd35fc150a631079b7f2163b5a9a0",
     "docs/evidence/usability.md": "1cb07467957e7762707095188a87402721550120f4e20c075c617b07f06a402b"
@@ -226,7 +225,7 @@
     },
     {
       "name": "T33-optimizer-execution",
-      "command": "bash scripts/local-runs/run-optimizer.sh",
+      "command": "corepack pnpm@10.17.1 verify:task -- T33",
       "status": "PASS",
       "evidence": [
         "verification/evidence/T33-local-manifest.json",

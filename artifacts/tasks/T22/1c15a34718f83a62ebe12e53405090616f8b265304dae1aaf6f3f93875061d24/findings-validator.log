@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "task": "T22",
+  "scope": "CrossFlow v1 money path: funding, internal batch settlement, composed residual routing, recovery",
+  "reviews": 3,
+  "findings": 26,
+  "resolved": 26,
+  "serious": 1,
+  "open_findings": 0,
+  "not_established": 5,
+  "note": "a scoped engineering review, not an external audit certificate"
+}

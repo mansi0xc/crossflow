@@ -1,0 +1,60 @@
+{
+  "task": "T31",
+  "status": "CHECKS_PASS_REVIEW_PENDING",
+  "recordedAt": "2026-09-25T18:34:36.303Z",
+  "sourceCommit": "6cfd3e490ae2cd8d4d7f6c69a44219d6711f695e",
+  "sourceTreeSha256": "d6fe196d002bceab4cd2a3f51ce3bee5fc21c2decf9846e6264c832432736ff0",
+  "sourceFiles": {
+    "docs/submission-checklist.md": "00118a41c3b56ef1e9f675d9c997ca6eac0404c539c89360cdf29f93f2095f50",
+    "docs/submission-draft.md": "06d172533ffc742ca6ceab43117f08b9ec93c47d3794ed9e395406fb4d71cf57",
+    "docs/final-handoff.md": "0a02f1a0ccf8c0dec893c9c9266d12f636474ad976a3596e69213f2bfdcbd91b",
+    ".planning/STATE.md": "b085209cbf35b922554c5cd5754f7180bdc9a34e22c77bdcee3976b65b0aac88",
+    "scripts/verify-release.mjs": "049ca307f66b4415410a034d29620a2a94d10acdb19864e379b62ce0b5f327dc",
+    "scripts/check-submission.mjs": "cadf88ec86ec8338f8b628310d19c40c66abb08d45ab0212140953fb3018d287",
+    "verification/tasks/T31.json": "53089d45368ea44cce092d74ae3f6af9372ff50ebbeb22761656f638a2f7286d"
+  },
+  "policyFixtureSha256": "e31d3209a0556554172821a35f16aeeb406fa1cf27ea01512ea279b4ea370ecf",
+  "environment": "LOCAL_NO_TRANSACTION",
+  "clusterGenesis": null,
+  "transactionCount": 0,
+  "versions": {
+    "node": "v24.10.0",
+    "pnpm": "10.17.1",
+    "anchor": "anchor-cli 1.1.2",
+    "cargo": "cargo 1.89.0 (c24e10642 2025-06-23)"
+  },
+  "checks": [
+    {
+      "name": "submission-artefacts",
+      "kind": "submission-pass",
+      "command": [
+        "node",
+        "scripts/check-submission.mjs"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "submission-artefacts.log",
+      "outputSha256": "79501e4c1bd8b93c326f852f299b4e06bd16264133d60d219f447ab17c8bc244",
+      "passed": true
+    },
+    {
+      "name": "release-manifest",
+      "kind": "release-manifest",
+      "command": [
+        "node",
+        "scripts/verify-release.mjs"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "release-manifest.log",
+      "outputSha256": "cdc32595ccc96f1d84ea39b4bd1dba6202e0d86bb8a3e94d45c418e064361f8d",
+      "passed": true
+    }
+  ],
+  "mandatoryCheckCount": 2,
+  "executedCheckCount": 2,
+  "reviewer": "self-prepared; a human must review the rendered submission, and none has been published",
+  "limits": [
+    "Checks only; independent reviewer and actual runtime/compute capacity remain open"
+  ]
+}

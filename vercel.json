@@ -1,0 +1,27 @@
+{
+    "services": {
+        "frontend": {
+            "root": ".",
+            "framework": "vite"
+        },
+        "api": {
+            "root": "services/api"
+        }
+    },
+    "rewrites": [
+        {
+            "source": "/api(/.*)?",
+            "destination": {
+                "type": "service",
+                "service": "api"
+            }
+        },
+        {
+            "source": "/(.*)",
+            "destination": {
+                "type": "service",
+                "service": "frontend"
+            }
+        }
+    ]
+}

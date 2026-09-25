@@ -1,0 +1,8 @@
+{
+  "status": "PASS",
+  "commit": "6cfd3e490ae2cd8d4d7f6c69a44219d6711f695e",
+  "artifacts": 11,
+  "checks": 26,
+  "disclosures": 11,
+  "uncommittedAllowlist": 9
+}

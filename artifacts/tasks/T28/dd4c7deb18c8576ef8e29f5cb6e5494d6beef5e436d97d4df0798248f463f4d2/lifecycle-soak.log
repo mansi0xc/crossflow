@@ -1,0 +1,26 @@
+{
+  "status": "COMPLETE",
+  "task": "T28",
+  "profile": "release",
+  "cycles": 12,
+  "steps": 60,
+  "ok": 60,
+  "refused": 0,
+  "chain_errors": 0,
+  "max_compute": 202760,
+  "total_compute": 4111896,
+  "every_intent_closed": true,
+  "over_capacity": {
+    "owners": 4,
+    "status": "REFUSED",
+    "reason": "batch count"
+  },
+  "hashes": {
+    "manifest": "9b95d45a556db3178679ffe4e4079929d2c642b809a54f4d58e3c0a2cedd11ec"
+  },
+  "limitations": [
+    "Local validator with synthetic TEST PRICES; this is not a devnet soak and not a market.",
+    "The soak exercises the lifecycle and recovery paths, not the composed route (T16 covers that).",
+    "Finite runs are evidence, not proof of universal safety."
+  ]
+}

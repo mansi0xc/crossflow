@@ -1,0 +1,18 @@
+
+running 8 tests
+test oracle::tests::wrong_modes_feeds_interpretation_and_market_fail ... ok
+test oracle::tests::reference_movement_equality_and_one_unit ... ok
+test oracle::tests::per_trade_and_portfolio_guards_are_distinct ... ok
+test oracle::tests::time_confidence_and_identity_boundaries ... ok
+test oracle::tests::wrong_program_owner_rejects_read_and_publish_without_mutation ... ok
+test oracle::tests::wrong_snapshot_pda_rejects_read_and_publish_without_mutation ... ok
+test oracle::tests::corrupt_discriminator_rejects_read_and_publish_without_mutation ... ok
+test oracle::tests::real_account_binding_and_update_signature_monotonicity ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 20 filtered out; finished in 0.00s
+
+
+[stderr]
+warning: crossflow@0.1.0: CrossFlow deployment constants disabled; configuration initialization must reject
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.40s
+     Running unittests src/lib.rs (target/debug/deps/crossflow-b34776dde19ade09)

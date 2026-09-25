@@ -1,8 +1,8 @@
 {
   "task": "T27",
   "status": "CHECKS_PASS_REVIEW_PENDING",
-  "recordedAt": "2026-09-25T17:47:50.096Z",
-  "sourceCommit": "458b12d25d7622a1639ff166910dc107ff938285",
+  "recordedAt": "2026-09-25T18:40:36.292Z",
+  "sourceCommit": "d64faa5af6239ac92eca76ad162719eb688f950b",
   "sourceTreeSha256": "c8a1d66e6462b2219d5d0713310d9b3ef9a4cc5b9f83285efd61fb2bd86ed67c",
   "sourceFiles": {
     "apps/web/src/components/Explainer.tsx": "2cb72b0f6697ca8de04cdef46a3a0cb72f0976a4a2f1924ba86f7eb36f72fbd5",
@@ -42,7 +42,7 @@
       "exit": 0,
       "signal": null,
       "output": "accessibility.log",
-      "outputSha256": "5538b711785bb9d68b0d73fb2d862a0e9c3a0b574944632b445660b2144d8976",
+      "outputSha256": "e040f79e44bd7417451d69dad3b876061b02bc5296a71cdd7d6edefaf4167501",
       "passed": true
     },
     {
@@ -61,7 +61,7 @@
       "exit": 0,
       "signal": null,
       "output": "ui-regressions.log",
-      "outputSha256": "b2a9008a21b25ccecf25d710367a18b1a7ef843bb0cf98202754e49322612a00",
+      "outputSha256": "e0ddf8ac5aec470862fb9189dac2e7f9b0410c13e8cd8083940b0477b24e357f",
       "passed": true
     },
     {

@@ -1,0 +1,98 @@
+{
+  "task": "T33",
+  "status": "CHECKS_PASS_REVIEW_PENDING",
+  "recordedAt": "2026-09-25T18:40:49.952Z",
+  "sourceCommit": "d64faa5af6239ac92eca76ad162719eb688f950b",
+  "sourceTreeSha256": "9fe14c47a347fcc9b48fa1fb23bf807597d5efc3048bc47fc694d41a2380594c",
+  "sourceFiles": {
+    "packages/planner/src/proposal.ts": "3f09a9f6f377da91d128edfbc61d328a7108cf805fe7c7cdfca38dfdbb47bedb",
+    "tests/planner/compiler.test.ts": "594aa72b4e896390a51c983c5049f0ee068be4e1af8d1ee82c115ba72b7b1644",
+    "services/optimizer/cooperative.py": "14ba6efb98d01733469ed51d4af1eeda6e40d0e4fbb6eae273a564720e434834",
+    "services/optimizer/run_plan.py": "4580fc8a80413249826a2653ece786eeea196864d0046e8dd03901bf879b8e60",
+    "scripts/demo-optimizer-execution.ts": "5c1cb59a6d96479b81c448f1e5cade7cd4ad8c25b9a663003d0b77491eb243d1",
+    "scripts/local-runs/run-optimizer.sh": "25d7cc773c29de88549e6b3b598e78b270442bcba50a218ee0c6d6242ef8488a",
+    "scripts/check-t33-optimizer-evidence.mjs": "eb51142043d0228f13464b77085bbbb7ff8f52477dceb53e77f578ff7ddeeb44",
+    "scripts/verify-task.mjs": "86339c5a9c79166809d09606f373ebb8ead9fbad821f95630d932a1617362408",
+    "verification/tasks/T33.json": "3bc34996bda162a51e2b1acbead5a4ec2fc74e94dfe7a4706ef2d499db462529",
+    "verification/evidence/T33-local-manifest.json": "af8a813418e7dcef31cb6fe750d9a1ff5692165522ad8dc8b2325f487ac18bf2",
+    "verification/evidence/T33-optimizer-execution-output.json": "794592385d04640b6b8b7e3a5b45ab17d27c645a184b427ecacf94885fb5e212"
+  },
+  "policyFixtureSha256": "e31d3209a0556554172821a35f16aeeb406fa1cf27ea01512ea279b4ea370ecf",
+  "environment": "LOCAL_NO_TRANSACTION",
+  "clusterGenesis": null,
+  "transactionCount": 0,
+  "versions": {
+    "node": "v24.10.0",
+    "pnpm": "10.17.1",
+    "anchor": "anchor-cli 1.1.2",
+    "cargo": "cargo 1.89.0 (c24e10642 2025-06-23)"
+  },
+  "checks": [
+    {
+      "name": "planner-compiler",
+      "kind": "vitest",
+      "command": [
+        "corepack",
+        "pnpm@10.17.1",
+        "exec",
+        "vitest",
+        "run",
+        "tests/planner/compiler.test.ts"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "planner-compiler.log",
+      "outputSha256": "b96b83d01f27db0fe370c921c96f9ecadb65e93b9dfd6a1d9015100101f1970c",
+      "passed": true
+    },
+    {
+      "name": "verification-harness",
+      "kind": "workspace",
+      "command": [
+        "corepack",
+        "pnpm@10.17.1",
+        "check:workspace"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "verification-harness.log",
+      "outputSha256": "5cbd1df764f2ee947bdc3c8e3085a7ad11ed542be4d03cc5c661fded3f1be478",
+      "passed": true
+    },
+    {
+      "name": "typescript",
+      "kind": "typecheck",
+      "command": [
+        "corepack",
+        "pnpm@10.17.1",
+        "exec",
+        "tsc",
+        "--noEmit"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "typescript.log",
+      "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "passed": true
+    },
+    {
+      "name": "optimizer-execution",
+      "kind": "t33-runtime",
+      "command": [
+        "node",
+        "scripts/check-t33-optimizer-evidence.mjs"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "optimizer-execution.log",
+      "outputSha256": "0f9a25150592ae8f836349adc4e8830dc220a90d1c04d15ec23d696e4eb6b1c8",
+      "passed": true
+    }
+  ],
+  "mandatoryCheckCount": 4,
+  "executedCheckCount": 4,
+  "reviewer": "the reviewer identified the purchase-unit defect and the reconciliation ambiguity; the demonstration is reproducible from `bash scripts/local-runs/run-optimizer.sh` on a fresh local validator",
+  "limits": [
+    "Checks only; independent reviewer and actual runtime/compute capacity remain open"
+  ]
+}

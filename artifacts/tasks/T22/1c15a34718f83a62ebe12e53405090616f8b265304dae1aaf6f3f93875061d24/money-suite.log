@@ -1,0 +1,26 @@
+
+[1m[30m[46m RUN [49m[39m[22m [36mv5.0.1 [39m[90m/Users/mansitibrewal/chronicles/crossflow[39m
+
+[90mstdout[2m | tests/security/soak-properties.test.ts[2m > [22m[2mT28 lifecycle soak properties[2m > [22m[2minvariants hold after every operation across 120 seeded interleavings
+[22m[39msoak: applied=2579 refused=4621 settled=505 closed=339
+
+ [32m✓[39m tests/security/soak-properties.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 43[2mms[22m[39m
+ [32m✓[39m tests/program/lifecycle.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 8[2mms[22m[39m
+ [32m✓[39m tests/program/thin-flow.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 21[2mms[22m[39m
+ [32m✓[39m tests/program/routed-batch.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 19[2mms[22m[39m
+ [32m✓[39m tests/program/funding.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 45[2mms[22m[39m
+ [32m✓[39m tests/security/review-regressions.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 53[2mms[22m[39m
+ [32m✓[39m tests/planner/compiler.test.ts [2m([22m[2m12 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+ [32m✓[39m tests/program/assets-math.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+ [32m✓[39m tests/program/atomic-batch.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 23[2mms[22m[39m
+ [32m✓[39m tests/planner/validation.test.ts [2m([22m[2m15 tests[22m[2m)[22m[32m 215[2mms[22m[39m
+ [32m✓[39m tests/security/adversarial.test.ts [2m([22m[2m16 tests[22m[2m)[22m[32m 162[2mms[22m[39m
+ [32m✓[39m tests/planner/cost-allocation.test.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32m✓[39m tests/program/config.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/security/properties.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 292[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m14 passed[39m[22m[90m (14)[39m
+[2m      Tests [22m [1m[32m90 passed[39m[22m[90m (90)[39m
+[2m   Start at [22m 00:10:22
+[2m   Duration [22m 563ms[2m (import 42%, tests 30%, transform 27%, worker 1%)[22m
+

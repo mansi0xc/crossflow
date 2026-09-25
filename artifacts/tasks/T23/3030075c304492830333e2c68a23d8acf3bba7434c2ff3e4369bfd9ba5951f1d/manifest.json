@@ -1,8 +1,8 @@
 {
   "task": "T23",
   "status": "CHECKS_PASS_REVIEW_PENDING",
-  "recordedAt": "2026-09-25T17:47:41.464Z",
-  "sourceCommit": "458b12d25d7622a1639ff166910dc107ff938285",
+  "recordedAt": "2026-09-25T18:40:27.756Z",
+  "sourceCommit": "d64faa5af6239ac92eca76ad162719eb688f950b",
   "sourceTreeSha256": "3030075c304492830333e2c68a23d8acf3bba7434c2ff3e4369bfd9ba5951f1d",
   "sourceFiles": {
     "scripts/deploy-devnet.ts": "541eae4b8619f2e3fd896950624ff7f0e55c4cf4db2c832722920a05843ae8b6",
@@ -40,7 +40,7 @@
       "exit": 0,
       "signal": null,
       "output": "network-guard.log",
-      "outputSha256": "e636c44eaeb151fc73fc7f7370705451dc18caa92c84d446a9aace08a368c4d3",
+      "outputSha256": "cac49118c0a36122edb831d29f8a86fb8603a4590ac14da1cef57401f1b4ed41",
       "passed": true
     },
     {
@@ -54,7 +54,7 @@
       "exit": 0,
       "signal": null,
       "output": "verification-harness.log",
-      "outputSha256": "0629650019eb10d9f4697835449f2ae569dcafb5bd8a79614758a46724f7f684",
+      "outputSha256": "25532b91a935a74d5838b5dc87444b7b7d61db39537f0cf57a4b81617ad3885f",
       "passed": true
     },
     {

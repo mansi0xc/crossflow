@@ -1,0 +1,8 @@
+
+[stderr]
+uncommitted tracked changes: artifacts/tasks/T12/0a3aae0c6adbf7581c741166795429b63ea2c737e6e72d43827ff1424a4e0568/manifest.json, artifacts/tasks/T21/e6bacfcce997db5aee0e18e6998e5269a24c9cd0c72bc2e6f8c0c1040ca3edea/evaluation-validator.log, artifacts/tasks/T21/e6bacfcce997db5aee0e18e6998e5269a24c9cd0c72bc2e6f8c0c1040ca3edea/held-out-reproduces.log, artifacts/tasks/T21/e6bacfcce997db5aee0e18e6998e5269a24c9cd0c72bc2e6f8c0c1040ca3edea/manifest.json, artifacts/tasks/T23/3030075c304492830333e2c68a23d8acf3bba7434c2ff3e4369bfd9ba5951f1d/manifest.json, artifacts/tasks/T23/3030075c304492830333e2c68a23d8acf3bba7434c2ff3e4369bfd9ba5951f1d/network-guard.log, artifacts/tasks/T23/3030075c304492830333e2c68a23d8acf3bba7434c2ff3e4369bfd9ba5951f1d/verification-harness.log, artifacts/tasks/T27/c8a1d66e6462b2219d5d0713310d9b3ef9a4cc5b9f83285efd61fb2bd86ed67c/accessibility.log, artifacts/tasks/T27/c8a1d66e6462b2219d5d0713310d9b3ef9a4cc5b9f83285efd61fb2bd86ed67c/manifest.json, artifacts/tasks/T27/c8a1d66e6462b2219d5d0713310d9b3ef9a4cc5b9f83285efd61fb2bd86ed67c/ui-regressions.log
+artifact target/deploy/crossflow.so changed: dfd1a99c35c1f36c9c1f9da04876fc170e3ce7abeaa7b1c3e1a3ff096418459f != 7eaed71afda075e5c2f7cd6ab88cf76f5afc63efc0cb80870292dca3a2f136ec
+
+The release manifest is frozen to a specific commit. If this is a legitimate new candidate, re-freeze it as the last step before submission:
+  node scripts/verify-release.mjs --freeze
+and commit the updated docs/release-manifest.json.
