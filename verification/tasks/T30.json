@@ -1,7 +1,6 @@
 {
   "task": "T30",
   "sourceFiles": [
-    "docs/release-manifest.json",
     "docs/release-checklist.md",
     "docs/evidence/rehearsal.md",
     "docs/local-demo-runbook.md",

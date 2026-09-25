@@ -5,7 +5,6 @@
     "docs/submission-draft.md",
     "docs/final-handoff.md",
     ".planning/STATE.md",
-    "docs/release-manifest.json",
     "scripts/verify-release.mjs",
     "scripts/check-submission.mjs",
     "verification/tasks/T31.json"
