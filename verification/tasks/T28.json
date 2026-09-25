@@ -1,0 +1,35 @@
+{
+  "task": "T28",
+  "reviewer": "self-prepared; the recovery semantics the soak asserts were reviewed in .planning/T07-INDEPENDENT-REVIEW.md",
+  "sourceFiles": [
+    "scripts/soak.ts",
+    "scripts/local-runs/run-soak.sh",
+    "tests/security/soak-properties.test.ts",
+    "docs/evidence/soak-report.json",
+    "docs/evidence/capacity-report.md",
+    "programs/crossflow/src/recovery.rs",
+    "packages/client/src/fund.ts",
+    "scripts/verify-task.mjs",
+    "verification/tasks/T28.json"
+  ],
+  "checks": [
+    {
+      "name": "lifecycle-soak",
+      "kind": "soak-report",
+      "command": "corepack",
+      "args": ["pnpm@10.17.1", "exec", "tsx", "scripts/report-soak.mjs"]
+    },
+    {
+      "name": "soak-properties",
+      "kind": "vitest",
+      "command": "corepack",
+      "args": ["pnpm@10.17.1", "exec", "vitest", "run", "tests/security/soak-properties.test.ts"]
+    },
+    {
+      "name": "typescript",
+      "kind": "typecheck",
+      "command": "corepack",
+      "args": ["pnpm@10.17.1", "exec", "tsc", "--noEmit"]
+    }
+  ]
+}

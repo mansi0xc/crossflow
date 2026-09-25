@@ -7,6 +7,7 @@ import { Prepare } from './routes/prepare.js';
 import { Compare } from './routes/compare.js';
 import { Approve } from './routes/approve.js';
 import { Intent } from './routes/intent.js';
+import { Explainer } from './components/Explainer.js';
 
 export type Step = 'prepare' | 'compare' | 'approve' | 'intent';
 
@@ -76,17 +77,20 @@ export default function App() {
 
   return (
     <div className="app">
+      <a className="skip-link" href="#main">Skip to the main content</a>
       <header>
         <h1>CrossFlow</h1>
         {/* The cluster label is persistent and never implied by context. */}
         <p className="cluster" data-testid="cluster-label">
           {deployment ? `${deployment.cluster.toUpperCase()} · test assets only · ${deployment.oracleLabel}` : 'loading deployment identity…'}
         </p>
-        <nav>
+        <nav aria-label="Steps">
           {(['prepare', 'compare', 'approve', 'intent'] as Step[]).map(candidate => (
             <button
               key={candidate}
+              type="button"
               data-testid={`nav-${candidate}`}
+              aria-current={candidate === step ? 'step' : undefined}
               className={candidate === step ? 'active' : ''}
               onClick={() => setStep(candidate)}
               disabled={
@@ -102,17 +106,23 @@ export default function App() {
       </header>
 
       <p className="wallet" data-testid="wallet-status">
-        wallet: {wallet ? wallet.toBase58() : providerLabel(provider)}
-        {wallet ? null : <button data-testid="connect-wallet" onClick={connectWallet}>connect</button>}
+        wallet: <span className="mono">{wallet ? wallet.toBase58() : providerLabel(provider)}</span>
+        {wallet ? null : <button type="button" data-testid="connect-wallet" onClick={connectWallet}>connect</button>}
       </p>
 
-      {error ? <p className="error" data-testid="error">{error}</p> : null}
-      {intentError ? <p className="warn" data-testid="intent-error-banner">{intentError}</p> : null}
-      {busy ? <p className="busy">working…</p> : null}
+      {/* Errors are announced, and carry a word rather than relying on colour alone. */}
+      {error ? <p className="error" role="alert" data-testid="error"><strong>Error:</strong> {error}</p> : null}
+      {intentError ? <p className="warn" role="status" data-testid="intent-error-banner"><strong>Warning:</strong> {intentError}</p> : null}
+      {busy ? <p className="busy" role="status" aria-live="polite">working…</p> : null}
 
+      <main id="main" tabIndex={-1}>
+        <p className="visually-hidden" aria-live="polite">
+          Step {['prepare', 'compare', 'approve', 'intent'].indexOf(step) + 1} of 4: {step}
+        </p>
       {step === 'prepare' ? (
         <Prepare deployment={deployment} scenarios={SCENARIOS} onPlan={runPlan} />
       ) : null}
+      {step === 'prepare' ? <Explainer /> : null}
       {step === 'compare' && plan ? (
         <Compare plan={plan} onApprove={() => setStep('approve')} />
       ) : null}
@@ -140,6 +150,7 @@ export default function App() {
           onRefresh={refreshIntents}
         />
       ) : null}
+      </main>
 
       <footer>
         <small>

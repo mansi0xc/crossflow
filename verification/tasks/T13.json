@@ -1,0 +1,33 @@
+{
+  "task": "T13",
+  "reviewer": "self-prepared; the economic engines it aligns with were reviewed in .planning/T11-REVIEW.md",
+  "sourceFiles": [
+    "packages/planner/src/costs.ts",
+    "packages/planner/src/comparison.ts",
+    "packages/planner/src/mandate.ts",
+    "tests/planner/cost-allocation.test.ts",
+    "docs/spec/cost-allocation.md",
+    "scripts/verify-task.mjs",
+    "verification/tasks/T13.json"
+  ],
+  "checks": [
+    {
+      "name": "cost-allocation",
+      "kind": "vitest",
+      "command": "corepack",
+      "args": ["pnpm@10.17.1", "exec", "vitest", "run", "tests/planner/cost-allocation.test.ts", "tests/planner/validation.test.ts"]
+    },
+    {
+      "name": "typescript",
+      "kind": "typecheck",
+      "command": "corepack",
+      "args": ["pnpm@10.17.1", "exec", "tsc", "--noEmit"]
+    },
+    {
+      "name": "planner-regressions",
+      "kind": "vitest",
+      "command": "corepack",
+      "args": ["pnpm@10.17.1", "exec", "vitest", "run", "tests/security"]
+    }
+  ]
+}

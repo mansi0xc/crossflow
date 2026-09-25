@@ -14,7 +14,7 @@ export function assertManifest(manifest, task) {
   for (const check of manifest.checks) {
     if (!check || typeof check.name !== 'string' || !/^[a-z0-9-]+$/.test(check.name) || names.has(check.name)) throw new Error('invalid/duplicate check name');
     names.add(check.name);
-    if (!['locked-install', 'workspace', 'vitest', 'typecheck', 'json-pass', 'cargo-test', 'anchor-build', 'capacity', 'local-runtime', 't06-runtime', 't07-runtime', 't08-runtime', 't09-runtime', 't10-runtime', 't16-runtime', 't32-runtime', 't24-runtime', 'release-manifest', 'playwright', 'python-test'].includes(check.kind)) throw new Error(`unknown evidence kind ${check.kind}`);
+    if (!['locked-install', 'workspace', 'vitest', 'typecheck', 'json-pass', 'cargo-test', 'anchor-build', 'capacity', 'local-runtime', 't06-runtime', 't07-runtime', 't08-runtime', 't09-runtime', 't10-runtime', 't16-runtime', 't32-runtime', 't24-runtime', 'release-manifest', 'soak-report', 'playwright', 'python-test'].includes(check.kind)) throw new Error(`unknown evidence kind ${check.kind}`);
     if (typeof check.command !== 'string' || !/^[a-zA-Z0-9_-]+$/.test(check.command)) throw new Error('invalid command');
     if (!Array.isArray(check.args) || check.args.some((arg) => typeof arg !== 'string' || arg.includes('\0'))) throw new Error('invalid command args');
     if (check.args.join(' ').includes('mainnet')) throw new Error('mainnet command rejected');
@@ -50,6 +50,13 @@ export function assertFreshOutput(kind, stdout, stderr, root) {
     const ran = combined.match(/Ran (\d+) tests?/);
     if (!ran || Number(ran[1]) < 1 || !/^OK$/m.test(combined) || /skipped=\d+/.test(combined)) {
       throw new Error('Python test selection absent, failed or skipped');
+    }
+  } else if (kind === 'soak-report') {
+    const result = JSON.parse(stdout.trim());
+    if (result.status !== 'COMPLETE' || !(result.cycles >= 3) || !(result.steps >= 10) ||
+        result.chain_errors !== 0 || result.ok < 1 ||
+        !(result.refused >= 0) || !(result.max_compute > 0)) {
+      throw new Error('soak report is incomplete or reports failures');
     }
   } else if (kind === 'release-manifest') {
     const result = JSON.parse(stdout.trim());

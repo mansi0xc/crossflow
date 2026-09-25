@@ -1,0 +1,69 @@
+{
+  "task": "T12",
+  "status": "CHECKS_PASS_REVIEW_PENDING",
+  "recordedAt": "2026-09-25T00:11:28.526Z",
+  "sourceCommit": "c5a7e04649c25be1d7a554a07d1e1cc1fbfe5057",
+  "sourceTreeSha256": "f666036d0d39514cd3793300a6760b5f8dc3870cef4267adce65bda6d01f44fd",
+  "sourceFiles": {
+    "services/optimizer/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "services/optimizer/shared.py": "d87b69f049bdd790c3e0071fbe63a369e12fb6557065720f7d240e67ff697053",
+    "services/optimizer/independent.py": "8a5b4eb8e342831183546b590e310a48d26d2b6c4069e9e9b29de6dde5cb1b73",
+    "services/optimizer/fixed_netting.py": "e25933ce05cf2c269e7c7c57cd37bb1b4d4bbf99408e899ae22602c17cac22fa",
+    "services/optimizer/cooperative.py": "802268aace0b47f628a49b19093561c9bf14b5fed1a07676de17c27c65aa58f1",
+    "services/optimizer/test_engines.py": "44055ee7475f37b55eb7f4a92e78e3824d69bf1a61cf9de4e71095f2191709af",
+    "verification/tasks/T12.json": "e7e7953c51649bd4915211f70635dfb06435205f5b862b58a27d457b823d8af5"
+  },
+  "policyFixtureSha256": "e31d3209a0556554172821a35f16aeeb406fa1cf27ea01512ea279b4ea370ecf",
+  "environment": "LOCAL_NO_TRANSACTION",
+  "clusterGenesis": null,
+  "transactionCount": 0,
+  "versions": {
+    "node": "v24.10.0",
+    "pnpm": "10.17.1",
+    "anchor": "anchor-cli 1.1.2",
+    "cargo": "cargo 1.89.0 (c24e10642 2025-06-23)"
+  },
+  "checks": [
+    {
+      "name": "engines",
+      "kind": "python-test",
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "services/optimizer",
+        "-p",
+        "test_engines.py"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "engines.log",
+      "outputSha256": "790264fff67b7463066b0e4579f1ad6dfba71a27ef0b0c065259668ae5252206",
+      "passed": true
+    },
+    {
+      "name": "typescript",
+      "kind": "typecheck",
+      "command": [
+        "corepack",
+        "pnpm@10.17.1",
+        "exec",
+        "tsc",
+        "--noEmit"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "typescript.log",
+      "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "passed": true
+    }
+  ],
+  "mandatoryCheckCount": 2,
+  "executedCheckCount": 2,
+  "reviewer": null,
+  "limits": [
+    "Checks only; independent reviewer and actual runtime/compute capacity remain open"
+  ]
+}

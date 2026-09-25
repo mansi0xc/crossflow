@@ -1,0 +1,558 @@
+{
+  "status": "COMPLETE",
+  "task": "T28",
+  "scope": "LOCAL SOAK; synthetic test assets; no devnet soak in this run",
+  "profile": "release",
+  "cluster": "localnet",
+  "genesis": "AymupZTHZ8bSHM5nW6do94UZfVSyPDcgPZt1NRdRbqZ5",
+  "program_id": "CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh",
+  "config": "C6MH9uDfh6Lh7yXTNmPswQzb2Tr4WxmBFPJYH3Te66Zv",
+  "cycles": 12,
+  "owners": 3,
+  "totals": {
+    "steps": 60,
+    "ok": 60,
+    "refused": 0,
+    "chain_errors": 0,
+    "max_compute": 202760,
+    "total_compute": 4111896
+  },
+  "rent": {
+    "everyIntentClosed": true,
+    "rentPerIntentLamports": "4524000",
+    "lamportDeltaPerCycle": [
+      "-1709320",
+      "-1709320",
+      "-1709320",
+      "-25000",
+      "-25000",
+      "-25000",
+      "-25000",
+      "-25000",
+      "-25000",
+      "-25000",
+      "-25000",
+      "-25000"
+    ],
+    "ownerStateRentLamports": "1684320",
+    "note": "an intent returns its rent when it closes, so the owner lamport delta is fees only; the first cycle for each owner is larger by the permanent owner-state rent, which is why cycles 0-2 differ from cycles 3-11"
+  },
+  "confirmation": {
+    "slowestCycleMs": 2897,
+    "meanCycleMs": 2820
+  },
+  "capacity": {
+    "supported": {
+      "owners": 3,
+      "status": "MEASURED_BY_NAMED_RUNS",
+      "compute": null,
+      "serializedBytes": null,
+      "cited": {
+        "internal-batch": {
+          "source": "verification/evidence/T09-local-batch-output.json",
+          "computeUnits": 205117,
+          "serializedBytes": 350,
+          "lookupTableEntries": 33,
+          "owners": 3
+        },
+        "composed-route": {
+          "source": "verification/evidence/T16-local-route-output.json",
+          "computeUnits": 330095,
+          "serializedBytes": 451,
+          "lookupTableEntries": 43,
+          "owners": 3
+        },
+        "service-end-to-end": {
+          "source": "verification/evidence/T32-local-service-output.json",
+          "computeUnits": 209617,
+          "serializedBytes": 350,
+          "lookupTableEntries": 33,
+          "owners": 3
+        }
+      }
+    },
+    "overCapacity": {
+      "owners": 4,
+      "status": "REFUSED",
+      "reason": "batch count"
+    }
+  },
+  "cycles_detail": [
+    {
+      "cycle": 0,
+      "owner": "H4VeasjQb1PJYDdfXRyKP2QRWPVDcQawZwH2nm7keJw5",
+      "steps": [
+        {
+          "step": "fund",
+          "status": "OK",
+          "compute": 164840
+        },
+        {
+          "step": "cancel",
+          "status": "OK",
+          "compute": 20813,
+          "signature": "39KFEWteyrxj9yXG7pNaFTgqUqhNRNVCq3BcVyjfRzWy9MhbvMVVAF38oQKd71WzXRbvJeBeUnZbVSJYw5Y6ZNQq"
+        },
+        {
+          "step": "withdraw-0",
+          "status": "OK",
+          "compute": 49590,
+          "signature": "5tsNGBGgskZZywvBjyJ1iJCjTUZkexQA5gRzzkXdP9ZzPiCbkBfW3W8WnqP7kWsK1md5HK2w5apWoMb5ZGFza3aJ"
+        },
+        {
+          "step": "withdraw-1",
+          "status": "OK",
+          "compute": 51090,
+          "signature": "3uKAdEh6cLGsXwoGEdM1QZ88bNDCK7YtAaTNCQAaEgGhMEAXhDG28xJ1twXve7Lc6Sr8UnGrGgShWP6JpkgpcDQS"
+        },
+        {
+          "step": "close",
+          "status": "OK",
+          "compute": 46635,
+          "signature": "675eWhBCr6c9gpiZ61dsCcqhFanLj2E6X5qpJ9JWc44kb4nsuPaY2DMDDiHr9Rt3jHmUE2cJReu2fQp1x8hzZPhK"
+        }
+      ],
+      "elapsedMs": 2782,
+      "intentClosed": true,
+      "intentRentLamports": "4524000",
+      "ownerLamportDelta": "-1709320"
+    },
+    {
+      "cycle": 1,
+      "owner": "Fy7fxQhcDTEnScP9h6P78WZobtCF9mhMQ64YJAsq3hDA",
+      "steps": [
+        {
+          "step": "fund",
+          "status": "OK",
+          "compute": 178340
+        },
+        {
+          "step": "cancel",
+          "status": "OK",
+          "compute": 20813,
+          "signature": "3inZKrdmfjYEHXpgtVzuHZzEyNvcWqyukxWHBoVgvFnQJ5pmXMnwQufwxzA33bHKCfUNQu2V5DGNmWqTgCn8NVn"
+        },
+        {
+          "step": "withdraw-0",
+          "status": "OK",
+          "compute": 51090,
+          "signature": "2Wk7EFXnG8qP1cZYuW1xXJdbZUbujra9NXDWQbG8MCXn5615bCj9WZkqLgraFhPdATtcTBEHrE193t9fCR8GKQKL"
+        },
+        {
+          "step": "withdraw-1",
+          "status": "OK",
+          "compute": 57090,
+          "signature": "2o4rRkziseo9iD86WmftXhPBgeUr7kpWkh8oDbYzoGi3bFRgFi1K7WQu3nc8jPRSbLFjn6JsJqSCqkyrd7jGEXTp"
+        },
+        {
+          "step": "close",
+          "status": "OK",
+          "compute": 49635,
+          "signature": "DzxuBFZQcQ2fYa5TqmrfWHZXjDh5i3oFT3K3Qz3Q1i9WfeTU8j6GXF1cHKaHxBAGLXSnefs9QUrjGzNw5weoiEF"
+        }
+      ],
+      "elapsedMs": 2864,
+      "intentClosed": true,
+      "intentRentLamports": "4524000",
+      "ownerLamportDelta": "-1709320"
+    },
+    {
+      "cycle": 2,
+      "owner": "iR7oopbmo5jBzstZiRbXwCNwxp491w8CsrhULpGsSh9",
+      "steps": [
+        {
+          "step": "fund",
+          "status": "OK",
+          "compute": 164840
+        },
+        {
+          "step": "cancel",
+          "status": "OK",
+          "compute": 20813,
+          "signature": "xVkygStR2W2czWAXrQZ1NDpgSTwB5Abtr6yJFUbgut6aUJsKfksvV25yxPP874hWjgnaQuo18kkxfZxQ4ekvSAc"
+        },
+        {
+          "step": "withdraw-0",
+          "status": "OK",
+          "compute": 51090,
+          "signature": "3HsRNdP8ke9bKdvNyueuHNapJju73JK7N7w2tT21tyLVFGA6ehHC2eFvARCwx4kaXm5Dx8YHZ8qQqPENkcqgdJnh"
+        },
+        {
+          "step": "withdraw-1",
+          "status": "OK",
+          "compute": 46590,
+          "signature": "kHwE3qXSJvvHBmyHZJZ7TRhQ1R2AMNnSiBRSU75pNRNZMRdsSFFUeYQP1e634LeSmuPCkTUZDxVfMve7tcNtUFm"
+        },
+        {
+          "step": "close",
+          "status": "OK",
+          "compute": 46635,
+          "signature": "2EycRXy19WDc2qRQWQFQ3RegouaqjfRUHQTBodX5dQRcxravKHLtW9KC5yW7KUE4udMuZzXGt9NLaDbf1ewFUBem"
+        }
+      ],
+      "elapsedMs": 2768,
+      "intentClosed": true,
+      "intentRentLamports": "4524000",
+      "ownerLamportDelta": "-1709320"
+    },
+    {
+      "cycle": 3,
+      "owner": "H4VeasjQb1PJYDdfXRyKP2QRWPVDcQawZwH2nm7keJw5",
+      "steps": [
+        {
+          "step": "fund",
+          "status": "OK",
+          "compute": 177260
+        },
+        {
+          "step": "cancel",
+          "status": "OK",
+          "compute": 20813,
+          "signature": "2MBidkrKqwBnD5vtkXGX69d58R46UgmRQqg3LDJmkWyhrsZ3XPzUCiDMWPjywwrQcXfdp7iEG3qNUtdXSyoGMphB"
+        },
+        {
+          "step": "withdraw-0",
+          "status": "OK",
+          "compute": 48090,
+          "signature": "yWN6nDGK8ffDFRiSjoqbdnHDKTzpXVXGvz9M4m2cGEKwRBTvNzjej66KfajBfUN6aWvuXMKUqVLradovSC1Mg8y"
+        },
+        {
+          "step": "withdraw-1",
+          "status": "OK",
+          "compute": 54090,
+          "signature": "4oUdjsos4qwzqineoFPYGmg8dx8xrVkksVp1X4npBsEJZj4Yg9QHWfk6mTVLJ4kaezSBE4j9fNPELubvJeCV7kCj"
+        },
+        {
+          "step": "close",
+          "status": "OK",
+          "compute": 49635,
+          "signature": "52qC3LynNKUkAMqP2TZnCm4UZV3sfUqnK5qvvGHtfZthmbjJcrMQrpqi29ShLra1WPsu1ucA523FkQXg8mtwd2it"
+        }
+      ],
+      "elapsedMs": 2811,
+      "intentClosed": true,
+      "intentRentLamports": "4524000",
+      "ownerLamportDelta": "-25000"
+    },
+    {
+      "cycle": 4,
+      "owner": "Fy7fxQhcDTEnScP9h6P78WZobtCF9mhMQ64YJAsq3hDA",
+      "steps": [
+        {
+          "step": "fund",
+          "status": "OK",
+          "compute": 162260
+        },
+        {
+          "step": "cancel",
+          "status": "OK",
+          "compute": 20813,
+          "signature": "4GyabLFfJbw5DeHkKVzJRuokWPKMmF8JZhvQgfAhbMvWzRDEaf1JMFkEi6823MfcRu273NErcTamdJQ4C8H34paT"
+        },
+        {
+          "step": "withdraw-0",
+          "status": "OK",
+          "compute": 46590,
+          "signature": "22wBHHgPGqWW3qjtXhq3YShFyEtBhiB3GjPaFvRzagE3FABeyWz6PAEUh2teBsbNTXu4agCP1MgNxbC5GeAtzBrF"
+        },
+        {
+          "step": "withdraw-1",
+          "status": "OK",
+          "compute": 55590,
+          "signature": "ymkE2QSBZkWC3LBwuntMMCdRY7Dq3nymqLSrKzwb6axhrcHiZME8ZL1bS6MnzBw1yVTxRbQzA68qSWKubyqJxrJ"
+        },
+        {
+          "step": "close",
+          "status": "OK",
+          "compute": 43635,
+          "signature": "2jUcYddyY1y9oGTWxt5nyewwDfDvie6pHwYwUdCmg4H3GvdiugSgRCigv9wfizWn6QzH1NJ19uv759FdY6nQ3yVm"
+        }
+      ],
+      "elapsedMs": 2825,
+      "intentClosed": true,
+      "intentRentLamports": "4524000",
+      "ownerLamportDelta": "-25000"
+    },
+    {
+      "cycle": 5,
+      "owner": "iR7oopbmo5jBzstZiRbXwCNwxp491w8CsrhULpGsSh9",
+      "steps": [
+        {
+          "step": "fund",
+          "status": "OK",
+          "compute": 180260
+        },
+        {
+          "step": "cancel",
+          "status": "OK",
+          "compute": 20813,
+          "signature": "wCDoxh5M5HRr3uLP1Z1ZknJQxQJmzAD7wLawymQsnRT4X35C7DAYPyXpS2f4UsmMa4Dgj6aKVB8XF46YnvQmsDN"
+        },
+        {
+          "step": "withdraw-0",
+          "status": "OK",
+          "compute": 55590,
+          "signature": "3zTV7doMnKa18yKXcA9RZ4hWZopB4gWT181E1SaLsZpHMhEGhQgZQFdrdatyvBGPZjakDjT6BGvVKZXSKmaZF5xo"
+        },
+        {
+          "step": "withdraw-1",
+          "status": "OK",
+          "compute": 46590,
+          "signature": "5ySrpiMuX4kQoxL3RwEsXtT8UEgbfm5zwCpnCuuQ8832cphpaaKt85mVfhoRfahhBfTZxqeYzX5U5jfq2P6vJs4x"
+        },
+        {
+          "step": "close",
+          "status": "OK",
+          "compute": 52635,
+          "signature": "FYz5DygcutN51XD4USaBJQhhh5QwhW5qTdKsMKD6B4NwERat97XSqUAnpdBadVzV1PjzUQ4GXZszJ1PzUXvbFeG"
+        }
+      ],
+      "elapsedMs": 2860,
+      "intentClosed": true,
+      "intentRentLamports": "4524000",
+      "ownerLamportDelta": "-25000"
+    },
+    {
+      "cycle": 6,
+      "owner": "H4VeasjQb1PJYDdfXRyKP2QRWPVDcQawZwH2nm7keJw5",
+      "steps": [
+        {
+          "step": "fund",
+          "status": "OK",
+          "compute": 157760
+        },
+        {
+          "step": "cancel",
+          "status": "OK",
+          "compute": 20813,
+          "signature": "2nF5Uk8eCnUgYKrp7ojNLGvnZbissd8wKmGWVyYPQF3NS6RYe6fKoyaeZJQZzqLFHy1WNTnuZMBdSPzykSwhCTao"
+        },
+        {
+          "step": "withdraw-0",
+          "status": "OK",
+          "compute": 46590,
+          "signature": "4xSmscyoT9eVeW1VEQxwy4my7upWoDNG3av9AV5St1pGEexhcb3CJ8AJ5HpcGStBaz6VDiM8aK6M5N6PLSSmwBEQ"
+        },
+        {
+          "step": "withdraw-1",
+          "status": "OK",
+          "compute": 51090,
+          "signature": "2Lm3vHNRmJwP8m3bV7gy5kqK3sF7pXyGiLuRvXcCkY2B71f35VM6ABiU9K7LU6zrHr1sSzQuSEHvjX14Wn2UgeHH"
+        },
+        {
+          "step": "close",
+          "status": "OK",
+          "compute": 45135,
+          "signature": "QddJh739vYmo3sXMJnV8sr7LhEXWd8WLCXaimFyVPiC6aPdY17d28SbKPNM5MPb57box4YSPLrv5PBVVPUnLbcm"
+        }
+      ],
+      "elapsedMs": 2778,
+      "intentClosed": true,
+      "intentRentLamports": "4524000",
+      "ownerLamportDelta": "-25000"
+    },
+    {
+      "cycle": 7,
+      "owner": "Fy7fxQhcDTEnScP9h6P78WZobtCF9mhMQ64YJAsq3hDA",
+      "steps": [
+        {
+          "step": "fund",
+          "status": "OK",
+          "compute": 202760
+        },
+        {
+          "step": "cancel",
+          "status": "OK",
+          "compute": 20813,
+          "signature": "pdyt3TmdBgJRfsnq1iUeuaY2m3TC97kVYByLX16nRXVB5UK4TvbNrvwkcfhyF2dCLKuMnRAaHptMaToThT3JdE5"
+        },
+        {
+          "step": "withdraw-0",
+          "status": "OK",
+          "compute": 54090,
+          "signature": "3xMRgfApxNSX8bKLtHYQ1yLLA4VYdLs1PXZd74dyDxosF1BMjzEgUK9gJbiBUiPUPpSURPb3ENBAtj68hGC8DNvf"
+        },
+        {
+          "step": "withdraw-1",
+          "status": "OK",
+          "compute": 57090,
+          "signature": "2HTKjRoPhFZFkEMc56sT6sSQWtXPDXoRUTb2dtkUryiSZiYRLUFEFdwBaWMoiYqhKqxsE7Mw3LxNpxp6ed4y9pS"
+        },
+        {
+          "step": "close",
+          "status": "OK",
+          "compute": 58635,
+          "signature": "2TNTZGqZzyQrdZ7drXzJahvDrcGx9iNQ42QbP6HtL2Ye7wyKLzfdZaQErBfFKVyo5oMapBybxfyjT99S51hGdZc4"
+        }
+      ],
+      "elapsedMs": 2897,
+      "intentClosed": true,
+      "intentRentLamports": "4524000",
+      "ownerLamportDelta": "-25000"
+    },
+    {
+      "cycle": 8,
+      "owner": "iR7oopbmo5jBzstZiRbXwCNwxp491w8CsrhULpGsSh9",
+      "steps": [
+        {
+          "step": "fund",
+          "status": "OK",
+          "compute": 177260
+        },
+        {
+          "step": "cancel",
+          "status": "OK",
+          "compute": 20813,
+          "signature": "9eZUbKr9Kxfngxtga7SZDXKjdfHDamURLG6hCShmjBVvfAAdndf2cuxHnSzWupRQYL6PbJkSpn1iEBKyZTNj8T6"
+        },
+        {
+          "step": "withdraw-0",
+          "status": "OK",
+          "compute": 52590,
+          "signature": "63qjuhYQMzkvHR7RuH8cTGcx63RM49jur3b3k2nHdgjtmu5WwcCeeMg3xXEqa3UES2EQJfh6ZCAuSWppmU2ENvr3"
+        },
+        {
+          "step": "withdraw-1",
+          "status": "OK",
+          "compute": 48090,
+          "signature": "3FHAa72JhhJNXrKFwESX2eVRKLcJro6Lb67hsEsVSC6tHDNyUUjyYUUaTBPrgavvdrSA5VUG9MvJa2fK5ZkBYybU"
+        },
+        {
+          "step": "close",
+          "status": "OK",
+          "compute": 51135,
+          "signature": "2hu9nhu1ddQtaxX9AaRGb5mK9HeGGsPm6QykQHcSkH1HuiBXq7Yshnr3P3dWjd3VfMH9Twvs4spJKhdmwwC6ygEf"
+        }
+      ],
+      "elapsedMs": 2804,
+      "intentClosed": true,
+      "intentRentLamports": "4524000",
+      "ownerLamportDelta": "-25000"
+    },
+    {
+      "cycle": 9,
+      "owner": "H4VeasjQb1PJYDdfXRyKP2QRWPVDcQawZwH2nm7keJw5",
+      "steps": [
+        {
+          "step": "fund",
+          "status": "OK",
+          "compute": 157760
+        },
+        {
+          "step": "cancel",
+          "status": "OK",
+          "compute": 20813,
+          "signature": "4FxAvbHCpZxp6EXapXUFeVrUCbTyaVYUvwUhyQKj22ZY7vaHsmpuccPbZ5cQGzSMMZvaiDVJupB4imAujuyVGbKQ"
+        },
+        {
+          "step": "withdraw-0",
+          "status": "OK",
+          "compute": 46590,
+          "signature": "2BydipyFw3yUD4V7YQFwpnY2k7VsfCvoAxVXYnCdb2MPuzrJ96p2VkW4CbMsNzdAWx3tnxagzyrEp3YDCQRn9dfG"
+        },
+        {
+          "step": "withdraw-1",
+          "status": "OK",
+          "compute": 52590,
+          "signature": "3xag6boc19huMxz8QXMF3DGFw36V3TAr4PHWXHJ5Fex8xBhYA17pMt8oX27qjU42MsctDaq4C9VrwYkJEF6LkAp"
+        },
+        {
+          "step": "close",
+          "status": "OK",
+          "compute": 45135,
+          "signature": "iJjgBCpgAWbP8zu1tR4C4VuUrf72f9fwXD8Tu4GhyDDq6ABjjkeKCwxTyjm9oauM5WJUpdonzZpEvAGXRpX62uT"
+        }
+      ],
+      "elapsedMs": 2777,
+      "intentClosed": true,
+      "intentRentLamports": "4524000",
+      "ownerLamportDelta": "-25000"
+    },
+    {
+      "cycle": 10,
+      "owner": "Fy7fxQhcDTEnScP9h6P78WZobtCF9mhMQ64YJAsq3hDA",
+      "steps": [
+        {
+          "step": "fund",
+          "status": "OK",
+          "compute": 162260
+        },
+        {
+          "step": "cancel",
+          "status": "OK",
+          "compute": 20813,
+          "signature": "26KhwppehDpUnWNFojvkYAdHHzeuru9KDrdEUVF7d1Sw4sjV4mCRhAzVEqrhb61X8RyTfi5TzP5guxhZDgWsLmJ8"
+        },
+        {
+          "step": "withdraw-0",
+          "status": "OK",
+          "compute": 46590,
+          "signature": "31hewYCvAH5dfR89tUyhBvpRzDvn4abfm8v1SF9TjnLQPJ6Pa7kHWn611WpSCEm3kQe1FnRykqneR7ocKDdhkfqM"
+        },
+        {
+          "step": "withdraw-1",
+          "status": "OK",
+          "compute": 55590,
+          "signature": "5gqLZfyZfVERKGA1BV9KmHXxtZycofKGkAvExsotapCjXvmzJaQSqwFo3kDBS4K6C5pgToMVokRh6EC8D2eg8VEz"
+        },
+        {
+          "step": "close",
+          "status": "OK",
+          "compute": 45135,
+          "signature": "3mpKjzLwf9aLQQu4ZEATSqEaQRU5nuwTttsrz93x3fUZM1SozV5UnF8hh72UsifitJCPAVk6mcmy1yV22ZYUrpUR"
+        }
+      ],
+      "elapsedMs": 2840,
+      "intentClosed": true,
+      "intentRentLamports": "4524000",
+      "ownerLamportDelta": "-25000"
+    },
+    {
+      "cycle": 11,
+      "owner": "iR7oopbmo5jBzstZiRbXwCNwxp491w8CsrhULpGsSh9",
+      "steps": [
+        {
+          "step": "fund",
+          "status": "OK",
+          "compute": 168260
+        },
+        {
+          "step": "cancel",
+          "status": "OK",
+          "compute": 20813,
+          "signature": "3iUrxJCL18GcJer47GnSFVFmRnANHih8RPPohaTKNeu3nSmRBwAvHXkVuiNX4wZvmerhG8p1qRk1wqocPNpoDa16"
+        },
+        {
+          "step": "withdraw-0",
+          "status": "OK",
+          "compute": 55590,
+          "signature": "r9KV75VroU57NkLErzfTQowtoL2Dm9N5fmMnF2aVAQpDzXaSSHCMXJqiTF5PLHWe9eHuKQkzMmuWFLs2tDCFHrM"
+        },
+        {
+          "step": "withdraw-1",
+          "status": "OK",
+          "compute": 46590,
+          "signature": "u8rn5ugJYhAgGdiyKobuo2JSWiYv5TfpuV3o6GGXaT9Cwmh1niqHAZRBRfZwwZnqCLT8yT3mAbdE18TdHfUwiBb"
+        },
+        {
+          "step": "close",
+          "status": "OK",
+          "compute": 48135,
+          "signature": "KiELNF3rZ34FueMkaarum6nFMWSUQTwhC3G7vqwxE3xPyMg45NVizxoQu84YeJmye5EHBYzAaXi6z1u9T45LQnA"
+        }
+      ],
+      "elapsedMs": 2831,
+      "intentClosed": true,
+      "intentRentLamports": "4524000",
+      "ownerLamportDelta": "-25000"
+    }
+  ],
+  "limitations": [
+    "Local validator with synthetic TEST PRICES; this is not a devnet soak and not a market.",
+    "The soak exercises the lifecycle and recovery paths, not the composed route (T16 covers that).",
+    "Finite runs are evidence, not proof of universal safety."
+  ],
+  "hashes": {
+    "manifest": "9b95d45a556db3178679ffe4e4079929d2c642b809a54f4d58e3c0a2cedd11ec"
+  }
+}

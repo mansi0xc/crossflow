@@ -189,6 +189,9 @@ if (process.argv[1] && process.argv[1].endsWith('server.ts')) {
     manifestPath: process.env.CROSSFLOW_DEVNET_MANIFEST ?? process.env.CROSSFLOW_MANIFEST ?? DEFAULT_SERVICE_CONFIG.manifestPath,
     port: Number(process.env.CROSSFLOW_PORT ?? DEFAULT_SERVICE_CONFIG.port),
     maxOwners: Number(process.env.CROSSFLOW_MAX_OWNERS ?? DEFAULT_SERVICE_CONFIG.maxOwners),
+    // The rate limit is a safety default for an operator tool, not a product quota, and a test
+    // run legitimately exceeds it. It stays configurable and is documented.
+    rateLimit: Number(process.env.CROSSFLOW_RATE_LIMIT ?? DEFAULT_SERVICE_CONFIG.rateLimit),
   });
   server.listen(config.port, '127.0.0.1', () => {
     console.log(JSON.stringify({ status: 'LISTENING', url: `http://127.0.0.1:${config.port}`,

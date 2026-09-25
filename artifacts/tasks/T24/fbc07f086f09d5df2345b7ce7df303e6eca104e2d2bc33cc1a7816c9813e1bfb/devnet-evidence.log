@@ -1,0 +1,26 @@
+{
+  "status": "PASS",
+  "task": "T24",
+  "cluster": "devnet",
+  "scope": "ISOLATED DEVNET PROBE — not a release and not the integrated workflow",
+  "genesis": "EtWTRABZaYq6iMfeYKouRu166VU2xqa1wcaWoxPkrZBG",
+  "program_id": "CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh",
+  "config": "ENcnvW9bRMTcABwniQQpUaKmTGR9q8AtjEuu1iwYCs8D",
+  "compute_units": 161316,
+  "lookup_table_entries": 33,
+  "mandatory_negative_cases": 7,
+  "recovery": {
+    "funded": "5000000",
+    "returned": "5000000",
+    "assets": 1
+  },
+  "hashes": {
+    "output": "e35f71310741b44ed99d30dd355af443d9cc2f112186d6dba8374b6570357914",
+    "manifest": "bc862586eec51b210061033763dcfcb5c2d595cbe805c1ac1d910880e732aa04"
+  },
+  "limitations": [
+    "Isolated public-devnet probe under the scoped-probe exception: no shared funded intents, no external route, no Pyth, no integration or release claim.",
+    "Test assets are devnet mints with revoked authorities, not issuer-backed shares; liquidity, Pyth and the routed residual remain unimplemented (T15/T16).",
+    "Upgrade authority is retained by the approved devnet wallet; that is a trust assumption and is disclosed."
+  ]
+}

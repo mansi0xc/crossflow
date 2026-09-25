@@ -16,3 +16,26 @@ input { width: 9rem; font-family: ui-monospace, monospace; }
 .wallet { font-family: ui-monospace, monospace; font-size: .85rem; }
 footer { margin-top: 2rem; opacity: .7; }
 .scenarios { list-style: none; display: flex; gap: .5rem; padding: 0; flex-wrap: wrap; }
+
+/* Accessibility: visible focus, a skip link, and text cues that do not rely on colour. */
+.skip-link { position: absolute; left: -9999px; top: 0; padding: .5rem .75rem; background: #ffe9a8; color: #201800; }
+.skip-link:focus { left: 0; }
+:focus-visible { outline: 3px solid #ffd75e; outline-offset: 2px; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.explainer { border: 1px solid #8884; border-radius: 6px; padding: 1rem; margin-top: 1.5rem; }
+.explainer h2 { margin-top: 0; font-size: 1.15rem; }
+.explainer h3 { font-size: 1rem; margin-bottom: .25rem; }
+.explainer p, .explainer li { font-size: .9rem; }
+/* Base58 identifiers are long and must wrap rather than force a horizontal scrollbar. */
+.mono, code { font-family: ui-monospace, monospace; overflow-wrap: anywhere; word-break: break-word; }
+h1, h2, h3, p, li, td, th, label, button { overflow-wrap: anywhere; }
+.status-funded { font-weight: 700; }
+.status-settled::before { content: "✓ "; }
+.status-cancelled::before { content: "✕ "; }
+@media (max-width: 40rem) {
+  input { width: 100%; }
+  table, thead, tbody, th, td, tr { display: block; }
+  th { position: absolute; left: -9999px; }
+  td { border: none; padding: .15rem .5rem; }
+  tr { border: 1px solid #8884; margin-bottom: .5rem; padding: .35rem 0; }
+}

@@ -43,9 +43,10 @@ The local validator runs are driven by the harness scripts in the session scratc
 4. deploy and run the scenario, then
 5. check the resulting evidence.
 
-The commands each task actually runs are in `verification/tasks/Txx.json`; `verify:task -- Txx`
-replays them and binds every source file, log and artifact hash. `artifacts/tasks/Txx/<tree>/`
-holds the record.
+The commands each task actually runs are in `verification/tasks/<TASK>.json`; `verify:task -- <TASK>`
+replays them and binds every source file, log and artifact hash into
+`artifacts/tasks/<TASK>/<source-tree-hash>/`. The local runtime run scripts those manifests invoke
+live in `scripts/local-runs/` and need `CROSSFLOW_RUN_DIR` set.
 
 ## Devnet
 

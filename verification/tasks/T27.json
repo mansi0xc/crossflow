@@ -1,0 +1,37 @@
+{
+  "task": "T27",
+  "reviewer": "self-prepared; an unfamiliar-user review has NOT been run and is recorded as outstanding",
+  "sourceFiles": [
+    "apps/web/src/components/Explainer.tsx",
+    "apps/web/src/App.tsx",
+    "apps/web/src/routes/prepare.tsx",
+    "apps/web/src/routes/approve.tsx",
+    "apps/web/src/routes/intent.tsx",
+    "apps/web/src/styles.css",
+    "tests/ui/accessibility.spec.ts",
+    "playwright.config.ts",
+    "services/api/src/server.ts",
+    "docs/evidence/usability.md",
+    "verification/tasks/T27.json"
+  ],
+  "checks": [
+    {
+      "name": "accessibility",
+      "kind": "playwright",
+      "command": "corepack",
+      "args": ["pnpm@10.17.1", "exec", "playwright", "test", "tests/ui/accessibility.spec.ts"]
+    },
+    {
+      "name": "ui-regressions",
+      "kind": "playwright",
+      "command": "corepack",
+      "args": ["pnpm@10.17.1", "exec", "playwright", "test", "tests/ui/prepare.spec.ts", "tests/ui/approval.spec.ts", "tests/ui/recovery.spec.ts"]
+    },
+    {
+      "name": "typescript",
+      "kind": "typecheck",
+      "command": "corepack",
+      "args": ["pnpm@10.17.1", "exec", "tsc", "--noEmit"]
+    }
+  ]
+}

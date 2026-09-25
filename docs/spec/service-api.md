@@ -15,6 +15,8 @@ Configuration comes from the environment only:
 | `CROSSFLOW_PORT` | `8787` | listen port (bound to `127.0.0.1`) |
 | `CROSSFLOW_RPC_URL` | `http://127.0.0.1:8899` | write destination; validated against the manifest genesis before the connection is created |
 | `CROSSFLOW_DEVNET_MANIFEST` | `verification/evidence/T16-local-manifest.json` | the committed deployment identity the service serves |
+| `CROSSFLOW_MAX_OWNERS` | `3` | largest batch the service will prepare |
+| `CROSSFLOW_RATE_LIMIT` | `30` | requests per client per minute; raised for the browser suite |
 
 ## Endpoints
 

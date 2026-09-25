@@ -26,6 +26,8 @@ export default defineConfig({
       timeout: 60_000,
       env: {
         CROSSFLOW_PORT: '8787',
+        // The suite makes many more requests than an interactive operator would.
+        CROSSFLOW_RATE_LIMIT: '2000',
       },
     },
     {

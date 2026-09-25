@@ -1,0 +1,68 @@
+{
+  "task": "T22",
+  "status": "CHECKS_PASS_REVIEW_PENDING",
+  "recordedAt": "2026-09-25T00:11:31.582Z",
+  "sourceCommit": "c5a7e04649c25be1d7a554a07d1e1cc1fbfe5057",
+  "sourceTreeSha256": "6f51dd8bc88e3df106656b2926804576e8a3294d35f7e58c9c6846669864498d",
+  "sourceFiles": {
+    "docs/reviews/money-path-review.md": "6d9efaad4107a49eb9c3e0e9ed60c32d2a025e4ec77ec660be3f61f0f1f61ef4",
+    "docs/reviews/findings.json": "b04594a4c7ee553035f6ac6746ca93d897ad1afb8e935f1829357ed0b2ebc08f",
+    "tests/security/review-regressions.test.ts": "5668aa83d0751040537d4f6190912b10412705f7f771f8fd5f5f1c5252358c63",
+    ".planning/T09-INDEPENDENT-REVIEW.md": "2a75df72e6caca06f96815fcf8b9320ae3156cc5ee282c901a97ee46c76a747d",
+    ".planning/T16-INDEPENDENT-REVIEW.md": "903cc9b22b1a57f57995e6fffef14decce76e401747103813a0eebba9629d2ba",
+    ".planning/T32-INDEPENDENT-REVIEW.md": "d32cba68744c6a7ba5ece255ea28fb47849889f6aa5ed8f318944cc4ddb9d56d",
+    "docs/evidence/security-matrix.md": "b1cf0d1d1f5f91e9029c98fc6969fe8687e2838fb9683e6c7afb3b0f83c96ea3",
+    "verification/tasks/T22.json": "8b4a493c9255e43205f07d6fa590dddfd5563d62ff6912da7130b5aa6d182110"
+  },
+  "policyFixtureSha256": "e31d3209a0556554172821a35f16aeeb406fa1cf27ea01512ea279b4ea370ecf",
+  "environment": "LOCAL_NO_TRANSACTION",
+  "clusterGenesis": null,
+  "transactionCount": 0,
+  "versions": {
+    "node": "v24.10.0",
+    "pnpm": "10.17.1",
+    "anchor": "anchor-cli 1.1.2",
+    "cargo": "cargo 1.89.0 (c24e10642 2025-06-23)"
+  },
+  "checks": [
+    {
+      "name": "review-regressions",
+      "kind": "vitest",
+      "command": [
+        "corepack",
+        "pnpm@10.17.1",
+        "exec",
+        "vitest",
+        "run",
+        "tests/security/review-regressions.test.ts"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "review-regressions.log",
+      "outputSha256": "5e99963442e1db3bd30ee11b190c645a3f6117c7c418fe8eaf0be4c04bbeebab",
+      "passed": true
+    },
+    {
+      "name": "typescript",
+      "kind": "typecheck",
+      "command": [
+        "corepack",
+        "pnpm@10.17.1",
+        "exec",
+        "tsc",
+        "--noEmit"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "typescript.log",
+      "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "passed": true
+    }
+  ],
+  "mandatoryCheckCount": 2,
+  "executedCheckCount": 2,
+  "reviewer": "independent review agents — .planning/T09-INDEPENDENT-REVIEW.md, T16-INDEPENDENT-REVIEW.md, T32-INDEPENDENT-REVIEW.md",
+  "limits": [
+    "Checks only; independent reviewer and actual runtime/compute capacity remain open"
+  ]
+}

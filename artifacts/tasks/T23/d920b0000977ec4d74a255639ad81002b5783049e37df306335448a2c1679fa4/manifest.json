@@ -1,0 +1,83 @@
+{
+  "task": "T23",
+  "status": "CHECKS_PASS_REVIEW_PENDING",
+  "recordedAt": "2026-09-25T00:11:34.784Z",
+  "sourceCommit": "c5a7e04649c25be1d7a554a07d1e1cc1fbfe5057",
+  "sourceTreeSha256": "d920b0000977ec4d74a255639ad81002b5783049e37df306335448a2c1679fa4",
+  "sourceFiles": {
+    "scripts/deploy-devnet.ts": "541eae4b8619f2e3fd896950624ff7f0e55c4cf4db2c832722920a05843ae8b6",
+    "scripts/network-guard.mjs": "f05b8319efeff4e6713d4b9bdbe98a165592ee3bf4853bfce47e5241544790cb",
+    "scripts/network-guard.d.mts": "fd5a50b95499bc5c426f1498962e55b490f91001daeaaf5b9a322cfea24c7dca",
+    "scripts/devnet-assets.ts": "7105dfb0ce768179a59c249bf01be1ccb0a728ab0bb9b1fd975b2facf36f990f",
+    "scripts/devnet-scenarios.ts": "23bf135d9c8a816e98f47b2e965d40fc7e5bd5b0897af8a3ef0756b7e486115c",
+    "scripts/check-deployment.ts": "db6c4d5df5afa16f9a147ae1d737190b66e50649dcd722cd46e4b5893c92f497",
+    "docs/operations/deployment.md": "d1cb5afe9d8c75d6cc7c2db71ea078508eae3d75b0dcf6a1acd4f2cdf5bf00bc",
+    "tests/operations/network-guard.test.ts": "3abbf01b9dbaa415b28c646f37dad9bbfb7d2c6b1184e0c2543e49bb3d2ecf6d",
+    "verification/tasks/T23.json": "f0fc366893f73b4a7c07774fe8a722fe9cb1da8e3a1348124a0b78b13a19a1e3"
+  },
+  "policyFixtureSha256": "e31d3209a0556554172821a35f16aeeb406fa1cf27ea01512ea279b4ea370ecf",
+  "environment": "LOCAL_NO_TRANSACTION",
+  "clusterGenesis": null,
+  "transactionCount": 0,
+  "versions": {
+    "node": "v24.10.0",
+    "pnpm": "10.17.1",
+    "anchor": "anchor-cli 1.1.2",
+    "cargo": "cargo 1.89.0 (c24e10642 2025-06-23)"
+  },
+  "checks": [
+    {
+      "name": "network-guard",
+      "kind": "vitest",
+      "command": [
+        "corepack",
+        "pnpm@10.17.1",
+        "exec",
+        "vitest",
+        "run",
+        "tests/operations/network-guard.test.ts"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "network-guard.log",
+      "outputSha256": "fee953e72db969f1477d4d1ab465bf63d0785e487ebfd509f6f56a5638ca06d8",
+      "passed": true
+    },
+    {
+      "name": "verification-harness",
+      "kind": "workspace",
+      "command": [
+        "corepack",
+        "pnpm@10.17.1",
+        "check:workspace"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "verification-harness.log",
+      "outputSha256": "42ce53f4e2a627b911a96214c5201bd599a6d129af9ff03f27da8aa639a12cc9",
+      "passed": true
+    },
+    {
+      "name": "typescript",
+      "kind": "typecheck",
+      "command": [
+        "corepack",
+        "pnpm@10.17.1",
+        "exec",
+        "tsc",
+        "--noEmit"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "typescript.log",
+      "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "passed": true
+    }
+  ],
+  "mandatoryCheckCount": 3,
+  "executedCheckCount": 3,
+  "reviewer": null,
+  "limits": [
+    "Checks only; independent reviewer and actual runtime/compute capacity remain open"
+  ]
+}

@@ -1,0 +1,64 @@
+{
+  "task": "T24",
+  "status": "CHECKS_PASS_REVIEW_PENDING",
+  "recordedAt": "2026-09-25T00:11:36.186Z",
+  "sourceCommit": "c5a7e04649c25be1d7a554a07d1e1cc1fbfe5057",
+  "sourceTreeSha256": "fbc07f086f09d5df2345b7ce7df303e6eca104e2d2bc33cc1a7816c9813e1bfb",
+  "sourceFiles": {
+    "verification/evidence/T24-devnet-output.json": "e35f71310741b44ed99d30dd355af443d9cc2f112186d6dba8374b6570357914",
+    "verification/evidence/T24-devnet-manifest.json": "bc862586eec51b210061033763dcfcb5c2d595cbe805c1ac1d910880e732aa04",
+    "scripts/check-t24-devnet-evidence.mjs": "ce8c65d9bca26c6f8202e2879142f5f576cbb063660cd0877dbf9f04a7eb125d",
+    "scripts/deploy-devnet.ts": "541eae4b8619f2e3fd896950624ff7f0e55c4cf4db2c832722920a05843ae8b6",
+    "scripts/devnet-scenarios.ts": "23bf135d9c8a816e98f47b2e965d40fc7e5bd5b0897af8a3ef0756b7e486115c",
+    "docs/evidence/devnet-runs.md": "ba0e2d8eba5538c161788c548d9025cd2d7a0f818f8be6fb96c3eb5f69dc599d",
+    "scripts/verify-task.mjs": "668b2b06d985a0a55357d374e4ef462b7f9c722cff49ba00df16c98cf8256951",
+    "verification/tasks/T24.json": "52b11989acc268f278639207c6e5ff9b9c77a2bd6fcb4717654563a70754d300"
+  },
+  "policyFixtureSha256": "e31d3209a0556554172821a35f16aeeb406fa1cf27ea01512ea279b4ea370ecf",
+  "environment": "LOCAL_NO_TRANSACTION",
+  "clusterGenesis": null,
+  "transactionCount": 0,
+  "versions": {
+    "node": "v24.10.0",
+    "pnpm": "10.17.1",
+    "anchor": "anchor-cli 1.1.2",
+    "cargo": "cargo 1.89.0 (c24e10642 2025-06-23)"
+  },
+  "checks": [
+    {
+      "name": "devnet-evidence",
+      "kind": "t24-runtime",
+      "command": [
+        "node",
+        "scripts/check-t24-devnet-evidence.mjs"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "devnet-evidence.log",
+      "outputSha256": "946f5e44726ae7f01a2435e3a21d093092976463207897b3fe4142751c02b24c",
+      "passed": true
+    },
+    {
+      "name": "typescript",
+      "kind": "typecheck",
+      "command": [
+        "corepack",
+        "pnpm@10.17.1",
+        "exec",
+        "tsc",
+        "--noEmit"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "typescript.log",
+      "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "passed": true
+    }
+  ],
+  "mandatoryCheckCount": 2,
+  "executedCheckCount": 2,
+  "reviewer": null,
+  "limits": [
+    "Checks only; independent reviewer and actual runtime/compute capacity remain open"
+  ]
+}
