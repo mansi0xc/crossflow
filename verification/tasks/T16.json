@@ -2,6 +2,7 @@
   "task": "T16",
   "sourceFiles": [
     "programs/crossflow/src/route.rs",
+    "tests/program/routed-batch.test.ts",
     "programs/crossflow/src/batch.rs",
     "programs/crossflow/src/config.rs",
     "programs/crossflow/src/lib.rs",
@@ -31,6 +32,7 @@
         "exec",
         "vitest",
         "run",
+        "tests/program/routed-batch.test.ts",
         "tests/program/atomic-batch.test.ts",
         "tests/adapters/controlled-venue.test.ts",
         "tests/planner/validation.test.ts"

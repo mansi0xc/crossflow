@@ -3,8 +3,8 @@
   "release": "devnet-scope candidate",
   "frozenAt": "2026-09-25",
   "source": {
-    "commit": "1a1889ec4b02e58e97a9ab8b6d3104b4ab87c720",
-    "tree": "cfe4f3590a96ec4733949b03ea573527c0467a04",
+    "commit": "f5e05592f82a9cf48b9229265273417ae76fbe78",
+    "tree": "9be92172015f963384c6112d95dd19b9f1e901f7",
     "branch": "codex/t00-preflight",
     "uncommittedAllowlist": [
       ".commandcode/settings.json",
@@ -22,7 +22,12 @@
       "services/api/src/server.ts",
       "services/api/src/batch-coordinator.ts",
       "docs/spec/service-api.md",
-      ".planning/STATE.md"
+      ".planning/STATE.md",
+      "docs/claims-ledger.csv",
+      ".planning/TASKS.md",
+      "docs/evidence/capacity-report.md",
+      "docs/evidence/usability.md",
+      "docs/evidence/soak-report.json"
     ],
     "uncommittedAllowlistNote": "Files that may be edited without invalidating the artifact hashes. Empty on a truly frozen release."
   },
@@ -41,7 +46,10 @@
     "verification/evidence/T16-local-route-output.json": "19003f78bd271205bc82a64b083ad70c5d425b971b7e0d53dbe6664172ffdad2",
     "verification/evidence/T24-devnet-manifest.json": "bc862586eec51b210061033763dcfcb5c2d595cbe805c1ac1d910880e732aa04",
     "verification/evidence/T24-devnet-output.json": "e35f71310741b44ed99d30dd355af443d9cc2f112186d6dba8374b6570357914",
-    "docs/evidence/economic-results.json": "6c9005b870c28c6c57a4423224dbcf7e14a5f73e891c1849c7b35c2011b0fdbc"
+    "docs/evidence/economic-results.json": "6c9005b870c28c6c57a4423224dbcf7e14a5f73e891c1849c7b35c2011b0fdbc",
+    "docs/evidence/soak-report.json": "849689ae0bf64c44c20f1fc61fd36b11ebf057f57e517a00c2dc8fe4254d57f2",
+    "docs/evidence/capacity-report.md": "930bd2de2603d4fa53cccbdb91626b49eb7fd35fc150a631079b7f2163b5a9a0",
+    "docs/evidence/usability.md": "1cb07467957e7762707095188a87402721550120f4e20c075c617b07f06a402b"
   },
   "deployment": {
     "cluster": "devnet",
@@ -76,8 +84,15 @@
     "notes": [
       "Three owners require an address lookup table; the same instruction does not fit the legacy 1232-byte packet.",
       "The composed route has only been measured on an isolated local validator, never on devnet.",
-      "The demonstrable residual size is bounded by the committed ±200 bps per-owner execution band, not by transaction size."
-    ]
+      "The demonstrable residual size is bounded by the committed \u00b1200 bps per-owner execution band, not by transaction size."
+    ],
+    "lifecycleSoak": {
+      "cycles": 12,
+      "steps": 60,
+      "refusals": 0,
+      "maxComputeUnits": 210260,
+      "source": "docs/evidence/soak-report.json"
+    }
   },
   "checks": [
     {
@@ -178,6 +193,89 @@
       "evidence": [
         "docs/release-manifest.json"
       ]
+    },
+    {
+      "name": "T13-cost-allocation",
+      "command": "corepack pnpm@10.17.1 verify:task -- T13",
+      "status": "PASS",
+      "evidence": []
+    },
+    {
+      "name": "T27-accessibility",
+      "command": "corepack pnpm@10.17.1 verify:task -- T27",
+      "status": "PASS",
+      "evidence": [
+        "docs/evidence/usability.md"
+      ]
+    },
+    {
+      "name": "T28-soak",
+      "command": "corepack pnpm@10.17.1 verify:task -- T28",
+      "status": "PASS",
+      "evidence": [
+        "docs/evidence/soak-report.json",
+        "docs/evidence/capacity-report.md"
+      ]
+    },
+    {
+      "name": "T32-live-service",
+      "command": "corepack pnpm@10.17.1 verify:task -- T32",
+      "status": "PASS",
+      "evidence": [
+        "verification/evidence/T32-local-service-output.json"
+      ]
+    },
+    {
+      "name": "T24-devnet",
+      "command": "corepack pnpm@10.17.1 verify:task -- T24",
+      "status": "PASS",
+      "evidence": [
+        "verification/evidence/T24-devnet-output.json"
+      ]
+    },
+    {
+      "name": "T12-engines",
+      "command": "corepack pnpm@10.17.1 verify:task -- T12",
+      "status": "PASS",
+      "evidence": []
+    },
+    {
+      "name": "T17-properties",
+      "command": "corepack pnpm@10.17.1 verify:task -- T17",
+      "status": "PASS",
+      "evidence": [
+        "docs/evidence/security-matrix.md"
+      ]
+    },
+    {
+      "name": "T21-economics",
+      "command": "corepack pnpm@10.17.1 verify:task -- T21",
+      "status": "PASS",
+      "evidence": [
+        "docs/evidence/economic-report.md"
+      ]
+    },
+    {
+      "name": "T22-money-path-review",
+      "command": "corepack pnpm@10.17.1 verify:task -- T22",
+      "status": "PASS",
+      "evidence": [
+        "docs/reviews/money-path-review.md"
+      ]
+    },
+    {
+      "name": "T23-deployment",
+      "command": "corepack pnpm@10.17.1 verify:task -- T23",
+      "status": "PASS",
+      "evidence": [
+        "docs/operations/deployment.md"
+      ]
+    },
+    {
+      "name": "T30-release",
+      "command": "corepack pnpm@10.17.1 verify:task -- T30",
+      "status": "PASS",
+      "evidence": []
     }
   ],
   "disclosures": [
@@ -189,6 +287,8 @@
     "The browser flow is exercised with an injected wallet stub and a stubbed RPC; the real Phantom extension flow and any hosting are untested.",
     "The economic comparison is modelled micro-USD under one frozen cost convention on synthetic scenarios; the cooperative gain is positive in only four of six eligible held-out scenarios and 36 of 72 sensitivity points.",
     "The service is a loopback, single-deployment, unauthenticated local operator tool; it holds no user key and never signs.",
-    "No submission has been made and no public artefact has been published."
+    "No submission has been made and no public artefact has been published.",
+    "There is no adversarial runtime matrix against the deployed instruction, and no unfamiliar-user or screen-reader review has been run.",
+    "Cost figures are modelled micro-USD under one frozen cost convention on synthetic scenarios; they are not realized fills."
   ]
 }

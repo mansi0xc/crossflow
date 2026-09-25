@@ -1,0 +1,31 @@
+{
+  "task": "T03",
+  "sourceFiles": [
+    "research/economics/reference.py",
+    "research/economics/test_reference.py",
+    "research/economics/opportunity-report.md",
+    "research/economics/reference-results.json",
+    "research/economics/scenario-spec.md",
+    "verification/tasks/T03.json"
+  ],
+  "checks": [
+    {
+      "name": "reference-model",
+      "kind": "python-test",
+      "command": "python3",
+      "args": [
+        "-m",
+        "unittest",
+        "research/economics/test_reference.py"
+      ]
+    },
+    {
+      "name": "scenarios",
+      "kind": "evidence-pass",
+      "command": "python3",
+      "args": [
+        "scripts/check-scenarios.py"
+      ]
+    }
+  ]
+}

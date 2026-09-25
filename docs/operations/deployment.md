@@ -71,3 +71,19 @@ never migrate escrow automatically.
 Rent is a recoverable deposit, not a fee: the per-intent vault and intent accounts are closed
 back to the owner once claims are empty. Network fees for failed transactions are not refunded.
 Spending is devnet SOL only, and no paid service is used anywhere in this pipeline.
+
+
+## Traceability of the deployed program (S24)
+
+A deployment is only trustworthy if the bytes running on the cluster are the bytes this repository
+builds. The program embeds its deployment identity at compile time, so a build from the same
+manifest must reproduce the live program exactly.
+
+`scripts/check-deployment.ts` now fetches the program data account, hashes the ELF that follows its
+45-byte metadata header, and compares it with `target/deploy/crossflow.so`. A mismatch raises
+`BINARY_MISMATCH` rather than being reported as a footnote: a live program that differs from the
+reviewed build is a different program.
+
+The check reports `deployed_binary_sha256` and `local_binary_matches_deployed`. On the current
+devnet deployment both the on-chain policy hash and the binary hash match the committed manifest
+and the local build.

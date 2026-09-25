@@ -1,6 +1,8 @@
 {
   "task": "T17",
   "sourceFiles": [
+    "tests/security/adversarial.test.ts",
+    "tests/security/soak-properties.test.ts",
     "tests/security/properties.test.ts",
     "tests/security/review-regressions.test.ts",
     "scripts/measure-batch.ts",

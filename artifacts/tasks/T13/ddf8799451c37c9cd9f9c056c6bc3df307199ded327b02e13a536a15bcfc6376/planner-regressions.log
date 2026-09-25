@@ -1,0 +1,15 @@
+
+[1m[30m[46m RUN [49m[39m[22m [36mv5.0.1 [39m[90m/Users/mansitibrewal/chronicles/crossflow[39m
+
+[90mstdout[2m | tests/security/soak-properties.test.ts[2m > [22m[2mT28 lifecycle soak properties[2m > [22m[2minvariants hold after every operation across 120 seeded interleavings
+[22m[39msoak: applied=2579 refused=4621 settled=505 closed=339
+
+ [32m✓[39m tests/security/soak-properties.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 29[2mms[22m[39m
+ [32m✓[39m tests/security/review-regressions.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 17[2mms[22m[39m
+ [32m✓[39m tests/security/properties.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 152[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m3 passed[39m[22m[90m (3)[39m
+[2m      Tests [22m [1m[32m15 passed[39m[22m[90m (15)[39m
+[2m   Start at [22m 06:21:04
+[2m   Duration [22m 312ms[2m (tests 43%, import 30%, transform 26%, worker 1%)[22m
+

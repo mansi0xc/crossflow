@@ -1,0 +1,15 @@
+
+Running 10 tests using 1 worker
+
+  ✓   1 tests/ui/approval.spec.ts:16:3 › T19 compare and approve › the three approaches are compared under identical constraints, with negatives shown (246ms)
+  ✓   2 tests/ui/approval.spec.ts:26:3 › T19 compare and approve › the signed funding instruction carries exactly the mandate the page displayed (511ms)
+  ✓   3 tests/ui/approval.spec.ts:67:3 › T19 compare and approve › the displayed mandate hash is the hash of the signed instruction payload (544ms)
+  ✓   4 tests/ui/prepare.spec.ts:8:3 › T18 prepare screen › states the cluster, the test assets and the escrow terms before anything is funded (95ms)
+  ✓   5 tests/ui/prepare.spec.ts:20:3 › T18 prepare screen › the identity shown is the identity the service reported, not a hard-coded value (89ms)
+  ✓   6 tests/ui/prepare.spec.ts:34:3 › T18 prepare screen › review and approval are gated on a comparison that actually exists (93ms)
+  ✓   7 tests/ui/recovery.spec.ts:11:3 › T20 status, receipt and recovery › a funded intent offers cancellation and states the recovery guarantees (158ms)
+  ✓   8 tests/ui/recovery.spec.ts:30:3 › T20 status, receipt and recovery › a cancelled intent offers per-asset withdrawal rather than a single opaque refund (145ms)
+  ✓   9 tests/ui/recovery.spec.ts:45:3 › T20 status, receipt and recovery › recovery stays reachable with no intents, and no success is claimed without a receipt (144ms)
+  ✓  10 tests/ui/recovery.spec.ts:64:3 › T20 status, receipt and recovery › recovery works with the service entirely offline (147ms)
+
+  10 passed (3.4s)

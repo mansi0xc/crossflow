@@ -1,0 +1,32 @@
+{
+  "task": "T31",
+  "sourceFiles": [
+    "docs/submission-checklist.md",
+    "docs/submission-draft.md",
+    "docs/final-handoff.md",
+    ".planning/STATE.md",
+    "docs/release-manifest.json",
+    "scripts/verify-release.mjs",
+    "scripts/check-submission.mjs",
+    "verification/tasks/T31.json"
+  ],
+  "checks": [
+    {
+      "name": "submission-artefacts",
+      "kind": "json-pass",
+      "command": "node",
+      "args": [
+        "scripts/check-submission.mjs"
+      ]
+    },
+    {
+      "name": "release-manifest",
+      "kind": "release-manifest",
+      "command": "node",
+      "args": [
+        "scripts/verify-release.mjs"
+      ]
+    }
+  ],
+  "reviewer": "self-prepared; a human must review the rendered submission, and none has been published"
+}

@@ -1,6 +1,8 @@
 {
   "task": "T24",
   "sourceFiles": [
+    "docs/operations/deployment.md",
+    "scripts/check-deployment.ts",
     "verification/evidence/T24-devnet-output.json",
     "verification/evidence/T24-devnet-manifest.json",
     "scripts/check-t24-devnet-evidence.mjs",
@@ -11,6 +13,17 @@
     "verification/tasks/T24.json"
   ],
   "checks": [
+    {
+      "name": "deployed-binary-matches-source",
+      "kind": "evidence-pass",
+      "command": "corepack",
+      "args": [
+        "pnpm@10.17.1",
+        "exec",
+        "tsx",
+        "scripts/check-deployment.ts"
+      ]
+    },
     {
       "name": "devnet-evidence",
       "kind": "t24-runtime",

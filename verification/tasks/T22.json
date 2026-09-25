@@ -1,8 +1,12 @@
 {
   "task": "T22",
   "sourceFiles": [
-    "docs/reviews/money-path-review.md",
+    "tests/security/properties.test.ts",
+    "tests/security/soak-properties.test.ts",
+    "tests/security/adversarial.test.ts",
+    "scripts/check-review-findings.mjs",
     "docs/reviews/findings.json",
+    "docs/reviews/money-path-review.md",
     "tests/security/review-regressions.test.ts",
     ".planning/T09-INDEPENDENT-REVIEW.md",
     ".planning/T16-INDEPENDENT-REVIEW.md",
@@ -12,7 +16,7 @@
   ],
   "checks": [
     {
-      "name": "review-regressions",
+      "name": "money-suite",
       "kind": "vitest",
       "command": "corepack",
       "args": [
@@ -20,7 +24,17 @@
         "exec",
         "vitest",
         "run",
-        "tests/security/review-regressions.test.ts"
+        "tests/security",
+        "tests/program",
+        "tests/planner"
+      ]
+    },
+    {
+      "name": "findings-validator",
+      "kind": "json-pass",
+      "command": "node",
+      "args": [
+        "scripts/check-review-findings.mjs"
       ]
     },
     {

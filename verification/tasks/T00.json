@@ -1,0 +1,29 @@
+{
+  "task": "T00",
+  "sourceFiles": [
+    "scripts/preflight.mjs",
+    "docs/decisions/preflight.md",
+    "docs/decisions/dependencies.csv",
+    "docs/operations/cost-ledger.csv",
+    "verification/tasks/T00.json"
+  ],
+  "checks": [
+    {
+      "name": "preflight",
+      "kind": "evidence-pass",
+      "command": "node",
+      "args": [
+        "scripts/preflight.mjs"
+      ]
+    },
+    {
+      "name": "verification-harness",
+      "kind": "workspace",
+      "command": "corepack",
+      "args": [
+        "pnpm@10.17.1",
+        "check:workspace"
+      ]
+    }
+  ]
+}

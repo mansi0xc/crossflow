@@ -1,0 +1,46 @@
+{
+  "task": "T02",
+  "sourceFiles": [
+    "docs/spec/intent-contract.md",
+    "docs/spec/settlement-accounting.md",
+    "docs/spec/threat-model.md",
+    "docs/spec/wire-vectors.json",
+    "tests/spec/wire-vectors.test.ts",
+    "packages/contracts/src/index.ts",
+    "packages/contracts/src/amounts.ts",
+    "verification/tasks/T02.json"
+  ],
+  "checks": [
+    {
+      "name": "wire-vectors",
+      "kind": "vitest",
+      "command": "corepack",
+      "args": [
+        "pnpm@10.17.1",
+        "exec",
+        "vitest",
+        "run",
+        "tests/spec/wire-vectors.test.ts"
+      ]
+    },
+    {
+      "name": "wire-vectors-recompute",
+      "kind": "json-pass",
+      "command": "python3",
+      "args": [
+        "docs/spec/check-wire-vectors.py"
+      ]
+    },
+    {
+      "name": "typescript",
+      "kind": "typecheck",
+      "command": "corepack",
+      "args": [
+        "pnpm@10.17.1",
+        "exec",
+        "tsc",
+        "--noEmit"
+      ]
+    }
+  ]
+}

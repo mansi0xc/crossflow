@@ -22,6 +22,9 @@ settles the whole bounded batch inside every owner's bounds or reverts it entire
 | Three-engine economic comparison + held-out evaluation | works | `docs/evidence/economic-report.md` |
 | Local service serving plans, chain intents and unsigned batches | works | `docs/spec/service-api.md`, `tests/services/resource-limits.test.ts` |
 | Browser review → compare → approve → recover flow with an injected wallet | works (local) | `tests/ui/*.spec.ts` |
+| Per-owner cost disclosure that refuses to hide a fee or excuse a harmed owner | works | `docs/spec/cost-allocation.md`, `tests/planner/cost-allocation.test.ts` |
+| Lifecycle soak and measured capacity report | works (local) | `docs/evidence/soak-report.json`, `docs/evidence/capacity-report.md` |
+| Keyboard-operable, WCAG-AA-contrast UI with plain-language explanations | works (local) | `docs/evidence/usability.md`, `tests/ui/accessibility.spec.ts` |
 | Authenticated Pyth equity prices | **excluded** | T15 unstarted; fixture oracle only |
 | Real venue, Pyth, submission portal | **not implemented** | — |
 
@@ -50,13 +53,25 @@ apps/web/               review → compare → approve → recover UI (injected 
 scripts/                local harness, devnet tooling, capacity probe, evidence checkers
 verification/           per-task manifests and committed runtime evidence
 docs/                   specification, operations, evidence, submission kit
+scripts/local-runs/     reproducible local runtime runs (each needs CROSSFLOW_RUN_DIR)
+```
+
+Local runtime runs reproduce the committed evidence from a checkout:
+
+```sh
+export CROSSFLOW_RUN_DIR=$(mktemp -d)
+bash scripts/local-runs/run-t09.sh    # internal three-owner batch
+bash scripts/local-runs/run-t16.sh    # composed cross + residual route
+bash scripts/local-runs/run-t32.sh    # service end-to-end
+bash scripts/local-runs/run-soak.sh   # T28 lifecycle soak
+bash scripts/local-runs/run-t24.sh    # devnet probe (the only run that leaves this machine)
 ```
 
 ## Running it
 
 ```sh
 corepack pnpm@10.17.1 check:workspace                 # harness, secrets, RPC guard, schema vectors
-corepack pnpm@10.17.1 exec vitest run                 # TypeScript suites (see note below)
+corepack pnpm@10.17.1 exec vitest run                 # 131 TypeScript tests (see note below)
 python3 -m unittest discover -s services/optimizer -p 'test_engines.py'
 python3 scripts/evaluate-economics.py --split holdout
 CROSSFLOW_DEPLOYMENT_MANIFEST=verification/evidence/T09-local-manifest.json cargo test -p crossflow --lib
@@ -94,7 +109,10 @@ destination whose live genesis is not the reviewed devnet genesis.
   leg size is bounded by the committed ±200 bps execution band rather than by demand.
 - **Pyth is excluded.** Prices are a labelled fixture oracle; no live equity claim is made.
 - **The browser flow is tested against an injected wallet and a stubbed RPC.** The real Phantom
-  extension flow has not been exercised end to end, and the UI is not hosted anywhere.
+  extension flow has not been exercised end to end, and the UI is not hosted anywhere. No
+  unfamiliar-user review has been run, and there is no screen-reader session.
+- **There is no adversarial runtime matrix** against the deployed instruction: adversarial coverage
+  is the named rejection cases in the local transcripts plus the property and soak suites.
 - **The service is a local operator tool**: loopback only, one configured deployment, no
   authentication and no multi-tenancy.
 - **Retained upgrade authority** on the devnet program is a trust assumption, disclosed in

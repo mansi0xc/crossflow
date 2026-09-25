@@ -14,7 +14,8 @@
     "serve:api": "tsx services/api/src/server.ts",
     "build:web": "vite build",
     "dev:web": "vite",
-    "verify:release": "node scripts/verify-release.mjs"
+    "verify:release": "node scripts/verify-release.mjs",
+    "verify:submission": "node scripts/check-submission.mjs"
   },
   "dependencies": {
     "@anchor-lang/core": "1.1.2",

@@ -1,4 +1,5 @@
-import { readFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+import { existsSync, readFileSync } from 'node:fs';
 import { Connection, PublicKey } from '@solana/web3.js';
 import { validateWriteDestination } from './network-guard.mjs';
 import { CROSSFLOW_PROGRAM_ID, DEVNET_GENESIS } from './deployment-manifest.js';
@@ -31,6 +32,30 @@ const [expectedConfig] = PublicKey.findProgramAddressSync(
 if (!expectedConfig.equals(configKey)) throw new Error('manifest config is not the canonical PDA');
 const [prices] = PublicKey.findProgramAddressSync([Buffer.from('prices'), configKey.toBuffer()], program);
 
+/**
+ * The deployed bytecode must correspond to the committed source, not merely to a manifest. The
+ * program embeds its deployment identity at compile time, so a build from the same manifest must
+ * reproduce the bytes that are live — otherwise the running program is not the reviewed one.
+ */
+const binaryPath = args.find(arg => !arg.startsWith('--')) ?? null;
+let binaryMatches: boolean | null = null;
+let deployedBinaryHash: string | null = null;
+if (programInfo) {
+  // The programdata account is derived under the loader that owns the program, so the owner
+  // reported by the cluster is used rather than a literal that is easy to mistype.
+  const [programData] = PublicKey.findProgramAddressSync([program.toBuffer()], programInfo.owner);
+  const data = await connection.getAccountInfo(programData, 'confirmed');
+  if (data) {
+    // The programdata account carries a 45-byte metadata header (state, slot, option tag, authority).
+    const elf = (data.data as Buffer).subarray(45);
+    deployedBinaryHash = createHash('sha256').update(elf).digest('hex');
+    const candidate = binaryPath ?? 'target/deploy/crossflow.so';
+    if (existsSync(candidate)) {
+      binaryMatches = createHash('sha256').update(readFileSync(candidate)).digest('hex') === deployedBinaryHash;
+    }
+  }
+}
+
 const report: Record<string, unknown> = {
   cluster: 'devnet', genesis, rpc_host: new URL(rpc).hostname,
   program_id: program.toBase58(),
@@ -38,6 +63,8 @@ const report: Record<string, unknown> = {
   program_owner: programInfo?.owner.toBase58() ?? null,
   program_executable: programInfo?.executable ?? false,
   config_address: configKey.toBase58(),
+  deployed_binary_sha256: deployedBinaryHash,
+  local_binary_matches_deployed: binaryMatches,
   config_present: Boolean(configInfo),
   prices_address: prices.toBase58(),
 };
@@ -65,4 +92,9 @@ if (configInfo) {
   }
 }
 if (expectDeployed && (!programInfo || !configInfo)) throw new Error('expected a deployed program and initialized config');
+// A live program whose bytes differ from a local build of the same manifest is not the program that
+// was reviewed, so this fails loudly rather than reporting the mismatch as a footnote.
+if (binaryMatches === false) {
+  throw new Error('BINARY_MISMATCH: the deployed program does not match a local build; rebuild with the same manifest and redeploy');
+}
 console.log(JSON.stringify({ status: 'OK', ...report }, null, 2));

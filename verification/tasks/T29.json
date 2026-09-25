@@ -1,0 +1,36 @@
+{
+  "task": "T29",
+  "sourceFiles": [
+    "README.md",
+    "docs/demo-script.md",
+    "docs/submission-draft.md",
+    "docs/claims-ledger.csv",
+    "docs/THIRD_PARTY_NOTICES.md",
+    "docs/submission-checklist.md",
+    "docs/final-handoff.md",
+    "scripts/check-submission.mjs",
+    "verification/tasks/T29.json"
+  ],
+  "checks": [
+    {
+      "name": "submission-artefacts",
+      "kind": "json-pass",
+      "command": "node",
+      "args": [
+        "scripts/check-submission.mjs"
+      ]
+    },
+    {
+      "name": "typescript",
+      "kind": "typecheck",
+      "command": "corepack",
+      "args": [
+        "pnpm@10.17.1",
+        "exec",
+        "tsc",
+        "--noEmit"
+      ]
+    }
+  ],
+  "reviewer": "self-prepared; the plan requires a human to challenge each headline against the results"
+}

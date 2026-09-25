@@ -516,3 +516,19 @@ Every listed test is planned, not already passing. T22 reviews all S01–S24; T3
 | S22 Config/upgrade | T02, T07, T09, T22, T23 | actual config-change tests; outstanding-escrow deploy refusal |
 | S23 Resource limits | T12, T17, T28, T32 | numerical timeout; max+1 batch; service resource-limits |
 | S24 Artifact/capacity | T04, T06, T17, T23, T24, T28, T30 | early envelope probe; full size/compute; release/source/config manifest |
+
+
+## Ledger state at handoff
+
+Every task in the plan now either has a verification manifest under `verification/tasks/` or a
+recorded reason for not having one:
+
+- **Built and verified**: T00–T14, T16–T24, T26–T32. Each manifest names the commands to re-run,
+  and `artifacts/tasks/<TASK>/<tree>/` holds the recorded result.
+- **Deliberately absent**: T15 (Pyth) was excluded by the user and is recorded as `excluded` in
+  `docs/claims-ledger.csv`; T25 (optional DBC integration) is unscheduled. Neither has a passing
+  manifest, because neither has been built.
+- **Known verification limits**, stated rather than papered over: no unfamiliar-user review (T27's
+  own acceptance test), no adversarial matrix against the deployed program in a single run, no
+  devnet run of the composed route, and the browser flow has never been driven with the real
+  Phantom extension.

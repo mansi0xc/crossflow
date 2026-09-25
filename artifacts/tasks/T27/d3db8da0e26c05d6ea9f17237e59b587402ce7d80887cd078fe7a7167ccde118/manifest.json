@@ -1,0 +1,90 @@
+{
+  "task": "T27",
+  "status": "CHECKS_PASS_REVIEW_PENDING",
+  "recordedAt": "2026-09-25T00:51:13.373Z",
+  "sourceCommit": "f5e05592f82a9cf48b9229265273417ae76fbe78",
+  "sourceTreeSha256": "d3db8da0e26c05d6ea9f17237e59b587402ce7d80887cd078fe7a7167ccde118",
+  "sourceFiles": {
+    "apps/web/src/components/Explainer.tsx": "2cb72b0f6697ca8de04cdef46a3a0cb72f0976a4a2f1924ba86f7eb36f72fbd5",
+    "apps/web/src/App.tsx": "211dcf0ff808d3a63e09ba9f13a7741ebcc41a9bc51bbb9fd573aa5d1494802c",
+    "apps/web/src/routes/prepare.tsx": "38df53b8b691c134d6dce440e86f8d58986f507c4e00fc6d168ad050a3ca4f7a",
+    "apps/web/src/routes/approve.tsx": "f9160bfa78894bb48d677ad7d1e15fbfc5eea50bb4c6ca28d261d7aa60f592ed",
+    "apps/web/src/routes/intent.tsx": "875e632626e0b8a6607192dd606f56480e5324a244bf2f39c5e29c3879bef3de",
+    "apps/web/src/styles.css": "1117a31f1d4b71c2872ce205355d16f80bb0f63ccadd114dd95f9e004af35269",
+    "tests/ui/accessibility.spec.ts": "49028c9ffc16f6952243c682e139bca6963ed83732bb5a220cbc08a465af5346",
+    "playwright.config.ts": "146a3b646bdc8f551de9fdb7b384105ce8605dc5978981ff8ea364e1661f2aac",
+    "services/api/src/server.ts": "5dc201da345beea8fe5c058f01e254beedcb15bb2d0a4045f684ecfa69247e90",
+    "docs/evidence/usability.md": "1cb07467957e7762707095188a87402721550120f4e20c075c617b07f06a402b",
+    "verification/tasks/T27.json": "52a7208aed609136f45cc95b51cc22bc2486487fc1f32c437d69ade0c980398a"
+  },
+  "policyFixtureSha256": "e31d3209a0556554172821a35f16aeeb406fa1cf27ea01512ea279b4ea370ecf",
+  "environment": "LOCAL_NO_TRANSACTION",
+  "clusterGenesis": null,
+  "transactionCount": 0,
+  "versions": {
+    "node": "v24.10.0",
+    "pnpm": "10.17.1",
+    "anchor": "anchor-cli 1.1.2",
+    "cargo": "cargo 1.89.0 (c24e10642 2025-06-23)"
+  },
+  "checks": [
+    {
+      "name": "accessibility",
+      "kind": "playwright",
+      "command": [
+        "corepack",
+        "pnpm@10.17.1",
+        "exec",
+        "playwright",
+        "test",
+        "tests/ui/accessibility.spec.ts"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "accessibility.log",
+      "outputSha256": "b9fd89900e41b056a96672b656aba8201f61399a927739351a6da5fde82b47cc",
+      "passed": true
+    },
+    {
+      "name": "ui-regressions",
+      "kind": "playwright",
+      "command": [
+        "corepack",
+        "pnpm@10.17.1",
+        "exec",
+        "playwright",
+        "test",
+        "tests/ui/prepare.spec.ts",
+        "tests/ui/approval.spec.ts",
+        "tests/ui/recovery.spec.ts"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "ui-regressions.log",
+      "outputSha256": "85fee7bb1e67fd4e7c8f6c451cff8758c1d95859a4c353f94491bacc103cdbc7",
+      "passed": true
+    },
+    {
+      "name": "typescript",
+      "kind": "typecheck",
+      "command": [
+        "corepack",
+        "pnpm@10.17.1",
+        "exec",
+        "tsc",
+        "--noEmit"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "typescript.log",
+      "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "passed": true
+    }
+  ],
+  "mandatoryCheckCount": 3,
+  "executedCheckCount": 3,
+  "reviewer": "self-prepared; an unfamiliar-user review has NOT been run and is recorded as outstanding",
+  "limits": [
+    "Checks only; independent reviewer and actual runtime/compute capacity remain open"
+  ]
+}

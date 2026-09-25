@@ -1,0 +1,31 @@
+{
+  "task": "T01",
+  "sourceFiles": [
+    "research/economics/scenario-spec.md",
+    "research/economics/scenarios.json",
+    "research/economics/split-manifest.json",
+    "scripts/check-scenarios.py",
+    "verification/tasks/T01.json"
+  ],
+  "checks": [
+    {
+      "name": "scenarios",
+      "kind": "evidence-pass",
+      "command": "python3",
+      "args": [
+        "scripts/check-scenarios.py"
+      ]
+    },
+    {
+      "name": "typescript",
+      "kind": "typecheck",
+      "command": "corepack",
+      "args": [
+        "pnpm@10.17.1",
+        "exec",
+        "tsc",
+        "--noEmit"
+      ]
+    }
+  ]
+}
