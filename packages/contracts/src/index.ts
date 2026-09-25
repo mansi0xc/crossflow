@@ -193,3 +193,46 @@ export async function assertMandateMatchesPolicy(mandate: unknown, policy: unkno
     }
   }
 }
+
+/**
+ * Decode a committed policy from its canonical bytes.
+ *
+ * The off-chain validators and the service take the policy as an object, but the *chain* only has
+ * the bytes. Without this, a client that cannot reach the service has no way to learn which mints
+ * the program is configured for, which is precisely the situation recovery has to survive.
+ *
+ * The field order mirrors `policyBytes`; a length or magic mismatch is refused rather than guessed.
+ */
+export function parsePolicyBytes(input: Uint8Array): Record<string, unknown> {
+  const bytes = input instanceof Uint8Array ? input : new Uint8Array(input);
+  if (bytes.length !== 652) throw new RangeError(`policy length must be 652, got ${bytes.length}`);
+  if (Buffer.from(bytes.subarray(0, 8)).toString('latin1') !== 'CFLCFG01') throw new TypeError('policy magic mismatch');
+  const hex = (offset: number) => Buffer.from(bytes.subarray(offset, offset + 32)).toString('hex');
+  const u8 = (offset: number) => bytes[offset];
+  const u16 = (offset: number) => bytes[offset] | (bytes[offset + 1] << 8);
+  const u32 = (offset: number) => (bytes[offset] | (bytes[offset + 1] << 8) | (bytes[offset + 2] << 16) | (bytes[offset + 3] << 24)) >>> 0;
+  if (u8(110) !== 3) throw new TypeError('policy must configure exactly three assets');
+  const assets = [0, 1, 2].map(index => {
+    const base = 111 + index * 97;
+    const decimals = u8(base + 64);
+    if (decimals > 9) throw new RangeError(`asset ${index} decimals out of range`);
+    return {
+      mint: hex(base), token_program: hex(base + 32), decimals: String(decimals), feed_id: hex(base + 65),
+    };
+  });
+  for (let index = 1; index < 3; index++) {
+    if (assets[index].mint <= assets[index - 1].mint) throw new TypeError('policy assets must be unique and sorted by mint bytes');
+  }
+  return {
+    genesis: hex(8), program_id: hex(40), config_address: hex(72),
+    configuration_version: String(u32(104)), oracle_mode: String(u8(108)), cash_index: String(u8(109)),
+    assets,
+    route_kind: String(u8(402)), route_program: hex(403), pool: hex(435), pool_authority: hex(467),
+    route_vaults: [hex(499), hex(531), hex(563)], max_route_legs: String(u8(595)),
+    max_age_seconds: String(u32(596)), max_future_skew_seconds: String(u32(600)),
+    max_confidence_bps: String(u16(604)), max_reference_move_bps: String(u16(606)),
+    max_value_loss_bps: String(u16(608)), max_cross_deviation_bps: String(u16(610)),
+    max_external_deviation_bps: String(u16(612)), max_intent_lifetime_seconds: String(u32(614)),
+    fixture_publisher: hex(618), protocol_fee_bps: String(u16(650)),
+  };
+}

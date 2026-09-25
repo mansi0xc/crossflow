@@ -69,6 +69,20 @@ export function byOwnerBytes(a: OnChainIntent, b: OnChainIntent): number {
   return Buffer.compare(new PublicKey(a.owner).toBuffer(), new PublicKey(b.owner).toBuffer());
 }
 
+/**
+ * The owner's persistent nonce, read from chain.
+ *
+ * Every funding consumes the current nonce and increments it, so a client that hard-codes zero can
+ * fund once and never again. Returns 0 for an owner that has never funded.
+ */
+export async function readOwnerNextNonce(connection: Connection, programId: PublicKey, config: PublicKey, owner: PublicKey, timeoutMs = 15_000) {
+  const [address] = PublicKey.findProgramAddressSync([Buffer.from('owner'), config.toBuffer(), owner.toBuffer()], programId);
+  const info = await withTimeout(connection.getAccountInfo(address, 'confirmed'), timeoutMs, 'getAccountInfo');
+  if (!info) return { nonce: 0n, activeIntent: null as string | null, exists: false };
+  const state = decodeOwnerState(info.data as Buffer);
+  return { nonce: BigInt(state.nextNonce), activeIntent: state.activeIntent, exists: true };
+}
+
 export function decodeOwnerState(data: Buffer) {
   if (data.length !== OWNER_STATE_SPACE) throw new RangeError(`owner state has unexpected length ${data.length}`);
   return {

@@ -18,6 +18,7 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / 'services'))
 
 from optimizer import cooperative  # noqa: E402
+from optimizer.portfolio import PortfolioError, scenario_from_portfolio  # noqa: E402
 from optimizer.shared import Budget, encode, sha  # noqa: E402
 
 MAX_CANDIDATES = 16_384
@@ -45,20 +46,36 @@ def main() -> None:
         request = json.loads(raw)
     except json.JSONDecodeError:
         fail('request is not JSON')
-    if not isinstance(request, dict) or not isinstance(request.get('scenario_id'), str):
-        fail('scenario_id is required')
+    if not isinstance(request, dict):
+        fail('request must be an object')
+    if request.get('portfolio') is None and not isinstance(request.get('scenario_id'), str):
+        fail('scenario_id or portfolio is required')
+    # The step is the search granularity over each owner's signed bounds. Real quantities are large
+    # (millions of raw units), so a step of one would exhaust the candidate budget before finding
+    # anything; the caller states how finely it wants the space searched.
     grid_step = request.get('grid_step', 1)
-    if not isinstance(grid_step, int) or grid_step < 1 or grid_step > 1024:
+    if isinstance(grid_step, bool) or not isinstance(grid_step, int) or grid_step < 1 or grid_step > 10**9:
         fail('grid_step out of range')
 
     scenarios, _ = load_frozen()
-    scenario = scenarios.get(request['scenario_id'])
-    if scenario is None:
-        fail('unknown scenario_id')
-    inline = request.get('scenario')
-    if inline is not None:
-        if not isinstance(inline, dict) or sha(inline) != sha(scenario):
-            fail('inline scenario does not match the frozen fixture')
+    defaults: list[str] = []
+    portfolio = request.get('portfolio')
+    if portfolio is not None:
+        # A portfolio the optimizer has never seen. The cost and market convention still come from
+        # the frozen template, so the result stays comparable with every committed number.
+        template = next(iter(scenarios.values()))
+        try:
+            scenario, defaults = scenario_from_portfolio(portfolio, template)
+        except PortfolioError as error:
+            fail(f'portfolio refused: {error}')
+    else:
+        scenario = scenarios.get(request['scenario_id'])
+        if scenario is None:
+            fail('unknown scenario_id')
+        inline = request.get('scenario')
+        if inline is not None:
+            if not isinstance(inline, dict) or sha(inline) != sha(scenario):
+                fail('inline scenario does not match the frozen fixture')
 
     budget = Budget(max_candidates=MAX_CANDIDATES, grid_step=grid_step)
     report = cooperative.compare(scenario, budget)
@@ -66,6 +83,8 @@ def main() -> None:
         'status': 'OK',
         'schema_version': 1,
         'scenario_id': scenario['id'],
+        'portfolio_sha256': sha(scenario),
+        'assumptions': defaults,
         'scenario_sha256': report['scenario_sha256'],
         'budget': {'max_candidates': budget.max_candidates, 'grid_step': budget.grid_step},
         'proposals': report['proposals'],

@@ -3,6 +3,7 @@ import { Connection, PublicKey, Transaction } from '@solana/web3.js';
 import { buildCreateAndFundInstruction, deriveFundAccounts, fundingTransaction } from '../../../../packages/client/src/fund.js';
 import { mandateBytes, sha256Hex } from '../../../../packages/contracts/src/index.js';
 import { api, type Deployment, type PlanResponse } from '../api.js';
+import { readOwnerNextNonce } from '../../../../packages/client/src/intents.js';
 import { connect, signAndSend, type InjectedProvider } from '../wallet.js';
 
 /**
@@ -32,6 +33,10 @@ export function Approve({ deployment, plan, connection, provider, wallet, onConn
     { min: '0', max: '0' },
   ]);
   const [referencePrices, setReferencePrices] = useState<string[] | null>(null);
+  // The owner's nonce advances with every funding, so it must come from chain: a hard-coded zero
+  // funds once and then fails for the same wallet.
+  const [nonce, setNonce] = useState<bigint | null>(null);
+  const [activeIntent, setActiveIntent] = useState<string | null>(null);
   const [affirmed, setAffirmed] = useState(false);
   const [signature, setSignature] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -43,6 +48,17 @@ export function Approve({ deployment, plan, connection, provider, wallet, onConn
     api.price().then(snapshot => setReferencePrices(snapshot.assets.map(asset => asset.price)))
       .catch(reason => setError(String(reason.message ?? reason)));
   }, []);
+
+  // The nonce comes from the owner's account on chain, so a wallet can fund repeatedly. A hard-coded
+  // zero funds once and then fails for the same wallet.
+  useEffect(() => {
+    if (!wallet) { setNonce(null); setActiveIntent(null); return; }
+    let cancelled = false;
+    readOwnerNextNonce(connection, program, config, wallet)
+      .then(state => { if (!cancelled) { setNonce(state.nonce); setActiveIntent(state.activeIntent); } })
+      .catch(reason => { if (!cancelled) setError(`could not read the owner nonce: ${String(reason.message ?? reason)}`); });
+    return () => { cancelled = true; };
+  }, [wallet, connection, program, config]);
 
   // Computed once so the expiry that is displayed is the expiry that is signed.
   const [expiry] = useState(() => BigInt(Math.floor(Date.now() / 1000) + 890));
@@ -57,7 +73,7 @@ export function Approve({ deployment, plan, connection, provider, wallet, onConn
 
   const mandate = useMemo(() => {
     if (!wallet) return null;
-    const accounts = deriveFundAccounts(program, config, prices, wallet, 0n, mints);
+    const accounts = deriveFundAccounts(program, config, prices, wallet, nonce ?? 0n, mints);
     return {
       accounts,
       assets: deployment.assets.map((asset, index) => ({
@@ -67,7 +83,7 @@ export function Approve({ deployment, plan, connection, provider, wallet, onConn
         funding_reference_price: referencePrices?.[index] ?? '0',
       })),
     };
-  }, [wallet, program, config, prices, mints, deployment, funding, bounds, referencePrices]);
+  }, [wallet, program, config, prices, mints, deployment, funding, bounds, referencePrices, nonce]);
 
   const [mandateHash, setMandateHash] = useState<string | null>(null);
   useEffect(() => {
@@ -83,7 +99,7 @@ export function Approve({ deployment, plan, connection, provider, wallet, onConn
     Promise.resolve().then(() => mandateBytes({
       genesis: canonical.genesis, program_id: canonical.program_id, config_address: canonical.config_address,
       schema_version: '1', policy_hash: deployment.policyHash, owner: wallet.toBuffer().toString('hex'),
-      nonce: '0', expiry_unix_seconds: expiry.toString(), optimization_commitment: commitment,
+      nonce: (nonce ?? 0n).toString(), expiry_unix_seconds: expiry.toString(), optimization_commitment: commitment,
       assets: mandate.assets,
     }))
       .then(bytes => sha256Hex(bytes))
@@ -95,12 +111,13 @@ export function Approve({ deployment, plan, connection, provider, wallet, onConn
   const fund = async () => {
     setError(null);
     if (!wallet || !mandate || !commitment) { await onConnect(); return; }
+    if (activeIntent) { setError(`this wallet already has an active intent (${activeIntent.slice(0, 12)}…). Cancel it before funding another.`); return; }
     if (!affirmed) { setError('Confirm that the raw units shown are the ones you intend to sign.'); return; }
     if (!referencePrices) { setError('the authenticated fixture prices have not loaded yet'); return; }
     setBusy(true);
     try {
       const instruction = buildCreateAndFundInstruction(program, wallet, mandate.accounts, {
-        expected_policy_hash: deployment.policyHash, nonce: '0', expiry_unix_seconds: expiry.toString(),
+        expected_policy_hash: deployment.policyHash, nonce: (nonce ?? 0n).toString(), expiry_unix_seconds: expiry.toString(),
         optimization_commitment: commitment,
         assets: funding.map((amount, index) => ({
           funding: amount,
@@ -123,8 +140,9 @@ export function Approve({ deployment, plan, connection, provider, wallet, onConn
   return (
     <section data-testid="approve">
       <h2>3 · Approve the exact mandate</h2>
-      <p className="note">
-        Expiry {expiry.toString()} (unix seconds, within the policy maximum of {deployment.maxIntentLifetimeSeconds}).
+      <p className="note" data-testid="nonce-line">
+        Funding this will consume nonce {nonce === null ? '…' : nonce.toString()} — the next one for this
+        wallet, read from the chain. Expiry {expiry.toString()} (unix seconds, within the policy maximum of {deployment.maxIntentLifetimeSeconds}).
         The raw units below are what the program stores and enforces.
       </p>
 

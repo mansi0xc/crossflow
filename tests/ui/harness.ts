@@ -1,5 +1,6 @@
 import { expect, test, type Page } from '@playwright/test';
 import { Keypair, PublicKey } from '@solana/web3.js';
+import { policyBytes } from '../../packages/contracts/src/index.js';
 
 /**
  * Injected wallet stub.
@@ -72,7 +73,46 @@ export interface StubIntent { address: string; owner: string; config: string; no
 /** A real base58 address; the app decodes whatever the stubbed chain returns. */
 export const STUB_INTENT_ADDRESS = 'So11111111111111111111111111111111111111112';
 export const STUB_OTHER_OWNER = 'SysvarRent111111111111111111111111111111111';
-export interface StubRpcOptions { intents?: StubIntent[] }
+export interface StubRpcOptions {
+  intents?: StubIntent[];
+  /** The owner's persistent nonce, as the chain would report it after previous fundings. */
+  ownerNonce?: string;
+  ownerConfig?: string;
+  ownerAddress?: string;
+  ownerActiveIntent?: string | null;
+  /** When set, the stubbed chain also serves a Config account, which the offline path needs. */
+  config?: { address: string; policy: Record<string, unknown>; deploymentId: string; policyHash: string };
+}
+
+/**
+ * Build a real 831-byte Config account so the app's own decoder reads it. The offline recovery path
+ * derives its identity from this account, so a stub returning nothing here would make the offline
+ * test pass or fail for reasons unrelated to the behaviour under test.
+ */
+export function encodeConfig(options: { policy: Record<string, unknown>; deploymentId: string; policyHash: string }): Buffer {
+  const data = Buffer.alloc(831);
+  Buffer.from([0x9b, 0x0c, 0xaa, 0xe0, 0x1e, 0xfa, 0xcc, 0x82]).copy(data, 0);
+  Buffer.from(options.deploymentId, 'hex').copy(data, 8);
+  Buffer.from(options.policyHash, 'hex').copy(data, 104);
+  Buffer.from(policyBytes(options.policy)).copy(data, 136);
+  data[830] = 1;
+  return data;
+}
+
+/** A real 114-byte OwnerState account, so the app reads the nonce the way it would on chain. */
+export function encodeOwnerState(options: { config: string; owner: string; nextNonce: string; activeIntent?: string | null }): Buffer {
+  const data = Buffer.alloc(114);
+  Buffer.from([0xea, 0x38, 0x6b, 0xd8, 0x90, 0x34, 0x36, 0xf4]).copy(data, 0);
+  new PublicKey(options.config).toBuffer().copy(data, 8);
+  new PublicKey(options.owner).toBuffer().copy(data, 40);
+  data.writeBigUInt64LE(BigInt(options.nextNonce), 72);
+  if (options.activeIntent) {
+    data[80] = 1;
+    new PublicKey(options.activeIntent).toBuffer().copy(data, 81);
+  }
+  data[113] = 1;
+  return data;
+}
 
 const INTENT_DISCRIMINATOR = Buffer.from([0xf7, 0xa2, 0x23, 0xa5, 0xfe, 0x6f, 0x81, 0x6d]);
 
@@ -116,6 +156,20 @@ export async function stubRpc(page: Page, options: StubRpcOptions = {}): Promise
         return respond({ context: { slot: 1 }, value: { blockhash: '11111111111111111111111111111111', lastValidBlockHeight: 1_000_000 } });
       case 'getBlockHeight':
         return respond(1_000);
+      case 'getAccountInfo': {
+        // web3.js expects the `{ context, value }` envelope here, unlike getProgramAccounts.
+        const account = (value: unknown) => respond({ context: { slot: 1 }, value });
+        if (options.ownerNonce === undefined || !options.ownerConfig || !options.ownerAddress) return account(null);
+        const [ownerState] = PublicKey.findProgramAddressSync(
+          [Buffer.from('owner'), new PublicKey(options.ownerConfig).toBuffer(), new PublicKey(options.ownerAddress).toBuffer()],
+          new PublicKey('CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh'));
+        const requested = route.request().postDataJSON()?.params?.[0];
+        if (requested !== ownerState.toBase58()) return account(null);
+        return account({ owner: 'CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh', lamports: 2_000_000,
+          data: [encodeOwnerState({ config: options.ownerConfig, owner: options.ownerAddress,
+            nextNonce: options.ownerNonce, activeIntent: options.ownerActiveIntent }).toString('base64'), 'base64'],
+          executable: false, rentEpoch: 0 });
+      }
       case 'getGenesisHash':
         return respond('EtWTRABZaYq6iMfeYKouRu166VU2xqa1wcaWoxPkrZBG');
       case 'sendTransaction':
@@ -125,12 +179,23 @@ export async function stubRpc(page: Page, options: StubRpcOptions = {}): Promise
         return respond({ context: { slot: 1 }, value: { err: null } });
       case 'getVersion':
         return respond({ 'solana-core': '3.1.10', 'feature-set': 0 });
-      case 'getProgramAccounts':
+      case 'getProgramAccounts': {
+        // The app asks for two different account types by data size; the stub must answer both or
+        // the offline path silently finds nothing.
+        const filters = (route.request().postDataJSON()?.params?.[1]?.filters ?? []) as { dataSize?: number }[];
+        const size = filters[0]?.dataSize;
+        if (size === 831) {
+          if (!options.config) return respond([]);
+          return respond([{ pubkey: options.config.address,
+            account: { owner: 'CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh', lamports: 6_000_000,
+              data: [encodeConfig(options.config).toString('base64'), 'base64'], executable: false, rentEpoch: 0 } }]);
+        }
         return respond((options.intents ?? []).map(intent => ({
           pubkey: intent.address,
           account: { owner: 'CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh', lamports: 1_000_000,
             data: [encodeIntent(intent).toString('base64'), 'base64'], executable: false, rentEpoch: 0 },
         })));
+      }
       default:
         return respond(null);
     }

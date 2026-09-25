@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Connection, PublicKey } from '@solana/web3.js';
 import { api, type Deployment, type PlanResponse } from './api.js';
+import { deriveDeploymentFromChain } from '../../../packages/client/src/deployment.js';
 import { listOwnerIntents, type OnChainIntent } from '../../../packages/client/src/intents.js';
 import { connect, detectProvider, providerLabel, type InjectedProvider } from './wallet.js';
 import { Prepare } from './routes/prepare.js';
@@ -21,6 +22,11 @@ export interface SessionState {
 
 const SCENARIOS = ['opposite-01', 'all-buy-01', 'asymmetric-01', 'tight-01', 'expensive-01', 'noise-01'];
 
+/** The program id is fixed at build time, so the chain path never needs the service. */
+const PROGRAM_ID = new PublicKey(
+  (import.meta.env?.VITE_CROSSFLOW_PROGRAM as string | undefined) ?? 'CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh');
+const RPC_URL = (import.meta.env?.VITE_CROSSFLOW_RPC as string | undefined) ?? 'http://127.0.0.1:8899';
+
 export default function App() {
   const [step, setStep] = useState<Step>('prepare');
   const [deployment, setDeployment] = useState<Deployment | null>(null);
@@ -34,14 +40,31 @@ export default function App() {
 
   useEffect(() => { setProvider(detectProvider()); }, []);
 
+  // The service is preferred for its extra detail, but the chain is authoritative and must work
+  // alone: an operator whose service is down still needs to find and recover its own intents.
   useEffect(() => {
-    api.deployment().then(setDeployment).catch(reason => setError(String(reason.message ?? reason)));
+    let cancelled = false;
+    const chainConnection = new Connection(RPC_URL, 'confirmed');
+    api.deployment()
+      .then(identity => { if (!cancelled) setDeployment({ ...identity, source: 'service' } as Deployment); })
+      .catch(async reason => {
+        try {
+          const derived = await deriveDeploymentFromChain(chainConnection, PROGRAM_ID);
+          if (cancelled) return;
+          if (derived) {
+            setDeployment(derived as unknown as Deployment);
+            setError(`the service is unavailable (${String(reason.message ?? reason)}); showing the identity read from chain`);
+          } else {
+            setError(`no deployment on this cluster and the service is unavailable: ${String(reason.message ?? reason)}`);
+          }
+        } catch (chainError) {
+          if (!cancelled) setError(`the service and the cluster are both unreachable: ${String((chainError as Error).message ?? chainError)}`);
+        }
+      });
+    return () => { cancelled = true; };
   }, []);
 
-  const connection = useMemo(
-    () => (deployment ? new Connection(import.meta.env?.VITE_CROSSFLOW_RPC ?? 'http://127.0.0.1:8899', 'confirmed') : null),
-    [deployment],
-  );
+  const connection = useMemo(() => new Connection(RPC_URL, 'confirmed'), []);
 
   // Intents are read from chain, not from the service: recovery must stay reachable when the
   // service is down, which is exactly the situation the recovery path exists for.
@@ -84,6 +107,11 @@ export default function App() {
         <p className="cluster" data-testid="cluster-label">
           {deployment ? `${deployment.cluster.toUpperCase()} · test assets only · ${deployment.oracleLabel}` : 'loading deployment identity…'}
         </p>
+        {deployment ? (
+          <p className="note" data-testid="identity-source">
+            identity read from {deployment.source === 'chain' ? 'the cluster' : 'the service'}
+          </p>
+        ) : null}
         <nav aria-label="Steps">
           {(['prepare', 'compare', 'approve', 'intent'] as Step[]).map(candidate => (
             <button

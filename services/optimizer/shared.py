@@ -80,6 +80,17 @@ class Proposal:
             'scenario_sha256': self.scenario_sha256,
             'ledger_errors': list(self.ledger_errors),
             'totals': (self.ledger or {}).get('totals'),
+            # The per-account split is what turns a proposal into an executable settlement: the
+            # internal part becomes crosses and the external part becomes residual legs.
+            'settlement_accounts': [
+                {'id': row['id'], 'initial_raw': row['initial_raw'], 'final_raw': row['final_raw'],
+                 'trades_raw': row['trades_raw'], 'internal_raw': row['internal_raw'],
+                 'external_raw': row['external_raw'], 'failures': row['failures'],
+                 'recurring_micro_usd': row['recurring_micro_usd'],
+                 'after_error_micro_usd': row['after_error_micro_usd'],
+                 'before_error_micro_usd': row['before_error_micro_usd']}
+                for row in (self.ledger or {}).get('accounts', [])
+            ],
         }
 
 

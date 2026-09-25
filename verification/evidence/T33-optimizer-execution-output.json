@@ -1,0 +1,556 @@
+{
+  "status": "PASS",
+  "task": "T33",
+  "scope": "OPTIMIZER-DRIVEN EXECUTION ON A LOCAL VALIDATOR; synthetic test assets and TEST PRICES",
+  "cluster": "localnet",
+  "genesis": "BGTPz7cZkeQEQjtESjtAwzszyhVebLKTANFDcFSkVzmu",
+  "program_id": "CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh",
+  "config": "3NRb6173quj4QFQMfQMeNaBXu6ndD3pTEHorpKchgb33",
+  "service_url": "http://127.0.0.1:8787",
+  "owners": {
+    "seller": "9j1SFRUGNcMTiKqoK9j5iUDgxwJkcsxSr37sVnrByPoX",
+    "buyer": "AYQJYQyCR8vRid57ANQPKg45DAA83jVLovNLpDXkD9sN",
+    "idle": "7eTeAe44KTL6UbJentqnyapAsqHUPfS5bR3ikQ3WHyAu"
+  },
+  "fixture": {
+    "funded_signatures": [
+      "3N79yvX2CDofNQsREVxdz6z835iWwDweJyFHYkbvKt6cmSqgobEv16psJ64YHVwnUTUGrBKaipigoVT2z5fRSVe8",
+      "WdMTk5WHBDM6mQWcs7J43q8JRsrGi7j3snAKn4mcq7vbohT9WTYYGmhzt3qrQwBwYj2ysinPwezKzBxTtSJUBkz",
+      "3Kz82bFNumpzc75LKQReVGJxPpcQcwesCxRAb21yS8oKGTjrQzrd7Jmak2bzsr4wLb1XDKCmHxfMLsoZ5Henx22d"
+    ],
+    "refund_signatures": [
+      "23pUDUtmjKUx3uU3PFSjLzi4kW1fzHkmRtgmQdUbVQ6jmBdDm14rPpYxsejRHkwaLiRjrTTf7p5LtAMvtsvr5mY5",
+      "3aAg9HcxY3EomXQzXu5mK3ZnTRYdZa9rPX3r5eV7isEM9fVfTJKAw8wqLURTfuP7ULABQYwgG9WqF9Z4xgnUxBcA",
+      "2L1U59pUMu1Wc9nrXFZaj1XXWLuM7uyKho2vTQSbaWarmdV2qwzq89FvP8NXtmCut83je7zZyhhMpa4f9msL4TLg"
+    ],
+    "slices": [
+      {
+        "cash": {
+          "funding": "1000000",
+          "min": "0",
+          "max": "60000000"
+        },
+        "stock1": {
+          "funding": "4000000",
+          "min": "0",
+          "max": "4000000"
+        },
+        "stock2": {
+          "funding": "0",
+          "min": "0",
+          "max": "0"
+        }
+      },
+      {
+        "cash": {
+          "funding": "40000000",
+          "min": "0",
+          "max": "40000000"
+        },
+        "stock1": {
+          "funding": "0",
+          "min": "0",
+          "max": "2000000"
+        },
+        "stock2": {
+          "funding": "0",
+          "min": "0",
+          "max": "0"
+        }
+      },
+      {
+        "cash": {
+          "funding": "30000000",
+          "min": "0",
+          "max": "30000000"
+        },
+        "stock1": {
+          "funding": "0",
+          "min": "0",
+          "max": "0"
+        },
+        "stock2": {
+          "funding": "0",
+          "min": "0",
+          "max": "0"
+        }
+      }
+    ]
+  },
+  "cycles": [
+    {
+      "label": "Cycle 1 — the two sides match exactly",
+      "preflight_note": "",
+      "modelled_versus_realized": [],
+      "portfolio_sha256": "2bcc3d9ac32770deabed64b158b730cafc9bbec82dd2c0c0c9f5df5110397927",
+      "assumptions": [
+        "accounts[0].min_error_reduction_bps defaulted to 5000 from the frozen template",
+        "accounts[0].max_stock_error_micro_usd defaulted to 30000000 from the frozen template",
+        "accounts[0].max_turnover_micro_usd defaulted to 1000000000 from the frozen template",
+        "accounts[0].cost_debit_budget_micro_usd defaulted to 20000000 from the frozen template",
+        "accounts[1].min_error_reduction_bps defaulted to 5000 from the frozen template",
+        "accounts[1].max_stock_error_micro_usd defaulted to 30000000 from the frozen template",
+        "accounts[1].max_turnover_micro_usd defaulted to 1000000000 from the frozen template",
+        "accounts[1].cost_debit_budget_micro_usd defaulted to 20000000 from the frozen template",
+        "accounts[2].min_error_reduction_bps defaulted to 0 from the frozen template",
+        "accounts[2].max_stock_error_micro_usd defaulted to 1 from the frozen template",
+        "accounts[2].max_turnover_micro_usd defaulted to 1000000000 from the frozen template",
+        "accounts[2].cost_debit_budget_micro_usd defaulted to 20000000 from the frozen template",
+        "the cost model, network fees, waiting cost and oracle convention come from the frozen template, not from the caller",
+        "prices are the caller's declared reference prices, which are not market data"
+      ],
+      "proposal": {
+        "method": "C",
+        "status": "ok",
+        "totals": {
+          "venue_cost_micro_usd": 0,
+          "price_difference_micro_usd": 0,
+          "network_micro_usd": {
+            "numerator": 3600,
+            "denominator": 1
+          },
+          "expected_retry_micro_usd": {
+            "numerator": 36,
+            "denominator": 1
+          },
+          "waiting_micro_usd": {
+            "numerator": 185,
+            "denominator": 2
+          },
+          "preference_micro_usd": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "recurring_micro_usd": {
+            "numerator": 7457,
+            "denominator": 2
+          },
+          "objective_micro_usd": {
+            "numerator": 7457,
+            "denominator": 2
+          },
+          "after_error_micro_usd": 0,
+          "turnover_micro_usd": 20000000,
+          "transactions_allocated": {
+            "numerator": 4,
+            "denominator": 1
+          },
+          "upfront_recoverable_rent_lamports": 11000000
+        },
+        "per_account": [
+          {
+            "id": "slice-0",
+            "internal_raw": {
+              "STOCK_A": 0,
+              "STOCK_B": 0
+            },
+            "external_raw": {
+              "STOCK_A": 0,
+              "STOCK_B": 0
+            },
+            "recurring_micro_usd": {
+              "numerator": 1237,
+              "denominator": 1
+            }
+          },
+          {
+            "id": "slice-1",
+            "internal_raw": {
+              "STOCK_A": -1000000,
+              "STOCK_B": 0
+            },
+            "external_raw": {
+              "STOCK_A": 0,
+              "STOCK_B": 0
+            },
+            "recurring_micro_usd": {
+              "numerator": 7477,
+              "denominator": 6
+            }
+          },
+          {
+            "id": "slice-2",
+            "internal_raw": {
+              "STOCK_A": 1000000,
+              "STOCK_B": 0
+            },
+            "external_raw": {
+              "STOCK_A": 0,
+              "STOCK_B": 0
+            },
+            "recurring_micro_usd": {
+              "numerator": 3736,
+              "denominator": 3
+            }
+          }
+        ]
+      },
+      "compiled": {
+        "crosses": [
+          {
+            "stock_index": "1",
+            "seller_index": "1",
+            "buyer_index": "2",
+            "stock_quantity": "1000000",
+            "cash_amount": "10000000"
+          }
+        ],
+        "residuals": [],
+        "explanation": [
+          "compiled 1 internal cross(es) and 0 residual leg(s) from the proposal's own per-account split",
+          "cash legs use the engine reference price exactly, so the settleable trade reproduces the accounting the engine priced",
+          "minimum residual outputs are set at the committed 200 bps external band below the reference value"
+        ]
+      },
+      "settlement": {
+        "signature": "toafiYSWo2Vq53EkYCSpHWVoskiL2Gi7Nf6PqrxsC2K7YUy7YQHJrfGvpWjQ54Vuh6sR4T4kEFcsfTTSo5bhBDD",
+        "compute_units": 203639,
+        "serialized_bytes": 567,
+        "routed": false,
+        "lookup_table_entries": 29
+      },
+      "reconciled": [
+        {
+          "owner": "7eTeAe44KTL6UbJentqnyapAsqHUPfS5bR3ikQ3WHyAu",
+          "proposed_change_raw": {
+            "CASH": "0",
+            "STOCK_A": "0",
+            "STOCK_B": "0"
+          },
+          "delivered_change_raw": {
+            "CASH": "0",
+            "STOCK_A": "0",
+            "STOCK_B": "0"
+          },
+          "matches_proposal": true,
+          "signed_bounds": {
+            "STOCK_A": {
+              "min": 0,
+              "max": 0
+            },
+            "STOCK_B": {
+              "min": 0,
+              "max": 0
+            },
+            "CASH": {
+              "min": 0,
+              "max": 30000000
+            }
+          }
+        },
+        {
+          "owner": "9j1SFRUGNcMTiKqoK9j5iUDgxwJkcsxSr37sVnrByPoX",
+          "proposed_change_raw": {
+            "CASH": "10000000",
+            "STOCK_A": "-1000000",
+            "STOCK_B": "0"
+          },
+          "delivered_change_raw": {
+            "CASH": "10000000",
+            "STOCK_A": "-1000000",
+            "STOCK_B": "0"
+          },
+          "matches_proposal": true,
+          "signed_bounds": {
+            "STOCK_A": {
+              "min": 0,
+              "max": 4000000
+            },
+            "STOCK_B": {
+              "min": 0,
+              "max": 0
+            },
+            "CASH": {
+              "min": 0,
+              "max": 60000000
+            }
+          }
+        },
+        {
+          "owner": "AYQJYQyCR8vRid57ANQPKg45DAA83jVLovNLpDXkD9sN",
+          "proposed_change_raw": {
+            "CASH": "-10000000",
+            "STOCK_A": "1000000",
+            "STOCK_B": "0"
+          },
+          "delivered_change_raw": {
+            "CASH": "-10000000",
+            "STOCK_A": "1000000",
+            "STOCK_B": "0"
+          },
+          "matches_proposal": true,
+          "signed_bounds": {
+            "STOCK_A": {
+              "min": 0,
+              "max": 2000000
+            },
+            "STOCK_B": {
+              "min": 0,
+              "max": 0
+            },
+            "CASH": {
+              "min": 0,
+              "max": 40000000
+            }
+          }
+        }
+      ]
+    },
+    {
+      "label": "Cycle 2 — one owner tightened, so the remainder must route",
+      "preflight_note": "the pre-flight bound check covers the debit side only; residual credits are measured on chain",
+      "modelled_versus_realized": [
+        {
+          "owner": "9j1SFRUGNcMTiKqoK9j5iUDgxwJkcsxSr37sVnrByPoX",
+          "asset": "CASH",
+          "modelled_change_raw": "20498249",
+          "realized_change_raw": "20493579",
+          "difference_raw": "-4670"
+        }
+      ],
+      "portfolio_sha256": "f490f82a0aae388aa1f6cc16af8cc0271ba44196d82f82f6bb89e72d1a474021",
+      "assumptions": [
+        "accounts[0].min_error_reduction_bps defaulted to 5000 from the frozen template",
+        "accounts[0].max_stock_error_micro_usd defaulted to 30000000 from the frozen template",
+        "accounts[0].max_turnover_micro_usd defaulted to 1000000000 from the frozen template",
+        "accounts[0].cost_debit_budget_micro_usd defaulted to 20000000 from the frozen template",
+        "accounts[1].min_error_reduction_bps defaulted to 5000 from the frozen template",
+        "accounts[1].max_stock_error_micro_usd defaulted to 30000000 from the frozen template",
+        "accounts[1].max_turnover_micro_usd defaulted to 1000000000 from the frozen template",
+        "accounts[1].cost_debit_budget_micro_usd defaulted to 20000000 from the frozen template",
+        "accounts[2].min_error_reduction_bps defaulted to 0 from the frozen template",
+        "accounts[2].max_stock_error_micro_usd defaulted to 1 from the frozen template",
+        "accounts[2].max_turnover_micro_usd defaulted to 1000000000 from the frozen template",
+        "accounts[2].cost_debit_budget_micro_usd defaulted to 20000000 from the frozen template",
+        "the cost model, network fees, waiting cost and oracle convention come from the frozen template, not from the caller",
+        "prices are the caller's declared reference prices, which are not market data"
+      ],
+      "proposal": {
+        "method": "C",
+        "status": "ok",
+        "totals": {
+          "venue_cost_micro_usd": 1751,
+          "price_difference_micro_usd": 0,
+          "network_micro_usd": {
+            "numerator": 3600,
+            "denominator": 1
+          },
+          "expected_retry_micro_usd": {
+            "numerator": 36,
+            "denominator": 1
+          },
+          "waiting_micro_usd": {
+            "numerator": 2575,
+            "denominator": 3
+          },
+          "preference_micro_usd": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "recurring_micro_usd": {
+            "numerator": 18736,
+            "denominator": 3
+          },
+          "objective_micro_usd": {
+            "numerator": 18736,
+            "denominator": 3
+          },
+          "after_error_micro_usd": 0,
+          "turnover_micro_usd": 40500000,
+          "transactions_allocated": {
+            "numerator": 4,
+            "denominator": 1
+          },
+          "upfront_recoverable_rent_lamports": 11000000
+        },
+        "per_account": [
+          {
+            "id": "slice-0",
+            "internal_raw": {
+              "STOCK_A": 0,
+              "STOCK_B": 0
+            },
+            "external_raw": {
+              "STOCK_A": 0,
+              "STOCK_B": 0
+            },
+            "recurring_micro_usd": {
+              "numerator": 4886,
+              "denominator": 3
+            }
+          },
+          {
+            "id": "slice-1",
+            "internal_raw": {
+              "STOCK_A": -2000000,
+              "STOCK_B": 0
+            },
+            "external_raw": {
+              "STOCK_A": -50000,
+              "STOCK_B": 0
+            },
+            "recurring_micro_usd": {
+              "numerator": 8989,
+              "denominator": 3
+            }
+          },
+          {
+            "id": "slice-2",
+            "internal_raw": {
+              "STOCK_A": 2000000,
+              "STOCK_B": 0
+            },
+            "external_raw": {
+              "STOCK_A": 0,
+              "STOCK_B": 0
+            },
+            "recurring_micro_usd": {
+              "numerator": 4861,
+              "denominator": 3
+            }
+          }
+        ]
+      },
+      "compiled": {
+        "crosses": [
+          {
+            "stock_index": "1",
+            "seller_index": "1",
+            "buyer_index": "2",
+            "stock_quantity": "2000000",
+            "cash_amount": "20000000"
+          }
+        ],
+        "residuals": [
+          {
+            "stock_index": "1",
+            "direction": "0",
+            "minimum_output": "490000",
+            "input_allocations": [
+              "0",
+              "50000",
+              "0"
+            ]
+          }
+        ],
+        "explanation": [
+          "compiled 1 internal cross(es) and 1 residual leg(s) from the proposal's own per-account split",
+          "cash legs use the engine reference price exactly, so the settleable trade reproduces the accounting the engine priced",
+          "minimum residual outputs are set at the committed 200 bps external band below the reference value"
+        ]
+      },
+      "settlement": {
+        "signature": "4aYmMNcHM7q92VMxXBTE27GzkK5ABiLRXWvZ4YQgbVuisXELWWUy6cRV1vAqRgXZb9D2ypB7GxdtAVFbDwngMWbP",
+        "compute_units": 291163,
+        "serialized_bytes": 683,
+        "routed": true,
+        "lookup_table_entries": 36
+      },
+      "reconciled": [
+        {
+          "owner": "7eTeAe44KTL6UbJentqnyapAsqHUPfS5bR3ikQ3WHyAu",
+          "proposed_change_raw": {
+            "CASH": "0",
+            "STOCK_A": "0",
+            "STOCK_B": "0"
+          },
+          "delivered_change_raw": {
+            "CASH": "0",
+            "STOCK_A": "0",
+            "STOCK_B": "0"
+          },
+          "matches_proposal": true,
+          "signed_bounds": {
+            "STOCK_A": {
+              "min": 0,
+              "max": 0
+            },
+            "STOCK_B": {
+              "min": 0,
+              "max": 0
+            },
+            "CASH": {
+              "min": 0,
+              "max": 500000000
+            }
+          }
+        },
+        {
+          "owner": "9j1SFRUGNcMTiKqoK9j5iUDgxwJkcsxSr37sVnrByPoX",
+          "proposed_change_raw": {
+            "CASH": "20498249",
+            "STOCK_A": "-2050000",
+            "STOCK_B": "0"
+          },
+          "delivered_change_raw": {
+            "CASH": "20493579",
+            "STOCK_A": "-2050000",
+            "STOCK_B": "0"
+          },
+          "matches_proposal": true,
+          "signed_bounds": {
+            "STOCK_A": {
+              "min": 1950000,
+              "max": 1950000
+            },
+            "STOCK_B": {
+              "min": 0,
+              "max": 0
+            },
+            "CASH": {
+              "min": 0,
+              "max": 510000000
+            }
+          }
+        },
+        {
+          "owner": "AYQJYQyCR8vRid57ANQPKg45DAA83jVLovNLpDXkD9sN",
+          "proposed_change_raw": {
+            "CASH": "-20000000",
+            "STOCK_A": "2000000",
+            "STOCK_B": "0"
+          },
+          "delivered_change_raw": {
+            "CASH": "-20000000",
+            "STOCK_A": "2000000",
+            "STOCK_B": "0"
+          },
+          "matches_proposal": true,
+          "signed_bounds": {
+            "STOCK_A": {
+              "min": 0,
+              "max": 2000000
+            },
+            "STOCK_B": {
+              "min": 0,
+              "max": 0
+            },
+            "CASH": {
+              "min": 0,
+              "max": 490000000
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "demonstration": {
+    "claim": "the settlement is derived from the optimizer proposal, not invented",
+    "first_crosses": 1,
+    "first_residuals": 0,
+    "second_crosses": 1,
+    "second_residuals": 1,
+    "target_changed_the_settlement": true,
+    "proposal_changed_with_the_target": true
+  },
+  "limitations": [
+    "Local validator, synthetic test assets and a labelled fixture oracle; no devnet and no market.",
+    "The cost model and market convention come from the frozen template, not from the caller; the assumptions list records which defaults were applied.",
+    "The residual leg executes against the controlled synthetic venue, not a real one."
+  ],
+  "hashes": {
+    "manifest": "bb619ac9ae4d20e083a9cf9485c384aa1b4c0a30758e96f5cdc63fcf95f9337d",
+    "binary": "375a396db07f4d23a96ab1989c1e4e811f5fead101ef1b06c2345127cf4df4ab",
+    "service_source": "5dc201da345beea8fe5c058f01e254beedcb15bb2d0a4045f684ecfa69247e90"
+  }
+}

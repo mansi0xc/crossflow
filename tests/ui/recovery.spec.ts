@@ -63,13 +63,25 @@ test.describe('T20 status, receipt and recovery', () => {
 
   test('recovery works with the service entirely offline', async ({ page }) => {
     const wallet = await installWallet(page, 24);
-    // Every service endpoint fails; only the chain is reachable.
-    await page.route('**/8787/**', async route => route.fulfill({ status: 503, contentType: 'application/json',
-      body: JSON.stringify({ status: 'REJECTED', reason: 'service unavailable' }) }));
+    // Every service endpoint fails; only the chain is reachable. The pattern is a regex because a
+    // glob like `**/8787/**` matches nothing here, which silently made this test vacuous.
+    let intercepted = 0;
+    await page.route(/127\.0\.0\.1:8787/, async route => {
+      intercepted += 1;
+      await route.fulfill({ status: 503, contentType: 'application/json',
+        body: JSON.stringify({ status: 'REJECTED', reason: 'service unavailable' }) });
+    });
+    // The Config account is served by the stubbed chain, because with the service down the identity
+    // can only come from the cluster.
     const deployment = await (await fetch('http://127.0.0.1:8787/deployment')).json();
-    await stubRpc(page, { intents: [{ address: STUB_INTENT_ADDRESS, owner: wallet.publicKey,
-      config: deployment.config, nonce: '0', status: 0 }] });
+    const policyHash = deployment.policyHash as string;
+    await stubRpc(page, {
+      config: { address: deployment.config, policy: deployment.policy, deploymentId: deployment.deploymentId, policyHash },
+      intents: [{ address: STUB_INTENT_ADDRESS, owner: wallet.publicKey, config: deployment.config, nonce: '0', status: 0 }],
+    });
     await page.goto('/');
+    // The service identity must fail: the app has to fall back to the chain.
+    await expect(page.getByTestId('identity-source')).toContainText('the cluster');
     await page.getByTestId('connect-wallet').click();
 
     // The recovery route must not depend on the service: this is the finding that forced the
@@ -78,5 +90,7 @@ test.describe('T20 status, receipt and recovery', () => {
     await page.getByTestId('nav-intent').click();
     await expect(page.getByTestId(`status-${STUB_INTENT_ADDRESS}`)).toHaveText('Funded');
     await expect(page.getByTestId(`cancel-${STUB_INTENT_ADDRESS}`)).toBeVisible();
+    // The test is only meaningful if the service really was unreachable.
+    expect(intercepted, 'the service was never intercepted, so this proves nothing').toBeGreaterThan(0);
   });
 });

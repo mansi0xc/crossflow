@@ -1,0 +1,61 @@
+{
+  "schema_version": "1",
+  "cluster": "localnet",
+  "program_id": "CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh",
+  "genesis": "BGTPz7cZkeQEQjtESjtAwzszyhVebLKTANFDcFSkVzmu",
+  "deployment_id": "5b2da7742af8671d0f9f5b2d982a984ba1364cb50725101bf3af154e3cc3e14a",
+  "config_address": "3NRb6173quj4QFQMfQMeNaBXu6ndD3pTEHorpKchgb33",
+  "expected_initializer": "9j1SFRUGNcMTiKqoK9j5iUDgxwJkcsxSr37sVnrByPoX",
+  "expected_initial_admin": "9j1SFRUGNcMTiKqoK9j5iUDgxwJkcsxSr37sVnrByPoX",
+  "fixture_publisher": "9j1SFRUGNcMTiKqoK9j5iUDgxwJkcsxSr37sVnrByPoX",
+  "initial_policy_hash": "eda08d74a9e68e5a26b9fa1c84a021d42fd6c77f2f88ee481add3bc83d55cd4f",
+  "policy_bytes_hex": "43464c4346473031988a6d82dc9d5889b907bda4e6a2819cbf649827a282c7b319604aad1a49bce0aadf3c52b6c2d2bf8a14289e26f40aa6f6e75d135d8e36f08373660d1fb94c7623345f4af0a48c56090d5dc9238c75520c92bf925f5473c089e636255e65bdb601000000000003519065f3d2623b104232b6339472c6510e716d39c953d539a47b21c5ef27df7a06ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a90641414141414141414141414141414141414141414141414141414141414141415312deb37bace279aa4c482d222ecca279e598808135bfd8c0946ec1aee2fa0406ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a9064242424242424242424242424242424242424242424242424242424242424242a8db8431f9f3900e523cef7987073cc105332b59fdf26313f15fba892366b97606ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a906434343434343434343434343434343434343434343434343434343434343434301a0e10a25c3b45c367b29f13bf38d4778e5bbad3069efff0c285d06dc86b7eef7f7a4cbe4f83f6d331e23f8bc0fcab27b36fba63bea2e54d7e6c4d600e42c27a5f7a4cbe4f83f6d331e23f8bc0fcab27b36fba63bea2e54d7e6c4d600e42c27a5c333ddb7512c7f1224a7043640edcf9be8842433f5e1c8447d9e947755e2345469b8194ecac1ad2e71562f2e62bebd34437f3ab3c0fa1dbd03390cf26f9a69a42bd6b079159ab5a181e5b51facd46162dd8ab063ef24965df3e3ec8531bf0502023c000000020000006400f401c8006400c8008403000081a061b14dab1320fda57534580625cd6c289300c306847e4fc50580eb9277e20000",
+  "policy": {
+    "genesis": "988a6d82dc9d5889b907bda4e6a2819cbf649827a282c7b319604aad1a49bce0",
+    "program_id": "aadf3c52b6c2d2bf8a14289e26f40aa6f6e75d135d8e36f08373660d1fb94c76",
+    "config_address": "23345f4af0a48c56090d5dc9238c75520c92bf925f5473c089e636255e65bdb6",
+    "configuration_version": "1",
+    "oracle_mode": "0",
+    "cash_index": "0",
+    "assets": [
+      {
+        "mint": "519065f3d2623b104232b6339472c6510e716d39c953d539a47b21c5ef27df7a",
+        "token_program": "06ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a9",
+        "decimals": "6",
+        "feed_id": "4141414141414141414141414141414141414141414141414141414141414141"
+      },
+      {
+        "mint": "5312deb37bace279aa4c482d222ecca279e598808135bfd8c0946ec1aee2fa04",
+        "token_program": "06ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a9",
+        "decimals": "6",
+        "feed_id": "4242424242424242424242424242424242424242424242424242424242424242"
+      },
+      {
+        "mint": "a8db8431f9f3900e523cef7987073cc105332b59fdf26313f15fba892366b976",
+        "token_program": "06ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a9",
+        "decimals": "6",
+        "feed_id": "4343434343434343434343434343434343434343434343434343434343434343"
+      }
+    ],
+    "route_kind": "1",
+    "route_program": "a0e10a25c3b45c367b29f13bf38d4778e5bbad3069efff0c285d06dc86b7eef7",
+    "pool": "f7a4cbe4f83f6d331e23f8bc0fcab27b36fba63bea2e54d7e6c4d600e42c27a5",
+    "pool_authority": "f7a4cbe4f83f6d331e23f8bc0fcab27b36fba63bea2e54d7e6c4d600e42c27a5",
+    "route_vaults": [
+      "c333ddb7512c7f1224a7043640edcf9be8842433f5e1c8447d9e947755e23454",
+      "69b8194ecac1ad2e71562f2e62bebd34437f3ab3c0fa1dbd03390cf26f9a69a4",
+      "2bd6b079159ab5a181e5b51facd46162dd8ab063ef24965df3e3ec8531bf0502"
+    ],
+    "max_route_legs": "2",
+    "max_age_seconds": "60",
+    "max_future_skew_seconds": "2",
+    "max_confidence_bps": "100",
+    "max_reference_move_bps": "500",
+    "max_value_loss_bps": "200",
+    "max_cross_deviation_bps": "100",
+    "max_external_deviation_bps": "200",
+    "max_intent_lifetime_seconds": "900",
+    "fixture_publisher": "81a061b14dab1320fda57534580625cd6c289300c306847e4fc50580eb9277e2",
+    "protocol_fee_bps": "0"
+  }
+}

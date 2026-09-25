@@ -18,6 +18,9 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
 export interface DeploymentAsset { index: number; mint: string; tokenProgram: string; decimals: number; testAsset: boolean }
 export interface Deployment {
   cluster: string; genesis: string; programId: string; config: string; deploymentId: string; policyHash: string;
+  /** Which source produced this identity. The chain path is the fallback when the service is down. */
+  source?: 'service' | 'chain';
+  admin?: string; fundingPaused?: boolean; settlementPaused?: boolean; outstandingClaimIntents?: string;
   routeEnabled: boolean; oracleMode: number; oracleLabel: string; protocolFeeBps: string;
   maxIntentLifetimeSeconds: string; assets: DeploymentAsset[]; policy: Record<string, unknown>;
 }
