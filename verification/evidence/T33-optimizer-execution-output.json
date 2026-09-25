@@ -3,25 +3,30 @@
   "task": "T33",
   "scope": "OPTIMIZER-DRIVEN EXECUTION ON A LOCAL VALIDATOR; synthetic test assets and TEST PRICES",
   "cluster": "localnet",
-  "genesis": "BGTPz7cZkeQEQjtESjtAwzszyhVebLKTANFDcFSkVzmu",
+  "genesis": "8RpdQkarC7qvYJX28DgdzUDceBctLeQL8bTfx3nYoBFJ",
   "program_id": "CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh",
-  "config": "3NRb6173quj4QFQMfQMeNaBXu6ndD3pTEHorpKchgb33",
+  "config": "Ez76EU3yb6yFDDVdSLthtq6XH38Twqi3v5jJsU9eFJZb",
   "service_url": "http://127.0.0.1:8787",
   "owners": {
-    "seller": "9j1SFRUGNcMTiKqoK9j5iUDgxwJkcsxSr37sVnrByPoX",
-    "buyer": "AYQJYQyCR8vRid57ANQPKg45DAA83jVLovNLpDXkD9sN",
-    "idle": "7eTeAe44KTL6UbJentqnyapAsqHUPfS5bR3ikQ3WHyAu"
+    "seller": "9tg9E44KcnJDiN8GxPobWpZ1XTd1BDrKbDF8L95EQgsd",
+    "buyer": "B9FyD7ireF2DZdr8LGaYDT5NhmqEmiNqAC82j82irRUs",
+    "idle": "EeWd5yEv658SYKtx2NWh7bY4Dk3cgzCThTLgn86N39u9"
   },
   "fixture": {
     "funded_signatures": [
-      "3N79yvX2CDofNQsREVxdz6z835iWwDweJyFHYkbvKt6cmSqgobEv16psJ64YHVwnUTUGrBKaipigoVT2z5fRSVe8",
-      "WdMTk5WHBDM6mQWcs7J43q8JRsrGi7j3snAKn4mcq7vbohT9WTYYGmhzt3qrQwBwYj2ysinPwezKzBxTtSJUBkz",
-      "3Kz82bFNumpzc75LKQReVGJxPpcQcwesCxRAb21yS8oKGTjrQzrd7Jmak2bzsr4wLb1XDKCmHxfMLsoZ5Henx22d"
+      "5JndDAJn55Xy5nLunzqG8sMaFKnsiJvcVULpuae1vn9sBD4HFDhrxPfXt2QqeZdYwRFpHCZn9QFH7BzMQFo9SSZR",
+      "dBs2y3AzEAGE6GjaNgUKL4fB16a6gkwDyVCgnACegnphL2oJhsFqgc8ccvShm18uo197qnqCCibxLYiDXcNmfTv",
+      "ycshN1pkffZdXqTstoQnJ5vbXLDBdbh3iBS4myqLQ7JT874b21oPRxp2QvbfoLRaLowsfDADcrFjkJdWjUM5UoH"
     ],
     "refund_signatures": [
-      "23pUDUtmjKUx3uU3PFSjLzi4kW1fzHkmRtgmQdUbVQ6jmBdDm14rPpYxsejRHkwaLiRjrTTf7p5LtAMvtsvr5mY5",
-      "3aAg9HcxY3EomXQzXu5mK3ZnTRYdZa9rPX3r5eV7isEM9fVfTJKAw8wqLURTfuP7ULABQYwgG9WqF9Z4xgnUxBcA",
-      "2L1U59pUMu1Wc9nrXFZaj1XXWLuM7uyKho2vTQSbaWarmdV2qwzq89FvP8NXtmCut83je7zZyhhMpa4f9msL4TLg"
+      "VC2A8kHhmmxYFLr7Cn4HWw7gZdFncB5aUSR9XUFjCDQhXfjpxNfM1gFm4UtvWXw6irsQ5bjeeriuuinbGi89M1o",
+      "3iThJdwxmKLWV81KPLMWZYXCjwDfCSfLuuGcCbMnUSf3Ny5oc69xpsB4SpQBNT794JpvRBkRxWGrDtmscLArEwio",
+      "61aEMWDZ2TYtsEzPWMRsPa9dsamKcKvgif2b9QXJBxE9mMiL5k3ygNzK1FhcehdNniUDCzTQweLuDTW3JttRCdMQ"
+    ],
+    "buy_signatures": [
+      "28Uz6JanXcc2BU53NGHPNbjzjBnvBVgc1Qmz3ynFfvmsPtz3szxmKDv1kcUEmvSVGuerY6yfPsPBJVJh9oVwJN5Z",
+      "5dUxg53Rpaphzsuamaq9nxKZhZvKg3EkioMueAp3A1PohxSTCN5arPxAhUsbsbKapDadBjYqdNMrZE1ejt3ZDu97",
+      "4f4swREQEjgpmQFxmEDEL7sMqaHiqpw2Suuj94i2BQhcQDp4s2YvDLiWu4isyjnntSFiAkN3Tjn2YCMDryddjGYJ"
     ],
     "slices": [
       {
@@ -80,9 +85,16 @@
   "cycles": [
     {
       "label": "Cycle 1 — the two sides match exactly",
+      "decision": {
+        "method": "C",
+        "reason": "cooperative adjustment leaves every owner no worse off and beats the alternatives",
+        "declined": {},
+        "no_worse_than_independent": true,
+        "harmed_owners": []
+      },
       "preflight_note": "",
       "modelled_versus_realized": [],
-      "portfolio_sha256": "2bcc3d9ac32770deabed64b158b730cafc9bbec82dd2c0c0c9f5df5110397927",
+      "portfolio_sha256": "2a4464152a403fc210173e8bec3264962fa9a2853b29cc07e811e15e55d5b233",
       "assumptions": [
         "accounts[0].min_error_reduction_bps defaulted to 5000 from the frozen template",
         "accounts[0].max_stock_error_micro_usd defaulted to 30000000 from the frozen template",
@@ -106,15 +118,15 @@
           "venue_cost_micro_usd": 0,
           "price_difference_micro_usd": 0,
           "network_micro_usd": {
-            "numerator": 3600,
+            "numerator": 2700,
             "denominator": 1
           },
           "expected_retry_micro_usd": {
-            "numerator": 36,
+            "numerator": 27,
             "denominator": 1
           },
           "waiting_micro_usd": {
-            "numerator": 185,
+            "numerator": 135,
             "denominator": 2
           },
           "preference_micro_usd": {
@@ -122,17 +134,26 @@
             "denominator": 1
           },
           "recurring_micro_usd": {
-            "numerator": 7457,
+            "numerator": 5589,
             "denominator": 2
           },
           "objective_micro_usd": {
-            "numerator": 7457,
+            "numerator": 5589,
             "denominator": 2
           },
           "after_error_micro_usd": 0,
           "turnover_micro_usd": 20000000,
           "transactions_allocated": {
-            "numerator": 4,
+            "numerator": 3,
+            "denominator": 1
+          },
+          "funded_lifecycle_transactions": 4,
+          "funded_lifecycle_network_micro_usd": {
+            "numerator": 3600,
+            "denominator": 1
+          },
+          "operator_subsidy_micro_usd": {
+            "numerator": 900,
             "denominator": 1
           },
           "upfront_recoverable_rent_lamports": 11000000
@@ -140,21 +161,6 @@
         "per_account": [
           {
             "id": "slice-0",
-            "internal_raw": {
-              "STOCK_A": 0,
-              "STOCK_B": 0
-            },
-            "external_raw": {
-              "STOCK_A": 0,
-              "STOCK_B": 0
-            },
-            "recurring_micro_usd": {
-              "numerator": 1237,
-              "denominator": 1
-            }
-          },
-          {
-            "id": "slice-1",
             "internal_raw": {
               "STOCK_A": -1000000,
               "STOCK_B": 0
@@ -164,12 +170,12 @@
               "STOCK_B": 0
             },
             "recurring_micro_usd": {
-              "numerator": 7477,
-              "denominator": 6
+              "numerator": 4193,
+              "denominator": 3
             }
           },
           {
-            "id": "slice-2",
+            "id": "slice-1",
             "internal_raw": {
               "STOCK_A": 1000000,
               "STOCK_B": 0
@@ -179,8 +185,23 @@
               "STOCK_B": 0
             },
             "recurring_micro_usd": {
-              "numerator": 3736,
-              "denominator": 3
+              "numerator": 8381,
+              "denominator": 6
+            }
+          },
+          {
+            "id": "slice-2",
+            "internal_raw": {
+              "STOCK_A": 0,
+              "STOCK_B": 0
+            },
+            "external_raw": {
+              "STOCK_A": 0,
+              "STOCK_B": 0
+            },
+            "recurring_micro_usd": {
+              "numerator": 0,
+              "denominator": 1
             }
           }
         ]
@@ -189,8 +210,8 @@
         "crosses": [
           {
             "stock_index": "1",
-            "seller_index": "1",
-            "buyer_index": "2",
+            "seller_index": "0",
+            "buyer_index": "1",
             "stock_quantity": "1000000",
             "cash_amount": "10000000"
           }
@@ -203,43 +224,44 @@
         ]
       },
       "settlement": {
-        "signature": "toafiYSWo2Vq53EkYCSpHWVoskiL2Gi7Nf6PqrxsC2K7YUy7YQHJrfGvpWjQ54Vuh6sR4T4kEFcsfTTSo5bhBDD",
-        "compute_units": 203639,
+        "signature": "676sVt3HXoaAidr23zQ5rMB1bWungY1bhL91WrAGxvszeAN7G4v5dX4c7ww9hWB5DNe5BDAnhTqpoPYkude5bkB8",
+        "compute_units": 218639,
         "serialized_bytes": 567,
         "routed": false,
         "lookup_table_entries": 29
       },
-      "reconciled": [
+      "reconstruction": [
         {
-          "owner": "7eTeAe44KTL6UbJentqnyapAsqHUPfS5bR3ikQ3WHyAu",
-          "proposed_change_raw": {
-            "CASH": "0",
-            "STOCK_A": "0",
+          "owner": "9tg9E44KcnJDiN8GxPobWpZ1XTd1BDrKbDF8L95EQgsd",
+          "stock_change": {
+            "STOCK_A": "-1000000",
             "STOCK_B": "0"
           },
-          "delivered_change_raw": {
-            "CASH": "0",
-            "STOCK_A": "0",
-            "STOCK_B": "0"
-          },
-          "matches_proposal": true,
-          "signed_bounds": {
-            "STOCK_A": {
-              "min": 0,
-              "max": 0
-            },
-            "STOCK_B": {
-              "min": 0,
-              "max": 0
-            },
-            "CASH": {
-              "min": 0,
-              "max": 30000000
-            }
-          }
+          "cash_change": "10000000",
+          "quote_dependent": false
         },
         {
-          "owner": "9j1SFRUGNcMTiKqoK9j5iUDgxwJkcsxSr37sVnrByPoX",
+          "owner": "B9FyD7ireF2DZdr8LGaYDT5NhmqEmiNqAC82j82irRUs",
+          "stock_change": {
+            "STOCK_A": "1000000",
+            "STOCK_B": "0"
+          },
+          "cash_change": "-10000000",
+          "quote_dependent": false
+        },
+        {
+          "owner": "EeWd5yEv658SYKtx2NWh7bY4Dk3cgzCThTLgn86N39u9",
+          "stock_change": {
+            "STOCK_A": "0",
+            "STOCK_B": "0"
+          },
+          "cash_change": "0",
+          "quote_dependent": false
+        }
+      ],
+      "reconciled": [
+        {
+          "owner": "9tg9E44KcnJDiN8GxPobWpZ1XTd1BDrKbDF8L95EQgsd",
           "proposed_change_raw": {
             "CASH": "10000000",
             "STOCK_A": "-1000000",
@@ -251,6 +273,8 @@
             "STOCK_B": "0"
           },
           "matches_proposal": true,
+          "within_signed_bounds": true,
+          "route_difference_raw": {},
           "signed_bounds": {
             "STOCK_A": {
               "min": 0,
@@ -267,7 +291,7 @@
           }
         },
         {
-          "owner": "AYQJYQyCR8vRid57ANQPKg45DAA83jVLovNLpDXkD9sN",
+          "owner": "B9FyD7ireF2DZdr8LGaYDT5NhmqEmiNqAC82j82irRUs",
           "proposed_change_raw": {
             "CASH": "-10000000",
             "STOCK_A": "1000000",
@@ -279,6 +303,8 @@
             "STOCK_B": "0"
           },
           "matches_proposal": true,
+          "within_signed_bounds": true,
+          "route_difference_raw": {},
           "signed_bounds": {
             "STOCK_A": {
               "min": 0,
@@ -293,22 +319,59 @@
               "max": 40000000
             }
           }
+        },
+        {
+          "owner": "EeWd5yEv658SYKtx2NWh7bY4Dk3cgzCThTLgn86N39u9",
+          "proposed_change_raw": {
+            "CASH": "0",
+            "STOCK_A": "0",
+            "STOCK_B": "0"
+          },
+          "delivered_change_raw": {
+            "CASH": "0",
+            "STOCK_A": "0",
+            "STOCK_B": "0"
+          },
+          "matches_proposal": true,
+          "within_signed_bounds": true,
+          "route_difference_raw": {},
+          "signed_bounds": {
+            "STOCK_A": {
+              "min": 0,
+              "max": 0
+            },
+            "STOCK_B": {
+              "min": 0,
+              "max": 0
+            },
+            "CASH": {
+              "min": 0,
+              "max": 30000000
+            }
+          }
         }
       ]
     },
     {
       "label": "Cycle 2 — one owner tightened, so the remainder must route",
-      "preflight_note": "the pre-flight bound check covers the debit side only; residual credits are measured on chain",
+      "decision": {
+        "method": "C",
+        "reason": "cooperative adjustment leaves every owner no worse off and beats the alternatives",
+        "declined": {},
+        "no_worse_than_independent": true,
+        "harmed_owners": []
+      },
+      "preflight_note": "the pre-flight bound check covers every deterministic asset; the routed payout asset(s) CASH are measured and enforced on chain",
       "modelled_versus_realized": [
         {
-          "owner": "9j1SFRUGNcMTiKqoK9j5iUDgxwJkcsxSr37sVnrByPoX",
+          "owner": "9tg9E44KcnJDiN8GxPobWpZ1XTd1BDrKbDF8L95EQgsd",
           "asset": "CASH",
           "modelled_change_raw": "20498249",
           "realized_change_raw": "20493579",
           "difference_raw": "-4670"
         }
       ],
-      "portfolio_sha256": "f490f82a0aae388aa1f6cc16af8cc0271ba44196d82f82f6bb89e72d1a474021",
+      "portfolio_sha256": "e3aa131438fa0615c4f1d05b4e497f29f05ca33baa662d6077b4e5704043ccf4",
       "assumptions": [
         "accounts[0].min_error_reduction_bps defaulted to 5000 from the frozen template",
         "accounts[0].max_stock_error_micro_usd defaulted to 30000000 from the frozen template",
@@ -332,15 +395,15 @@
           "venue_cost_micro_usd": 1751,
           "price_difference_micro_usd": 0,
           "network_micro_usd": {
-            "numerator": 3600,
+            "numerator": 2700,
             "denominator": 1
           },
           "expected_retry_micro_usd": {
-            "numerator": 36,
+            "numerator": 27,
             "denominator": 1
           },
           "waiting_micro_usd": {
-            "numerator": 2575,
+            "numerator": 1325,
             "denominator": 3
           },
           "preference_micro_usd": {
@@ -348,17 +411,26 @@
             "denominator": 1
           },
           "recurring_micro_usd": {
-            "numerator": 18736,
+            "numerator": 14759,
             "denominator": 3
           },
           "objective_micro_usd": {
-            "numerator": 18736,
+            "numerator": 14759,
             "denominator": 3
           },
           "after_error_micro_usd": 0,
           "turnover_micro_usd": 40500000,
           "transactions_allocated": {
-            "numerator": 4,
+            "numerator": 3,
+            "denominator": 1
+          },
+          "funded_lifecycle_transactions": 4,
+          "funded_lifecycle_network_micro_usd": {
+            "numerator": 3600,
+            "denominator": 1
+          },
+          "operator_subsidy_micro_usd": {
+            "numerator": 900,
             "denominator": 1
           },
           "upfront_recoverable_rent_lamports": 11000000
@@ -366,21 +438,6 @@
         "per_account": [
           {
             "id": "slice-0",
-            "internal_raw": {
-              "STOCK_A": 0,
-              "STOCK_B": 0
-            },
-            "external_raw": {
-              "STOCK_A": 0,
-              "STOCK_B": 0
-            },
-            "recurring_micro_usd": {
-              "numerator": 4886,
-              "denominator": 3
-            }
-          },
-          {
-            "id": "slice-1",
             "internal_raw": {
               "STOCK_A": -2000000,
               "STOCK_B": 0
@@ -390,12 +447,12 @@
               "STOCK_B": 0
             },
             "recurring_micro_usd": {
-              "numerator": 8989,
-              "denominator": 3
+              "numerator": 18887,
+              "denominator": 6
             }
           },
           {
-            "id": "slice-2",
+            "id": "slice-1",
             "internal_raw": {
               "STOCK_A": 2000000,
               "STOCK_B": 0
@@ -405,8 +462,23 @@
               "STOCK_B": 0
             },
             "recurring_micro_usd": {
-              "numerator": 4861,
-              "denominator": 3
+              "numerator": 10631,
+              "denominator": 6
+            }
+          },
+          {
+            "id": "slice-2",
+            "internal_raw": {
+              "STOCK_A": 0,
+              "STOCK_B": 0
+            },
+            "external_raw": {
+              "STOCK_A": 0,
+              "STOCK_B": 0
+            },
+            "recurring_micro_usd": {
+              "numerator": 0,
+              "denominator": 1
             }
           }
         ]
@@ -415,8 +487,8 @@
         "crosses": [
           {
             "stock_index": "1",
-            "seller_index": "1",
-            "buyer_index": "2",
+            "seller_index": "0",
+            "buyer_index": "1",
             "stock_quantity": "2000000",
             "cash_amount": "20000000"
           }
@@ -427,8 +499,8 @@
             "direction": "0",
             "minimum_output": "490000",
             "input_allocations": [
-              "0",
               "50000",
+              "0",
               "0"
             ]
           }
@@ -440,43 +512,44 @@
         ]
       },
       "settlement": {
-        "signature": "4aYmMNcHM7q92VMxXBTE27GzkK5ABiLRXWvZ4YQgbVuisXELWWUy6cRV1vAqRgXZb9D2ypB7GxdtAVFbDwngMWbP",
-        "compute_units": 291163,
+        "signature": "3JSa8MvYhUckzms9RhMxmS8fMiu9R6gLBeCUqboK8A8yiTcLxEKz1nnwHcir8ATrQgfnpHruybp4X6NeE8vJhu1B",
+        "compute_units": 316663,
         "serialized_bytes": 683,
         "routed": true,
         "lookup_table_entries": 36
       },
-      "reconciled": [
+      "reconstruction": [
         {
-          "owner": "7eTeAe44KTL6UbJentqnyapAsqHUPfS5bR3ikQ3WHyAu",
-          "proposed_change_raw": {
-            "CASH": "0",
-            "STOCK_A": "0",
+          "owner": "9tg9E44KcnJDiN8GxPobWpZ1XTd1BDrKbDF8L95EQgsd",
+          "stock_change": {
+            "STOCK_A": "-2050000",
             "STOCK_B": "0"
           },
-          "delivered_change_raw": {
-            "CASH": "0",
-            "STOCK_A": "0",
-            "STOCK_B": "0"
-          },
-          "matches_proposal": true,
-          "signed_bounds": {
-            "STOCK_A": {
-              "min": 0,
-              "max": 0
-            },
-            "STOCK_B": {
-              "min": 0,
-              "max": 0
-            },
-            "CASH": {
-              "min": 0,
-              "max": 500000000
-            }
-          }
+          "cash_change": "20490000",
+          "quote_dependent": true
         },
         {
-          "owner": "9j1SFRUGNcMTiKqoK9j5iUDgxwJkcsxSr37sVnrByPoX",
+          "owner": "B9FyD7ireF2DZdr8LGaYDT5NhmqEmiNqAC82j82irRUs",
+          "stock_change": {
+            "STOCK_A": "2000000",
+            "STOCK_B": "0"
+          },
+          "cash_change": "-20000000",
+          "quote_dependent": true
+        },
+        {
+          "owner": "EeWd5yEv658SYKtx2NWh7bY4Dk3cgzCThTLgn86N39u9",
+          "stock_change": {
+            "STOCK_A": "0",
+            "STOCK_B": "0"
+          },
+          "cash_change": "0",
+          "quote_dependent": true
+        }
+      ],
+      "reconciled": [
+        {
+          "owner": "9tg9E44KcnJDiN8GxPobWpZ1XTd1BDrKbDF8L95EQgsd",
           "proposed_change_raw": {
             "CASH": "20498249",
             "STOCK_A": "-2050000",
@@ -487,7 +560,14 @@
             "STOCK_A": "-2050000",
             "STOCK_B": "0"
           },
-          "matches_proposal": true,
+          "matches_proposal": false,
+          "within_signed_bounds": true,
+          "route_difference_raw": {
+            "CASH": {
+              "modelled": "20498249",
+              "realized": "20493579"
+            }
+          },
           "signed_bounds": {
             "STOCK_A": {
               "min": 1950000,
@@ -504,7 +584,7 @@
           }
         },
         {
-          "owner": "AYQJYQyCR8vRid57ANQPKg45DAA83jVLovNLpDXkD9sN",
+          "owner": "B9FyD7ireF2DZdr8LGaYDT5NhmqEmiNqAC82j82irRUs",
           "proposed_change_raw": {
             "CASH": "-20000000",
             "STOCK_A": "2000000",
@@ -516,6 +596,8 @@
             "STOCK_B": "0"
           },
           "matches_proposal": true,
+          "within_signed_bounds": true,
+          "route_difference_raw": {},
           "signed_bounds": {
             "STOCK_A": {
               "min": 0,
@@ -530,27 +612,409 @@
               "max": 490000000
             }
           }
+        },
+        {
+          "owner": "EeWd5yEv658SYKtx2NWh7bY4Dk3cgzCThTLgn86N39u9",
+          "proposed_change_raw": {
+            "CASH": "0",
+            "STOCK_A": "0",
+            "STOCK_B": "0"
+          },
+          "delivered_change_raw": {
+            "CASH": "0",
+            "STOCK_A": "0",
+            "STOCK_B": "0"
+          },
+          "matches_proposal": true,
+          "within_signed_bounds": true,
+          "route_difference_raw": {},
+          "signed_bounds": {
+            "STOCK_A": {
+              "min": 0,
+              "max": 0
+            },
+            "STOCK_B": {
+              "min": 0,
+              "max": 0
+            },
+            "CASH": {
+              "min": 0,
+              "max": 500000000
+            }
+          }
         }
       ]
+    },
+    {
+      "label": "Cycle 3 — the buyer wants more than the seller gives, so the purchase routes",
+      "decision": {
+        "method": "C",
+        "reason": "cooperative adjustment leaves every owner no worse off and beats the alternatives",
+        "declined": {},
+        "no_worse_than_independent": true,
+        "harmed_owners": []
+      },
+      "preflight_note": "the pre-flight bound check covers every deterministic asset; the routed payout asset(s) STOCK_A are measured and enforced on chain",
+      "modelled_versus_realized": [
+        {
+          "owner": "EeWd5yEv658SYKtx2NWh7bY4Dk3cgzCThTLgn86N39u9",
+          "asset": "CASH",
+          "modelled_change_raw": "-10501751",
+          "realized_change_raw": "-10500000",
+          "difference_raw": "1751"
+        },
+        {
+          "owner": "EeWd5yEv658SYKtx2NWh7bY4Dk3cgzCThTLgn86N39u9",
+          "asset": "STOCK_A",
+          "modelled_change_raw": "1050000",
+          "realized_change_raw": "1050343",
+          "difference_raw": "343"
+        }
+      ],
+      "portfolio_sha256": "dc929a1e49ad9b289624f2d2ed8d88bccba56d6ea478d974b4c07f4982e6a3d7",
+      "assumptions": [
+        "accounts[0].min_error_reduction_bps defaulted to 5000 from the frozen template",
+        "accounts[0].max_stock_error_micro_usd defaulted to 30000000 from the frozen template",
+        "accounts[0].max_turnover_micro_usd defaulted to 1000000000 from the frozen template",
+        "accounts[0].cost_debit_budget_micro_usd defaulted to 20000000 from the frozen template",
+        "accounts[1].min_error_reduction_bps defaulted to 5000 from the frozen template",
+        "accounts[1].max_stock_error_micro_usd defaulted to 30000000 from the frozen template",
+        "accounts[1].max_turnover_micro_usd defaulted to 1000000000 from the frozen template",
+        "accounts[1].cost_debit_budget_micro_usd defaulted to 20000000 from the frozen template",
+        "accounts[2].max_stock_error_micro_usd defaulted to 1 from the frozen template",
+        "accounts[2].max_turnover_micro_usd defaulted to 1000000000 from the frozen template",
+        "accounts[2].cost_debit_budget_micro_usd defaulted to 20000000 from the frozen template",
+        "the cost model, network fees, waiting cost and oracle convention come from the frozen template, not from the caller",
+        "prices are the caller's declared reference prices, which are not market data"
+      ],
+      "proposal": {
+        "method": "C",
+        "status": "ok",
+        "totals": {
+          "venue_cost_micro_usd": 1751,
+          "price_difference_micro_usd": 0,
+          "network_micro_usd": {
+            "numerator": 2700,
+            "denominator": 1
+          },
+          "expected_retry_micro_usd": {
+            "numerator": 27,
+            "denominator": 1
+          },
+          "waiting_micro_usd": {
+            "numerator": 525,
+            "denominator": 1
+          },
+          "preference_micro_usd": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "recurring_micro_usd": {
+            "numerator": 5003,
+            "denominator": 1
+          },
+          "objective_micro_usd": {
+            "numerator": 5003,
+            "denominator": 1
+          },
+          "after_error_micro_usd": 0,
+          "turnover_micro_usd": 20500000,
+          "transactions_allocated": {
+            "numerator": 3,
+            "denominator": 1
+          },
+          "funded_lifecycle_transactions": 4,
+          "funded_lifecycle_network_micro_usd": {
+            "numerator": 3600,
+            "denominator": 1
+          },
+          "operator_subsidy_micro_usd": {
+            "numerator": 900,
+            "denominator": 1
+          },
+          "upfront_recoverable_rent_lamports": 11000000
+        },
+        "per_account": [
+          {
+            "id": "slice-0",
+            "internal_raw": {
+              "STOCK_A": 0,
+              "STOCK_B": 0
+            },
+            "external_raw": {
+              "STOCK_A": 0,
+              "STOCK_B": 0
+            },
+            "recurring_micro_usd": {
+              "numerator": 0,
+              "denominator": 1
+            }
+          },
+          {
+            "id": "slice-1",
+            "internal_raw": {
+              "STOCK_A": -1000000,
+              "STOCK_B": 0
+            },
+            "external_raw": {
+              "STOCK_A": 0,
+              "STOCK_B": 0
+            },
+            "recurring_micro_usd": {
+              "numerator": 8831,
+              "denominator": 6
+            }
+          },
+          {
+            "id": "slice-2",
+            "internal_raw": {
+              "STOCK_A": 1000000,
+              "STOCK_B": 0
+            },
+            "external_raw": {
+              "STOCK_A": 50000,
+              "STOCK_B": 0
+            },
+            "recurring_micro_usd": {
+              "numerator": 21187,
+              "denominator": 6
+            }
+          }
+        ]
+      },
+      "compiled": {
+        "crosses": [
+          {
+            "stock_index": "1",
+            "seller_index": "1",
+            "buyer_index": "2",
+            "stock_quantity": "1000000",
+            "cash_amount": "10000000"
+          }
+        ],
+        "residuals": [
+          {
+            "stock_index": "1",
+            "direction": "1",
+            "minimum_output": "49000",
+            "input_allocations": [
+              "0",
+              "0",
+              "500000"
+            ]
+          }
+        ],
+        "explanation": [
+          "compiled 1 internal cross(es) and 1 residual leg(s) from the proposal's own per-account split",
+          "cash legs use the engine reference price exactly, so the settleable trade reproduces the accounting the engine priced",
+          "minimum residual outputs are set at the committed 200 bps external band below the reference value"
+        ]
+      },
+      "settlement": {
+        "signature": "tXGUrmtPLcfdFZ1UqMmvxTQxW53hjqKeQWBAdkpj3kcyCKWNpPEiH6HN1cTjdcurhn4Bmanb72GNDUTVPPo96m3",
+        "compute_units": 314260,
+        "serialized_bytes": 683,
+        "routed": true,
+        "lookup_table_entries": 36
+      },
+      "reconstruction": [
+        {
+          "owner": "9tg9E44KcnJDiN8GxPobWpZ1XTd1BDrKbDF8L95EQgsd",
+          "stock_change": {
+            "STOCK_A": "0",
+            "STOCK_B": "0"
+          },
+          "cash_change": "0",
+          "quote_dependent": true
+        },
+        {
+          "owner": "B9FyD7ireF2DZdr8LGaYDT5NhmqEmiNqAC82j82irRUs",
+          "stock_change": {
+            "STOCK_A": "-1000000",
+            "STOCK_B": "0"
+          },
+          "cash_change": "10000000",
+          "quote_dependent": true
+        },
+        {
+          "owner": "EeWd5yEv658SYKtx2NWh7bY4Dk3cgzCThTLgn86N39u9",
+          "stock_change": {
+            "STOCK_A": "1049000",
+            "STOCK_B": "0"
+          },
+          "cash_change": "-10500000",
+          "quote_dependent": true
+        }
+      ],
+      "reconciled": [
+        {
+          "owner": "9tg9E44KcnJDiN8GxPobWpZ1XTd1BDrKbDF8L95EQgsd",
+          "proposed_change_raw": {
+            "CASH": "0",
+            "STOCK_A": "0",
+            "STOCK_B": "0"
+          },
+          "delivered_change_raw": {
+            "CASH": "0",
+            "STOCK_A": "0",
+            "STOCK_B": "0"
+          },
+          "matches_proposal": true,
+          "within_signed_bounds": true,
+          "route_difference_raw": {},
+          "signed_bounds": {
+            "STOCK_A": {
+              "min": 1950000,
+              "max": 1950000
+            },
+            "STOCK_B": {
+              "min": 0,
+              "max": 0
+            },
+            "CASH": {
+              "min": 0,
+              "max": 480493579
+            }
+          }
+        },
+        {
+          "owner": "B9FyD7ireF2DZdr8LGaYDT5NhmqEmiNqAC82j82irRUs",
+          "proposed_change_raw": {
+            "CASH": "10000000",
+            "STOCK_A": "-1000000",
+            "STOCK_B": "0"
+          },
+          "delivered_change_raw": {
+            "CASH": "10000000",
+            "STOCK_A": "-1000000",
+            "STOCK_B": "0"
+          },
+          "matches_proposal": true,
+          "within_signed_bounds": true,
+          "route_difference_raw": {},
+          "signed_bounds": {
+            "STOCK_A": {
+              "min": 12000000,
+              "max": 12000000
+            },
+            "STOCK_B": {
+              "min": 0,
+              "max": 0
+            },
+            "CASH": {
+              "min": 0,
+              "max": 520000000
+            }
+          }
+        },
+        {
+          "owner": "EeWd5yEv658SYKtx2NWh7bY4Dk3cgzCThTLgn86N39u9",
+          "proposed_change_raw": {
+            "CASH": "-10501751",
+            "STOCK_A": "1050000",
+            "STOCK_B": "0"
+          },
+          "delivered_change_raw": {
+            "CASH": "-10500000",
+            "STOCK_A": "1050343",
+            "STOCK_B": "0"
+          },
+          "matches_proposal": false,
+          "within_signed_bounds": true,
+          "route_difference_raw": {
+            "CASH": {
+              "modelled": "-10501751",
+              "realized": "-10500000"
+            },
+            "STOCK_A": {
+              "modelled": "1050000",
+              "realized": "1050343"
+            }
+          },
+          "signed_bounds": {
+            "STOCK_A": {
+              "min": 0,
+              "max": 1055000
+            },
+            "STOCK_B": {
+              "min": 0,
+              "max": 0
+            },
+            "CASH": {
+              "min": 0,
+              "max": 500000000
+            }
+          }
+        }
+      ]
+    },
+    {
+      "label": "Cycle 4 — an economically harmful batch is refused",
+      "decision": {
+        "method": "A",
+        "reason": "executing independently is the only method that cannot leave an owner worse off",
+        "declined": {
+          "C": "it would leave these owners worse off than executing independently: c",
+          "B": "it would leave these owners worse off than executing independently: c"
+        },
+        "no_worse_than_independent": false,
+        "harmed_owners": [
+          "c"
+        ]
+      },
+      "refused": true,
+      "compiled": {
+        "crosses": [],
+        "residuals": [],
+        "explanation": [
+          "no batch was compiled: the optimizer declined it as harmful"
+        ]
+      },
+      "proposal": {
+        "method": "A",
+        "status": "declined",
+        "per_account": [],
+        "totals": null
+      },
+      "settlement": null,
+      "preflight_note": "no transaction was built: the optimizer declined this batch as harmful",
+      "modelled_versus_realized": [],
+      "reconciled": [],
+      "reconstruction": [],
+      "portfolio_sha256": "3f47c3db33e27f6bbf6016454260e559791510b2906baabb2fb346e63eb52809"
     }
   ],
   "demonstration": {
-    "claim": "the settlement is derived from the optimizer proposal, not invented",
+    "claim": "the settlement is derived from the optimizer recommendation, executed, and reconciled with a receipt that reports \"within signed bounds\" separately from \"matches the proposal\"",
+    "recommendation_honored": [
+      "C",
+      "C",
+      "C",
+      "A"
+    ],
     "first_crosses": 1,
     "first_residuals": 0,
     "second_crosses": 1,
     "second_residuals": 1,
+    "third_crosses": 1,
+    "third_residuals": 1,
+    "residual_directions": {
+      "sell": 1,
+      "buy": 1
+    },
+    "harmful_batch_refused": true,
     "target_changed_the_settlement": true,
     "proposal_changed_with_the_target": true
   },
   "limitations": [
     "Local validator, synthetic test assets and a labelled fixture oracle; no devnet and no market.",
     "The cost model and market convention come from the frozen template, not from the caller; the assumptions list records which defaults were applied.",
-    "The residual leg executes against the controlled synthetic venue, not a real one."
+    "The residual leg executes against the controlled synthetic venue, not a real one.",
+    "A residual output is a venue fill: matches_proposal is false for that asset by construction, and the receipt reports its realized value against the signed bounds instead."
   ],
   "hashes": {
-    "manifest": "bb619ac9ae4d20e083a9cf9485c384aa1b4c0a30758e96f5cdc63fcf95f9337d",
-    "binary": "375a396db07f4d23a96ab1989c1e4e811f5fead101ef1b06c2345127cf4df4ab",
+    "manifest": "af8a813418e7dcef31cb6fe750d9a1ff5692165522ad8dc8b2325f487ac18bf2",
+    "binary": "21708d9ac02bcff0c62fd026083e24ffd6b15ebf4f60932ef9c52d8bac898b73",
     "service_source": "5dc201da345beea8fe5c058f01e254beedcb15bb2d0a4045f684ecfa69247e90"
   }
 }

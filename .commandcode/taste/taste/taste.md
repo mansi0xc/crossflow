@@ -1,0 +1,11 @@
+# Taste
+- Makes all git commits personally and wants to be notified before every commit with a one-line summary of the changes (no committing on the user's behalf). Confidence: 0.95
+- Targets devnet as the only deployment/runtime environment for this project — no mainnet or other-cluster setups unless asked. Confidence: 0.8
+- For Solana transactions needing funded SOL, prefers reusing the existing default local wallet (`solana address`, already funded with devnet SOL) instead of generating and airdropping fresh keypairs. Confidence: 0.85
+- Prefers the agent to execute commands autonomously within the project's scope without asking for permission each time; the only constraint is to not touch unnecessary files or files unrelated to the project. Confidence: 0.9
+- Prefers the agent to bootstrap from the repo's own planning docs (project/requirements/roadmap/state/tasks) before touching code, then work autonomously through the remaining tasks toward full project completion rather than stopping for incremental check-ins (a bare "continue" is the expected nudge mid-task). Confidence: 0.75
+- When handed third-party review/feedback, forwards it verbatim and expects the agent to address every listed item and drive the project to completion rather than cherry-picking. Confidence: 0.85
+- Wants prose/documentation written to be genuinely engaging and human — explicitly rejects "AI slop" (generic, formulaic, buzzword-heavy writing); a README should hook the reader and read as if a person wrote it. Confidence: 0.85
+- Expects the agent to thoroughly understand the entire project — from the high-level workflow down to small implementation nuances — before editing or rewriting anything. Confidence: 0.75
+- Prefers tight, length-bounded summaries: when asked for a project description, wants a single self-contained line that respects a hard character limit (e.g., under 280 characters). Confidence: 0.6
+- Judges work by trustworthy end-to-end correctness, not test counts: wants reported metrics to be honest and unambiguous (consistent sign conventions where positive means improvement, correct units/denominations, full lifecycle-cost reconciliation with no costs silently vanishing) and the selected/validated decision enforced consistently through the whole flow (comparison → approval → execution). Confidence: 0.7

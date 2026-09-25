@@ -50,6 +50,12 @@ export interface CompiledResidual {
 export interface CompiledSettlement {
   crosses: CompiledCross[];
   residuals: CompiledResidual[];
+  /**
+   * The reference-price output the engine's accounting assumed, per residual, aligned with
+   * `residuals`. The program only carries `minimum_output`; an off-chain validator that builds a
+   * candidate plan needs this estimate, and it is the compiler — not the caller — that should state it.
+   */
+  expected_outputs: string[];
   /** Asset ids in the index order the settlement uses: cash first, then the two stocks. */
   index_order: string[];
   /** What the compiler could not represent, stated rather than silently dropped. */
@@ -128,6 +134,7 @@ export function compileProposal(input: unknown): CompiledSettlement {
 
   const crosses: CompiledCross[] = [];
   const residuals: CompiledResidual[] = [];
+  const expectedOutputs: string[] = [];
   const unrepresented: CompiledSettlement['unrepresented'] = [];
   const explanation: string[] = [];
 
@@ -202,31 +209,53 @@ export function compileProposal(input: unknown): CompiledSettlement {
       unrepresented.push({ asset: stock, quantity_raw: net.toString(), reason: 'the protocol allows at most two residual legs' });
       continue;
     }
-    const direction = net > 0n ? 1 : 0; // 0 sells the stock, 1 buys it
-    // Every contribution shares the sign of the net, so the input side is well defined.
+    // 0 sells the stock for cash, 1 buys the stock with cash. Every contribution shares the sign
+    // of the net, so the leg has one input asset for all of its contributors.
+    const direction = net > 0n ? 1 : 0;
     if (contributions.some(value => value !== 0n && (value > 0n) !== (net > 0n))) {
       unrepresented.push({ asset: stock, quantity_raw: net.toString(), reason: 'contributions do not share the net direction' });
       continue;
     }
-    const inputs = contributions.map(value => (value < 0n ? -value : value).toString());
-    const totalInput = contributions.reduce((sum, value) => sum + (value < 0n ? -value : value), 0n);
-    if (totalInput !== (net < 0n ? -net : net)) {
+    const magnitudes = contributions.map(value => (value < 0n ? -value : value));
+    const totalStock = magnitudes.reduce((sum, value) => sum + value, 0n);
+    if (totalStock !== (net < 0n ? -net : net)) {
       unrepresented.push({ asset: stock, quantity_raw: net.toString(), reason: 'contributions do not sum to the net quantity' });
       continue;
     }
+
+    // The residual leg is denominated in the *input asset's* units: a sale supplies stock raw units,
+    // a purchase supplies cash raw units. Copying the stock quantity into the cash input of a
+    // purchase is a units error that would trade the wrong size against the wrong budget, so a
+    // purchase is converted through the committed stock/cash price ratio and refused when that
+    // conversion is not exact.
+    const inputAsset = direction === 0 ? stock : CASH;
+    const outputAsset = direction === 0 ? CASH : stock;
+    let inputs: bigint[];
+    if (direction === 0) {
+      inputs = magnitudes;
+    } else {
+      const converted = magnitudes.map(value => (value === 0n ? 0n : cashFor(value, prices[stock], prices[CASH])));
+      if (converted.some(value => value === null)) {
+        unrepresented.push({ asset: stock, quantity_raw: totalStock.toString(),
+          reason: `a purchase has no exact cash value at ${prices[stock]} micro-USD per stock unit against ${prices[CASH]}` });
+        continue;
+      }
+      inputs = converted as bigint[];
+    }
+    const totalInput = inputs.reduce((sum, value) => sum + value, 0n);
     // The minimum output is what the reference price implies, less a disclosed tolerance: the
     // venue must not be allowed to deliver less than the participants' own accounting assumed
-    // minus the committed external band.
-    const outputPrice = direction === 0 ? prices[CASH] : prices[stock];
-    const inputPrice = direction === 0 ? prices[stock] : prices[CASH];
-    const expectedOutput = (totalInput * inputPrice) / outputPrice;
+    // minus the committed external band. The conversion direction follows the input asset, so a
+    // purchase's minimum is stock and a sale's is cash.
+    const expectedOutput = (totalInput * prices[inputAsset]) / prices[outputAsset];
     const minimum = (expectedOutput * 9_800n) / 10_000n; // 200 bps, the committed external band
     if (minimum <= 0n) {
       unrepresented.push({ asset: stock, quantity_raw: net.toString(), reason: 'the implied minimum output is zero' });
       continue;
     }
     residuals.push({ stock_index: String(stockIndex), direction: String(direction),
-      minimum_output: minimum.toString(), input_allocations: inputs });
+      minimum_output: minimum.toString(), input_allocations: inputs.map(value => value.toString()) });
+    expectedOutputs.push(expectedOutput.toString());
   }
 
   const internalTotal = accounts.reduce((sum, account) => sum
@@ -236,5 +265,88 @@ export function compileProposal(input: unknown): CompiledSettlement {
   explanation.push(`minimum residual outputs are set at the committed 200 bps external band below the reference value`);
   if (internalTotal !== 0n) explanation.push('warning: internal quantities do not sum to zero, which the compiler records as unrepresented');
 
-  return { crosses, residuals, index_order: order, unrepresented, explanation };
+  return { crosses, residuals, expected_outputs: expectedOutputs, index_order: order, unrepresented, explanation };
+}
+
+export interface OwnerSettlementChange {
+  owner: string;
+  /** Signed change the compiled settlement imposes per stock asset, in raw units. */
+  stock_change: Record<string, string>;
+  /** Signed change in raw cash units. */
+  cash_change: string;
+  /** True when a residual leg means the credited side is a bound, not a settled value. */
+  quote_dependent: boolean;
+}
+
+/** Largest-remainder pro-rata split, ties broken by ascending index (ascending owner bytes). */
+function splitProRata(total: bigint, weights: bigint[]): bigint[] {
+  const denominator = weights.reduce((sum, weight) => sum + weight, 0n);
+  if (denominator === 0n) {
+    if (total !== 0n) throw new RangeError('a positive route output has no contributing input');
+    return weights.map(() => 0n);
+  }
+  const base = weights.map(weight => (total * weight) / denominator);
+  let leftover = total - base.reduce((sum, value) => sum + value, 0n);
+  const order = weights
+    .map((weight, index) => ({ index, remainder: (total * weight) % denominator }))
+    .sort((a, b) => (a.remainder === b.remainder ? a.index - b.index : (a.remainder > b.remainder ? -1 : 1)));
+  for (const entry of order) {
+    if (leftover === 0n) break;
+    base[entry.index] += 1n;
+    leftover -= 1n;
+  }
+  return base;
+}
+
+/**
+ * Derive each owner's portfolio change from the compiled settlement alone, so a receipt can prove
+ * what the settlement actually does rather than what a proposal promised. Crosses and residual
+ * inputs are exact; a residual's credited side is its committed minimum, split pro rata by input,
+ * and is flagged quote-dependent because the venue fill is what the chain will measure.
+ *
+ * `owners` must be in the settlement's index order (ascending raw owner bytes), the order the
+ * cross and residual indices refer to.
+ */
+export function reconstructSettlement(compiled: CompiledSettlement, owners: string[]): OwnerSettlementChange[] {
+  if (!Array.isArray(owners) || owners.length < 1 || owners.length > 3) {
+    throw new RangeError('the settlement covers one to three owners');
+  }
+  const stockChange = owners.map(() => ({ [STOCK_A]: 0n, [STOCK_B]: 0n } as Record<string, bigint>));
+  const cashChange = owners.map(() => 0n);
+  for (const cross of compiled.crosses) {
+    const stock = compiled.index_order[Number(cross.stock_index)];
+    if (stock !== STOCK_A && stock !== STOCK_B) throw new TypeError(`cross references ${stock}, not a stock`);
+    const seller = Number(cross.seller_index);
+    const buyer = Number(cross.buyer_index);
+    if (seller >= owners.length || buyer >= owners.length) throw new RangeError('cross index outside the owner set');
+    const quantity = BigInt(cross.stock_quantity);
+    const cash = BigInt(cross.cash_amount);
+    stockChange[seller][stock] -= quantity;
+    stockChange[buyer][stock] += quantity;
+    cashChange[seller] += cash;
+    cashChange[buyer] -= cash;
+  }
+  for (const residual of compiled.residuals) {
+    const stock = compiled.index_order[Number(residual.stock_index)];
+    if (stock !== STOCK_A && stock !== STOCK_B) throw new TypeError(`residual references ${stock}, not a stock`);
+    const inputs = residual.input_allocations.map(value => BigInt(value));
+    if (inputs.length !== owners.length) throw new RangeError('residual allocations must cover every owner');
+    // The credited side of a residual is what the venue fills; only the committed minimum is known.
+    const outputs = splitProRata(BigInt(residual.minimum_output), inputs);
+    for (let index = 0; index < owners.length; index++) {
+      if (residual.direction === '0') {
+        stockChange[index][stock] -= inputs[index];
+        cashChange[index] += outputs[index];
+      } else {
+        cashChange[index] -= inputs[index];
+        stockChange[index][stock] += outputs[index];
+      }
+    }
+  }
+  return owners.map((owner, index) => ({
+    owner,
+    stock_change: { [STOCK_A]: stockChange[index][STOCK_A].toString(), [STOCK_B]: stockChange[index][STOCK_B].toString() },
+    cash_change: cashChange[index].toString(),
+    quote_dependent: compiled.residuals.length > 0,
+  }));
 }

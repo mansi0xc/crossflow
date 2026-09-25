@@ -21,7 +21,7 @@ both baselines execute nonzero trades.
 
 | scenario | category | A/B/C status | netting gain | cooperative gain | eligible |
 |---|---|---|---|---|---|
-| opposite-02 | opposite_flow | ok/ok/ok | 160594 | 16200 | True |
+| opposite-02 | opposite_flow | ok/ok/ok | 159391 | 16200 | True |
 | all-buy-02 | all_buy | ok/ok/ok | -16252/3 | 0 | True |
 | asymmetric-02 | asymmetric | ok/ok/ok | 233623/3 | 50800 | True |
 | tight-02 | tight_bands | ok/ok/ok | 762373/3 | 0 | True |
@@ -34,16 +34,16 @@ both baselines execute nonzero trades.
 
 | scenario | parameter | value | netting gain | cooperative gain |
 |---|---|---|---|---|
-| opposite-02 | external_fee_multiplier_bps | 5000 | 80644 | 8200 |
-| opposite-02 | external_fee_multiplier_bps | 10000 | 160594 | 16200 |
-| opposite-02 | external_fee_multiplier_bps | 20000 | 310493 | 31200 |
-| opposite-02 | batch_extra_wait_seconds | 0 | 162394 | 16200 |
-| opposite-02 | batch_extra_wait_seconds | 60 | 158794 | 16200 |
-| opposite-02 | batch_extra_wait_seconds | 300 | 144394 | 16200 |
-| opposite-02 | batch_extra_wait_seconds | 3600 | -53606 | 16200 |
-| opposite-02 | liquidity_depth_multiplier_bps | 2500 | 196594 | 16800 |
-| opposite-02 | liquidity_depth_multiplier_bps | 10000 | 160594 | 16200 |
-| opposite-02 | liquidity_depth_multiplier_bps | 40000 | 151594 | 16050 |
+| opposite-02 | external_fee_multiplier_bps | 5000 | 79541 | 8200 |
+| opposite-02 | external_fee_multiplier_bps | 10000 | 159391 | 16200 |
+| opposite-02 | external_fee_multiplier_bps | 20000 | 309089 | 31200 |
+| opposite-02 | batch_extra_wait_seconds | 0 | 161191 | 16200 |
+| opposite-02 | batch_extra_wait_seconds | 60 | 157591 | 16200 |
+| opposite-02 | batch_extra_wait_seconds | 300 | 143191 | 16200 |
+| opposite-02 | batch_extra_wait_seconds | 3600 | -54809 | 16200 |
+| opposite-02 | liquidity_depth_multiplier_bps | 2500 | 195391 | 16800 |
+| opposite-02 | liquidity_depth_multiplier_bps | 10000 | 159391 | 16200 |
+| opposite-02 | liquidity_depth_multiplier_bps | 40000 | 150391 | 16050 |
 | all-buy-02 | external_fee_multiplier_bps | 5000 | -5342 | 0 |
 | all-buy-02 | external_fee_multiplier_bps | 10000 | -5418 | 0 |
 | all-buy-02 | external_fee_multiplier_bps | 20000 | -5569 | 0 |

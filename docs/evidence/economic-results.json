@@ -57,6 +57,18 @@
               "numerator": 2,
               "denominator": 1
             },
+            "funded_lifecycle_transactions": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "funded_lifecycle_network_micro_usd": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "operator_subsidy_micro_usd": {
+              "numerator": 0,
+              "denominator": 1
+            },
             "upfront_recoverable_rent_lamports": 0
           }
         },
@@ -71,11 +83,11 @@
             "venue_cost_micro_usd": 16200,
             "price_difference_micro_usd": 0,
             "network_micro_usd": {
-              "numerator": 2400,
+              "numerator": 2700,
               "denominator": 1
             },
             "expected_retry_micro_usd": {
-              "numerator": 24,
+              "numerator": 27,
               "denominator": 1
             },
             "waiting_micro_usd": {
@@ -87,18 +99,27 @@
               "denominator": 1
             },
             "recurring_micro_usd": {
-              "numerator": 20424,
+              "numerator": 20727,
               "denominator": 1
             },
             "objective_micro_usd": {
-              "numerator": 30424,
+              "numerator": 30727,
               "denominator": 1
             },
             "after_error_micro_usd": 20000000,
             "turnover_micro_usd": 110000000,
             "transactions_allocated": {
-              "numerator": 8,
-              "denominator": 3
+              "numerator": 3,
+              "denominator": 1
+            },
+            "funded_lifecycle_transactions": 4,
+            "funded_lifecycle_network_micro_usd": {
+              "numerator": 3600,
+              "denominator": 1
+            },
+            "operator_subsidy_micro_usd": {
+              "numerator": 900,
+              "denominator": 1
             },
             "upfront_recoverable_rent_lamports": 11000000
           }
@@ -114,11 +135,11 @@
             "venue_cost_micro_usd": 0,
             "price_difference_micro_usd": 0,
             "network_micro_usd": {
-              "numerator": 2400,
+              "numerator": 2700,
               "denominator": 1
             },
             "expected_retry_micro_usd": {
-              "numerator": 24,
+              "numerator": 27,
               "denominator": 1
             },
             "waiting_micro_usd": {
@@ -130,18 +151,27 @@
               "denominator": 1
             },
             "recurring_micro_usd": {
-              "numerator": 4224,
+              "numerator": 4527,
               "denominator": 1
             },
             "objective_micro_usd": {
-              "numerator": 9224,
+              "numerator": 9527,
               "denominator": 1
             },
             "after_error_micro_usd": 10000000,
             "turnover_micro_usd": 120000000,
             "transactions_allocated": {
-              "numerator": 8,
-              "denominator": 3
+              "numerator": 3,
+              "denominator": 1
+            },
+            "funded_lifecycle_transactions": 4,
+            "funded_lifecycle_network_micro_usd": {
+              "numerator": 3600,
+              "denominator": 1
+            },
+            "operator_subsidy_micro_usd": {
+              "numerator": 900,
+              "denominator": 1
             },
             "upfront_recoverable_rent_lamports": 11000000
           }
@@ -150,7 +180,7 @@
       "comparison": {
         "valid_baselines": true,
         "netting_gain_micro_usd": {
-          "numerator": 160594,
+          "numerator": 159391,
           "denominator": 1
         },
         "cooperative_raw_difference_micro_usd": {
@@ -163,68 +193,114 @@
           "per_owner": [
             {
               "owner": "a",
+              "before_raw": {
+                "STOCK_A": 0,
+                "STOCK_B": 1,
+                "CASH": 1000000000
+              },
+              "after_raw": {
+                "STOCK_A": 6,
+                "STOCK_B": 1,
+                "CASH": 940000000
+              },
+              "trades": {
+                "STOCK_A": 6,
+                "STOCK_B": 0
+              },
               "independent_objective_micro_usd": {
                 "numerator": 104109,
                 "denominator": 1
               },
               "proposed_objective_micro_usd": {
-                "numerator": 7062,
-                "denominator": 1
+                "numerator": 14427,
+                "denominator": 2
               },
-              "difference_micro_usd": {
-                "numerator": -97047,
-                "denominator": 1
+              "objective_saving_micro_usd": {
+                "numerator": 193791,
+                "denominator": 2
               },
               "allocated_cost_micro_usd": {
-                "numerator": 2062,
-                "denominator": 1
+                "numerator": 4427,
+                "denominator": 2
               },
               "independent_cost_micro_usd": {
                 "numerator": 99109,
                 "denominator": 1
               },
-              "exposure_change_micro_usd": 0,
-              "before_error_micro_usd": 70000000,
-              "after_error_micro_usd": 10000000,
-              "trades": {
-                "STOCK_A": 6,
-                "STOCK_B": 0
+              "cost_saving_micro_usd": {
+                "numerator": 193791,
+                "denominator": 2
               },
+              "target_error_before_micro_usd": 70000000,
+              "target_error_after_micro_usd": 10000000,
+              "independent_target_error_micro_usd": 10000000,
+              "target_error_saving_micro_usd": 0,
+              "turnover_micro_usd": 60000000,
               "worse_than_independent": false
             },
             {
               "owner": "b",
+              "before_raw": {
+                "STOCK_A": 12,
+                "STOCK_B": 1,
+                "CASH": 1000000000
+              },
+              "after_raw": {
+                "STOCK_A": 6,
+                "STOCK_B": 1,
+                "CASH": 1060000000
+              },
+              "trades": {
+                "STOCK_A": -6,
+                "STOCK_B": 0
+              },
               "independent_objective_micro_usd": {
                 "numerator": 86909,
                 "denominator": 1
               },
               "proposed_objective_micro_usd": {
-                "numerator": 2162,
-                "denominator": 1
+                "numerator": 4627,
+                "denominator": 2
               },
-              "difference_micro_usd": {
-                "numerator": -84747,
-                "denominator": 1
+              "objective_saving_micro_usd": {
+                "numerator": 169191,
+                "denominator": 2
               },
               "allocated_cost_micro_usd": {
-                "numerator": 2162,
-                "denominator": 1
+                "numerator": 4627,
+                "denominator": 2
               },
               "independent_cost_micro_usd": {
                 "numerator": 81909,
                 "denominator": 1
               },
-              "exposure_change_micro_usd": -10000000,
-              "before_error_micro_usd": 60000000,
-              "after_error_micro_usd": 0,
-              "trades": {
-                "STOCK_A": -6,
-                "STOCK_B": 0
+              "cost_saving_micro_usd": {
+                "numerator": 159191,
+                "denominator": 2
               },
+              "target_error_before_micro_usd": 60000000,
+              "target_error_after_micro_usd": 0,
+              "independent_target_error_micro_usd": 10000000,
+              "target_error_saving_micro_usd": 10000000,
+              "turnover_micro_usd": 60000000,
               "worse_than_independent": false
             },
             {
               "owner": "c",
+              "before_raw": {
+                "STOCK_A": 1,
+                "STOCK_B": 0,
+                "CASH": 1000000000
+              },
+              "after_raw": {
+                "STOCK_A": 1,
+                "STOCK_B": 0,
+                "CASH": 1000000000
+              },
+              "trades": {
+                "STOCK_A": 0,
+                "STOCK_B": 0
+              },
               "independent_objective_micro_usd": {
                 "numerator": 0,
                 "denominator": 1
@@ -233,7 +309,7 @@
                 "numerator": 0,
                 "denominator": 1
               },
-              "difference_micro_usd": {
+              "objective_saving_micro_usd": {
                 "numerator": 0,
                 "denominator": 1
               },
@@ -245,13 +321,15 @@
                 "numerator": 0,
                 "denominator": 1
               },
-              "exposure_change_micro_usd": 0,
-              "before_error_micro_usd": 0,
-              "after_error_micro_usd": 0,
-              "trades": {
-                "STOCK_A": 0,
-                "STOCK_B": 0
+              "cost_saving_micro_usd": {
+                "numerator": 0,
+                "denominator": 1
               },
+              "target_error_before_micro_usd": 0,
+              "target_error_after_micro_usd": 0,
+              "independent_target_error_micro_usd": 0,
+              "target_error_saving_micro_usd": 0,
+              "turnover_micro_usd": 0,
               "worse_than_independent": false
             }
           ],
@@ -264,68 +342,114 @@
           "per_owner": [
             {
               "owner": "a",
+              "before_raw": {
+                "STOCK_A": 0,
+                "STOCK_B": 1,
+                "CASH": 1000000000
+              },
+              "after_raw": {
+                "STOCK_A": 6,
+                "STOCK_B": 1,
+                "CASH": 939983800
+              },
+              "trades": {
+                "STOCK_A": 6,
+                "STOCK_B": 0
+              },
               "independent_objective_micro_usd": {
                 "numerator": 104109,
                 "denominator": 1
               },
               "proposed_objective_micro_usd": {
-                "numerator": 23262,
-                "denominator": 1
+                "numerator": 46827,
+                "denominator": 2
               },
-              "difference_micro_usd": {
-                "numerator": -80847,
-                "denominator": 1
+              "objective_saving_micro_usd": {
+                "numerator": 161391,
+                "denominator": 2
               },
               "allocated_cost_micro_usd": {
-                "numerator": 18262,
-                "denominator": 1
+                "numerator": 36827,
+                "denominator": 2
               },
               "independent_cost_micro_usd": {
                 "numerator": 99109,
                 "denominator": 1
               },
-              "exposure_change_micro_usd": 0,
-              "before_error_micro_usd": 70000000,
-              "after_error_micro_usd": 10000000,
-              "trades": {
-                "STOCK_A": 6,
-                "STOCK_B": 0
+              "cost_saving_micro_usd": {
+                "numerator": 161391,
+                "denominator": 2
               },
+              "target_error_before_micro_usd": 70000000,
+              "target_error_after_micro_usd": 10000000,
+              "independent_target_error_micro_usd": 10000000,
+              "target_error_saving_micro_usd": 0,
+              "turnover_micro_usd": 60000000,
               "worse_than_independent": false
             },
             {
               "owner": "b",
+              "before_raw": {
+                "STOCK_A": 12,
+                "STOCK_B": 1,
+                "CASH": 1000000000
+              },
+              "after_raw": {
+                "STOCK_A": 7,
+                "STOCK_B": 1,
+                "CASH": 1050000000
+              },
+              "trades": {
+                "STOCK_A": -5,
+                "STOCK_B": 0
+              },
               "independent_objective_micro_usd": {
                 "numerator": 86909,
                 "denominator": 1
               },
               "proposed_objective_micro_usd": {
-                "numerator": 7162,
-                "denominator": 1
+                "numerator": 14627,
+                "denominator": 2
               },
-              "difference_micro_usd": {
-                "numerator": -79747,
-                "denominator": 1
+              "objective_saving_micro_usd": {
+                "numerator": 159191,
+                "denominator": 2
               },
               "allocated_cost_micro_usd": {
-                "numerator": 2162,
-                "denominator": 1
+                "numerator": 4627,
+                "denominator": 2
               },
               "independent_cost_micro_usd": {
                 "numerator": 81909,
                 "denominator": 1
               },
-              "exposure_change_micro_usd": 0,
-              "before_error_micro_usd": 60000000,
-              "after_error_micro_usd": 10000000,
-              "trades": {
-                "STOCK_A": -5,
-                "STOCK_B": 0
+              "cost_saving_micro_usd": {
+                "numerator": 159191,
+                "denominator": 2
               },
+              "target_error_before_micro_usd": 60000000,
+              "target_error_after_micro_usd": 10000000,
+              "independent_target_error_micro_usd": 10000000,
+              "target_error_saving_micro_usd": 0,
+              "turnover_micro_usd": 50000000,
               "worse_than_independent": false
             },
             {
               "owner": "c",
+              "before_raw": {
+                "STOCK_A": 1,
+                "STOCK_B": 0,
+                "CASH": 1000000000
+              },
+              "after_raw": {
+                "STOCK_A": 1,
+                "STOCK_B": 0,
+                "CASH": 1000000000
+              },
+              "trades": {
+                "STOCK_A": 0,
+                "STOCK_B": 0
+              },
               "independent_objective_micro_usd": {
                 "numerator": 0,
                 "denominator": 1
@@ -334,7 +458,7 @@
                 "numerator": 0,
                 "denominator": 1
               },
-              "difference_micro_usd": {
+              "objective_saving_micro_usd": {
                 "numerator": 0,
                 "denominator": 1
               },
@@ -346,13 +470,15 @@
                 "numerator": 0,
                 "denominator": 1
               },
-              "exposure_change_micro_usd": 0,
-              "before_error_micro_usd": 0,
-              "after_error_micro_usd": 0,
-              "trades": {
-                "STOCK_A": 0,
-                "STOCK_B": 0
+              "cost_saving_micro_usd": {
+                "numerator": 0,
+                "denominator": 1
               },
+              "target_error_before_micro_usd": 0,
+              "target_error_after_micro_usd": 0,
+              "independent_target_error_micro_usd": 0,
+              "target_error_saving_micro_usd": 0,
+              "turnover_micro_usd": 0,
               "worse_than_independent": false
             }
           ],
@@ -418,6 +544,18 @@
               "numerator": 2,
               "denominator": 1
             },
+            "funded_lifecycle_transactions": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "funded_lifecycle_network_micro_usd": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "operator_subsidy_micro_usd": {
+              "numerator": 0,
+              "denominator": 1
+            },
             "upfront_recoverable_rent_lamports": 0
           }
         },
@@ -459,6 +597,15 @@
             "turnover_micro_usd": 100000000,
             "transactions_allocated": {
               "numerator": 3,
+              "denominator": 1
+            },
+            "funded_lifecycle_transactions": 3,
+            "funded_lifecycle_network_micro_usd": {
+              "numerator": 2700,
+              "denominator": 1
+            },
+            "operator_subsidy_micro_usd": {
+              "numerator": 0,
               "denominator": 1
             },
             "upfront_recoverable_rent_lamports": 8000000
@@ -504,6 +651,15 @@
               "numerator": 3,
               "denominator": 1
             },
+            "funded_lifecycle_transactions": 3,
+            "funded_lifecycle_network_micro_usd": {
+              "numerator": 2700,
+              "denominator": 1
+            },
+            "operator_subsidy_micro_usd": {
+              "numerator": 0,
+              "denominator": 1
+            },
             "upfront_recoverable_rent_lamports": 8000000
           }
         }
@@ -524,6 +680,20 @@
           "per_owner": [
             {
               "owner": "a",
+              "before_raw": {
+                "STOCK_A": 1,
+                "STOCK_B": 0,
+                "CASH": 1000000000
+              },
+              "after_raw": {
+                "STOCK_A": 5,
+                "STOCK_B": 1,
+                "CASH": 939902433
+              },
+              "trades": {
+                "STOCK_A": 4,
+                "STOCK_B": 1
+              },
               "independent_objective_micro_usd": {
                 "numerator": 111909,
                 "denominator": 1
@@ -532,8 +702,8 @@
                 "numerator": 688633,
                 "denominator": 6
               },
-              "difference_micro_usd": {
-                "numerator": 17179,
+              "objective_saving_micro_usd": {
+                "numerator": -17179,
                 "denominator": 6
               },
               "allocated_cost_micro_usd": {
@@ -544,17 +714,33 @@
                 "numerator": 96909,
                 "denominator": 1
               },
-              "exposure_change_micro_usd": 0,
-              "before_error_micro_usd": 90000000,
-              "after_error_micro_usd": 30000000,
-              "trades": {
-                "STOCK_A": 4,
-                "STOCK_B": 1
+              "cost_saving_micro_usd": {
+                "numerator": -17179,
+                "denominator": 6
               },
+              "target_error_before_micro_usd": 90000000,
+              "target_error_after_micro_usd": 30000000,
+              "independent_target_error_micro_usd": 30000000,
+              "target_error_saving_micro_usd": 0,
+              "turnover_micro_usd": 60000000,
               "worse_than_independent": true
             },
             {
               "owner": "b",
+              "before_raw": {
+                "STOCK_A": 2,
+                "STOCK_B": 1,
+                "CASH": 1000000000
+              },
+              "after_raw": {
+                "STOCK_A": 4,
+                "STOCK_B": 2,
+                "CASH": 959935167
+              },
+              "trades": {
+                "STOCK_A": 2,
+                "STOCK_B": 1
+              },
               "independent_objective_micro_usd": {
                 "numerator": 79509,
                 "denominator": 1
@@ -563,8 +749,8 @@
                 "numerator": 492379,
                 "denominator": 6
               },
-              "difference_micro_usd": {
-                "numerator": 15325,
+              "objective_saving_micro_usd": {
+                "numerator": -15325,
                 "denominator": 6
               },
               "allocated_cost_micro_usd": {
@@ -575,13 +761,15 @@
                 "numerator": 64509,
                 "denominator": 1
               },
-              "exposure_change_micro_usd": 0,
-              "before_error_micro_usd": 70000000,
-              "after_error_micro_usd": 30000000,
-              "trades": {
-                "STOCK_A": 2,
-                "STOCK_B": 1
+              "cost_saving_micro_usd": {
+                "numerator": -15325,
+                "denominator": 6
               },
+              "target_error_before_micro_usd": 70000000,
+              "target_error_after_micro_usd": 30000000,
+              "independent_target_error_micro_usd": 30000000,
+              "target_error_saving_micro_usd": 0,
+              "turnover_micro_usd": 40000000,
               "worse_than_independent": true
             }
           ],
@@ -597,6 +785,20 @@
           "per_owner": [
             {
               "owner": "a",
+              "before_raw": {
+                "STOCK_A": 1,
+                "STOCK_B": 0,
+                "CASH": 1000000000
+              },
+              "after_raw": {
+                "STOCK_A": 5,
+                "STOCK_B": 1,
+                "CASH": 939902433
+              },
+              "trades": {
+                "STOCK_A": 4,
+                "STOCK_B": 1
+              },
               "independent_objective_micro_usd": {
                 "numerator": 111909,
                 "denominator": 1
@@ -605,8 +807,8 @@
                 "numerator": 688633,
                 "denominator": 6
               },
-              "difference_micro_usd": {
-                "numerator": 17179,
+              "objective_saving_micro_usd": {
+                "numerator": -17179,
                 "denominator": 6
               },
               "allocated_cost_micro_usd": {
@@ -617,17 +819,33 @@
                 "numerator": 96909,
                 "denominator": 1
               },
-              "exposure_change_micro_usd": 0,
-              "before_error_micro_usd": 90000000,
-              "after_error_micro_usd": 30000000,
-              "trades": {
-                "STOCK_A": 4,
-                "STOCK_B": 1
+              "cost_saving_micro_usd": {
+                "numerator": -17179,
+                "denominator": 6
               },
+              "target_error_before_micro_usd": 90000000,
+              "target_error_after_micro_usd": 30000000,
+              "independent_target_error_micro_usd": 30000000,
+              "target_error_saving_micro_usd": 0,
+              "turnover_micro_usd": 60000000,
               "worse_than_independent": true
             },
             {
               "owner": "b",
+              "before_raw": {
+                "STOCK_A": 2,
+                "STOCK_B": 1,
+                "CASH": 1000000000
+              },
+              "after_raw": {
+                "STOCK_A": 4,
+                "STOCK_B": 2,
+                "CASH": 959935167
+              },
+              "trades": {
+                "STOCK_A": 2,
+                "STOCK_B": 1
+              },
               "independent_objective_micro_usd": {
                 "numerator": 79509,
                 "denominator": 1
@@ -636,8 +854,8 @@
                 "numerator": 492379,
                 "denominator": 6
               },
-              "difference_micro_usd": {
-                "numerator": 15325,
+              "objective_saving_micro_usd": {
+                "numerator": -15325,
                 "denominator": 6
               },
               "allocated_cost_micro_usd": {
@@ -648,13 +866,15 @@
                 "numerator": 64509,
                 "denominator": 1
               },
-              "exposure_change_micro_usd": 0,
-              "before_error_micro_usd": 70000000,
-              "after_error_micro_usd": 30000000,
-              "trades": {
-                "STOCK_A": 2,
-                "STOCK_B": 1
+              "cost_saving_micro_usd": {
+                "numerator": -15325,
+                "denominator": 6
               },
+              "target_error_before_micro_usd": 70000000,
+              "target_error_after_micro_usd": 30000000,
+              "independent_target_error_micro_usd": 30000000,
+              "target_error_saving_micro_usd": 0,
+              "turnover_micro_usd": 40000000,
               "worse_than_independent": true
             }
           ],
@@ -726,6 +946,18 @@
               "numerator": 2,
               "denominator": 1
             },
+            "funded_lifecycle_transactions": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "funded_lifecycle_network_micro_usd": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "operator_subsidy_micro_usd": {
+              "numerator": 0,
+              "denominator": 1
+            },
             "upfront_recoverable_rent_lamports": 0
           }
         },
@@ -767,6 +999,15 @@
             "turnover_micro_usd": 310000000,
             "transactions_allocated": {
               "numerator": 3,
+              "denominator": 1
+            },
+            "funded_lifecycle_transactions": 3,
+            "funded_lifecycle_network_micro_usd": {
+              "numerator": 2700,
+              "denominator": 1
+            },
+            "operator_subsidy_micro_usd": {
+              "numerator": 0,
               "denominator": 1
             },
             "upfront_recoverable_rent_lamports": 8000000
@@ -812,6 +1053,15 @@
               "numerator": 3,
               "denominator": 1
             },
+            "funded_lifecycle_transactions": 3,
+            "funded_lifecycle_network_micro_usd": {
+              "numerator": 2700,
+              "denominator": 1
+            },
+            "operator_subsidy_micro_usd": {
+              "numerator": 0,
+              "denominator": 1
+            },
             "upfront_recoverable_rent_lamports": 8000000
           }
         }
@@ -832,6 +1082,20 @@
           "per_owner": [
             {
               "owner": "a",
+              "before_raw": {
+                "STOCK_A": 40,
+                "STOCK_B": 5,
+                "CASH": 5000000000
+              },
+              "after_raw": {
+                "STOCK_A": 11,
+                "STOCK_B": 5,
+                "CASH": 5289499000
+              },
+              "trades": {
+                "STOCK_A": -29,
+                "STOCK_B": 0
+              },
               "independent_objective_micro_usd": {
                 "numerator": 610109,
                 "denominator": 1
@@ -840,8 +1104,8 @@
                 "numerator": 3071681,
                 "denominator": 6
               },
-              "difference_micro_usd": {
-                "numerator": -588973,
+              "objective_saving_micro_usd": {
+                "numerator": 588973,
                 "denominator": 6
               },
               "allocated_cost_micro_usd": {
@@ -852,17 +1116,33 @@
                 "numerator": 605109,
                 "denominator": 1
               },
-              "exposure_change_micro_usd": 0,
-              "before_error_micro_usd": 300000000,
-              "after_error_micro_usd": 10000000,
-              "trades": {
-                "STOCK_A": -29,
-                "STOCK_B": 0
+              "cost_saving_micro_usd": {
+                "numerator": 588973,
+                "denominator": 6
               },
+              "target_error_before_micro_usd": 300000000,
+              "target_error_after_micro_usd": 10000000,
+              "independent_target_error_micro_usd": 10000000,
+              "target_error_saving_micro_usd": 0,
+              "turnover_micro_usd": 290000000,
               "worse_than_independent": false
             },
             {
               "owner": "b",
+              "before_raw": {
+                "STOCK_A": 0,
+                "STOCK_B": 0,
+                "CASH": 1000000000
+              },
+              "after_raw": {
+                "STOCK_A": 4,
+                "STOCK_B": 0,
+                "CASH": 960000000
+              },
+              "trades": {
+                "STOCK_A": 4,
+                "STOCK_B": 0
+              },
               "independent_objective_micro_usd": {
                 "numerator": 37709,
                 "denominator": 1
@@ -871,8 +1151,8 @@
                 "numerator": 43181,
                 "denominator": 6
               },
-              "difference_micro_usd": {
-                "numerator": -183073,
+              "objective_saving_micro_usd": {
+                "numerator": 183073,
                 "denominator": 6
               },
               "allocated_cost_micro_usd": {
@@ -883,13 +1163,15 @@
                 "numerator": 32709,
                 "denominator": 1
               },
-              "exposure_change_micro_usd": 0,
-              "before_error_micro_usd": 30000000,
-              "after_error_micro_usd": 10000000,
-              "trades": {
-                "STOCK_A": 4,
-                "STOCK_B": 0
+              "cost_saving_micro_usd": {
+                "numerator": 183073,
+                "denominator": 6
               },
+              "target_error_before_micro_usd": 30000000,
+              "target_error_after_micro_usd": 10000000,
+              "independent_target_error_micro_usd": 10000000,
+              "target_error_saving_micro_usd": 0,
+              "turnover_micro_usd": 40000000,
               "worse_than_independent": false
             }
           ],
@@ -902,6 +1184,20 @@
           "per_owner": [
             {
               "owner": "a",
+              "before_raw": {
+                "STOCK_A": 40,
+                "STOCK_B": 5,
+                "CASH": 5000000000
+              },
+              "after_raw": {
+                "STOCK_A": 11,
+                "STOCK_B": 5,
+                "CASH": 5289448200
+              },
+              "trades": {
+                "STOCK_A": -29,
+                "STOCK_B": 0
+              },
               "independent_objective_micro_usd": {
                 "numerator": 610109,
                 "denominator": 1
@@ -910,8 +1206,8 @@
                 "numerator": 3376481,
                 "denominator": 6
               },
-              "difference_micro_usd": {
-                "numerator": -284173,
+              "objective_saving_micro_usd": {
+                "numerator": 284173,
                 "denominator": 6
               },
               "allocated_cost_micro_usd": {
@@ -922,17 +1218,33 @@
                 "numerator": 605109,
                 "denominator": 1
               },
-              "exposure_change_micro_usd": 0,
-              "before_error_micro_usd": 300000000,
-              "after_error_micro_usd": 10000000,
-              "trades": {
-                "STOCK_A": -29,
-                "STOCK_B": 0
+              "cost_saving_micro_usd": {
+                "numerator": 284173,
+                "denominator": 6
               },
+              "target_error_before_micro_usd": 300000000,
+              "target_error_after_micro_usd": 10000000,
+              "independent_target_error_micro_usd": 10000000,
+              "target_error_saving_micro_usd": 0,
+              "turnover_micro_usd": 290000000,
               "worse_than_independent": false
             },
             {
               "owner": "b",
+              "before_raw": {
+                "STOCK_A": 0,
+                "STOCK_B": 0,
+                "CASH": 1000000000
+              },
+              "after_raw": {
+                "STOCK_A": 2,
+                "STOCK_B": 0,
+                "CASH": 980000000
+              },
+              "trades": {
+                "STOCK_A": 2,
+                "STOCK_B": 0
+              },
               "independent_objective_micro_usd": {
                 "numerator": 37709,
                 "denominator": 1
@@ -941,8 +1253,8 @@
                 "numerator": 43181,
                 "denominator": 6
               },
-              "difference_micro_usd": {
-                "numerator": -183073,
+              "objective_saving_micro_usd": {
+                "numerator": 183073,
                 "denominator": 6
               },
               "allocated_cost_micro_usd": {
@@ -953,13 +1265,15 @@
                 "numerator": 32709,
                 "denominator": 1
               },
-              "exposure_change_micro_usd": 0,
-              "before_error_micro_usd": 30000000,
-              "after_error_micro_usd": 10000000,
-              "trades": {
-                "STOCK_A": 2,
-                "STOCK_B": 0
+              "cost_saving_micro_usd": {
+                "numerator": 183073,
+                "denominator": 6
               },
+              "target_error_before_micro_usd": 30000000,
+              "target_error_after_micro_usd": 10000000,
+              "independent_target_error_micro_usd": 10000000,
+              "target_error_saving_micro_usd": 0,
+              "turnover_micro_usd": 20000000,
               "worse_than_independent": false
             }
           ],
@@ -1025,6 +1339,18 @@
               "numerator": 2,
               "denominator": 1
             },
+            "funded_lifecycle_transactions": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "funded_lifecycle_network_micro_usd": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "operator_subsidy_micro_usd": {
+              "numerator": 0,
+              "denominator": 1
+            },
             "upfront_recoverable_rent_lamports": 0
           }
         },
@@ -1066,6 +1392,15 @@
             "turnover_micro_usd": 160000000,
             "transactions_allocated": {
               "numerator": 3,
+              "denominator": 1
+            },
+            "funded_lifecycle_transactions": 3,
+            "funded_lifecycle_network_micro_usd": {
+              "numerator": 2700,
+              "denominator": 1
+            },
+            "operator_subsidy_micro_usd": {
+              "numerator": 0,
               "denominator": 1
             },
             "upfront_recoverable_rent_lamports": 8000000
@@ -1111,6 +1446,15 @@
               "numerator": 3,
               "denominator": 1
             },
+            "funded_lifecycle_transactions": 3,
+            "funded_lifecycle_network_micro_usd": {
+              "numerator": 2700,
+              "denominator": 1
+            },
+            "operator_subsidy_micro_usd": {
+              "numerator": 0,
+              "denominator": 1
+            },
             "upfront_recoverable_rent_lamports": 8000000
           }
         }
@@ -1131,37 +1475,20 @@
           "per_owner": [
             {
               "owner": "a",
-              "independent_objective_micro_usd": {
-                "numerator": 129309,
-                "denominator": 1
+              "before_raw": {
+                "STOCK_A": 0,
+                "STOCK_B": 3,
+                "CASH": 1000000000
               },
-              "proposed_objective_micro_usd": {
-                "numerator": 13481,
-                "denominator": 6
+              "after_raw": {
+                "STOCK_A": 4,
+                "STOCK_B": 1,
+                "CASH": 1000000000
               },
-              "difference_micro_usd": {
-                "numerator": -762373,
-                "denominator": 6
-              },
-              "allocated_cost_micro_usd": {
-                "numerator": 13481,
-                "denominator": 6
-              },
-              "independent_cost_micro_usd": {
-                "numerator": 129309,
-                "denominator": 1
-              },
-              "exposure_change_micro_usd": 0,
-              "before_error_micro_usd": 80000000,
-              "after_error_micro_usd": 0,
               "trades": {
                 "STOCK_A": 4,
                 "STOCK_B": -2
               },
-              "worse_than_independent": false
-            },
-            {
-              "owner": "b",
               "independent_objective_micro_usd": {
                 "numerator": 129309,
                 "denominator": 1
@@ -1170,8 +1497,8 @@
                 "numerator": 13481,
                 "denominator": 6
               },
-              "difference_micro_usd": {
-                "numerator": -762373,
+              "objective_saving_micro_usd": {
+                "numerator": 762373,
                 "denominator": 6
               },
               "allocated_cost_micro_usd": {
@@ -1182,13 +1509,62 @@
                 "numerator": 129309,
                 "denominator": 1
               },
-              "exposure_change_micro_usd": 0,
-              "before_error_micro_usd": 80000000,
-              "after_error_micro_usd": 0,
+              "cost_saving_micro_usd": {
+                "numerator": 762373,
+                "denominator": 6
+              },
+              "target_error_before_micro_usd": 80000000,
+              "target_error_after_micro_usd": 0,
+              "independent_target_error_micro_usd": 0,
+              "target_error_saving_micro_usd": 0,
+              "turnover_micro_usd": 80000000,
+              "worse_than_independent": false
+            },
+            {
+              "owner": "b",
+              "before_raw": {
+                "STOCK_A": 6,
+                "STOCK_B": 0,
+                "CASH": 1000000000
+              },
+              "after_raw": {
+                "STOCK_A": 2,
+                "STOCK_B": 2,
+                "CASH": 1000000000
+              },
               "trades": {
                 "STOCK_A": -4,
                 "STOCK_B": 2
               },
+              "independent_objective_micro_usd": {
+                "numerator": 129309,
+                "denominator": 1
+              },
+              "proposed_objective_micro_usd": {
+                "numerator": 13481,
+                "denominator": 6
+              },
+              "objective_saving_micro_usd": {
+                "numerator": 762373,
+                "denominator": 6
+              },
+              "allocated_cost_micro_usd": {
+                "numerator": 13481,
+                "denominator": 6
+              },
+              "independent_cost_micro_usd": {
+                "numerator": 129309,
+                "denominator": 1
+              },
+              "cost_saving_micro_usd": {
+                "numerator": 762373,
+                "denominator": 6
+              },
+              "target_error_before_micro_usd": 80000000,
+              "target_error_after_micro_usd": 0,
+              "independent_target_error_micro_usd": 0,
+              "target_error_saving_micro_usd": 0,
+              "turnover_micro_usd": 80000000,
               "worse_than_independent": false
             }
           ],
@@ -1201,37 +1577,20 @@
           "per_owner": [
             {
               "owner": "a",
-              "independent_objective_micro_usd": {
-                "numerator": 129309,
-                "denominator": 1
+              "before_raw": {
+                "STOCK_A": 0,
+                "STOCK_B": 3,
+                "CASH": 1000000000
               },
-              "proposed_objective_micro_usd": {
-                "numerator": 13481,
-                "denominator": 6
+              "after_raw": {
+                "STOCK_A": 4,
+                "STOCK_B": 1,
+                "CASH": 1000000000
               },
-              "difference_micro_usd": {
-                "numerator": -762373,
-                "denominator": 6
-              },
-              "allocated_cost_micro_usd": {
-                "numerator": 13481,
-                "denominator": 6
-              },
-              "independent_cost_micro_usd": {
-                "numerator": 129309,
-                "denominator": 1
-              },
-              "exposure_change_micro_usd": 0,
-              "before_error_micro_usd": 80000000,
-              "after_error_micro_usd": 0,
               "trades": {
                 "STOCK_A": 4,
                 "STOCK_B": -2
               },
-              "worse_than_independent": false
-            },
-            {
-              "owner": "b",
               "independent_objective_micro_usd": {
                 "numerator": 129309,
                 "denominator": 1
@@ -1240,8 +1599,8 @@
                 "numerator": 13481,
                 "denominator": 6
               },
-              "difference_micro_usd": {
-                "numerator": -762373,
+              "objective_saving_micro_usd": {
+                "numerator": 762373,
                 "denominator": 6
               },
               "allocated_cost_micro_usd": {
@@ -1252,13 +1611,62 @@
                 "numerator": 129309,
                 "denominator": 1
               },
-              "exposure_change_micro_usd": 0,
-              "before_error_micro_usd": 80000000,
-              "after_error_micro_usd": 0,
+              "cost_saving_micro_usd": {
+                "numerator": 762373,
+                "denominator": 6
+              },
+              "target_error_before_micro_usd": 80000000,
+              "target_error_after_micro_usd": 0,
+              "independent_target_error_micro_usd": 0,
+              "target_error_saving_micro_usd": 0,
+              "turnover_micro_usd": 80000000,
+              "worse_than_independent": false
+            },
+            {
+              "owner": "b",
+              "before_raw": {
+                "STOCK_A": 6,
+                "STOCK_B": 0,
+                "CASH": 1000000000
+              },
+              "after_raw": {
+                "STOCK_A": 2,
+                "STOCK_B": 2,
+                "CASH": 1000000000
+              },
               "trades": {
                 "STOCK_A": -4,
                 "STOCK_B": 2
               },
+              "independent_objective_micro_usd": {
+                "numerator": 129309,
+                "denominator": 1
+              },
+              "proposed_objective_micro_usd": {
+                "numerator": 13481,
+                "denominator": 6
+              },
+              "objective_saving_micro_usd": {
+                "numerator": 762373,
+                "denominator": 6
+              },
+              "allocated_cost_micro_usd": {
+                "numerator": 13481,
+                "denominator": 6
+              },
+              "independent_cost_micro_usd": {
+                "numerator": 129309,
+                "denominator": 1
+              },
+              "cost_saving_micro_usd": {
+                "numerator": 762373,
+                "denominator": 6
+              },
+              "target_error_before_micro_usd": 80000000,
+              "target_error_after_micro_usd": 0,
+              "independent_target_error_micro_usd": 0,
+              "target_error_saving_micro_usd": 0,
+              "turnover_micro_usd": 80000000,
               "worse_than_independent": false
             }
           ],
@@ -1324,6 +1732,18 @@
               "numerator": 2,
               "denominator": 1
             },
+            "funded_lifecycle_transactions": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "funded_lifecycle_network_micro_usd": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "operator_subsidy_micro_usd": {
+              "numerator": 0,
+              "denominator": 1
+            },
             "upfront_recoverable_rent_lamports": 0
           }
         },
@@ -1365,6 +1785,15 @@
             "turnover_micro_usd": 30000000,
             "transactions_allocated": {
               "numerator": 3,
+              "denominator": 1
+            },
+            "funded_lifecycle_transactions": 3,
+            "funded_lifecycle_network_micro_usd": {
+              "numerator": 47250,
+              "denominator": 1
+            },
+            "operator_subsidy_micro_usd": {
+              "numerator": 0,
               "denominator": 1
             },
             "upfront_recoverable_rent_lamports": 8000000
@@ -1410,6 +1839,15 @@
               "numerator": 3,
               "denominator": 1
             },
+            "funded_lifecycle_transactions": 3,
+            "funded_lifecycle_network_micro_usd": {
+              "numerator": 47250,
+              "denominator": 1
+            },
+            "operator_subsidy_micro_usd": {
+              "numerator": 0,
+              "denominator": 1
+            },
             "upfront_recoverable_rent_lamports": 8000000
           }
         }
@@ -1430,6 +1868,20 @@
           "per_owner": [
             {
               "owner": "a",
+              "before_raw": {
+                "STOCK_A": 0,
+                "STOCK_B": 0,
+                "CASH": 1000000000
+              },
+              "after_raw": {
+                "STOCK_A": 2,
+                "STOCK_B": 0,
+                "CASH": 980000000
+              },
+              "trades": {
+                "STOCK_A": 2,
+                "STOCK_B": 0
+              },
               "independent_objective_micro_usd": {
                 "numerator": 105415,
                 "denominator": 2
@@ -1438,8 +1890,8 @@
                 "numerator": 356335,
                 "denominator": 12
               },
-              "difference_micro_usd": {
-                "numerator": -276155,
+              "objective_saving_micro_usd": {
+                "numerator": 276155,
                 "denominator": 12
               },
               "allocated_cost_micro_usd": {
@@ -1450,17 +1902,33 @@
                 "numerator": 95415,
                 "denominator": 2
               },
-              "exposure_change_micro_usd": 0,
-              "before_error_micro_usd": 30000000,
-              "after_error_micro_usd": 10000000,
-              "trades": {
-                "STOCK_A": 2,
-                "STOCK_B": 0
+              "cost_saving_micro_usd": {
+                "numerator": 276155,
+                "denominator": 12
               },
+              "target_error_before_micro_usd": 30000000,
+              "target_error_after_micro_usd": 10000000,
+              "independent_target_error_micro_usd": 10000000,
+              "target_error_saving_micro_usd": 0,
+              "turnover_micro_usd": 20000000,
               "worse_than_independent": false
             },
             {
               "owner": "b",
+              "before_raw": {
+                "STOCK_A": 6,
+                "STOCK_B": 0,
+                "CASH": 1000000000
+              },
+              "after_raw": {
+                "STOCK_A": 4,
+                "STOCK_B": 0,
+                "CASH": 1020000000
+              },
+              "trades": {
+                "STOCK_A": -2,
+                "STOCK_B": 0
+              },
               "independent_objective_micro_usd": {
                 "numerator": 74215,
                 "denominator": 2
@@ -1469,8 +1937,8 @@
                 "numerator": 296935,
                 "denominator": 12
               },
-              "difference_micro_usd": {
-                "numerator": -148355,
+              "objective_saving_micro_usd": {
+                "numerator": 148355,
                 "denominator": 12
               },
               "allocated_cost_micro_usd": {
@@ -1481,13 +1949,15 @@
                 "numerator": 64215,
                 "denominator": 2
               },
-              "exposure_change_micro_usd": -10000000,
-              "before_error_micro_usd": 20000000,
-              "after_error_micro_usd": 0,
-              "trades": {
-                "STOCK_A": -2,
-                "STOCK_B": 0
+              "cost_saving_micro_usd": {
+                "numerator": 88355,
+                "denominator": 12
               },
+              "target_error_before_micro_usd": 20000000,
+              "target_error_after_micro_usd": 0,
+              "independent_target_error_micro_usd": 10000000,
+              "target_error_saving_micro_usd": 10000000,
+              "turnover_micro_usd": 20000000,
               "worse_than_independent": false
             }
           ],
@@ -1500,6 +1970,20 @@
           "per_owner": [
             {
               "owner": "a",
+              "before_raw": {
+                "STOCK_A": 0,
+                "STOCK_B": 0,
+                "CASH": 1000000000
+              },
+              "after_raw": {
+                "STOCK_A": 2,
+                "STOCK_B": 0,
+                "CASH": 979983800
+              },
+              "trades": {
+                "STOCK_A": 2,
+                "STOCK_B": 0
+              },
               "independent_objective_micro_usd": {
                 "numerator": 105415,
                 "denominator": 2
@@ -1508,8 +1992,8 @@
                 "numerator": 550735,
                 "denominator": 12
               },
-              "difference_micro_usd": {
-                "numerator": -81755,
+              "objective_saving_micro_usd": {
+                "numerator": 81755,
                 "denominator": 12
               },
               "allocated_cost_micro_usd": {
@@ -1520,17 +2004,33 @@
                 "numerator": 95415,
                 "denominator": 2
               },
-              "exposure_change_micro_usd": 0,
-              "before_error_micro_usd": 30000000,
-              "after_error_micro_usd": 10000000,
-              "trades": {
-                "STOCK_A": 2,
-                "STOCK_B": 0
+              "cost_saving_micro_usd": {
+                "numerator": 81755,
+                "denominator": 12
               },
+              "target_error_before_micro_usd": 30000000,
+              "target_error_after_micro_usd": 10000000,
+              "independent_target_error_micro_usd": 10000000,
+              "target_error_saving_micro_usd": 0,
+              "turnover_micro_usd": 20000000,
               "worse_than_independent": false
             },
             {
               "owner": "b",
+              "before_raw": {
+                "STOCK_A": 6,
+                "STOCK_B": 0,
+                "CASH": 1000000000
+              },
+              "after_raw": {
+                "STOCK_A": 5,
+                "STOCK_B": 0,
+                "CASH": 1010000000
+              },
+              "trades": {
+                "STOCK_A": -1,
+                "STOCK_B": 0
+              },
               "independent_objective_micro_usd": {
                 "numerator": 74215,
                 "denominator": 2
@@ -1539,8 +2039,8 @@
                 "numerator": 356935,
                 "denominator": 12
               },
-              "difference_micro_usd": {
-                "numerator": -88355,
+              "objective_saving_micro_usd": {
+                "numerator": 88355,
                 "denominator": 12
               },
               "allocated_cost_micro_usd": {
@@ -1551,13 +2051,15 @@
                 "numerator": 64215,
                 "denominator": 2
               },
-              "exposure_change_micro_usd": 0,
-              "before_error_micro_usd": 20000000,
-              "after_error_micro_usd": 10000000,
-              "trades": {
-                "STOCK_A": -1,
-                "STOCK_B": 0
+              "cost_saving_micro_usd": {
+                "numerator": 88355,
+                "denominator": 12
               },
+              "target_error_before_micro_usd": 20000000,
+              "target_error_after_micro_usd": 10000000,
+              "independent_target_error_micro_usd": 10000000,
+              "target_error_saving_micro_usd": 0,
+              "turnover_micro_usd": 10000000,
               "worse_than_independent": false
             }
           ],
@@ -1721,6 +2223,18 @@
               "numerator": 2,
               "denominator": 1
             },
+            "funded_lifecycle_transactions": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "funded_lifecycle_network_micro_usd": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "operator_subsidy_micro_usd": {
+              "numerator": 0,
+              "denominator": 1
+            },
             "upfront_recoverable_rent_lamports": 0
           }
         },
@@ -1762,6 +2276,15 @@
             "turnover_micro_usd": 70000000,
             "transactions_allocated": {
               "numerator": 3,
+              "denominator": 1
+            },
+            "funded_lifecycle_transactions": 3,
+            "funded_lifecycle_network_micro_usd": {
+              "numerator": 2700,
+              "denominator": 1
+            },
+            "operator_subsidy_micro_usd": {
+              "numerator": 0,
               "denominator": 1
             },
             "upfront_recoverable_rent_lamports": 8000000
@@ -1807,6 +2330,15 @@
               "numerator": 3,
               "denominator": 1
             },
+            "funded_lifecycle_transactions": 3,
+            "funded_lifecycle_network_micro_usd": {
+              "numerator": 2700,
+              "denominator": 1
+            },
+            "operator_subsidy_micro_usd": {
+              "numerator": 0,
+              "denominator": 1
+            },
             "upfront_recoverable_rent_lamports": 8000000
           }
         }
@@ -1827,6 +2359,20 @@
           "per_owner": [
             {
               "owner": "a",
+              "before_raw": {
+                "STOCK_A": 0,
+                "STOCK_B": 0,
+                "CASH": 1000000000
+              },
+              "after_raw": {
+                "STOCK_A": 4,
+                "STOCK_B": 0,
+                "CASH": 960000000
+              },
+              "trades": {
+                "STOCK_A": 4,
+                "STOCK_B": 0
+              },
               "independent_objective_micro_usd": {
                 "numerator": 70280,
                 "denominator": 1
@@ -1835,8 +2381,8 @@
                 "numerator": 2506620,
                 "denominator": 1
               },
-              "difference_micro_usd": {
-                "numerator": 2436340,
+              "objective_saving_micro_usd": {
+                "numerator": -2436340,
                 "denominator": 1
               },
               "allocated_cost_micro_usd": {
@@ -1847,17 +2393,33 @@
                 "numerator": 65280,
                 "denominator": 1
               },
-              "exposure_change_micro_usd": 0,
-              "before_error_micro_usd": 50000000,
-              "after_error_micro_usd": 10000000,
-              "trades": {
-                "STOCK_A": 4,
-                "STOCK_B": 0
+              "cost_saving_micro_usd": {
+                "numerator": -2436340,
+                "denominator": 1
               },
+              "target_error_before_micro_usd": 50000000,
+              "target_error_after_micro_usd": 10000000,
+              "independent_target_error_micro_usd": 10000000,
+              "target_error_saving_micro_usd": 0,
+              "turnover_micro_usd": 40000000,
               "worse_than_independent": true
             },
             {
               "owner": "b",
+              "before_raw": {
+                "STOCK_A": 10,
+                "STOCK_B": 0,
+                "CASH": 1000000000
+              },
+              "after_raw": {
+                "STOCK_A": 6,
+                "STOCK_B": 0,
+                "CASH": 1040000000
+              },
+              "trades": {
+                "STOCK_A": -4,
+                "STOCK_B": 0
+              },
               "independent_objective_micro_usd": {
                 "numerator": 53880,
                 "denominator": 1
@@ -1866,8 +2428,8 @@
                 "numerator": 2751620,
                 "denominator": 1
               },
-              "difference_micro_usd": {
-                "numerator": 2697740,
+              "objective_saving_micro_usd": {
+                "numerator": -2697740,
                 "denominator": 1
               },
               "allocated_cost_micro_usd": {
@@ -1878,13 +2440,15 @@
                 "numerator": 48880,
                 "denominator": 1
               },
-              "exposure_change_micro_usd": -10000000,
-              "before_error_micro_usd": 40000000,
-              "after_error_micro_usd": 0,
-              "trades": {
-                "STOCK_A": -4,
-                "STOCK_B": 0
+              "cost_saving_micro_usd": {
+                "numerator": -2702740,
+                "denominator": 1
               },
+              "target_error_before_micro_usd": 40000000,
+              "target_error_after_micro_usd": 0,
+              "independent_target_error_micro_usd": 10000000,
+              "target_error_saving_micro_usd": 10000000,
+              "turnover_micro_usd": 40000000,
               "worse_than_independent": true
             }
           ],
@@ -1900,6 +2464,20 @@
           "per_owner": [
             {
               "owner": "a",
+              "before_raw": {
+                "STOCK_A": 0,
+                "STOCK_B": 0,
+                "CASH": 1000000000
+              },
+              "after_raw": {
+                "STOCK_A": 4,
+                "STOCK_B": 0,
+                "CASH": 959983800
+              },
+              "trades": {
+                "STOCK_A": 4,
+                "STOCK_B": 0
+              },
               "independent_objective_micro_usd": {
                 "numerator": 70280,
                 "denominator": 1
@@ -1908,8 +2486,8 @@
                 "numerator": 2522820,
                 "denominator": 1
               },
-              "difference_micro_usd": {
-                "numerator": 2452540,
+              "objective_saving_micro_usd": {
+                "numerator": -2452540,
                 "denominator": 1
               },
               "allocated_cost_micro_usd": {
@@ -1920,17 +2498,33 @@
                 "numerator": 65280,
                 "denominator": 1
               },
-              "exposure_change_micro_usd": 0,
-              "before_error_micro_usd": 50000000,
-              "after_error_micro_usd": 10000000,
-              "trades": {
-                "STOCK_A": 4,
-                "STOCK_B": 0
+              "cost_saving_micro_usd": {
+                "numerator": -2452540,
+                "denominator": 1
               },
+              "target_error_before_micro_usd": 50000000,
+              "target_error_after_micro_usd": 10000000,
+              "independent_target_error_micro_usd": 10000000,
+              "target_error_saving_micro_usd": 0,
+              "turnover_micro_usd": 40000000,
               "worse_than_independent": true
             },
             {
               "owner": "b",
+              "before_raw": {
+                "STOCK_A": 10,
+                "STOCK_B": 0,
+                "CASH": 1000000000
+              },
+              "after_raw": {
+                "STOCK_A": 7,
+                "STOCK_B": 0,
+                "CASH": 1030000000
+              },
+              "trades": {
+                "STOCK_A": -3,
+                "STOCK_B": 0
+              },
               "independent_objective_micro_usd": {
                 "numerator": 53880,
                 "denominator": 1
@@ -1939,8 +2533,8 @@
                 "numerator": 2756620,
                 "denominator": 1
               },
-              "difference_micro_usd": {
-                "numerator": 2702740,
+              "objective_saving_micro_usd": {
+                "numerator": -2702740,
                 "denominator": 1
               },
               "allocated_cost_micro_usd": {
@@ -1951,13 +2545,15 @@
                 "numerator": 48880,
                 "denominator": 1
               },
-              "exposure_change_micro_usd": 0,
-              "before_error_micro_usd": 40000000,
-              "after_error_micro_usd": 10000000,
-              "trades": {
-                "STOCK_A": -3,
-                "STOCK_B": 0
+              "cost_saving_micro_usd": {
+                "numerator": -2702740,
+                "denominator": 1
               },
+              "target_error_before_micro_usd": 40000000,
+              "target_error_after_micro_usd": 10000000,
+              "independent_target_error_micro_usd": 10000000,
+              "target_error_saving_micro_usd": 0,
+              "turnover_micro_usd": 30000000,
               "worse_than_independent": true
             }
           ],
@@ -2072,18 +2668,18 @@
       "method": "B",
       "owner": "a",
       "recurring_micro_usd": {
-        "numerator": 18262,
-        "denominator": 1
+        "numerator": 36827,
+        "denominator": 2
       },
       "objective_micro_usd": {
-        "numerator": 23262,
-        "denominator": 1
+        "numerator": 46827,
+        "denominator": 2
       },
       "after_error_micro_usd": 10000000,
       "turnover_micro_usd": 60000000,
       "venue_cost_micro_usd": 16200,
       "network_micro_usd": {
-        "numerator": 1200,
+        "numerator": 1350,
         "denominator": 1
       },
       "waiting_micro_usd": {
@@ -2099,18 +2695,18 @@
       "method": "B",
       "owner": "b",
       "recurring_micro_usd": {
-        "numerator": 2162,
-        "denominator": 1
+        "numerator": 4627,
+        "denominator": 2
       },
       "objective_micro_usd": {
-        "numerator": 7162,
-        "denominator": 1
+        "numerator": 14627,
+        "denominator": 2
       },
       "after_error_micro_usd": 10000000,
       "turnover_micro_usd": 50000000,
       "venue_cost_micro_usd": 0,
       "network_micro_usd": {
-        "numerator": 1200,
+        "numerator": 1350,
         "denominator": 1
       },
       "waiting_micro_usd": {
@@ -2153,18 +2749,18 @@
       "method": "C",
       "owner": "a",
       "recurring_micro_usd": {
-        "numerator": 2062,
-        "denominator": 1
+        "numerator": 4427,
+        "denominator": 2
       },
       "objective_micro_usd": {
-        "numerator": 7062,
-        "denominator": 1
+        "numerator": 14427,
+        "denominator": 2
       },
       "after_error_micro_usd": 10000000,
       "turnover_micro_usd": 60000000,
       "venue_cost_micro_usd": 0,
       "network_micro_usd": {
-        "numerator": 1200,
+        "numerator": 1350,
         "denominator": 1
       },
       "waiting_micro_usd": {
@@ -2180,18 +2776,18 @@
       "method": "C",
       "owner": "b",
       "recurring_micro_usd": {
-        "numerator": 2162,
-        "denominator": 1
+        "numerator": 4627,
+        "denominator": 2
       },
       "objective_micro_usd": {
-        "numerator": 2162,
-        "denominator": 1
+        "numerator": 4627,
+        "denominator": 2
       },
       "after_error_micro_usd": 0,
       "turnover_micro_usd": 60000000,
       "venue_cost_micro_usd": 0,
       "network_micro_usd": {
-        "numerator": 1200,
+        "numerator": 1350,
         "denominator": 1
       },
       "waiting_micro_usd": {
@@ -3047,8 +3643,8 @@
       "input_sha256": "8f2c9e14368f142bd11707c8b07c05c2086b23c8ebd442eda35d932daabbb451",
       "valid_baselines": true,
       "netting_gain_micro_usd": {
-        "numerator": 161289,
-        "denominator": 2
+        "numerator": 318167,
+        "denominator": 4
       },
       "cooperative_gain_micro_usd": {
         "numerator": 8200,
@@ -3063,7 +3659,7 @@
       "input_sha256": "df8f71aa33c4bde96f40c12fb0e882ff9fdb1047ea474f33fb914a69745dcd1c",
       "valid_baselines": true,
       "netting_gain_micro_usd": {
-        "numerator": 160594,
+        "numerator": 159391,
         "denominator": 1
       },
       "cooperative_gain_micro_usd": {
@@ -3079,8 +3675,8 @@
       "input_sha256": "c94e4db58a7a44a8fd2283578da93bce991e3bc83bb57d1ee18da0fc3e87f03e",
       "valid_baselines": true,
       "netting_gain_micro_usd": {
-        "numerator": 310493,
-        "denominator": 1
+        "numerator": 618179,
+        "denominator": 2
       },
       "cooperative_gain_micro_usd": {
         "numerator": 31200,
@@ -3095,7 +3691,7 @@
       "input_sha256": "c4a1f1cf0e878a6489962f1ec01eeaf43c08a72b374005e27ab514b5e634227b",
       "valid_baselines": true,
       "netting_gain_micro_usd": {
-        "numerator": 162394,
+        "numerator": 161191,
         "denominator": 1
       },
       "cooperative_gain_micro_usd": {
@@ -3111,7 +3707,7 @@
       "input_sha256": "8b5325b8619861bbfe2ab95bf9af831834dc7cf5d6e3dd503b7871d360f82119",
       "valid_baselines": true,
       "netting_gain_micro_usd": {
-        "numerator": 158794,
+        "numerator": 157591,
         "denominator": 1
       },
       "cooperative_gain_micro_usd": {
@@ -3127,7 +3723,7 @@
       "input_sha256": "a29e4308f278dd31986005b154d6f848fb5b1e5b782414cf88b6ba0d7128d9a5",
       "valid_baselines": true,
       "netting_gain_micro_usd": {
-        "numerator": 144394,
+        "numerator": 143191,
         "denominator": 1
       },
       "cooperative_gain_micro_usd": {
@@ -3143,7 +3739,7 @@
       "input_sha256": "8bb593bdbf36777c828f67fe2c565509a9e534b9316f41e4e9081f6200098f3e",
       "valid_baselines": true,
       "netting_gain_micro_usd": {
-        "numerator": -53606,
+        "numerator": -54809,
         "denominator": 1
       },
       "cooperative_gain_micro_usd": {
@@ -3159,7 +3755,7 @@
       "input_sha256": "205ccc54f43d0a60e1535cd05d71b5661c05393f42133f12c98e89b98685a90f",
       "valid_baselines": true,
       "netting_gain_micro_usd": {
-        "numerator": 196594,
+        "numerator": 195391,
         "denominator": 1
       },
       "cooperative_gain_micro_usd": {
@@ -3175,7 +3771,7 @@
       "input_sha256": "df8f71aa33c4bde96f40c12fb0e882ff9fdb1047ea474f33fb914a69745dcd1c",
       "valid_baselines": true,
       "netting_gain_micro_usd": {
-        "numerator": 160594,
+        "numerator": 159391,
         "denominator": 1
       },
       "cooperative_gain_micro_usd": {
@@ -3191,7 +3787,7 @@
       "input_sha256": "7871e63a4a233dadc54885a1e0ca8967cd42b0fe870c0cc99cf20bd069e5163a",
       "valid_baselines": true,
       "netting_gain_micro_usd": {
-        "numerator": 151594,
+        "numerator": 150391,
         "denominator": 1
       },
       "cooperative_gain_micro_usd": {

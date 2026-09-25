@@ -54,8 +54,72 @@ def prices(s):
     return {a['id']: a['price_micro_usd_per_raw'] for a in s['assets']}
 
 
+def grid_count(a, step=1):
+    """Cardinality of one account's grid, computed without materialising it."""
+    count = 1
+    for k in STOCKS:
+        low, high = a['final_bounds_raw'][k]['min'], a['final_bounds_raw'][k]['max']
+        count *= ((high - low) // step + 1) if high >= low else 0
+    return count
+
+
+def grid_iter(a, step=1):
+    """Lazily yield one account's grid points, so a huge bound space is never materialised.
+
+    `itertools.product` would convert each bound `range` into a tuple up front, which is exactly the
+    unbounded allocation this avoids; the lazy product keeps only the values actually reached.
+    """
+    ranges = [range(a['final_bounds_raw'][k]['min'], a['final_bounds_raw'][k]['max'] + 1, step) for k in STOCKS]
+    for values in lazy_product(*ranges):
+        yield dict(zip(STOCKS, values))
+
+
 def grid(a, step=1):
-    return [dict(zip(STOCKS, p)) for p in product(*(range(a['final_bounds_raw'][k]['min'], a['final_bounds_raw'][k]['max'] + 1, step) for k in STOCKS))]
+    return list(grid_iter(a, step))
+
+
+class _Replay:
+    """A one-pass iterable that caches what it has yielded, so a Cartesian product can re-read a
+    level without materialising the whole sequence."""
+    __slots__ = ('_iterator', '_items')
+
+    def __init__(self, iterable):
+        self._iterator = iter(iterable)
+        self._items = []
+
+    def at(self, index):
+        while len(self._items) <= index:
+            try:
+                self._items.append(next(self._iterator))
+            except StopIteration:
+                return None
+        return self._items[index]
+
+
+def lazy_product(*iterables):
+    """`itertools.product` over one-pass iterables, without materialising them first.
+
+    `itertools.product` converts every input to a tuple up front, so passing a generator still
+    allocates the entire sequence — which is how a small budget could build a ten-thousand-element
+    product. Each level here caches only the values actually reached, which the candidate budget
+    keeps bounded. Order matches `itertools.product`: the last level varies fastest.
+    """
+    pools = [_Replay(iterable) for iterable in iterables]
+
+    def build(level):
+        if level == len(pools):
+            yield ()
+            return
+        index = 0
+        while True:
+            value = pools[level].at(index)
+            if value is None:
+                return
+            for rest in build(level + 1):
+                yield (value,) + rest
+            index += 1
+
+    return build(0)
 
 
 def stock_metrics(a, x, p):
@@ -68,6 +132,11 @@ def stock_metrics(a, x, p):
 def admission_reasons(s):
     p = s['price_observation']
     reasons = []
+    # Cash is the unit of account: raw cash units and micro-USD coincide only at exactly one
+    # micro-USD per raw cash unit. Any other denomination would debit the wrong amount, so it is
+    # refused rather than silently mis-priced.
+    if prices(s)['CASH'] != 1:
+        reasons.append('unsupported_cash_denomination')
     if p['observation_unix'] > p['as_of_unix']:
         reasons.append('future_price')
     if p['as_of_unix'] - p['observation_unix'] > p['max_age_seconds']:
@@ -134,6 +203,11 @@ def evaluate(s, outputs, mode, enforce_policy=False):
     fee_lamports = n['lamports_per_signature'] * n['signatures_per_transaction'] + n['priority_lamports_per_transaction']
     fee_micro = F(fee_lamports * n['sol_price_micro_usd'], 1_000_000_000)
     wait = s['cost_model']['waiting']
+    # The batch's participants are the accounts that actually trade. The shared settlement is split
+    # only across them, never padded across accounts that trade nothing: an account that does not
+    # trade is not part of the batch's work, and charging it the shared cost would make a bystander
+    # worse off than doing nothing while the aggregate still looked better.
+    participants = len(active)
     rows = []
     for a in accounts:
         i = a['id']; initial = a['initial_raw']
@@ -144,10 +218,9 @@ def evaluate(s, outputs, mode, enforce_policy=False):
             tx_count = F(n['independent_transactions_per_active_owner'] if i in active else 0)
             seconds = wait['independent_seconds'] if i in active else 0
         elif i in active:
-            # Membership, not truthiness: `elif active:` tested whether the set was non-empty, which
-            # charged the batch's shared costs to every owner including those that traded nothing —
-            # making a bystander worse off than doing nothing while the aggregate still looked better.
-            tx_count = n['batch_funding_transactions_per_owner'] + n['batch_cleanup_transactions_per_owner'] + F(n['batch_settlement_transactions'], len(accounts))
+            # Split the shared settlement across the participants, so the per-owner shares sum to
+            # the full lifecycle instead of a fraction of it disappearing across idle accounts.
+            tx_count = n['batch_funding_transactions_per_owner'] + n['batch_cleanup_transactions_per_owner'] + F(n['batch_settlement_transactions'], participants)
             seconds = wait['batch_seconds']
         else:
             tx_count = F(0); seconds = 0
@@ -169,6 +242,26 @@ def evaluate(s, outputs, mode, enforce_policy=False):
         rows.append({'id':i, 'initial_raw':dict(initial), 'final_raw':final, 'trades_raw':q[i], 'external_raw':external[i], 'internal_raw':{k:q[i][k]-external[i][k] for k in STOCKS}, 'venue_cost_micro_usd':fees[i], 'price_difference_micro_usd':sum(deltas[i].values()), 'price_difference_by_asset':deltas[i], 'network_micro_usd':network, 'expected_retry_micro_usd':retry, 'waiting_micro_usd':waiting, 'preference_micro_usd':preference, 'recurring_micro_usd':recurring, 'objective_micro_usd':recurring+preference, 'before_error_micro_usd':before_error, 'after_error_micro_usd':error, 'turnover_micro_usd':turnover, 'transactions_allocated':tx_count, 'adverse_debit_micro_usd':adverse_debit, 'value_guard':guard, 'failures':failures,
                      'slacks':{'bounds':{k:{'min':final[k]-a['final_bounds_raw'][k]['min'],'max':a['final_bounds_raw'][k]['max']-final[k]} for k in ASSETS},'tracking_micro_usd':a['max_stock_error_micro_usd']-error,'progress_integer':before_error*(10000-a['min_error_reduction_bps'])-error*10000,'turnover_micro_usd':a['max_turnover_micro_usd']-turnover,'cost_budget_micro_usd':a['cost_debit_budget_micro_usd']-adverse_debit}})
     totals = {key:sum(row[key] for row in rows) for key in ('venue_cost_micro_usd','price_difference_micro_usd','network_micro_usd','expected_retry_micro_usd','waiting_micro_usd','preference_micro_usd','recurring_micro_usd','objective_micro_usd','after_error_micro_usd','turnover_micro_usd','transactions_allocated')}
+    # Lifecycle reconciliation. The *funded* lifecycle of a batch is every account's funding and
+    # cleanup plus the one shared settlement. Idle accounts are deliberately charged nothing, so the
+    # cost of funding and cleaning up an account that never trades is an operator subsidy: it is
+    # identified and disclosed rather than allowed to disappear. The owner allocations plus the
+    # subsidy must reconcile to the funded lifecycle exactly.
+    if mode == 'batch' and active:
+        funding_and_cleanup = n['batch_funding_transactions_per_owner'] + n['batch_cleanup_transactions_per_owner']
+        funded_transactions = len(accounts) * funding_and_cleanup + n['batch_settlement_transactions']
+        funded_network = F(funded_transactions) * fee_micro
+        owner_network = sum(row['network_micro_usd'] for row in rows)
+        subsidy_micro = funded_network - owner_network
+        totals['funded_lifecycle_transactions'] = funded_transactions
+        totals['funded_lifecycle_network_micro_usd'] = funded_network
+        totals['operator_subsidy_micro_usd'] = subsidy_micro
+        if subsidy_micro < 0: raise ValueError('owner network allocation exceeds the funded lifecycle')
+        if owner_network + subsidy_micro != funded_network: raise AssertionError('lifecycle cost allocation does not reconcile')
+    else:
+        totals['funded_lifecycle_transactions'] = F(0)
+        totals['funded_lifecycle_network_micro_usd'] = F(0)
+        totals['operator_subsidy_micro_usd'] = F(0)
     rent = s['cost_model']['recoverable_rent']
     totals['upfront_recoverable_rent_lamports'] = (len(accounts)*rent['lamports_per_owner']+rent['lamports_batch_shared']) if mode == 'batch' and active else 0
     result = {'mode':mode,'feasible':not any(row['failures'] for row in rows),'policy_enforced':enforce_policy,'accounts':rows,'external_orders':orders,'totals':totals,'mandate_sha256':sha(s),'noop':not active}
@@ -217,10 +310,10 @@ def independent_check(s, result):
             tx=F(n['independent_transactions_per_active_owner'] if own_active else 0)
             seconds=w['independent_seconds'] if own_active else 0
         else:
-            # Per-owner, not per-batch: a participant that trades nothing must not be charged the
-            # batch's shared costs. An earlier version tested `any_active`, which mirrored the same
-            # mistake the implementation made and therefore could not catch it.
-            tx=F(n['batch_funding_transactions_per_owner']+n['batch_cleanup_transactions_per_owner'])+F(n['batch_settlement_transactions'],len(src)) if own_active else F(0)
+            # The shared settlement is split across the participants, not every account, mirroring
+            # the implementation: a participant that trades nothing bears none of it.
+            participants=sum(1 for rr in result['accounts'] if any(rr['trades_raw'].values()))
+            tx=F(n['batch_funding_transactions_per_owner']+n['batch_cleanup_transactions_per_owner'])+F(n['batch_settlement_transactions'],participants) if own_active else F(0)
             seconds=w['batch_seconds'] if own_active else 0
         network=tx*F((n['lamports_per_signature']*n['signatures_per_transaction']+n['priority_lamports_per_transaction'])*n['sol_price_micro_usd'],10**9)
         waiting=F(sum(h[k]*p[k] for k in ASSETS)*w['opportunity_bps_per_hour']*seconds,3600*10000)
@@ -253,6 +346,20 @@ def independent_check(s, result):
     if sum(o['venue_cost_micro_usd'] for o in result['external_orders'])!=result['totals']['venue_cost_micro_usd']: errors.append('venue_total')
     expected_cash_delta=-sum(o['signed_quantity_raw']*o['execution_price_micro_usd_per_raw']+o['venue_cost_micro_usd'] for o in result['external_orders'])
     if sum(r['final_raw']['CASH']-r['initial_raw']['CASH'] for r in result['accounts'])!=expected_cash_delta: errors.append('aggregate_cash_conservation')
+    # Lifecycle reconciliation, asserted rather than assumed: the per-owner network allocations plus
+    # the disclosed operator subsidy must equal the funded lifecycle network cost exactly. This is
+    # the invariant the idle-owner fix broke when the shared settlement was split across every
+    # account but charged only to the active ones.
+    n_net=s['cost_model']['network']
+    if result['mode']=='batch' and not result['noop']:
+        funding_and_cleanup=n_net['batch_funding_transactions_per_owner']+n_net['batch_cleanup_transactions_per_owner']
+        funded_transactions=len(src)*funding_and_cleanup+n_net['batch_settlement_transactions']
+        fee_micro=F((n_net['lamports_per_signature']*n_net['signatures_per_transaction']+n_net['priority_lamports_per_transaction'])*n_net['sol_price_micro_usd'],10**9)
+        if result['totals'].get('funded_lifecycle_transactions')!=funded_transactions: errors.append('lifecycle_transactions')
+        if result['totals'].get('funded_lifecycle_network_micro_usd')!=F(funded_transactions)*fee_micro: errors.append('lifecycle_network')
+        owner_network=sum(r['network_micro_usd'] for r in result['accounts'])
+        if result['totals'].get('operator_subsidy_micro_usd')!=F(funded_transactions)*fee_micro-owner_network: errors.append('operator_subsidy')
+        if owner_network+result['totals'].get('operator_subsidy_micro_usd')!=F(funded_transactions)*fee_micro: errors.append('lifecycle_reconciliation')
     return errors
 
 
@@ -267,13 +374,13 @@ def solve(s, enforce_policy=False, grid_step=1):
     if reasons: return {'status':'rejected','reasons':reasons,'methods':{},'grid_candidates_evaluated':0}
     accounts=sorted(s['accounts'],key=lambda a:a['id'])
     joint_count=1
-    for a in accounts: joint_count*=len(grid(a,grid_step))
+    for a in accounts: joint_count*=grid_count(a,grid_step)
     if joint_count>729: raise ValueError('frozen enumeration cap exceeded')
     a_outputs={}; independent_count=0
     for a in accounts:
         one=copy.deepcopy(s); one['accounts']=[a]
         candidates=[]
-        for x in grid(a,grid_step):
+        for x in grid_iter(a,grid_step):
             independent_count+=1
             r=evaluate(one,{a['id']:x},'independent',enforce_policy)
             if r['feasible']: candidates.append(r)
@@ -283,7 +390,7 @@ def solve(s, enforce_policy=False, grid_step=1):
     A=evaluate(s,a_outputs,'independent',enforce_policy)
     B=evaluate(s,a_outputs,'batch',enforce_policy)
     cooperative=[]
-    for xs in product(*(grid(a,grid_step) for a in accounts)):
+    for xs in lazy_product(*(grid_iter(a,grid_step) for a in accounts)):
         r=evaluate(s,{a['id']:x for a,x in zip(accounts,xs)},'batch',enforce_policy)
         if r['feasible']: cooperative.append(r)
     methods={'A':A,'B':B}
@@ -294,10 +401,13 @@ def solve(s, enforce_policy=False, grid_step=1):
     result={'status':'ok' if 'C' in methods else 'infeasible','reasons':[] if 'C' in methods else ['cooperative_no_feasible_plan'],'methods':methods,'grid_candidates_evaluated':independent_count+joint_count,'joint_candidates':joint_count,'feasible_joint_candidates':len(cooperative),'grid_step_raw':grid_step}
     if B['feasible'] and 'C' in methods:
         C=methods['C']
-        raw_difference=B['totals']['recurring_micro_usd']-C['totals']['recurring_micro_usd']
+        # Full lifecycle cost includes the operator subsidy for any funded account that never
+        # trades, so an aggregate saving cannot be manufactured by leaving someone else to pay.
+        def _full(r): return r['totals']['recurring_micro_usd']+r['totals'].get('operator_subsidy_micro_usd',0)
+        raw_difference=_full(B)-_full(C)
         eligible=not B['noop'] and not C['noop']
         attribution='skipped_execution_no_cooperative_trading' if C['noop'] else ('new_execution_vs_noop_baseline' if B['noop'] else 'comparable_nonzero_execution')
-        result['comparison']={'A_minus_B_recurring_micro_usd':A['totals']['recurring_micro_usd']-B['totals']['recurring_micro_usd'],'B_minus_C_raw_recurring_difference_micro_usd':raw_difference,'B_minus_C_raw_objective_difference_micro_usd':B['totals']['objective_micro_usd']-C['totals']['objective_micro_usd'],'A_minus_C_recurring_micro_usd':A['totals']['recurring_micro_usd']-C['totals']['recurring_micro_usd'],'valid_baselines':True,'execution_attribution':attribution,'cooperative_trading_benefit_eligible':eligible,'incremental_cooperative_trading_savings_micro_usd':raw_difference if eligible else F(0),'G0_incremental_cost_criterion_pass':eligible and raw_difference>0,'attribution_note':'Raw differences describe the optimizer decision; skipped/new execution relative to a no-op is not an attributable cooperative trading saving.' if not eligible else 'Both baselines execute nonzero trades under identical mandates; negative values mean higher recurring cost.'}
+        result['comparison']={'A_minus_B_recurring_micro_usd':_full(A)-_full(B),'B_minus_C_raw_recurring_difference_micro_usd':raw_difference,'B_minus_C_raw_objective_difference_micro_usd':B['totals']['objective_micro_usd']-C['totals']['objective_micro_usd'],'A_minus_C_recurring_micro_usd':_full(A)-_full(C),'valid_baselines':True,'execution_attribution':attribution,'cooperative_trading_benefit_eligible':eligible,'incremental_cooperative_trading_savings_micro_usd':raw_difference if eligible else F(0),'G0_incremental_cost_criterion_pass':eligible and raw_difference>0,'attribution_note':'Raw differences describe the optimizer decision; skipped/new execution relative to a no-op is not an attributable cooperative trading saving.' if not eligible else 'Both baselines execute nonzero trades under identical mandates; negative values mean higher recurring cost. Values are full lifecycle cost, including any operator subsidy for a funded account that never trades.'}
     else: result['comparison']={'valid_baselines':False,'reason':'infeasible B or C; no comparative savings claim','cooperative_trading_benefit_eligible':False,'incremental_cooperative_trading_savings_micro_usd':F(0),'G0_incremental_cost_criterion_pass':False}
     return result
 
@@ -323,7 +433,7 @@ def audit_comparison(s, solved):
     if B['feasible'] and ranking(C)>ranking(B): errors.append('C_worse_than_feasible_B')
     if B['feasible']:
         eligible=not B['noop'] and not C['noop']
-        raw=B['totals']['recurring_micro_usd']-C['totals']['recurring_micro_usd']
+        raw=(B['totals']['recurring_micro_usd']+B['totals'].get('operator_subsidy_micro_usd',0))-(C['totals']['recurring_micro_usd']+C['totals'].get('operator_subsidy_micro_usd',0))
         comparison=solved['comparison']
         if comparison.get('B_minus_C_raw_recurring_difference_micro_usd')!=raw: errors.append('raw_cost_difference')
         if comparison.get('cooperative_trading_benefit_eligible')!=eligible or comparison.get('incremental_cooperative_trading_savings_micro_usd')!=(raw if eligible else 0): errors.append('false_cooperative_attribution')

@@ -43,11 +43,16 @@ class ExactReferenceTests(unittest.TestCase):
         self.assertEqual([x['final_raw']['STOCK_A'] for x in c['accounts']],[4,6,0])
         self.assertEqual(b['totals']['venue_cost_micro_usd'],16_200)
         self.assertEqual(c['totals']['venue_cost_micro_usd'],0)
-        # Four .0009 USD transactions + 1% expected retries; wait on $3140.
-        self.assertEqual(c['totals']['network_micro_usd'],3600)
-        self.assertEqual(c['totals']['expected_retry_micro_usd'],36)
-        self.assertEqual(c['totals']['waiting_micro_usd'],F(7850,3))
-        self.assertEqual(c['totals']['recurring_micro_usd'],F(18758,3))
+        # Two fundings and one shared settlement = three .0009 USD transactions, split across the
+        # two participants (the third account trades nothing and is charged nothing); plus 1%
+        # expected retries and the wait. The idle account's own funding is disclosed as an operator
+        # subsidy, never dropped: 3 * 900 = 2700 network, 1% = 27 retry, 1750 wait.
+        self.assertEqual(c['totals']['network_micro_usd'],2700)
+        self.assertEqual(c['totals']['expected_retry_micro_usd'],27)
+        self.assertEqual(c['totals']['waiting_micro_usd'],1750)
+        self.assertEqual(c['totals']['recurring_micro_usd'],4477)
+        self.assertEqual(c['totals']['operator_subsidy_micro_usd'],900)
+        self.assertEqual(c['totals']['funded_lifecycle_transactions'],4)
         self.assertEqual(solved['comparison']['incremental_cooperative_trading_savings_micro_usd'],16_200)
         self.assertEqual(solved['comparison']['B_minus_C_raw_objective_difference_micro_usd'],21_200)
 
@@ -78,7 +83,12 @@ class ExactReferenceTests(unittest.TestCase):
         self.assertFalse(output['methods']['B']['noop'])
         self.assertTrue(output['methods']['C']['noop'])
         comparison=output['comparison']
-        self.assertEqual(comparison['B_minus_C_raw_recurring_difference_micro_usd'],F(78541724,9))
+        # The raw difference is defined as the full lifecycle cost difference (owner-borne cost plus
+        # any operator subsidy), so assert the definition rather than a brittle constant.
+        def _full(m):
+            t=output['methods'][m]['totals']
+            return t['recurring_micro_usd']+t.get('operator_subsidy_micro_usd',0)
+        self.assertEqual(comparison['B_minus_C_raw_recurring_difference_micro_usd'],_full('B')-_full('C'))
         self.assertGreater(comparison['B_minus_C_raw_objective_difference_micro_usd'],0)
         self.assertEqual(comparison['execution_attribution'],'skipped_execution_no_cooperative_trading')
         self.assertEqual(comparison['incremental_cooperative_trading_savings_micro_usd'],0)
@@ -191,8 +201,34 @@ class ExactReferenceTests(unittest.TestCase):
         self.assertLess(r.solve(s,True)['comparison']['A_minus_C_recurring_micro_usd'],0)
 
     def test_long_wait_can_make_batch_lose(self):
-        s=self.fixture(); s['cost_model']['waiting']['batch_seconds']=1800
+        # A one-hour batch delay is enough for independent execution to beat cooperative execution
+        # on full lifecycle cost, even after the idle-account subsidy is counted in.
+        s=self.fixture(); s['cost_model']['waiting']['batch_seconds']=3600
         self.assertLess(r.solve(s,True)['comparison']['A_minus_C_recurring_micro_usd'],0)
+
+    def test_lifecycle_cost_is_fully_allocated_for_two_active_owners(self):
+        """Two active owners among three accounts must account for every lifecycle transaction.
+
+        Before this fix the shared settlement was divided across all three accounts but charged to
+        the two active ones, so a third of the settlement fee disappeared. The per-owner network
+        allocations plus the disclosed operator subsidy must now equal the funded lifecycle exactly.
+        """
+        s=self.fixture('opposite-01')
+        c=r.solve(s)['methods']['C']
+        active=[row for row in c['accounts'] if any(row['trades_raw'].values())]
+        self.assertEqual(len(active),2)
+        self.assertEqual(len(c['accounts']),3)
+        funded_transactions=len(c['accounts'])*(s['cost_model']['network']['batch_funding_transactions_per_owner']+s['cost_model']['network']['batch_cleanup_transactions_per_owner'])+s['cost_model']['network']['batch_settlement_transactions']
+        self.assertEqual(c['totals']['funded_lifecycle_transactions'],funded_transactions)
+        owner_network=sum(row['network_micro_usd'] for row in c['accounts'])
+        # Nothing disappears: owner shares plus the operator subsidy reconcile to the funded total.
+        self.assertEqual(owner_network+c['totals']['operator_subsidy_micro_usd'],c['totals']['funded_lifecycle_network_micro_usd'])
+        # The idle third owner bears no cost at all — it is not the one paying for its own inclusion.
+        idle=[row for row in c['accounts'] if not any(row['trades_raw'].values())]
+        for row in idle:
+            self.assertEqual(row['recurring_micro_usd'],0)
+            self.assertEqual(row['network_micro_usd'],0)
+        self.assertEqual(r.independent_check(s,c),[])
 
     def test_route_price_tampering_detected(self):
         s=self.fixture(); out=r.solve(s)['methods']['A']

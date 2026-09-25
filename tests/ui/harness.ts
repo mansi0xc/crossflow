@@ -54,12 +54,16 @@ export async function signedTransactions(page: Page): Promise<string[]> {
 export async function stubPlan(page: Page, options: { harmed?: boolean } = {}): Promise<void> {
   const harmed = options.harmed ?? false;
   await page.route('**/plans', async route => {
+    // The row shape the real service emits: named holdings plus savings that are positive when the
+    // account is better off. One account is marked worse off so the decline path is exercised.
     const rows = ['a'.repeat(8), 'b'.repeat(8), 'c'.repeat(8)].map((owner, index) => ({
-      owner, independent_objective_micro_usd: index === 0 ? '70109' : index === 1 ? '53709' : '0',
-      proposed_objective_micro_usd: index === 0 ? '21136/3' : index === 1 ? (harmed ? '999999' : '6386/3') : '0',
-      difference_micro_usd: index === 0 ? '-189191/3' : index === 1 ? (harmed ? '946290' : '-154741/3') : '0',
-      allocated_cost_micro_usd: '2054', exposure_change_micro_usd: index === 2 ? '0' : '-2000000',
+      owner,
+      before_raw: { CASH: index === 2 ? '30000000' : '10000000', STOCK_A: index === 0 ? '8' : '0', STOCK_B: '0' },
+      after_raw: { CASH: index === 2 ? '30000000' : '9997938', STOCK_A: index === 0 ? '4' : index === 1 ? '4' : '0', STOCK_B: '0' },
       trades: { STOCK_A: index === 0 ? 4 : index === 1 ? -4 : 0, STOCK_B: 0 },
+      allocated_cost_micro_usd: '2054',
+      target_error_after_micro_usd: index === 2 ? '0' : '2000000',
+      objective_saving_micro_usd: index === 0 ? '189191' : index === 1 ? (harmed ? '-946290' : '154741') : '0',
       worse_than_independent: harmed && index === 1,
     }));
     await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({

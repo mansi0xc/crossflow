@@ -13,34 +13,35 @@ Fail-closed rules:
 """
 from __future__ import annotations
 
-from itertools import product
-
 from . import fixed_netting, independent
-from .shared import Budget, Proposal, _proposal, admission, grid, per_owner_verdict, ranking, reference
+from .shared import Budget, Proposal, _proposal, admission, full_cost, grid_count, grid_iter, lazy_product, per_owner_verdict, ranking, reference
+
+
+def _seed_point(account: dict, seed_outputs: dict, step: int):
+    """The seed output as a grid point, or None when it is not on the bounded stepped grid."""
+    point = {k: seed_outputs[account['id']][k] for k in reference.STOCKS}
+    for k in reference.STOCKS:
+        low = account['final_bounds_raw'][k]['min']
+        if not (low <= point[k] <= account['final_bounds_raw'][k]['max']) or (point[k] - low) % step:
+            return None
+    return point
 
 
 def _joint_candidates(scenario: dict, budget: Budget, seed_outputs: dict | None):
     accounts = sorted(scenario['accounts'], key=lambda a: a['id'])
-    spaces = [grid(account, budget.grid_step) for account in accounts]
+    # Cardinality is computed, never enumerated. An ordinary raw-unit bound space can be enormous,
+    # and a subprocess timeout bounds duration but not memory, so the product below is lazy and the
+    # candidate budget is what stops it.
     total = 1
-    for space in spaces:
-        total *= len(space)
+    for account in accounts:
+        total *= grid_count(account, budget.grid_step)
     seeded = None
     if seed_outputs is not None:
-        seeded = tuple(
-            next((point for point in space
-                  if all(point[k] == seed_outputs[account['id']][k] for k in reference.STOCKS)), None)
-            for account, space in zip(accounts, spaces))
-        if any(point is None for point in seeded):
-            seeded = None
-    ordered = []
-    if seeded is not None:
-        ordered.append(seeded)
-    for combination in product(*spaces):
-        if seeded is not None and combination == seeded:
-            continue
-        ordered.append(combination)
-    return accounts, ordered, total
+        points = [_seed_point(account, seed_outputs, budget.grid_step) for account in accounts]
+        if all(point is not None for point in points):
+            seeded = tuple(points)
+    combinations = lazy_product(*(grid_iter(account, budget.grid_step) for account in accounts))
+    return accounts, combinations, total, seeded
 
 
 def plan(scenario: dict, budget: Budget | None = None) -> Proposal:
@@ -53,11 +54,19 @@ def plan(scenario: dict, budget: Budget | None = None) -> Proposal:
         return _proposal('C', scenario, None, 'no_baseline',
                          ['netting_engine_did_not_produce_orders'] + list(base.reasons),
                          base.candidates_evaluated, base.budget_exhausted)
-    accounts, combinations, total = _joint_candidates(scenario, budget, fixed)
+    accounts, combinations, total, seeded = _joint_candidates(scenario, budget, fixed)
     best = None
     evaluated = 0
     exhausted = False
+    if seeded is not None:
+        # Consider the netting baseline first, so it is always inside the candidate budget.
+        seeded_ledger = reference.evaluate(scenario, {account['id']: point for account, point in zip(accounts, seeded)}, 'batch', False)
+        evaluated += 1
+        if seeded_ledger['feasible']:
+            best = seeded_ledger
     for combination in combinations:
+        if seeded is not None and tuple(combination) == seeded:
+            continue
         if evaluated >= budget.max_candidates:
             exhausted = True
             break
@@ -105,7 +114,9 @@ def compare(scenario: dict, budget: Budget | None = None) -> dict:
     # off than executing independently; otherwise the engine falls back, and says why. An aggregate
     # saving is never sufficient.
     def objective(proposal):
-        return proposal.ledger['totals']['objective_micro_usd'] if proposal.ledger else None
+        # Full lifecycle cost: an operator subsidy is real cost and must not vanish from the
+        # comparison merely because an owner was not charged it.
+        return full_cost(proposal.ledger) + proposal.ledger['totals']['preference_micro_usd'] if proposal.ledger else None
 
     declined: dict[str, str] = {}
     recommendation = 'A'
@@ -130,9 +141,11 @@ def compare(scenario: dict, budget: Budget | None = None) -> dict:
                              + ', '.join(netting_verdict['harmed_owners'])) if netting_verdict['assessable'] else str(netting_verdict['reason'])
         else:
             declined['B'] = 'the netting proposal is not executable: ' + '; '.join(b.reasons)
-    a_cost = a.ledger['totals']['recurring_micro_usd']
-    b_cost = b.ledger['totals']['recurring_micro_usd']
-    c_cost = c.ledger['totals']['recurring_micro_usd']
+    # Lifecycle cost, not owner-charged cost: the comparison must count the operator subsidy too,
+    # or a batch could look cheaper than independent execution by leaving someone else to pay.
+    a_cost = full_cost(a.ledger)
+    b_cost = full_cost(b.ledger)
+    c_cost = full_cost(c.ledger)
     eligible = not b.ledger['noop'] and not c.ledger['noop']
     raw = b_cost - c_cost
     return {

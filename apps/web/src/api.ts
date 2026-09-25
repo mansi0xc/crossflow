@@ -40,6 +40,14 @@ export interface PlanResponse {
     cooperative_gain_micro_usd?: number | { numerator: number; denominator: number } | null;
     cooperative_raw_difference_micro_usd?: number | { numerator: number; denominator: number } | null;
     cooperative_trading_benefit_eligible?: boolean; attribution?: string;
+    /** The one selected decision, carried through approval and execution. */
+    recommendation?: { method: string; reason: string; declined: Record<string, string> };
+    per_owner?: {
+      assessable?: boolean; definition?: string;
+      per_owner: Record<string, unknown>[];
+      harmed_owners: string[];
+      no_worse_than_independent: boolean | null;
+    };
   };
 }
 

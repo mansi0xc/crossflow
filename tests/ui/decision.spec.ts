@@ -24,9 +24,15 @@ test.describe('the interface states the decision', () => {
     }
 
     const table = page.getByTestId('per-owner-table');
-    await expect(table).toContainText('alternative');
-    await expect(table).toContainText('proposed');
+    // Named before/after holdings, an execution cost, a target deviation and a net saving, all
+    // separate — not a single weighted objective described as "what the account gets".
+    await expect(table).toContainText('holds before');
+    await expect(table).toContainText('holds after');
+    await expect(table).toContainText('net saving');
+    await expect(table).toContainText('cash');
     await expect(table).toContainText('$');
+    // Positive savings are shown, at a precision that does not collapse small costs to $0.00.
+    await expect(table).toContainText('$0.189191');
     // Each account says what it does, in words.
     await expect(table).toContainText('sells 4');
     await expect(table).toContainText('no trade');
@@ -55,5 +61,23 @@ test.describe('the interface states the decision', () => {
     // And approval is blocked rather than merely discouraged.
     await expect(page.getByTestId('go-approve')).toBeDisabled();
     await expect(page.getByTestId('compare')).toContainText('Approval is blocked because this batch would harm an account');
+  });
+
+  test('a harmful batch cannot be reached by skipping the compare screen', async ({ page }) => {
+    await stubPlan(page, { harmed: true });
+    await page.goto('/');
+    await page.getByTestId('scenario-opposite-01').click();
+    // The reported bypass was the top navigation's approve button staying enabled while the
+    // compare screen refused. It must enforce the same selected decision.
+    await expect(page.getByTestId('nav-approve')).toBeDisabled();
+    await expect(page.getByTestId('go-approve')).toBeDisabled();
+  });
+
+  test('an eligible plan keeps every gate into approval open', async ({ page }) => {
+    await stubPlan(page, { harmed: false });
+    await page.goto('/');
+    await page.getByTestId('scenario-opposite-01').click();
+    await expect(page.getByTestId('nav-approve')).toBeEnabled();
+    await expect(page.getByTestId('go-approve')).toBeEnabled();
   });
 });

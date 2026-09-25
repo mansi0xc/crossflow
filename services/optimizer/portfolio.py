@@ -69,6 +69,16 @@ def scenario_from_portfolio(portfolio: object, template: dict) -> tuple[dict, li
         # prices *per raw unit*, so any 0..9 is coherent as long as the prices match.
         _integer(asset.get('decimals', 0), f'assets[{asset["id"]}].decimals', 0, 9)
 
+    # The supported cash denomination is exactly one micro-USD per raw cash unit. The model treats
+    # raw cash and micro-USD as the same unit when it debits a purchase, so a different cash price
+    # would debit the wrong amount (for example four $10 shares costing $80). Rather than accept a
+    # portfolio it cannot price, the caller is told which denomination is supported.
+    if prices['CASH'] != 1:
+        raise PortfolioError(
+            'the supported cash denomination is exactly one micro-USD per raw cash unit; '
+            f"got {prices['CASH']}. Cash is the unit of account, so scale the cash amounts instead "
+            'of changing the cash price perception.')
+
     accounts = portfolio.get('accounts')
     if not isinstance(accounts, list) or not 2 <= len(accounts) <= MAX_ACCOUNTS:
         raise PortfolioError(f'portfolio.accounts must hold between two and {MAX_ACCOUNTS} accounts')
@@ -130,8 +140,8 @@ def scenario_from_portfolio(portfolio: object, template: dict) -> tuple[dict, li
     # Cash must be able to pay for every intended purchase; otherwise the portfolio is incoherent
     # and the engines would only discover it as an infeasible plan.
     for position, account in enumerate(built):
-        # Cash is a raw amount and the stock price is in micro-USD per raw unit, so both sides of
-        # this comparison are already in the same units.
+        # With the cash denomination fixed at one micro-USD per raw unit above, raw cash and
+        # micro-USD are the same unit, so both sides of this comparison agree.
         spend = sum((account['target_raw'][stock] - account['initial_raw'][stock]) * prices[stock]
                     for stock in STOCKS)
         if spend > 0 and spend > account['initial_raw']['CASH']:

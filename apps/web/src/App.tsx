@@ -4,6 +4,7 @@ import { api, type Deployment, type PlanResponse } from './api.js';
 import { deriveDeploymentFromChain } from '../../../packages/client/src/deployment.js';
 import { listOwnerIntents, type OnChainIntent } from '../../../packages/client/src/intents.js';
 import { connect, detectProvider, providerLabel, type InjectedProvider } from './wallet.js';
+import { planDecision } from './decision.js';
 import { Prepare } from './routes/prepare.js';
 import { Compare } from './routes/compare.js';
 import { Approve } from './routes/approve.js';
@@ -97,6 +98,8 @@ export default function App() {
   }, [provider]);
 
   const owned = intents;
+  // The one selected decision gates every route into approval, including direct navigation.
+  const decision = planDecision(plan);
 
   return (
     <div className="app">
@@ -123,7 +126,9 @@ export default function App() {
               onClick={() => setStep(candidate)}
               disabled={
                 (candidate === 'compare' && !plan) ||
-                (candidate === 'approve' && !plan) ||
+                // Approval requires an *eligible* selected decision, not merely a plan: a harmful
+                // or non-executable batch cannot be reached by skipping the compare screen.
+                (candidate === 'approve' && !decision.eligible) ||
                 (candidate === 'intent' && !wallet)
               }
             >

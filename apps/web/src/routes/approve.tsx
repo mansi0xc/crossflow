@@ -5,6 +5,7 @@ import { mandateBytes, sha256Hex } from '../../../../packages/contracts/src/inde
 import { api, type Deployment, type PlanResponse } from '../api.js';
 import { readOwnerNextNonce } from '../../../../packages/client/src/intents.js';
 import { connect, signAndSend, type InjectedProvider } from '../wallet.js';
+import { planDecision } from '../decision.js';
 
 /**
  * Step 3 — approve the exact mandate.
@@ -85,6 +86,10 @@ export function Approve({ deployment, plan, connection, provider, wallet, onConn
     };
   }, [wallet, program, config, prices, mints, deployment, funding, bounds, referencePrices, nonce]);
 
+  // The funding handler re-checks the same selected decision as every other gate: reaching this
+  // screen by a path that skipped the compare screen cannot fund a harmful or non-executable batch.
+  const decision = useMemo(() => planDecision(plan), [plan]);
+
   const [mandateHash, setMandateHash] = useState<string | null>(null);
   useEffect(() => {
     // Every field must be resolved before the canonical bytes can be built; building them early
@@ -110,6 +115,9 @@ export function Approve({ deployment, plan, connection, provider, wallet, onConn
 
   const fund = async () => {
     setError(null);
+    // Enforcement at the execution boundary: the wallet is never asked to sign when the selected
+    // decision is ineligible, regardless of how this screen was reached.
+    if (!decision.eligible) { setError(`funding refused: ${decision.reason ?? 'the selected decision is not eligible'}`); return; }
     if (!wallet || !mandate || !commitment) { await onConnect(); return; }
     if (activeIntent) { setError(`this wallet already has an active intent (${activeIntent.slice(0, 12)}…). Cancel it before funding another.`); return; }
     if (!affirmed) { setError('Confirm that the raw units shown are the ones you intend to sign.'); return; }
@@ -137,9 +145,19 @@ export function Approve({ deployment, plan, connection, provider, wallet, onConn
     } finally { setBusy(false); }
   };
 
+  const METHOD_LABEL: Record<string, string> = {
+    A: 'each strategy on its own',
+    B: 'cross the parts that cancel and trade the rest',
+    C: 'cross, and adjust the targets together',
+  };
+
   return (
     <section data-testid="approve">
       <h2>3 · Approve the exact mandate</h2>
+      <p className="note" data-testid="selected-method">
+        Selected method: {decision.method ? `${decision.method} — ${METHOD_LABEL[decision.method]}` : 'none'}.
+        {!decision.eligible ? ` Funding is blocked because ${decision.reason ?? 'the selected decision is not eligible'}.` : ''}
+      </p>
       <p className="note" data-testid="nonce-line">
         Funding this will consume nonce {nonce === null ? '…' : nonce.toString()} — the next one for this
         wallet, read from the chain. Expiry {expiry.toString()} (unix seconds, within the policy maximum of {deployment.maxIntentLifetimeSeconds}).
@@ -173,7 +191,7 @@ export function Approve({ deployment, plan, connection, provider, wallet, onConn
       </label>
 
       <div className="actions">
-        <button onClick={fund} disabled={busy} data-testid="fund-button">
+        <button onClick={fund} disabled={busy || !decision.eligible} data-testid="fund-button">
           {wallet ? 'Sign and fund' : 'Connect wallet'}
         </button>
       </div>

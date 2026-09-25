@@ -37,6 +37,22 @@ if (manifest.source.tree !== tree) errors.push(`manifest tree ${manifest.source.
 const dirty = execFileSync('git', ['status', '--porcelain'], { encoding: 'utf8' });
 const tracked = dirty.split('\n').filter(line => line.trim().length > 0).filter(line => !line.startsWith('??')).map(line => line.slice(3).trim());
 const ignored = new Set(manifest.source.uncommittedAllowlist ?? []);
+
+// The allowlist exists for the release paperwork a freeze rewrites in place — never for the code
+// under test. A source, dependency or evidence file in the allowlist would let the very change
+// being released go unverified, so each entry is checked rather than trusted. (An earlier manifest
+// allowlisted services/api/src/server.ts and the lockfile, which made the PASS a formality.)
+const PROTECTED = [
+  /^services\//, /^packages\//, /^apps\//, /^programs\//, /^scripts\//, /^tests\//, /^research\//,
+  /^verification\//, /^artifacts\//, /^target\//,
+  /^package\.json$/, /^pnpm-lock\.yaml$/, /^Anchor\.toml$/, /^Cargo\.(toml|lock)$/, /^tsconfig\.json$/,
+];
+for (const path of ignored) {
+  if (PROTECTED.some(pattern => pattern.test(path))) {
+    errors.push(`allowlist entry ${path} is code or evidence and must be committed, not allowlisted`);
+  }
+}
+
 const unexpected = tracked.filter(path => !ignored.has(path));
 if (unexpected.length) errors.push(`uncommitted tracked changes: ${unexpected.join(', ')}`);
 
@@ -59,6 +75,14 @@ for (const limit of manifest.disclosures ?? []) {
 
 if (errors.length) {
   console.error(errors.join('\n'));
+  // A submission must not ship a manifest that describes a different tree, so this still fails —
+  // but say what to do about it rather than leaving a reader to guess.
+  if (errors.some(entry => entry.startsWith('manifest commit') || entry.startsWith('manifest tree') || entry.startsWith('artifact '))) {
+    console.error('\nThe release manifest is frozen to a specific commit. If this is a legitimate new ' +
+      'candidate, re-freeze it as the last step before submission:\n' +
+      '  node scripts/verify-release.mjs --freeze\n' +
+      'and commit the updated docs/release-manifest.json.');
+  }
   process.exit(1);
 }
 console.log(JSON.stringify({ status: 'PASS', commit: head, artifacts: Object.keys(manifest.artifacts).length,

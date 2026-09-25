@@ -3,33 +3,22 @@
   "release": "devnet-scope candidate",
   "frozenAt": "2026-09-25",
   "source": {
-    "commit": "f5e05592f82a9cf48b9229265273417ae76fbe78",
-    "tree": "9be92172015f963384c6112d95dd19b9f1e901f7",
+    "commit": "1b5c3ae0ae76033bf7b6d490149a12746a7ce517",
+    "tree": "bbc69da7cb73d66f51f1793a0e350b374c2ea121",
     "branch": "codex/t00-preflight",
     "uncommittedAllowlist": [
       ".commandcode/settings.json",
-      ".planning/GATES.md",
-      "docs/submission-checklist.md",
       "docs/release-manifest.json",
       "docs/release-checklist.md",
       "docs/evidence/rehearsal.md",
       "docs/local-demo-runbook.md",
-      "scripts/verify-release.mjs",
-      "package.json",
-      "pnpm-lock.yaml",
-      "README.md",
-      "scripts/demo-t32-service.ts",
-      "services/api/src/server.ts",
-      "services/api/src/batch-coordinator.ts",
-      "docs/spec/service-api.md",
-      ".planning/STATE.md",
+      "docs/submission-checklist.md",
       "docs/claims-ledger.csv",
-      ".planning/TASKS.md",
-      "docs/evidence/capacity-report.md",
-      "docs/evidence/usability.md",
-      "docs/evidence/soak-report.json"
+      ".planning/GATES.md",
+      ".planning/STATE.md",
+      ".planning/TASKS.md"
     ],
-    "uncommittedAllowlistNote": "Files that may be edited without invalidating the artifact hashes. Empty on a truly frozen release."
+    "uncommittedAllowlistNote": "Release paperwork a freeze rewrites in place. Source, service, dependency, test, research and evidence files are never allowlisted: verify-release.mjs refuses any allowlist entry under those paths, so an uncommitted change there fails the gate instead of passing silently."
   },
   "toolchain": {
     "node": "24.10.0",
@@ -46,7 +35,9 @@
     "verification/evidence/T16-local-route-output.json": "19003f78bd271205bc82a64b083ad70c5d425b971b7e0d53dbe6664172ffdad2",
     "verification/evidence/T24-devnet-manifest.json": "bc862586eec51b210061033763dcfcb5c2d595cbe805c1ac1d910880e732aa04",
     "verification/evidence/T24-devnet-output.json": "e35f71310741b44ed99d30dd355af443d9cc2f112186d6dba8374b6570357914",
-    "docs/evidence/economic-results.json": "6c9005b870c28c6c57a4423224dbcf7e14a5f73e891c1849c7b35c2011b0fdbc",
+    "verification/evidence/T33-local-manifest.json": "af8a813418e7dcef31cb6fe750d9a1ff5692165522ad8dc8b2325f487ac18bf2",
+    "verification/evidence/T33-optimizer-execution-output.json": "794592385d04640b6b8b7e3a5b45ab17d27c645a184b427ecacf94885fb5e212",
+    "docs/evidence/economic-results.json": "0335b3e7c6dca9d95149e0e8045a730f740e68105d11b446c4c7fa4fd6bf147c",
     "docs/evidence/soak-report.json": "849689ae0bf64c44c20f1fc61fd36b11ebf057f57e517a00c2dc8fe4254d57f2",
     "docs/evidence/capacity-report.md": "930bd2de2603d4fa53cccbdb91626b49eb7fd35fc150a631079b7f2163b5a9a0",
     "docs/evidence/usability.md": "1cb07467957e7762707095188a87402721550120f4e20c075c617b07f06a402b"
@@ -84,7 +75,7 @@
     "notes": [
       "Three owners require an address lookup table; the same instruction does not fit the legacy 1232-byte packet.",
       "The composed route has only been measured on an isolated local validator, never on devnet.",
-      "The demonstrable residual size is bounded by the committed \u00b1200 bps per-owner execution band, not by transaction size."
+      "The demonstrable residual size is bounded by the committed ±200 bps per-owner execution band, not by transaction size."
     ],
     "lifecycleSoak": {
       "cycles": 12,
@@ -231,6 +222,15 @@
       "status": "PASS",
       "evidence": [
         "verification/evidence/T24-devnet-output.json"
+      ]
+    },
+    {
+      "name": "T33-optimizer-execution",
+      "command": "bash scripts/local-runs/run-optimizer.sh",
+      "status": "PASS",
+      "evidence": [
+        "verification/evidence/T33-local-manifest.json",
+        "verification/evidence/T33-optimizer-execution-output.json"
       ]
     },
     {

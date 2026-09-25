@@ -35,6 +35,9 @@ ASSETS = reference.ASSETS
 STOCKS = reference.STOCKS
 apportion = reference.apportion
 grid = reference.grid
+grid_count = reference.grid_count
+grid_iter = reference.grid_iter
+lazy_product = reference.lazy_product
 prices = reference.prices
 ranking = reference.ranking
 sha = reference.sha
@@ -118,21 +121,32 @@ def per_owner_verdict(independent, proposed) -> dict:
                     'per_owner': [], 'harmed_owners': [], 'no_worse_than_independent': None}
         proposed_objective = row['objective_micro_usd']
         independent_objective = other['objective_micro_usd']
-        difference = proposed_objective - independent_objective
-        worse = difference > 0
+        # One convention, positive means an improvement everywhere: each saving below is the
+        # independent outcome minus this plan's. An earlier version emitted (proposed - independent),
+        # so a beneficial result was negative while the interface called positive "better".
+        objective_saving = independent_objective - proposed_objective
+        worse = objective_saving < 0
         if worse:
             harmed.append(row['id'])
         rows.append({
             'owner': row['id'],
+            # Named holdings, not an objective: what the account actually holds before and after.
+            'before_raw': dict(row['initial_raw']),
+            'after_raw': dict(row['final_raw']),
+            'trades': dict(row['trades_raw']),
             'independent_objective_micro_usd': encode(independent_objective),
             'proposed_objective_micro_usd': encode(proposed_objective),
-            'difference_micro_usd': encode(difference),
+            'objective_saving_micro_usd': encode(objective_saving),
+            # Estimated execution cost the owner bears, and the saving against independent.
             'allocated_cost_micro_usd': encode(row['recurring_micro_usd']),
             'independent_cost_micro_usd': encode(other['recurring_micro_usd']),
-            'exposure_change_micro_usd': encode(row['after_error_micro_usd'] - other['after_error_micro_usd']),
-            'before_error_micro_usd': encode(row['before_error_micro_usd']),
-            'after_error_micro_usd': encode(row['after_error_micro_usd']),
-            'trades': dict(row['trades_raw']),
+            'cost_saving_micro_usd': encode(other['recurring_micro_usd'] - row['recurring_micro_usd']),
+            # Target deviation (tracking error) before and after, and its saving.
+            'target_error_before_micro_usd': encode(row['before_error_micro_usd']),
+            'target_error_after_micro_usd': encode(row['after_error_micro_usd']),
+            'independent_target_error_micro_usd': encode(other['after_error_micro_usd']),
+            'target_error_saving_micro_usd': encode(other['after_error_micro_usd'] - row['after_error_micro_usd']),
+            'turnover_micro_usd': encode(row['turnover_micro_usd']),
             'worse_than_independent': worse,
         })
     return {
@@ -142,6 +156,16 @@ def per_owner_verdict(independent, proposed) -> dict:
         'harmed_owners': harmed,
         'no_worse_than_independent': len(harmed) == 0,
     }
+
+
+def full_cost(ledger: dict | None):
+    """The lifecycle cost of a plan: what its owners bear plus the disclosed operator subsidy for
+    any funded account that never trades. Comparing on owner cost alone would let the subsidy
+    disappear from an aggregate claim the way the idle-owner allocation once did."""
+    if not ledger:
+        return reference.F(0)
+    totals = ledger.get('totals', {})
+    return totals.get('recurring_micro_usd', reference.F(0)) + totals.get('operator_subsidy_micro_usd', reference.F(0))
 
 
 def residuals(scenario: dict, ledger: dict) -> dict:

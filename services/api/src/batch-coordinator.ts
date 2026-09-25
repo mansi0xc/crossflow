@@ -1,5 +1,6 @@
 import { ComputeBudgetProgram, Connection, PublicKey, Transaction, TransactionMessage, VersionedTransaction } from '@solana/web3.js';
 import { buildSettleBatchInstruction, buildSettleRoutedInstruction, deriveBatchAccounts, deriveBatchAuthority, deriveRoutedBatchAccounts } from '../../../packages/client/src/build-batch.js';
+import { compileProposal } from '../../../packages/planner/src/proposal.js';
 import { encodeSettlementBody, validateCandidatePlan } from '../../../packages/planner/src/validate.js';
 import { decodeIntent, listFundedIntents, readOwnerState, withTimeout, type OnChainIntent } from './intent-index.js';
 
@@ -77,6 +78,13 @@ export interface PrepareRequest {
   operator: string;
   lookupTable?: string;
   technicalProbe?: boolean;
+  /**
+   * A proposal to compile into the settlement instead of a caller-built body. `accounts` are the
+   * per-owner internal/external splits (in any order; owners come from the funded intents on chain).
+   * Supplying this is how the optimizer's own output, rather than a hand-built plan, reaches the
+   * settlement boundary.
+   */
+  proposal?: { accounts: unknown[]; prices: Record<string, string> };
 }
 
 export interface PrepareResult {
@@ -104,12 +112,45 @@ export async function prepareBatch(options: CoordinatorOptions, request: Prepare
   if (funded.length < 2 || funded.length > options.maxOwners) {
     return { status: 'REJECTED', reason: `expected 2–${options.maxOwners} funded intents, found ${funded.length}` };
   }
+  if (request.proposal && (!Array.isArray(request.proposal.accounts) || request.proposal.accounts.length !== funded.length)) {
+    // A proposal must describe the funded set exactly; a mismatch is refused before any chain read.
+    return { status: 'REJECTED', reason: `a proposal must cover exactly the ${funded.length} funded intents` };
+  }
 
   // Every identity in the canonical mandate is 32-byte hex; the service also carries base58 forms
   // for RPC use, and the two are not interchangeable.
   const canonical = options.manifest.policy as { genesis: string; program_id: string; config_address: string };
   const snapshot = await readSnapshot(options, observedAt);
   const config = new PublicKey(options.manifest.config_address);
+
+  // A proposal is compiled here, by the same compiler the demonstration uses, rather than trusting a
+  // caller-built settlement body. The funded intents are already in ascending owner-byte order,
+  // which is the order the compiler sorts into and the order the body's indices refer to.
+  let planInput: unknown = request.plan;
+  let compiledNote: string | null = null;
+  if (request.proposal) {
+    const proposal = request.proposal;
+    let compiled;
+    try {
+      compiled = compileProposal({
+        accounts: funded.map((intent, index) => ({
+          ...(proposal.accounts[index] as Record<string, unknown>),
+          owner: Buffer.from(new PublicKey(intent.owner).toBytes()).toString('hex'),
+        })) as never,
+        prices: proposal.prices,
+      });
+    } catch (error) {
+      return { status: 'REJECTED', reason: `the proposal could not be compiled: ${String(error instanceof Error ? error.message : error)}` };
+    }
+    if (compiled.unrepresented.length > 0) {
+      return { status: 'REJECTED', reason: `the proposal is not fully representable: ${JSON.stringify(compiled.unrepresented)}` };
+    }
+    planInput = { schema_version: '1', expected_snapshot_sequence: snapshot.sequence,
+      mandate_hashes: funded.map(intent => intent.mandateHash),
+      crosses: compiled.crosses, residuals: compiled.residuals, estimated_outputs: compiled.expected_outputs };
+    compiledNote = `compiled from a proposal: ${compiled.crosses.length} cross(es), ${compiled.residuals.length} residual leg(s)`;
+  }
+
   const contextIntents = [];
   for (const intent of funded) {
     const owner = new PublicKey(intent.owner);
@@ -156,7 +197,7 @@ export async function prepareBatch(options: CoordinatorOptions, request: Prepare
 
   let validated;
   try {
-    validated = await validateCandidatePlan(structuredClone(request.plan), context);
+    validated = await validateCandidatePlan(structuredClone(planInput), context);
   } catch (error) {
     return { status: 'REJECTED', reason: `plan rejected: ${String(error instanceof Error ? error.message : error)}` };
   }
@@ -218,6 +259,7 @@ export async function prepareBatch(options: CoordinatorOptions, request: Prepare
       requiresLookupTable: serialized.length > 1232,
       lookupTableProvided: Boolean(request.lookupTable),
       legacyBytesBeforeCompilation: serialized.length,
+      compiledNote,
       decoded: null,
       observedAt,
     },

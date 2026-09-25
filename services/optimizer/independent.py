@@ -6,7 +6,7 @@ the frozen grid before B or C are computed.
 """
 from __future__ import annotations
 
-from .shared import Budget, Proposal, _proposal, admission, grid, ranking, reference, single_account
+from .shared import Budget, Proposal, _proposal, admission, grid_iter, ranking, reference, single_account
 
 
 def plan(scenario: dict, budget: Budget | None = None) -> Proposal:
@@ -19,7 +19,9 @@ def plan(scenario: dict, budget: Budget | None = None) -> Proposal:
     for account in sorted(scenario['accounts'], key=lambda a: a['id']):
         one = single_account(scenario, account)
         best = None
-        for final in grid(account, budget.grid_step):
+        # The grid is enumerated lazily and stopped at the candidate budget, so a large signed bound
+        # space costs a bounded amount of memory rather than being materialised in full.
+        for final in grid_iter(account, budget.grid_step):
             candidates += 1
             if candidates > budget.max_candidates:
                 return _proposal('A', scenario, None, 'budget_exhausted', ['candidate_budget_exhausted'], candidates, True)

@@ -1,4 +1,5 @@
 import { micro, type PlanResponse } from '../api.js';
+import { planDecision } from '../decision.js';
 
 const METHOD_LABEL: Record<string, string> = {
   A: 'Run each strategy on its own',
@@ -29,6 +30,42 @@ function dollars(value: unknown): string {
   return `${negative ? '-' : ''}$${dollarsPart}.${cents}`;
 }
 
+/** Micro-USD to an exact integer string, from a decimal string, integer or rational pair. */
+function microString(value: unknown): string | null {
+  if (value === null || value === undefined) return null;
+  if (typeof value === 'string') return value;
+  if (typeof value === 'number') return String(Math.trunc(value));
+  const pair = value as { numerator?: unknown; denominator?: unknown };
+  if (typeof pair.numerator !== 'number' || typeof pair.denominator !== 'number' || pair.denominator === 0) return null;
+  return String(Math.trunc(pair.numerator / pair.denominator));
+}
+
+/**
+ * Money with adaptive precision. Modelled per-owner costs are often far below one cent, so a fixed
+ * two-decimal format would render every one of them as "$0.00". Up to six decimals are shown,
+ * trailing zeros trimmed.
+ */
+function money(value: unknown): string {
+  const raw = microString(value);
+  if (raw === null) return '—';
+  const negative = raw.startsWith('-');
+  const digits = negative ? raw.slice(1) : raw;
+  const whole = (digits.length > 6 ? digits.slice(0, digits.length - 6) : '0').replace(/^0+(?=\d)/, '');
+  const fraction = (digits.length > 6 ? digits.slice(digits.length - 6) : digits.padStart(6, '0')).replace(/0+$/, '');
+  const grouped = whole.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  return `${negative ? '-' : ''}$${grouped}${fraction ? `.${fraction}` : '.00'}`;
+}
+
+const HOLDING_LABEL: Record<string, string> = { CASH: 'cash', STOCK_A: 'stock 1', STOCK_B: 'stock 2' };
+
+/** Named raw holdings, not an objective: what the account actually holds. */
+function holdings(raw: Record<string, number | string> | undefined): string {
+  if (!raw) return '—';
+  return (['CASH', 'STOCK_A', 'STOCK_B'] as const)
+    .map(asset => `${Number(raw[asset] ?? 0).toLocaleString('en-US')} ${HOLDING_LABEL[asset]}`)
+    .join(', ');
+}
+
 /**
  * The decision, then the evidence for it.
  *
@@ -37,6 +74,7 @@ function dollars(value: unknown): string {
  */
 export function Compare({ plan, onApprove }: { plan: PlanResponse; onApprove: () => void }) {
   const comparison = plan.comparison;
+  const decision = planDecision(plan);
   const recommendation = (comparison as { recommendation?: { method: string; reason: string; declined: Record<string, string> } }).recommendation;
   const perOwner = (comparison as { per_owner?: { per_owner: PerOwnerRow[]; harmed_owners: string[]; no_worse_than_independent: boolean | null; definition?: string } }).per_owner;
 
@@ -66,22 +104,26 @@ export function Compare({ plan, onApprove }: { plan: PlanResponse; onApprove: ()
       <h3>What each account gets</h3>
       <table data-testid="per-owner-table">
         <caption>
-          Alternative = doing nothing differently and trading independently. Difference is the
-          proposed outcome minus that alternative; positive means better off.
+          Holdings are the account's own raw units, before and after. Execution cost, target
+          deviation and net saving are modelled micro-USD; net saving is the independent outcome
+          minus this plan's, so positive means better off. A positive execution cost is money spent.
         </caption>
         <thead>
-          <tr><th>account</th><th>alternative</th><th>proposed</th><th>difference</th><th>cost charged</th><th>target improvement</th></tr>
+          <tr>
+            <th>account</th><th>holds before</th><th>holds after</th>
+            <th>execution cost</th><th>target deviation after</th><th>net saving vs independent</th>
+          </tr>
         </thead>
         <tbody>
           {(perOwner?.per_owner ?? []).map(row => (
             <tr key={row.owner} data-testid={`owner-${row.owner.slice(0, 8)}`}
                 className={row.worse_than_independent ? 'worse' : undefined}>
               <td>{row.owner.slice(0, 8)}…<span className="note"> {describeTrades(row.trades)}</span></td>
-              <td>{dollars(row.independent_objective_micro_usd)}</td>
-              <td>{dollars(row.proposed_objective_micro_usd)}</td>
-              <td>{dollars(row.difference_micro_usd)}</td>
-              <td>{dollars(row.allocated_cost_micro_usd)}</td>
-              <td>{dollars(row.exposure_change_micro_usd)}</td>
+              <td>{holdings(row.before_raw)}</td>
+              <td>{holdings(row.after_raw)}</td>
+              <td>{money(row.allocated_cost_micro_usd)}</td>
+              <td>{money(row.target_error_after_micro_usd)}</td>
+              <td>{money(row.objective_saving_micro_usd)}</td>
             </tr>
           ))}
         </tbody>
@@ -122,12 +164,14 @@ export function Compare({ plan, onApprove }: { plan: PlanResponse; onApprove: ()
         </details>
       </details>
 
-      <button data-testid="go-approve" onClick={onApprove}
-        disabled={!plan.proposals.A.feasible || !(perOwner?.no_worse_than_independent ?? true)}>
+      <button data-testid="go-approve" onClick={onApprove} disabled={!decision.eligible}>
         Continue to approval
       </button>
       {perOwner?.no_worse_than_independent === false ? (
         <p className="note">Approval is blocked because this batch would harm an account.</p>
+      ) : null}
+      {!decision.eligible && decision.reason ? (
+        <p className="note" data-testid="blocked-reason">Approval is blocked: {decision.reason}.</p>
       ) : null}
     </section>
   );
@@ -135,12 +179,16 @@ export function Compare({ plan, onApprove }: { plan: PlanResponse; onApprove: ()
 
 interface PerOwnerRow {
   owner: string;
-  independent_objective_micro_usd: unknown;
-  proposed_objective_micro_usd: unknown;
-  difference_micro_usd: unknown;
-  allocated_cost_micro_usd: unknown;
-  exposure_change_micro_usd: unknown;
+  /** Named raw holdings before and after this plan. */
+  before_raw?: Record<string, number | string>;
+  after_raw?: Record<string, number | string>;
   trades: Record<string, number | string>;
+  /** Estimated execution cost the owner bears. */
+  allocated_cost_micro_usd: unknown;
+  /** Preference-weighted target deviation after execution. */
+  target_error_after_micro_usd?: unknown;
+  /** Independent objective minus this plan's: positive means better off. */
+  objective_saving_micro_usd: unknown;
   worse_than_independent: boolean;
 }
 

@@ -108,6 +108,21 @@ describe('T32 orchestration guards', () => {
     expect(four.reason).toMatch(/expected 2–3 funded intents, found 4/);
   });
 
+  test('a proposal is compiled by the service and must cover the funded set exactly', async () => {
+    const wallet = Keypair.generate().publicKey;
+    const two = fakeConnection({
+      getProgramAccounts: async () => [0, 1].map(index => ({ pubkey: PublicKey.findProgramAddressSync([Buffer.from(`intent-${index}`)], PROGRAM)[0],
+        account: { data: syntheticIntent({ owner: PublicKey.findProgramAddressSync([Buffer.from(`owner-${index}`)], PROGRAM)[0], nonce: BigInt(index) }) } })),
+    });
+    // One account cannot describe two funded intents; the refusal happens before any chain read, so
+    // the service never compiles a proposal against the wrong owner set.
+    const short = await prepareBatch({ ...OPTIONS, connection: two },
+      { plan: {}, operator: wallet.toBase58(), proposal: { accounts: [{}], prices: {} } });
+    expect(short.status).toBe('REJECTED');
+    expect(short.reason).toMatch(/must cover exactly the 2 funded intents/);
+    expect(short.transaction).toBeUndefined();
+  });
+
   test('settled and cancelled intents are excluded from the fundable set', async () => {
     const wallet = Keypair.generate().publicKey;
     const mixed = prepareBatch({ ...OPTIONS, connection: fakeConnection({

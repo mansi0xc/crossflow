@@ -8,7 +8,7 @@ import { canonicalAta } from '../packages/adapters/src/types.js';
 import { decodeIntent, listIntents } from '../packages/client/src/intents.js';
 import { buildCreateAndFundInstruction, deriveFundAccounts, fundingTransaction } from '../packages/client/src/fund.js';
 import { batchTransaction, buildSettleBatchInstruction, buildSettleRoutedInstruction, deriveBatchAccounts, deriveRoutedBatchAccounts } from '../packages/client/src/build-batch.js';
-import { compileProposal } from '../packages/planner/src/proposal.js';
+import { compileProposal, reconstructSettlement } from '../packages/planner/src/proposal.js';
 import { encodeSettlementBody } from '../packages/planner/src/validate.js';
 
 /**
@@ -157,19 +157,96 @@ async function fundSlices(): Promise<string[]> {
   return signatures;
 }
 
+/**
+ * Cancel, withdraw every asset and close every intent this run created, so the same wallets can fund
+ * again with the next nonce. Recovery is exercised on every cycle boundary rather than assumed.
+ */
+async function recoverAll(): Promise<void> {
+  for (const owner of owners) {
+    for (let nonce = 0n; nonce < 8n; nonce++) {
+      const accounts = deriveFundAccounts(PROGRAM, config, prices, owner.publicKey, nonce, mints);
+      const info = await connection.getAccountInfo(accounts.intent, 'confirmed');
+      if (!info) continue;
+      if ((info.data as Buffer)[520] === 0) {
+        await send(new Transaction().add(new TransactionInstruction({ programId: PROGRAM, keys: [
+          { pubkey: owner.publicKey, isSigner: true, isWritable: false },
+          { pubkey: config, isSigner: false, isWritable: true },
+          { pubkey: accounts.owner_state, isSigner: false, isWritable: true },
+          { pubkey: accounts.intent, isSigner: false, isWritable: true },
+        ], data: disc('cancel_intent') })), [owner]);
+      }
+      for (let asset = 0; asset < 3; asset++) {
+        if (await balance(accounts.vaults[asset]) === 0n) continue;
+        await send(new Transaction().add(new TransactionInstruction({ programId: PROGRAM, keys: [
+          { pubkey: owner.publicKey, isSigner: true, isWritable: true },
+          { pubkey: config, isSigner: false, isWritable: false },
+          { pubkey: accounts.owner_state, isSigner: false, isWritable: true },
+          { pubkey: accounts.intent, isSigner: false, isWritable: true },
+          ...accounts.mints.map(pubkey => ({ pubkey, isSigner: false, isWritable: false })),
+          ...accounts.vaults.map(pubkey => ({ pubkey, isSigner: false, isWritable: true })),
+          ...accounts.sources.map(pubkey => ({ pubkey, isSigner: false, isWritable: true })),
+          { pubkey: TOKEN_PROGRAM, isSigner: false, isWritable: false },
+          { pubkey: ATA_PROGRAM, isSigner: false, isWritable: false },
+          { pubkey: SystemProgram.programId, isSigner: false, isWritable: false },
+        ], data: Buffer.concat([disc('withdraw_asset'), Buffer.from([asset])]) })), [owner]);
+      }
+      await send(new Transaction().add(new TransactionInstruction({ programId: PROGRAM, keys: [
+        { pubkey: owner.publicKey, isSigner: true, isWritable: true },
+        { pubkey: config, isSigner: false, isWritable: true },
+        { pubkey: accounts.owner_state, isSigner: false, isWritable: true },
+        { pubkey: accounts.intent, isSigner: false, isWritable: true },
+        ...accounts.mints.map(pubkey => ({ pubkey, isSigner: false, isWritable: false })),
+        ...accounts.vaults.map(pubkey => ({ pubkey, isSigner: false, isWritable: true })),
+        { pubkey: TOKEN_PROGRAM, isSigner: false, isWritable: false },
+      ], data: disc('close_intent') })), [owner]);
+    }
+  }
+}
+
+interface SliceSpec { cash: { funding: bigint; min: bigint; max: bigint }; stock1: { funding: bigint; min: bigint; max: bigint } }
+
+/** Fund every owner with its own slice, each signing its own funding transaction. */
+async function fundSpecs(specs: SliceSpec[], tag: string): Promise<string[]> {
+  await publishPrices();
+  const signatures: string[] = [];
+  for (let index = 0; index < owners.length; index++) {
+    const owner = owners[index];
+    const stateInfo = await connection.getAccountInfo(PublicKey.findProgramAddressSync(
+      [Buffer.from('owner'), config.toBuffer(), owner.publicKey.toBuffer()], PROGRAM)[0], 'confirmed');
+    const nonce = stateInfo ? readU64(stateInfo.data as Buffer, 72) : 0n;
+    const spec = specs[index];
+    const accounts = deriveFundAccounts(PROGRAM, config, prices, owner.publicKey, nonce, mints);
+    signatures.push(await send(fundingTransaction(buildCreateAndFundInstruction(PROGRAM, owner.publicKey, accounts, {
+      expected_policy_hash: manifest.initial_policy_hash, nonce: nonce.toString(), expiry_unix_seconds: (now + 890n).toString(),
+      optimization_commitment: createHash('sha256').update(`${tag}-${index}`).digest('hex'),
+      assets: [{ funding: spec.cash.funding.toString(), min_output: spec.cash.min.toString(), max_output: spec.cash.max.toString(), funding_reference_price: REFERENCE[0].toString() },
+        { funding: spec.stock1.funding.toString(), min_output: spec.stock1.min.toString(), max_output: spec.stock1.max.toString(), funding_reference_price: REFERENCE[1].toString() },
+        { funding: '0', min_output: '0', max_output: '0', funding_reference_price: REFERENCE[2].toString() }],
+    })), [owner]));
+  }
+  return signatures;
+}
+
 interface CycleResult {
   label: string;
+  /** The one selected decision, carried from the comparison into approval and execution. */
+  decision: { method: string | null; reason: string | null; declined: Record<string, string>; no_worse_than_independent: boolean | null; harmed_owners: string[] };
+  /** True when the recommendation was to execute independently and no batch was submitted. */
+  refused?: boolean;
   compiled: { crosses: unknown[]; residuals: unknown[]; explanation: string[] };
   proposal: { per_account: unknown[]; totals: unknown; method: string; status: string };
-  settlement: { signature: string; compute_units?: number; serialized_bytes: number; routed: boolean; lookup_table_entries: number };
+  settlement: { signature: string; compute_units?: number; serialized_bytes: number; routed: boolean; lookup_table_entries: number } | null;
   preflight_note: string;
   modelled_versus_realized: { owner: string; asset: string; modelled_change_raw: string; realized_change_raw: string; difference_raw: string }[];
-  reconciled: { owner: string; proposed_change_raw: Record<string, string>; delivered_change_raw: Record<string, string>; matches_proposal: boolean; signed_bounds: unknown }[];
+  reconciled: { owner: string; proposed_change_raw: Record<string, string>; delivered_change_raw: Record<string, string>; matches_proposal: boolean; within_signed_bounds: boolean; route_difference_raw: Record<string, { modelled: string; realized: string }>; signed_bounds: unknown }[];
+  /** Per-owner change reconstructed from the compiled settlement alone, not from the proposal. */
+  reconstruction: { owner: string; stock_change: Record<string, string>; cash_change: string; quote_dependent: boolean }[];
   portfolio_sha256?: unknown;
   assumptions?: unknown;
 }
 
-async function runCycle(label: string, targets: { stock1: Record<string, number> }): Promise<CycleResult> {
+/** The recommendation, plus an optional assertion that a residual points the way the cycle intends. */
+async function runCycle(label: string, targets: { stock1: Record<string, number>; constraints?: Record<string, { min_error_reduction_bps?: number }> }, options: { expectRefusal?: boolean; expectResidualDirection?: 'buy' | 'sell'; gridStep?: number } = {}): Promise<CycleResult> {
   const funded = await fundedIntentOwners();
   if (funded.length !== 3) throw new Error(`expected three funded slices, found ${funded.length}`);
   const ordered = [...funded].sort((a, b) => (a.owner < b.owner ? -1 : a.owner > b.owner ? 1 : 0));
@@ -187,6 +264,11 @@ async function runCycle(label: string, targets: { stock1: Record<string, number>
       STOCK_B: { min: Number(intent.assets[2].minOutput), max: Number(intent.assets[2].maxOutput) },
       CASH: { min: Number(intent.assets[0].minOutput), max: Number(intent.assets[0].maxOutput) },
     },
+    // A cycle may pin an account's outcome through its progress requirement rather than a tight
+    // output bound. That matters for a routed payout: a tight output bound cannot tolerate the
+    // venue's slippage, which the model charges to cash, so the bound must stay loose while the
+    // progress requirement fixes the target.
+    ...(targets.constraints?.[intent.owner] ? { constraints: targets.constraints[intent.owner] } : {}),
   }));
   const portfolio = {
     label,
@@ -204,13 +286,40 @@ async function runCycle(label: string, targets: { stock1: Record<string, number>
   // The search granularity over each owner's signed bounds. Raw quantities here are in millions,
   // so a step of one would exhaust the candidate budget; a million-unit step keeps the space small
   // while still containing every target the operator asked for.
-  const planned = await json('/plans', { method: 'POST', body: JSON.stringify({ portfolio, grid_step: 1_000_000 }) });
+  const planned = await json('/plans', { method: 'POST', body: JSON.stringify({ portfolio, grid_step: options.gridStep ?? 1_000_000 }) });
   if (planned.status !== 200) throw new Error(`/plans refused the portfolio: ${JSON.stringify(planned.body)}`);
   const proposals = planned.body.proposals as Record<string, Record<string, unknown>>;
-  const chosen = proposals.C;
-  if (!chosen?.feasible) throw new Error(`the cooperative proposal is not feasible: ${JSON.stringify(chosen?.reasons)}`);
+  const comparison = planned.body.comparison as {
+    recommendation?: { method?: string; reason?: string; declined?: Record<string, string> };
+    per_owner?: { no_worse_than_independent?: boolean | null; harmed_owners?: string[] };
+  };
+  const decision = {
+    method: comparison?.recommendation?.method ?? null,
+    reason: comparison?.recommendation?.reason ?? null,
+    declined: comparison?.recommendation?.declined ?? {},
+    no_worse_than_independent: comparison?.per_owner?.no_worse_than_independent ?? null,
+    harmed_owners: comparison?.per_owner?.harmed_owners ?? [],
+  };
+  if (!decision.method) throw new Error(`the optimizer selected no executable method: ${JSON.stringify(comparison)}`);
 
-  // The settlement is compiled from the proposal, not chosen by the caller.
+  // Honor the recommendation. When it is to execute independently — because crossing would leave an
+  // owner worse off — no batch is compiled or submitted. The script refuses rather than silently
+  // forcing the cooperative method it was originally written around.
+  if (decision.method === 'A') {
+    if (!options.expectRefusal) {
+      throw new Error(`the optimizer recommended independent execution for a cycle built to settle (${decision.reason})`);
+    }
+    return { label, decision, refused: true, compiled: { crosses: [], residuals: [], explanation: [] },
+      proposal: { method: 'A', status: String((proposals.A as { status?: string })?.status ?? 'not_settled'), per_account: [], totals: (proposals.A as { totals?: unknown })?.totals ?? null },
+      settlement: null, preflight_note: 'no batch was submitted: the recommendation is to execute independently',
+      modelled_versus_realized: [], reconciled: [], reconstruction: [],
+      portfolio_sha256: String(planned.body.portfolio_sha256 ?? ''), assumptions: planned.body.assumptions };
+  }
+  if (options.expectRefusal) throw new Error(`expected this batch to be refused, but the optimizer recommended ${decision.method}`);
+  const chosen = proposals[decision.method];
+  if (!chosen?.feasible) throw new Error(`the recommended method ${decision.method} is not feasible: ${JSON.stringify(chosen?.reasons)}`);
+
+  // The settlement is compiled from the recommended proposal, not chosen by the caller.
   const rows = (chosen.settlement_accounts ?? []) as { id: string }[];
   if (rows.length !== ordered.length) throw new Error('the proposal does not cover every slice');
   const byId = new Map(ordered.map((intent, index) => [`slice-${index}`, intent.owner]));
@@ -221,6 +330,16 @@ async function runCycle(label: string, targets: { stock1: Record<string, number>
     prices: { STOCK_A: '10', STOCK_B: '20', CASH: '1' },
   });
   if (compiled.unrepresented.length > 0) throw new Error(`the proposal could not be fully represented: ${JSON.stringify(compiled.unrepresented)}`);
+  if (options.expectResidualDirection) {
+    const direction = options.expectResidualDirection === 'buy' ? '1' : '0';
+    if (!compiled.residuals.some(leg => leg.direction === direction)) {
+      throw new Error(`this cycle is meant to route a ${options.expectResidualDirection}-side residual, but the compiled settlement routed ${JSON.stringify(compiled.residuals)}`);
+    }
+  }
+  // The receipt reconstructs each owner's change from the compiled settlement alone — crosses and
+  // residual inputs exactly, the residual's credited side as its committed minimum — so it proves
+  // what the settlement does rather than repeating what the proposal promised.
+  const reconstruction = reconstructSettlement(compiled, ordered.map(intent => intent.owner));
 
   const sequence = await publishPrices();
   const body = encodeSettlementBody({ schema_version: '1', expected_snapshot_sequence: sequence.toString(),
@@ -302,30 +421,38 @@ async function runCycle(label: string, targets: { stock1: Record<string, number>
       const inputAsset = residual.direction === '0' ? stock : 0;
       residual.input_allocations.forEach((amount, index) => { debit[index][inputAsset] += BigInt(amount); });
     }
+    // The asset a residual pays out is only known once the venue fills on chain, so its bound is not
+    // checkable here — the program enforces it on the measured output. Every *other* asset is
+    // deterministic from the compiled settlement and is checked exactly. (An earlier version checked
+    // the payout asset against a modelled value the settlement never promised, and so refused a valid
+    // purchase before it reached the chain.)
+    const routedOutputAssets = new Set(compiled.residuals.map(residual =>
+      residual.direction === '0' ? 'CASH' : compiled.index_order[Number(residual.stock_index)]));
+    const assetKeys = ['CASH', 'STOCK_A', 'STOCK_B'] as const;
     const violations: string[] = [];
-    const projected = ordered.map((intent, index) => {
-      const row: string[] = [];
+    for (let index = 0; index < ordered.length; index++) {
       for (let asset = 0; asset < 3; asset++) {
+        if (routedOutputAssets.has(assetKeys[asset])) continue;
         const output = funding[index][asset] - debit[index][asset] + credit[index][asset];
-        const bounds = [intent.assets[0], intent.assets[1], intent.assets[2]][asset];
+        const bounds = [ordered[index].assets[0], ordered[index].assets[1], ordered[index].assets[2]][asset];
         const min = BigInt(bounds.minOutput);
         const max = BigInt(bounds.maxOutput);
         if (output < min || output > max) {
-          violations.push(`owner ${index} asset ${asset}: output ${output} outside [${min}, ${max}]`);
+          violations.push(`owner ${index} asset ${asset}: deterministic output ${output} outside [${min}, ${max}]`);
         }
-        row.push(output.toString());
       }
-      return row;
-    });
+      for (let asset = 0; asset < 3; asset++) {
+        // A debit can never exceed the funding plus internal credit; the pool would be short.
+        if (debit[index][asset] > funding[index][asset] + credit[index][asset]) {
+          violations.push(`owner ${index} asset ${asset}: debit ${debit[index][asset]} exceeds funding plus credit`);
+        }
+      }
+    }
     if (violations.length > 0) {
       throw new Error(`the compiled settlement would breach a signed bound before it reaches the chain: ${violations.join('; ')}`);
     }
-    // With a residual leg the credits depend on what the venue actually returns, so this check can
-    // bound the debit side but not the final outputs. Saying so is the point: the on-chain check is
-    // the authority on the rest.
-    void projected;
-    if (compiled.residuals.length > 0) {
-      explanationNote = 'the pre-flight bound check covers the debit side only; residual credits are measured on chain';
+    if (routedOutputAssets.size > 0) {
+      explanationNote = `the pre-flight bound check covers every deterministic asset; the routed payout asset(s) ${[...routedOutputAssets].join(', ')} are measured and enforced on chain`;
     }
   }
 
@@ -357,9 +484,27 @@ async function runCycle(label: string, targets: { stock1: Record<string, number>
   //
   // The comparison is against what settlement *paid out*, not against the owner's wallet balance:
   // the mandate bounds apply to the slice's output, and an owner holds tokens outside the slice.
-  // What must hold is that the change the proposal promised is the change that arrived.
+  // Two different results are reported separately, because they are not the same claim:
+  //   * matches_proposal   — the delivered change is exactly the change the optimizer modelled;
+  //   * within_signed_bounds — the delivered change respects the owner's signed envelope.
+  // Only the asset the venue paid out may differ within bounds; every other asset must match.
   const assetOrder = ['CASH', 'STOCK_A', 'STOCK_B'] as const;
-  const reconciled = [];
+  // A residual touches two assets: the one it spends (deterministic) and the one it pays out (the
+  // venue's measured fill). The economic model spreads the venue's cost across those assets; the
+  // chain realizes it in the fill. So for the touched assets the receipt proves the deterministic
+  // input against the settlement and the payout against the committed minimum — never "equals the
+  // model" — while every untouched asset must move exactly as the proposal said.
+  const routedInputAssets = new Set(compiled.residuals.map(residual =>
+    residual.direction === '0' ? compiled.index_order[Number(residual.stock_index)] : 'CASH'));
+  const routedAssets = new Set<string>();
+  for (const residual of compiled.residuals) {
+    const stock = compiled.index_order[Number(residual.stock_index)];
+    routedAssets.add(residual.direction === '0' ? stock : 'CASH');
+    routedAssets.add(residual.direction === '0' ? 'CASH' : stock);
+  }
+  const reconstructedChange = (index: number, key: (typeof assetOrder)[number]) =>
+    BigInt(key === 'CASH' ? reconstruction[index].cash_change : reconstruction[index].stock_change[key]);
+  const reconciled: CycleResult['reconciled'] = [];
   // The gap between what the engine modelled for the external leg and what the venue actually paid.
   const modelledVersusRealized: { owner: string; asset: string; modelled_change_raw: string;
     realized_change_raw: string; difference_raw: string }[] = [];
@@ -371,49 +516,62 @@ async function runCycle(label: string, targets: { stock1: Record<string, number>
     const delta = before[index];
     const delivered: Record<string, string> = {};
     const promised: Record<string, string> = {};
-    let matches = true;
+    const routeDifference: Record<string, { modelled: string; realized: string }> = {};
+    let matchesProposal = true;
+    let withinSignedBounds = true;
     for (let asset = 0; asset < assetOrder.length; asset++) {
       const key = assetOrder[asset];
       const gain = realized[key] - BigInt(delta[asset]);
       const intended = BigInt(row.final_raw[key]) - BigInt(row.initial_raw[key]);
+      const bounds = (portfolioAccounts[index].final_bounds_raw as Record<string, { min: number; max: number }>)[key];
+      const finalValue = BigInt(row.initial_raw[key]) + gain;
+      const inBounds = finalValue >= BigInt(bounds.min) && finalValue <= BigInt(bounds.max);
       delivered[key] = gain.toString();
       promised[key] = intended.toString();
-      // Every asset the route did not touch must move exactly as the proposal said. The asset the
-      // venue paid out is different: there the engine's number is a *model* of the external cost and
-      // the chain's is the measured fact, so the two are allowed to differ — and the difference is
-      // recorded rather than smoothed away. The owner's realized outcome is still checked against the
-      // bounds it signed, which is the guarantee the program actually enforces.
-      const routedOutput = compiled.residuals.some(residual =>
-        assetOrder.indexOf(residual.direction === '0' ? 'CASH' : 'STOCK_A') === asset);
-      if (gain !== intended && !routedOutput) matches = false;
-      if (gain !== intended && routedOutput) {
-        const bounds = (portfolioAccounts[index].final_bounds_raw as Record<string, { min: number; max: number }>)[key];
-        const realized = BigInt(row.initial_raw[key]) + gain;
-        if (realized < BigInt(bounds.min) || realized > BigInt(bounds.max)) matches = false;
-        modelledVersusRealized.push({ owner: ordered[index].owner, asset: key,
-          modelled_change_raw: intended.toString(), realized_change_raw: gain.toString(),
-          difference_raw: (gain - intended).toString() });
+      if (!inBounds) withinSignedBounds = false;
+      if (gain === intended) {
+        // Even an exact match must still respect the settlement's own reconstruction.
+        if (!routedAssets.has(key) && gain !== reconstructedChange(index, key)) {
+          throw new Error(`owner ${index} ${key}: delivered ${gain} differs from the settlement's ${reconstructedChange(index, key)}`);
+        }
+        continue;
+      }
+      matchesProposal = false;
+      routeDifference[key] = { modelled: intended.toString(), realized: gain.toString() };
+      modelledVersusRealized.push({ owner: ordered[index].owner, asset: key,
+        modelled_change_raw: intended.toString(), realized_change_raw: gain.toString(),
+        difference_raw: (gain - intended).toString() });
+      if (!routedAssets.has(key)) {
+        throw new Error(`owner ${index} ${key}: delivered ${gain} differs from the proposal's ${intended} on a non-routed asset`);
+      }
+      if (!inBounds) {
+        throw new Error(`owner ${index} ${key}: delivered ${gain} is outside the signed bounds`);
+      }
+      // The touched assets are proven against the settlement itself: the spent side must be exactly
+      // what the settlement debits, and the payout side must be at least the committed minimum.
+      if (routedInputAssets.has(key)) {
+        if (gain !== reconstructedChange(index, key)) {
+          throw new Error(`owner ${index} ${key}: the settlement's deterministic input ${reconstructedChange(index, key)} was not delivered (${gain})`);
+        }
+      } else if (gain < reconstructedChange(index, key)) {
+        throw new Error(`owner ${index} ${key}: the venue paid ${gain}, below the committed minimum ${reconstructedChange(index, key)}`);
       }
     }
     reconciled.push({ owner: ordered[index].owner, proposed_change_raw: promised,
-      delivered_change_raw: delivered, matches_proposal: matches,
-      signed_bounds: portfolioAccounts[index].final_bounds_raw });
-  }
-  if (reconciled.some(entry => !entry.matches_proposal)) {
-    throw new Error(`the settlement did not deliver the change the proposal promised: ${JSON.stringify(reconciled.map(entry => ({
-      owner: entry.owner.slice(0, 8), promised: entry.proposed_change_raw, delivered: entry.delivered_change_raw })))}`);
+      delivered_change_raw: delivered, matches_proposal: matchesProposal, within_signed_bounds: withinSignedBounds,
+      route_difference_raw: routeDifference, signed_bounds: portfolioAccounts[index].final_bounds_raw });
   }
 
-  return { label, preflight_note: explanationNote, modelled_versus_realized: modelledVersusRealized,
+  return { label, decision, preflight_note: explanationNote, modelled_versus_realized: modelledVersusRealized,
     portfolio_sha256: String(planned.body.portfolio_sha256 ?? ''), assumptions: planned.body.assumptions,
-    proposal: { method: 'C', status: String(chosen.status), totals: chosen.totals,
+    proposal: { method: decision.method, status: String(chosen.status), totals: chosen.totals,
       per_account: rows.map(row => ({ id: row.id, internal_raw: (row as never as { internal_raw: unknown }).internal_raw,
         external_raw: (row as never as { external_raw: unknown }).external_raw,
         recurring_micro_usd: (row as never as { recurring_micro_usd: unknown }).recurring_micro_usd })) },
     compiled: { crosses: compiled.crosses, residuals: compiled.residuals, explanation: compiled.explanation },
     settlement: { signature, compute_units: simulated.value.unitsConsumed, serialized_bytes: transaction.serialize().length,
       routed: routed, lookup_table_entries: lookupAddresses.length },
-    reconciled };
+    reconstruction, reconciled };
 }
 
 // ---------------------------------------------------------------------------------------------
@@ -440,45 +598,7 @@ const first = await runCycle('Cycle 1 — the two sides match exactly', {
 
 // The second cycle needs a fresh set of funded slices, because settlement consumed the first.
 // Recovery is exercised here rather than assumed: withdraw and close, then fund again.
-for (const owner of owners) {
-  for (let nonce = 0n; nonce < 4n; nonce++) {
-    const accounts = deriveFundAccounts(PROGRAM, config, prices, owner.publicKey, nonce, mints);
-    if (!(await connection.getAccountInfo(accounts.intent, 'confirmed'))) continue;
-    const statusInfo = await connection.getAccountInfo(accounts.intent, 'confirmed');
-    if ((statusInfo!.data as Buffer)[520] === 0) {
-      await send(new Transaction().add(new TransactionInstruction({ programId: PROGRAM, keys: [
-        { pubkey: owner.publicKey, isSigner: true, isWritable: false },
-        { pubkey: config, isSigner: false, isWritable: true },
-        { pubkey: accounts.owner_state, isSigner: false, isWritable: true },
-        { pubkey: accounts.intent, isSigner: false, isWritable: true },
-      ], data: disc('cancel_intent') })), [owner]);
-    }
-    for (let asset = 0; asset < 3; asset++) {
-      if (await balance(accounts.vaults[asset]) === 0n) continue;
-      await send(new Transaction().add(new TransactionInstruction({ programId: PROGRAM, keys: [
-        { pubkey: owner.publicKey, isSigner: true, isWritable: true },
-        { pubkey: config, isSigner: false, isWritable: false },
-        { pubkey: accounts.owner_state, isSigner: false, isWritable: true },
-        { pubkey: accounts.intent, isSigner: false, isWritable: true },
-        ...accounts.mints.map(pubkey => ({ pubkey, isSigner: false, isWritable: false })),
-        ...accounts.vaults.map(pubkey => ({ pubkey, isSigner: false, isWritable: true })),
-        ...accounts.sources.map(pubkey => ({ pubkey, isSigner: false, isWritable: true })),
-        { pubkey: TOKEN_PROGRAM, isSigner: false, isWritable: false },
-        { pubkey: ATA_PROGRAM, isSigner: false, isWritable: false },
-        { pubkey: SystemProgram.programId, isSigner: false, isWritable: false },
-      ], data: Buffer.concat([disc('withdraw_asset'), Buffer.from([asset])]) })), [owner]);
-    }
-    await send(new Transaction().add(new TransactionInstruction({ programId: PROGRAM, keys: [
-      { pubkey: owner.publicKey, isSigner: true, isWritable: true },
-      { pubkey: config, isSigner: false, isWritable: true },
-      { pubkey: accounts.owner_state, isSigner: false, isWritable: true },
-      { pubkey: accounts.intent, isSigner: false, isWritable: true },
-      ...accounts.mints.map(pubkey => ({ pubkey, isSigner: false, isWritable: false })),
-      ...accounts.vaults.map(pubkey => ({ pubkey, isSigner: false, isWritable: true })),
-      { pubkey: TOKEN_PROGRAM, isSigner: false, isWritable: false },
-    ], data: disc('close_intent') })), [owner]);
-  }
-}
+await recoverAll();
 
 // Re-fund with the next nonce, so the second cycle is a genuine repeat use of the same wallets. The
 // slices are derived from what each owner actually holds now, because the first settlement
@@ -489,8 +609,7 @@ const holdings = await Promise.all(owners.map(owner => Promise.all([0, 1, 2].map
 // Two million fifty thousand sells, two million crosses: a fifty-thousand residual, which is one per
 // cent of the seeded pool and therefore inside the committed two-hundred basis point band.
 const CYCLE_TWO_SELL = 2_050_000n;
-const sliceFor: Record<number, { cash: { funding: bigint; min: bigint; max: bigint };
-  stock1: { funding: bigint; min: bigint; max: bigint } }> = {};
+const sliceFor: SliceSpec[] = [];
 for (let index = 0; index < owners.length; index++) {
   const owner = owners[index].publicKey.toBase58();
   const [cash, stock1] = holdings[index];
@@ -512,22 +631,7 @@ for (let index = 0; index < owners.length; index++) {
   }
 }
 
-const refundSignatures: string[] = [];
-for (let index = 0; index < owners.length; index++) {
-  const owner = owners[index];
-  const stateInfo = await connection.getAccountInfo(PublicKey.findProgramAddressSync(
-    [Buffer.from('owner'), config.toBuffer(), owner.publicKey.toBuffer()], PROGRAM)[0], 'confirmed');
-  const nonce = stateInfo ? readU64(stateInfo.data as Buffer, 72) : 0n;
-  const spec = sliceFor[index];
-  const accounts = deriveFundAccounts(PROGRAM, config, prices, owner.publicKey, nonce, mints);
-  refundSignatures.push(await send(fundingTransaction(buildCreateAndFundInstruction(PROGRAM, owner.publicKey, accounts, {
-    expected_policy_hash: manifest.initial_policy_hash, nonce: nonce.toString(), expiry_unix_seconds: (now + 890n).toString(),
-    optimization_commitment: createHash('sha256').update(`optimizer-demo-b-${index}`).digest('hex'),
-    assets: [{ funding: spec.cash.funding.toString(), min_output: spec.cash.min.toString(), max_output: spec.cash.max.toString(), funding_reference_price: REFERENCE[0].toString() },
-      { funding: spec.stock1.funding.toString(), min_output: spec.stock1.min.toString(), max_output: spec.stock1.max.toString(), funding_reference_price: REFERENCE[1].toString() },
-      { funding: '0', min_output: '0', max_output: '0', funding_reference_price: REFERENCE[2].toString() }],
-  })), [owner]));
-}
+const refundSignatures = await fundSpecs(sliceFor, 'optimizer-demo-b');
 
 // Cycle two: the seller now wants to give up more than the buyer wants, so the proposal must cross
 // what matches and route the remainder externally. The settlement shape changes with the target.
@@ -535,19 +639,117 @@ const sellerIndex = owners.findIndex(owner => owner.publicKey.toBase58() === sel
 const sellerStock = holdings[sellerIndex][1];
 const second = await runCycle('Cycle 2 — one owner tightened, so the remainder must route', {
   stock1: { [seller]: Number(sellerStock - CYCLE_TWO_SELL), [buyer]: 2_000_000, [idle]: 0 },
+}, { expectResidualDirection: 'sell' });
+
+// Cycle three: the reverse residual. One owner is forced to give up stock and another must end with
+// more than it gave up, so what cannot be crossed has to be *bought* from the venue — a purchase
+// residual, whose input is cash and whose output is stock. This is the direction the compiler
+// previously got wrong.
+await recoverAll();
+await publishPrices();
+const holdings3 = await Promise.all(owners.map(owner => Promise.all([0, 1, 2].map(mint =>
+  balance(canonicalAta(owner.publicKey, mints[mint]))))));
+const positions = owners.map((owner, index) => ({ owner, address: owner.publicKey.toBase58(),
+  cash: holdings3[index][0], stock: holdings3[index][1] }));
+const seller3 = [...positions].sort((a, b) => Number(b.stock - a.stock))[0];
+const buyer3 = [...positions].filter(entry => entry.address !== seller3.address)
+  .sort((a, b) => Number(b.cash - a.cash))[0];
+const idle3 = positions.find(entry => entry.address !== seller3.address && entry.address !== buyer3.address)!;
+const CYCLE_THREE_SELL = 1_000_000n;
+const CYCLE_THREE_GRID = 50_000n;
+const affordable = ((buyer3.cash / 10n) / CYCLE_THREE_GRID) * CYCLE_THREE_GRID;
+if (affordable < CYCLE_THREE_SELL + CYCLE_THREE_GRID) {
+  throw new Error(`the cash-rich owner cannot fund a purchase larger than the sale (available ${affordable})`);
+}
+const CYCLE_THREE_BUY = CYCLE_THREE_SELL + CYCLE_THREE_GRID;
+const sliceForThree: SliceSpec[] = owners.map((owner, index) => {
+  const address = owner.publicKey.toBase58();
+  const [cash, stock1] = holdings3[index];
+  if (address === seller3.address) {
+    const mustEnd = stock1 > CYCLE_THREE_SELL ? stock1 - CYCLE_THREE_SELL : 0n;
+    return { cash: { funding: 0n, min: 0n, max: cash + 50_000_000n }, stock1: { funding: stock1, min: mustEnd, max: mustEnd } };
+  }
+  if (address === buyer3.address) {
+    // The buyer funds cash only and asks for more stock than the seller gives up. Its payout bound
+    // stays loose because the venue's fill determines it; the progress requirement pins the target.
+    return { cash: { funding: cash, min: 0n, max: cash }, stock1: { funding: 0n, min: 0n, max: CYCLE_THREE_BUY + 5_000n } };
+  }
+  return { cash: { funding: cash, min: 0n, max: cash }, stock1: { funding: stock1, min: stock1, max: stock1 } };
 });
+const buySignatures = await fundSpecs(sliceForThree, 'optimizer-demo-c');
+const third = await runCycle('Cycle 3 — the buyer wants more than the seller gives, so the purchase routes', {
+  stock1: { [seller3.address]: Number(seller3.stock - CYCLE_THREE_SELL), [buyer3.address]: Number(CYCLE_THREE_BUY), [idle3.address]: Number(idle3.stock) },
+  constraints: { [buyer3.address]: { min_error_reduction_bps: 10_000 } },
+}, { expectResidualDirection: 'buy', gridStep: Number(CYCLE_THREE_GRID) });
+
+await recoverAll();
+
+// Cycle four: an economically harmful batch, refused. Every account wants to buy the same stock, so
+// the batch has nothing to cross and its shared overhead can leave an account worse off than trading
+// alone. The optimizer's recommendation is independent execution, and the workflow declines to
+// compile or settle that batch — the same refusal the front end enforces. The case is stated as a
+// portfolio rather than funded from the wallets so that the size that makes it harmful does not
+// depend on the holdings left by the earlier cycles.
+const harmfulPortfolio = {
+  label: 'harmful batch: three accounts that only want to buy',
+  assets: [
+    { id: 'STOCK_A', decimals: 6, price_micro_usd_per_raw: 10 },
+    { id: 'STOCK_B', decimals: 6, price_micro_usd_per_raw: 20 },
+    { id: 'CASH', decimals: 6, price_micro_usd_per_raw: 1 },
+  ],
+  accounts: ['a', 'b', 'c'].map(id => ({
+    id, initial_raw: { STOCK_A: 0, STOCK_B: 0, CASH: 20_000_000 },
+    target_raw: { STOCK_A: 1_000_000, STOCK_B: 0 },
+    final_bounds_raw: { STOCK_A: { min: 0, max: 1_000_000 }, STOCK_B: { min: 0, max: 0 }, CASH: { min: 0, max: 20_000_000 } },
+  })),
+};
+const harmfulPlanned = await json('/plans', { method: 'POST', body: JSON.stringify({ portfolio: harmfulPortfolio, grid_step: 250_000 }) });
+if (harmfulPlanned.status !== 200) throw new Error(`/plans refused the harmful portfolio: ${JSON.stringify(harmfulPlanned.body)}`);
+const harmful = harmfulPlanned.body.comparison as {
+  recommendation?: { method?: string; reason?: string; declined?: Record<string, string> };
+  per_owner?: { no_worse_than_independent?: boolean | null; harmed_owners?: string[] };
+};
+const harmfulMethod = harmful?.recommendation?.method ?? null;
+if (harmfulMethod !== 'A') {
+  throw new Error(`expected the harmful batch to be declined in favour of independent execution, got ${harmfulMethod ?? 'no recommendation'}`);
+}
+if (harmful?.per_owner?.no_worse_than_independent !== false || (harmful?.per_owner?.harmed_owners ?? []).length === 0) {
+  throw new Error('expected the harmful batch to leave an account worse off than independent execution');
+}
+const fourth: CycleResult = {
+  label: 'Cycle 4 — an economically harmful batch is refused',
+  decision: { method: harmfulMethod, reason: harmful?.recommendation?.reason ?? null,
+    declined: harmful?.recommendation?.declined ?? {},
+    no_worse_than_independent: harmful?.per_owner?.no_worse_than_independent ?? null,
+    harmed_owners: harmful?.per_owner?.harmed_owners ?? [] },
+  refused: true,
+  compiled: { crosses: [], residuals: [], explanation: ['no batch was compiled: the optimizer declined it as harmful'] },
+  proposal: { method: 'A', status: 'declined', per_account: [], totals: null },
+  settlement: null, preflight_note: 'no transaction was built: the optimizer declined this batch as harmful',
+  modelled_versus_realized: [], reconciled: [], reconstruction: [],
+  portfolio_sha256: String(harmfulPlanned.body.portfolio_sha256 ?? ''),
+};
+
+const residualCount = (cycle: CycleResult, direction: 'sell' | 'buy') =>
+  cycle.compiled.residuals.filter(leg => (leg as { direction: string }).direction === (direction === 'buy' ? '1' : '0')).length;
 
 const record = {
   status: 'PASS', task: 'T33',
   scope: 'OPTIMIZER-DRIVEN EXECUTION ON A LOCAL VALIDATOR; synthetic test assets and TEST PRICES',
   cluster: 'localnet', genesis, program_id: PROGRAM.toBase58(), config: config.toBase58(),
   service_url: serviceUrl, owners: { seller, buyer, idle },
-  fixture: { funded_signatures: fundedSignatures, refund_signatures: refundSignatures, slices: SLICES },
-  cycles: [first, second],
+  fixture: { funded_signatures: fundedSignatures, refund_signatures: refundSignatures,
+    buy_signatures: buySignatures, slices: SLICES },
+  cycles: [first, second, third, fourth],
   demonstration: {
-    claim: 'the settlement is derived from the optimizer proposal, not invented',
+    claim: 'the settlement is derived from the optimizer recommendation, executed, and reconciled with a receipt that reports "within signed bounds" separately from "matches the proposal"',
+    recommendation_honored: [first, second, third, fourth].map(cycle => cycle.decision.method),
     first_crosses: first.compiled.crosses.length, first_residuals: first.compiled.residuals.length,
     second_crosses: second.compiled.crosses.length, second_residuals: second.compiled.residuals.length,
+    third_crosses: third.compiled.crosses.length, third_residuals: third.compiled.residuals.length,
+    // Both residual directions are exercised: a sale supplies stock, a purchase supplies cash.
+    residual_directions: { sell: residualCount(second, 'sell'), buy: residualCount(third, 'buy') },
+    harmful_batch_refused: fourth.refused === true,
     target_changed_the_settlement: JSON.stringify(first.compiled) !== JSON.stringify(second.compiled),
     proposal_changed_with_the_target: JSON.stringify(first.proposal) !== JSON.stringify(second.proposal),
   },
@@ -555,6 +757,7 @@ const record = {
     'Local validator, synthetic test assets and a labelled fixture oracle; no devnet and no market.',
     'The cost model and market convention come from the frozen template, not from the caller; the assumptions list records which defaults were applied.',
     'The residual leg executes against the controlled synthetic venue, not a real one.',
+    'A residual output is a venue fill: matches_proposal is false for that asset by construction, and the receipt reports its realized value against the signed bounds instead.',
   ],
   hashes: {
     manifest: createHash('sha256').update(readFileSync(manifestPath)).digest('hex'),
@@ -563,6 +766,9 @@ const record = {
   },
 };
 writeFileSync(outPath, `${JSON.stringify(record, null, 2)}\n`);
-console.log(JSON.stringify({ status: 'PASS', first: { crosses: first.compiled.crosses.length, residuals: first.compiled.residuals.length },
-  second: { crosses: second.compiled.crosses.length, residuals: second.compiled.residuals.length },
+console.log(JSON.stringify({ status: 'PASS',
+  cycles: [first, second, third, fourth].map(cycle => ({ method: cycle.decision.method, refused: cycle.refused === true,
+    crosses: cycle.compiled.crosses.length, residuals: cycle.compiled.residuals.length })),
+  residual_directions: record.demonstration.residual_directions,
+  harmful_batch_refused: record.demonstration.harmful_batch_refused,
   changed: record.demonstration.target_changed_the_settlement }, null, 2));

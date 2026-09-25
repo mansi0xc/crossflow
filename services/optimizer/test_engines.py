@@ -125,6 +125,33 @@ class EngineTests(unittest.TestCase):
             self.assertIsNone(starved.ledger)
             self.assertFalse(starved.feasible)
 
+    def test_search_does_not_materialise_a_huge_bound_space(self):
+        """An ordinary raw-unit bound space can be enormous; the search must stay bounded.
+
+        A subprocess timeout limits duration but not memory, so the joint space is counted and
+        enumerated lazily. With a one-candidate budget the search must terminate without ever
+        building the product.
+        """
+        scenario = copy.deepcopy(next(iter(self.admissible)))
+        wide = 10 ** 9
+        for account in scenario['accounts']:
+            for asset in reference.STOCKS:
+                account['final_bounds_raw'][asset]['min'] = 0
+                account['final_bounds_raw'][asset]['max'] = wide
+        budget = Budget(max_candidates=1, grid_step=1)
+        accounts, combinations, total, _ = cooperative._joint_candidates(scenario, budget, None)
+        expected = 1
+        for account in accounts:
+            expected *= reference.grid_count(account, budget.grid_step)
+        self.assertEqual(total, expected)
+        self.assertGreater(total, 10 ** 18)
+        # The enumeration is lazy: a bounded prefix never materialises the space.
+        prefix = [next(combinations) for _ in range(5)]
+        self.assertEqual(len(prefix), 5)
+        # And a one-candidate search over that space terminates, failing closed.
+        proposal = cooperative.plan(scenario, budget)
+        self.assertTrue(proposal.budget_exhausted or not proposal.feasible)
+
     def test_invalid_budgets_and_cost_curves_are_refused(self):
         scenario = copy.deepcopy(next(iter(self.admissible)))
         for bad in (Budget(max_candidates=0), Budget(grid_step=0), Budget(grid_step=-2)):

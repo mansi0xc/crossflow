@@ -36,6 +36,36 @@ in this path.
 Raw units remain the authority throughout: the raw external input and output are echoed untouched,
 and micro-USD figures exist only for disclosure.
 
+## Lifecycle reconciliation and the operator subsidy
+
+The shared settlement transaction is divided among the accounts that actually **trade**, never
+across every account in the batch. Padding the divisor with accounts that trade nothing made a
+fraction of the settlement fee disappear: with two active owners among three accounts the owner
+shares summed to `8/3` transactions while funding just those two owners already needs three (two
+fundings and one settlement).
+
+An account that trades nothing is charged nothing — a bystander must not pay for being included.
+The cost of *funding and cleaning up* a funded account that never trades is therefore an explicit
+**operator subsidy**: it is identified in `totals.operator_subsidy_micro_usd` and in the funded
+lifecycle total, never dropped. The ledger asserts
+
+```
+sum(owner network allocations) + operator_subsidy_micro_usd == funded_lifecycle_network_micro_usd
+```
+
+on every batch, and the aggregate comparison (`netting_gain`, `cooperative_gain`) is computed on
+that full lifecycle cost — owner-borne cost plus the subsidy — so no saving can be manufactured by
+leaving someone else to pay.
+
+## Per-owner reporting convention
+
+Every per-owner figure is signed so that **positive means an improvement**: `objective_saving_micro_usd`
+is the independent objective minus this plan's, `cost_saving_micro_usd` and
+`target_error_saving_micro_usd` are the same subtraction. Holdings are reported separately as named
+raw before/after balances, because an objective is not a holding. An earlier version emitted
+`(proposed − independent)` while the interface called positive "better", so a beneficial outcome
+appeared as a negative difference.
+
 ## Comparison and refusal
 
 `compareApproaches` compares the three approaches under identical starting holdings, prices and
