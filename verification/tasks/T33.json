@@ -1,0 +1,59 @@
+{
+  "task": "T33",
+  "sourceFiles": [
+    "packages/planner/src/proposal.ts",
+    "tests/planner/compiler.test.ts",
+    "services/optimizer/cooperative.py",
+    "services/optimizer/run_plan.py",
+    "scripts/demo-optimizer-execution.ts",
+    "scripts/local-runs/run-optimizer.sh",
+    "scripts/check-t33-optimizer-evidence.mjs",
+    "scripts/verify-task.mjs",
+    "verification/tasks/T33.json",
+    "verification/evidence/T33-local-manifest.json",
+    "verification/evidence/T33-optimizer-execution-output.json"
+  ],
+  "checks": [
+    {
+      "name": "planner-compiler",
+      "kind": "vitest",
+      "command": "corepack",
+      "args": [
+        "pnpm@10.17.1",
+        "exec",
+        "vitest",
+        "run",
+        "tests/planner/compiler.test.ts"
+      ]
+    },
+    {
+      "name": "verification-harness",
+      "kind": "workspace",
+      "command": "corepack",
+      "args": [
+        "pnpm@10.17.1",
+        "check:workspace"
+      ]
+    },
+    {
+      "name": "typescript",
+      "kind": "typecheck",
+      "command": "corepack",
+      "args": [
+        "pnpm@10.17.1",
+        "exec",
+        "tsc",
+        "--noEmit"
+      ]
+    },
+    {
+      "name": "optimizer-execution",
+      "kind": "t33-runtime",
+      "command": "node",
+      "args": [
+        "scripts/check-t33-optimizer-evidence.mjs"
+      ]
+    }
+  ],
+  "reviewer": "the reviewer identified the purchase-unit defect and the reconciliation ambiguity; the demonstration is reproducible from `bash scripts/local-runs/run-optimizer.sh` on a fresh local validator"
+}
