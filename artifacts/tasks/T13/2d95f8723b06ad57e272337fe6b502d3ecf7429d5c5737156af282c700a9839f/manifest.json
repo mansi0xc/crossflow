@@ -1,0 +1,85 @@
+{
+  "task": "T13",
+  "status": "CHECKS_PASS_REVIEW_PENDING",
+  "recordedAt": "2026-09-25T17:45:17.474Z",
+  "sourceCommit": "458b12d25d7622a1639ff166910dc107ff938285",
+  "sourceTreeSha256": "2d95f8723b06ad57e272337fe6b502d3ecf7429d5c5737156af282c700a9839f",
+  "sourceFiles": {
+    "packages/planner/src/costs.ts": "3bde78180e114d74ebce0ad6c451f25d283e339b5331c8ad08add47ab43c8a10",
+    "packages/planner/src/comparison.ts": "efb1430da27335c897e79835a23d245ee4bf5830fa86634e607b75aa7798a8ea",
+    "packages/planner/src/mandate.ts": "420b3884b0ae34208f13827dd7b6edec107d84acce909d8df01649f323ae0570",
+    "tests/planner/cost-allocation.test.ts": "6e361af71fd47519211401236d7eed83bd20be0e0f3902c0c5c18a84d0c267e3",
+    "docs/spec/cost-allocation.md": "07b1e016ac643c221f449631e340cb89fcd975f427f87bef21406d1a2a6c181a",
+    "scripts/verify-task.mjs": "1581a4c28fcc970594abf4ef13afb4886ff0f1868aeab7e046189875e3898920",
+    "verification/tasks/T13.json": "38ed0d43bf6da44cc15171f62fea975e8c02c806ab2dcc21c7c365c0c937307d"
+  },
+  "policyFixtureSha256": "e31d3209a0556554172821a35f16aeeb406fa1cf27ea01512ea279b4ea370ecf",
+  "environment": "LOCAL_NO_TRANSACTION",
+  "clusterGenesis": null,
+  "transactionCount": 0,
+  "versions": {
+    "node": "v24.10.0",
+    "pnpm": "10.17.1",
+    "anchor": "anchor-cli 1.1.2",
+    "cargo": "cargo 1.89.0 (c24e10642 2025-06-23)"
+  },
+  "checks": [
+    {
+      "name": "cost-allocation",
+      "kind": "vitest",
+      "command": [
+        "corepack",
+        "pnpm@10.17.1",
+        "exec",
+        "vitest",
+        "run",
+        "tests/planner/cost-allocation.test.ts",
+        "tests/planner/validation.test.ts"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "cost-allocation.log",
+      "outputSha256": "cb823de8bd8d59bc3d3a2bf52004be031cf7b9894c9596d0cbaf2baa3ccfe687",
+      "passed": true
+    },
+    {
+      "name": "typescript",
+      "kind": "typecheck",
+      "command": [
+        "corepack",
+        "pnpm@10.17.1",
+        "exec",
+        "tsc",
+        "--noEmit"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "typescript.log",
+      "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "passed": true
+    },
+    {
+      "name": "planner-regressions",
+      "kind": "vitest",
+      "command": [
+        "corepack",
+        "pnpm@10.17.1",
+        "exec",
+        "vitest",
+        "run",
+        "tests/security"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "planner-regressions.log",
+      "outputSha256": "ca6ebd637ff7e234f835ba0531ca0f23bae9bc0b35729e3461c761dc02046e9f",
+      "passed": true
+    }
+  ],
+  "mandatoryCheckCount": 3,
+  "executedCheckCount": 3,
+  "reviewer": "self-prepared; the economic engines it aligns with were reviewed in .planning/T11-REVIEW.md",
+  "limits": [
+    "Checks only; independent reviewer and actual runtime/compute capacity remain open"
+  ]
+}

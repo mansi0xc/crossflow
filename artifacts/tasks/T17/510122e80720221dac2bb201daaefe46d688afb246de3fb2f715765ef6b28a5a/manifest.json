@@ -1,0 +1,85 @@
+{
+  "task": "T17",
+  "status": "CHECKS_PASS_REVIEW_PENDING",
+  "recordedAt": "2026-09-25T17:47:22.219Z",
+  "sourceCommit": "458b12d25d7622a1639ff166910dc107ff938285",
+  "sourceTreeSha256": "510122e80720221dac2bb201daaefe46d688afb246de3fb2f715765ef6b28a5a",
+  "sourceFiles": {
+    "tests/security/adversarial.test.ts": "facc2f64c1f0e53c51aa5766c5f7fd3ebd10eb8da322479a010ee3d2d33dc3dd",
+    "tests/security/soak-properties.test.ts": "f33cc8437b54e77d0038db80480599df3aa7776612122dc5dceba3ed6d66a12b",
+    "tests/security/properties.test.ts": "6b4a288606ea5ca48db71d68c5e256cf0264560caf321f80f8bd6e28e9d9d879",
+    "tests/security/review-regressions.test.ts": "5668aa83d0751040537d4f6190912b10412705f7f771f8fd5f5f1c5252358c63",
+    "scripts/measure-batch.ts": "7faf95655d323849e00dad5016a3be10cc1391e0641371b37d448b67b6fc707c",
+    "scripts/verify-task.mjs": "1581a4c28fcc970594abf4ef13afb4886ff0f1868aeab7e046189875e3898920",
+    "docs/evidence/security-matrix.md": "c906e5ac3d0b46a8500f82f040865c32322a5a42e4ba2e1df6ce282acbff32e6",
+    "verification/tasks/T17.json": "9d655a5bb3c57e32bb968598e67af34cf33c1f40d8f8bd7fa120e33716f9a3a5"
+  },
+  "policyFixtureSha256": "e31d3209a0556554172821a35f16aeeb406fa1cf27ea01512ea279b4ea370ecf",
+  "environment": "LOCAL_NO_TRANSACTION",
+  "clusterGenesis": null,
+  "transactionCount": 0,
+  "versions": {
+    "node": "v24.10.0",
+    "pnpm": "10.17.1",
+    "anchor": "anchor-cli 1.1.2",
+    "cargo": "cargo 1.89.0 (c24e10642 2025-06-23)"
+  },
+  "checks": [
+    {
+      "name": "properties",
+      "kind": "vitest",
+      "command": [
+        "corepack",
+        "pnpm@10.17.1",
+        "exec",
+        "vitest",
+        "run",
+        "tests/security"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "properties.log",
+      "outputSha256": "5c0293ca6220f803ff3c6f0d0d2068f9fc6dd6a4f7fad17f6b7dff718f0adc0d",
+      "passed": true
+    },
+    {
+      "name": "typescript",
+      "kind": "typecheck",
+      "command": [
+        "corepack",
+        "pnpm@10.17.1",
+        "exec",
+        "tsc",
+        "--noEmit"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "typescript.log",
+      "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "passed": true
+    },
+    {
+      "name": "composed-capacity",
+      "kind": "vitest",
+      "command": [
+        "corepack",
+        "pnpm@10.17.1",
+        "exec",
+        "vitest",
+        "run",
+        "tests/program/atomic-batch.test.ts"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "composed-capacity.log",
+      "outputSha256": "c4f5a7a8fab3b289ac33bf162dad989ad8fee30405812014daccdba92ae0c136",
+      "passed": true
+    }
+  ],
+  "mandatoryCheckCount": 3,
+  "executedCheckCount": 3,
+  "reviewer": null,
+  "limits": [
+    "Checks only; independent reviewer and actual runtime/compute capacity remain open"
+  ]
+}

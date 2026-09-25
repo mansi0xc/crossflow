@@ -1,0 +1,125 @@
+{
+  "task": "T14",
+  "status": "CHECKS_PASS_REVIEW_PENDING",
+  "recordedAt": "2026-09-25T17:47:19.568Z",
+  "sourceCommit": "458b12d25d7622a1639ff166910dc107ff938285",
+  "sourceTreeSha256": "6fcce2496d40e006f277dbec39a0379350e3a15f4b93b8885fd726e54ae377ea",
+  "sourceFiles": {
+    "package.json": "15efdc9e5442dce0e2f083abf0cba25851475921bcd15869a77b7aac92b562bd",
+    "pnpm-lock.yaml": "c7f448b95f5353b62a8ef43f64f92037d6f3a9e123e77dcbc0cc2a9933b71809",
+    "Cargo.toml": "1d92d53c62df8f99c76b6d7309471a455f828c39d973e8830d08eff1ce30a046",
+    "Cargo.lock": "ab891565c7cbc74fc67dd73644ef9e498261e6d230742e926630877979217113",
+    "Anchor.toml": "870e9066086e34f807ab3d35c056bc4c6926027f537ec692d93597993d5b0f59",
+    "programs/crossflow/Cargo.toml": "baa14901bf4d57b29baf07dc5ffc869989a4a41353e16d187d5c9ee69f7d6e80",
+    "programs/crossflow/src/lib.rs": "ebaa572c86aaa7531f41a6992511cc86ac81b8e1a8aa587f297c1fcb61a9ae0d",
+    "programs/crossflow/src/oracle.rs": "5f97a9cc375e5f40f62ac0dd7ce59a025d9b7ffeb3ba02f5a675f214a6101af8",
+    "packages/contracts/src/index.ts": "75c2bbafe68aed75f3f51aa2a430b088a3428330dcb2999239f0211c84b20d9e",
+    "packages/oracle/src/policy.ts": "90c9a663fd4bfcb99c05f6e83e08ffd73d251fe916c2c2c31ffaa902646000c0",
+    "packages/oracle/src/fixture.ts": "9617ddc099e380d0584d29e6dc4a309640c0c5f39877de18c7f416bcbf7b82e8",
+    "tests/oracle/policy.test.ts": "7e5686c724c729cfbad29fcfcd814bd8334d2205eed493ca962359774ab0c39a",
+    "docs/spec/oracle-policy.md": "66862a625fd1a7d97d1342d4f9e64fdbe36d2fe154c1855e497a133c772c8fdc",
+    "docs/spec/intent-contract.md": "3263fe5eb0bc17b7ad550b601134f879b19ce9b71ca3dc4acbb2ac05f9756f1d",
+    "docs/spec/settlement-accounting.md": "2cfbbf7efd2edde1e10f63e092ea21adaeef7b79fe45afafa95b54ad28f9bd4f",
+    "docs/spec/wire-vectors.json": "e31d3209a0556554172821a35f16aeeb406fa1cf27ea01512ea279b4ea370ecf",
+    "docs/spec/check-wire-vectors.py": "fec07db09e2f3682976b212c8f8d1f28e5b54cb84af73becc8f4bcf3abf55bd7",
+    "scripts/verify-task.mjs": "1581a4c28fcc970594abf4ef13afb4886ff0f1868aeab7e046189875e3898920",
+    "tests/workspace/verify-task.test.mjs": "b9159dfd4f2c6bbe5a1bac9a8d32bd3d0b22a3ef11331c991094a0fa844109c1",
+    "verification/tasks/T14.json": "25e4d0b1e1c4225f49bc3f89964636f915572e719f02ec32df498426aac470af"
+  },
+  "policyFixtureSha256": "e31d3209a0556554172821a35f16aeeb406fa1cf27ea01512ea279b4ea370ecf",
+  "environment": "LOCAL_NO_TRANSACTION",
+  "clusterGenesis": null,
+  "transactionCount": 0,
+  "versions": {
+    "node": "v24.10.0",
+    "pnpm": "10.17.1",
+    "anchor": "anchor-cli 1.1.2",
+    "cargo": "cargo 1.89.0 (c24e10642 2025-06-23)"
+  },
+  "checks": [
+    {
+      "name": "oracle-typescript",
+      "kind": "vitest",
+      "command": [
+        "corepack",
+        "pnpm@10.17.1",
+        "exec",
+        "vitest",
+        "run",
+        "tests/oracle/policy.test.ts"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "oracle-typescript.log",
+      "outputSha256": "ba13381412c50c0e9058720a6981a96e14da4f601f7327381377e95647c16ee1",
+      "passed": true
+    },
+    {
+      "name": "oracle-rust",
+      "kind": "cargo-test",
+      "command": [
+        "cargo",
+        "test",
+        "-p",
+        "crossflow",
+        "--lib",
+        "oracle::tests",
+        "--locked",
+        "--offline"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "oracle-rust.log",
+      "outputSha256": "37fa4380c92cc7f9f99339cdb50de8e814f67296c4cd06a1c9a980df61c5f75c",
+      "passed": true
+    },
+    {
+      "name": "typescript",
+      "kind": "typecheck",
+      "command": [
+        "corepack",
+        "pnpm@10.17.1",
+        "exec",
+        "tsc",
+        "--noEmit"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "typescript.log",
+      "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "passed": true
+    },
+    {
+      "name": "sbf-build",
+      "kind": "anchor-build",
+      "command": [
+        "anchor",
+        "build"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "sbf-build.log",
+      "outputSha256": "d7044358487f925b1eb596e094724316ca8ed6253f5c8cbe7be4619ca4bb2c63",
+      "passed": true
+    },
+    {
+      "name": "wire-spec",
+      "kind": "json-pass",
+      "command": [
+        "python3",
+        "docs/spec/check-wire-vectors.py"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "wire-spec.log",
+      "outputSha256": "4ba0c74daf803caec22b7ce0dfdf7f25b077c3b00595a17953d98a725c46ee5f",
+      "passed": true
+    }
+  ],
+  "mandatoryCheckCount": 5,
+  "executedCheckCount": 5,
+  "reviewer": null,
+  "limits": [
+    "Checks only; independent reviewer and actual runtime/compute capacity remain open"
+  ]
+}

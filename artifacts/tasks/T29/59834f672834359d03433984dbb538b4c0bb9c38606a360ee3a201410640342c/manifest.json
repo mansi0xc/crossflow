@@ -1,0 +1,50 @@
+{
+  "task": "T29",
+  "status": "CHECKS_FAILED",
+  "recordedAt": "2026-09-25T17:49:14.680Z",
+  "sourceCommit": "458b12d25d7622a1639ff166910dc107ff938285",
+  "sourceTreeSha256": "59834f672834359d03433984dbb538b4c0bb9c38606a360ee3a201410640342c",
+  "sourceFiles": {
+    "README.md": "2563c4db6d94c03c70bac59d6049c6b1712564fa2509c2059465318a8710fc55",
+    "docs/demo-script.md": "5bbd321222132ce4818ac5b64d97b7cef6e00c06d7283d92ad5ae2bd47490643",
+    "docs/submission-draft.md": "06d172533ffc742ca6ceab43117f08b9ec93c47d3794ed9e395406fb4d71cf57",
+    "docs/claims-ledger.csv": "01159d3de2eb12677942c9ca730b2e8af709362fb522e13e823c527dd99a8d1c",
+    "docs/THIRD_PARTY_NOTICES.md": "5a7106cfd67562f63c217cb049ee98153b85241c3b57f80cf97b525b4581a42a",
+    "docs/submission-checklist.md": "00118a41c3b56ef1e9f675d9c997ca6eac0404c539c89360cdf29f93f2095f50",
+    "docs/final-handoff.md": "0a02f1a0ccf8c0dec893c9c9266d12f636474ad976a3596e69213f2bfdcbd91b",
+    "scripts/check-submission.mjs": "cadf88ec86ec8338f8b628310d19c40c66abb08d45ab0212140953fb3018d287",
+    "verification/tasks/T29.json": "8ebfdfa079f0c51f90d83e34eb39de2b526344063e60a135cd818b7f6c38b24b"
+  },
+  "policyFixtureSha256": "e31d3209a0556554172821a35f16aeeb406fa1cf27ea01512ea279b4ea370ecf",
+  "environment": "LOCAL_NO_TRANSACTION",
+  "clusterGenesis": null,
+  "transactionCount": 0,
+  "versions": {
+    "node": "v24.10.0",
+    "pnpm": "10.17.1",
+    "anchor": "anchor-cli 1.1.2",
+    "cargo": "cargo 1.89.0 (c24e10642 2025-06-23)"
+  },
+  "checks": [
+    {
+      "name": "submission-artefacts",
+      "kind": "json-pass",
+      "command": [
+        "node",
+        "scripts/check-submission.mjs"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "submission-artefacts.log",
+      "outputSha256": "79501e4c1bd8b93c326f852f299b4e06bd16264133d60d219f447ab17c8bc244",
+      "passed": false,
+      "validationError": "Error: wire vectors missing required positive/adversarial cases"
+    }
+  ],
+  "mandatoryCheckCount": 2,
+  "executedCheckCount": 1,
+  "reviewer": "self-prepared; the plan requires a human to challenge each headline against the results",
+  "limits": [
+    "Checks only; independent reviewer and actual runtime/compute capacity remain open"
+  ]
+}

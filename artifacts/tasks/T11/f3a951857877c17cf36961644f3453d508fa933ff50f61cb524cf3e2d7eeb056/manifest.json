@@ -1,0 +1,73 @@
+{
+  "task": "T11",
+  "status": "CHECKS_PASS_REVIEW_PENDING",
+  "recordedAt": "2026-09-25T17:47:08.630Z",
+  "sourceCommit": "458b12d25d7622a1639ff166910dc107ff938285",
+  "sourceTreeSha256": "f3a951857877c17cf36961644f3453d508fa933ff50f61cb524cf3e2d7eeb056",
+  "sourceFiles": {
+    "package.json": "15efdc9e5442dce0e2f083abf0cba25851475921bcd15869a77b7aac92b562bd",
+    "pnpm-lock.yaml": "c7f448b95f5353b62a8ef43f64f92037d6f3a9e123e77dcbc0cc2a9933b71809",
+    "packages/contracts/src/index.ts": "75c2bbafe68aed75f3f51aa2a430b088a3428330dcb2999239f0211c84b20d9e",
+    "packages/planner/package.json": "23c0c4a8d791eaa579ead024d9acb7ffdf56e67066f469418ace937f0651fd5b",
+    "packages/planner/src/mandate.ts": "420b3884b0ae34208f13827dd7b6edec107d84acce909d8df01649f323ae0570",
+    "packages/planner/src/validate.ts": "f18dc13c024afcfa99e38e4766bebd118b95a14d7d6c066966e0925dd1ab369b",
+    "tests/planner/validation.test.ts": "dbaffa1c7c8bc81d3add383d574f3afbf454f9f46c6b221c6cc11a80c1d93d44",
+    "tests/planner/differential-vectors.json": "d0ca56e2617a7a832370d6e59f762b566c367ead441a7268f2009c89578d3e2e",
+    "docs/spec/intent-contract.md": "3263fe5eb0bc17b7ad550b601134f879b19ce9b71ca3dc4acbb2ac05f9756f1d",
+    "docs/spec/settlement-accounting.md": "2cfbbf7efd2edde1e10f63e092ea21adaeef7b79fe45afafa95b54ad28f9bd4f",
+    "docs/spec/wire-vectors.json": "e31d3209a0556554172821a35f16aeeb406fa1cf27ea01512ea279b4ea370ecf",
+    "verification/tasks/T11.json": "39f15ec0619a38b71ddb3d865f430055a649b39917848cf756349803197c303b",
+    "scripts/verify-task.mjs": "1581a4c28fcc970594abf4ef13afb4886ff0f1868aeab7e046189875e3898920"
+  },
+  "policyFixtureSha256": "e31d3209a0556554172821a35f16aeeb406fa1cf27ea01512ea279b4ea370ecf",
+  "environment": "LOCAL_NO_TRANSACTION",
+  "clusterGenesis": null,
+  "transactionCount": 0,
+  "versions": {
+    "node": "v24.10.0",
+    "pnpm": "10.17.1",
+    "anchor": "anchor-cli 1.1.2",
+    "cargo": "cargo 1.89.0 (c24e10642 2025-06-23)"
+  },
+  "checks": [
+    {
+      "name": "planner-validator",
+      "kind": "vitest",
+      "command": [
+        "corepack",
+        "pnpm@10.17.1",
+        "exec",
+        "vitest",
+        "run",
+        "tests/planner/validation.test.ts"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "planner-validator.log",
+      "outputSha256": "9ebfb7e7b8f8a80c10ad04157effb667203f03875ecbf3b648fc3e19d2dc3401",
+      "passed": true
+    },
+    {
+      "name": "typescript",
+      "kind": "typecheck",
+      "command": [
+        "corepack",
+        "pnpm@10.17.1",
+        "exec",
+        "tsc",
+        "--noEmit"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "typescript.log",
+      "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "passed": true
+    }
+  ],
+  "mandatoryCheckCount": 2,
+  "executedCheckCount": 2,
+  "reviewer": null,
+  "limits": [
+    "Checks only; independent reviewer and actual runtime/compute capacity remain open"
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "task": "T30",
+  "status": "CHECKS_FAILED",
+  "recordedAt": "2026-09-25T17:48:01.473Z",
+  "sourceCommit": "458b12d25d7622a1639ff166910dc107ff938285",
+  "sourceTreeSha256": "906fa9ba2e91aa5bfefb551164c610716aec67db879ec438819885ad949d2895",
+  "sourceFiles": {
+    "docs/release-manifest.json": "9b7fd7a83ebaa8cec9a3498b9527480995232d3d343da6a9abf46456f05a60e1",
+    "docs/release-checklist.md": "51a2fb139e0aca5add6603576e55b5c8820a71a144bf3ba586ca2abf38588111",
+    "docs/evidence/rehearsal.md": "a0860a96d5f6553c23786f61a23b0df770dab419d336829822d39d644414b47a",
+    "docs/local-demo-runbook.md": "145207a329474f105974daa1f4bcf8a4ed3263d4865340e4e3a2b7f0f142fd1f",
+    "scripts/verify-release.mjs": "f3a1fb61e768c77fdb0251aef2d0647903324e8cc7adf9c4ade04da3c2580727",
+    "scripts/local-runs/README.md": "36b45585c3b753007c663fe84f9d056fdfdb19a1a94120336a19a9390be95b04",
+    "verification/tasks/T30.json": "7de87c5f98c6d1cd5ec847dc2246f84963fb34e4a58217c2737b6ebe494f5775"
+  },
+  "policyFixtureSha256": "e31d3209a0556554172821a35f16aeeb406fa1cf27ea01512ea279b4ea370ecf",
+  "environment": "LOCAL_NO_TRANSACTION",
+  "clusterGenesis": null,
+  "transactionCount": 0,
+  "versions": {
+    "node": "v24.10.0",
+    "pnpm": "10.17.1",
+    "anchor": "anchor-cli 1.1.2",
+    "cargo": "cargo 1.89.0 (c24e10642 2025-06-23)"
+  },
+  "checks": [
+    {
+      "name": "release-manifest",
+      "kind": "release-manifest",
+      "command": [
+        "node",
+        "scripts/verify-release.mjs"
+      ],
+      "exit": 1,
+      "signal": null,
+      "output": "release-manifest.log",
+      "outputSha256": "82f6903fa0462cb777f97a77e5327fdf5c5a3f68112c180b398b8b5e7dec0cd3",
+      "passed": false
+    }
+  ],
+  "mandatoryCheckCount": 2,
+  "executedCheckCount": 1,
+  "reviewer": null,
+  "limits": [
+    "Checks only; independent reviewer and actual runtime/compute capacity remain open"
+  ]
+}

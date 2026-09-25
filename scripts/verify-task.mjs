@@ -14,7 +14,7 @@ export function assertManifest(manifest, task) {
   for (const check of manifest.checks) {
     if (!check || typeof check.name !== 'string' || !/^[a-z0-9-]+$/.test(check.name) || names.has(check.name)) throw new Error('invalid/duplicate check name');
     names.add(check.name);
-    if (!['locked-install', 'workspace', 'vitest', 'typecheck', 'json-pass', 'cargo-test', 'anchor-build', 'capacity', 'local-runtime', 't06-runtime', 't07-runtime', 't08-runtime', 't09-runtime', 't10-runtime', 't16-runtime', 't32-runtime', 't24-runtime', 'release-manifest', 'soak-report', 'evidence-pass', 'playwright', 'python-test'].includes(check.kind)) throw new Error(`unknown evidence kind ${check.kind}`);
+    if (!['locked-install', 'workspace', 'vitest', 'typecheck', 'json-pass', 'findings-pass', 'submission-pass', 'cargo-test', 'anchor-build', 'capacity', 'local-runtime', 't06-runtime', 't07-runtime', 't08-runtime', 't09-runtime', 't10-runtime', 't16-runtime', 't32-runtime', 't24-runtime', 'release-manifest', 'soak-report', 'evidence-pass', 'playwright', 'python-test'].includes(check.kind)) throw new Error(`unknown evidence kind ${check.kind}`);
     if (typeof check.command !== 'string' || !/^[a-zA-Z0-9_-]+$/.test(check.command)) throw new Error('invalid command');
     if (!Array.isArray(check.args) || check.args.some((arg) => typeof arg !== 'string' || arg.includes('\0'))) throw new Error('invalid command args');
     if (check.args.join(' ').includes('mainnet')) throw new Error('mainnet command rejected');
@@ -85,6 +85,22 @@ export function assertFreshOutput(kind, stdout, stderr, root) {
   } else if (kind === 'json-pass') {
     const report = JSON.parse(stdout.trim());
     if (report.status !== 'PASS' || report.positive_vectors < 1 || report.price_guard_vectors < 1 || report.flow_vectors < 1 || report.subsidy_counterexample_rejected !== true) throw new Error('wire vectors missing required positive/adversarial cases');
+  } else if (kind === 'findings-pass') {
+    // A money-path review report. It must be a pass with every finding resolved and none open —
+    // `json-pass` checked the wire-vector shape and so could never accept this report.
+    const report = JSON.parse(stdout.trim());
+    if (report.status !== 'PASS' || !(report.findings >= 1) || report.resolved !== report.findings ||
+        report.open_findings !== 0 || !(report.reviews >= 1)) {
+      throw new Error('review findings report is incomplete, unresolved or has an open finding');
+    }
+  } else if (kind === 'submission-pass') {
+    // The submission-readiness report: a pass with artefacts and checked links, and the prohibited
+    // statuses explicitly present rather than silently absent.
+    const report = JSON.parse(stdout.trim());
+    if (report.status !== 'PASS' || !(report.artefacts >= 1) || !(report.relativeLinks >= 1) ||
+        !Array.isArray(report.prohibitedStatusesPresent) || report.prohibitedStatusesPresent.length === 0) {
+      throw new Error('submission readiness report is incomplete');
+    }
   } else if (kind === 'cargo-test') {
     if (!/test result: ok\. [1-9]\d* passed; 0 failed; 0 ignored/.test(combined)) throw new Error('Rust test selection absent, failed or ignored');
   } else if (kind === 'anchor-build') {

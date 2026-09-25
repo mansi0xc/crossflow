@@ -1,0 +1,10 @@
+
+[stderr]
+manifest commit 1b5c3ae0ae76033bf7b6d490149a12746a7ce517 != HEAD 458b12d25d7622a1639ff166910dc107ff938285
+manifest tree bbc69da7cb73d66f51f1793a0e350b374c2ea121 != HEAD tree 82d92be742fc79fa8a655906ddac4a66e377101f
+artifact target/deploy/crossflow.so changed: dfd1a99c35c1f36c9c1f9da04876fc170e3ce7abeaa7b1c3e1a3ff096418459f != 7eaed71afda075e5c2f7cd6ab88cf76f5afc63efc0cb80870292dca3a2f136ec
+artifact docs/evidence/economic-results.json changed: 4d3298245f6e8aaa8f657adafbe8bcf238f9b5b40901e9bd089c33965d785f9d != 0335b3e7c6dca9d95149e0e8045a730f740e68105d11b446c4c7fa4fd6bf147c
+
+The release manifest is frozen to a specific commit. If this is a legitimate new candidate, re-freeze it as the last step before submission:
+  node scripts/verify-release.mjs --freeze
+and commit the updated docs/release-manifest.json.

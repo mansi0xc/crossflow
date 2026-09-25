@@ -1,0 +1,12 @@
+
+[stderr]
+   Compiling crossflow v0.1.0 (/Users/mansitibrewal/chronicles/crossflow/programs/crossflow)
+warning: crossflow@0.1.0: CrossFlow deployment constants disabled; configuration initialization must reject
+    Finished `release` profile [optimized] target(s) in 3.29s
+   Compiling crossflow v0.1.0 (/Users/mansitibrewal/chronicles/crossflow/programs/crossflow)
+warning: crossflow@0.1.0: CrossFlow deployment constants disabled; configuration initialization must reject
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.70s
+     Running unittests src/lib.rs (/Users/mansitibrewal/chronicles/crossflow/target/debug/deps/crossflow-97da5b81c430801f)
+    Finished `release` profile [optimized] target(s) in 0.10s
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.13s
+     Running unittests src/lib.rs (/Users/mansitibrewal/chronicles/crossflow/target/debug/deps/test_venue-fa2ce4216d46d710)

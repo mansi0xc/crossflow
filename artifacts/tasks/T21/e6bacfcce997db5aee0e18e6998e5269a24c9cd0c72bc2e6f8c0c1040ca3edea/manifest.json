@@ -1,0 +1,73 @@
+{
+  "task": "T21",
+  "status": "CHECKS_PASS_REVIEW_PENDING",
+  "recordedAt": "2026-09-25T17:45:18.727Z",
+  "sourceCommit": "458b12d25d7622a1639ff166910dc107ff938285",
+  "sourceTreeSha256": "e6bacfcce997db5aee0e18e6998e5269a24c9cd0c72bc2e6f8c0c1040ca3edea",
+  "sourceFiles": {
+    "services/optimizer/shared.py": "b08404657b1acaf90fc6c235c68c02be20ea01ac4a9363314e0ec1e01d076e19",
+    "scripts/evaluate-economics.py": "fdd10ecde5571c2f907c8f7ddb13e4a14cc579a9b08ac562ddc3e2dff468b86c",
+    "tests/economics/test_evaluation.py": "a9d5afd998cfd9dd9d09476109b031305f3fbde4237b1e277f71de54eb7d166a",
+    "docs/evidence/economic-report.md": "f5bc7250ea4c3ab08f652d92f4386fd6175608aa20d24703f366ead475ec7abc",
+    "docs/evidence/economic-results.json": "4d3298245f6e8aaa8f657adafbe8bcf238f9b5b40901e9bd089c33965d785f9d",
+    "research/economics/scenarios.json": "e268bcf55736c5bc17f98a7c42d2b56e3ef4f0e099d4eb4ab26f5bbbc155d037",
+    "research/economics/split-manifest.json": "898cb972ad12754433e74bdb3463c833b510f76af97e99411606385ef57d0c7c",
+    "verification/tasks/T21.json": "ea40e60e142b53125d250a644bf0ee698a87c98511cbacc13c81739010012289"
+  },
+  "policyFixtureSha256": "e31d3209a0556554172821a35f16aeeb406fa1cf27ea01512ea279b4ea370ecf",
+  "environment": "LOCAL_NO_TRANSACTION",
+  "clusterGenesis": null,
+  "transactionCount": 0,
+  "versions": {
+    "node": "v24.10.0",
+    "pnpm": "10.17.1",
+    "anchor": "anchor-cli 1.1.2",
+    "cargo": "cargo 1.89.0 (c24e10642 2025-06-23)"
+  },
+  "checks": [
+    {
+      "name": "evaluation-validator",
+      "kind": "python-test",
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/economics",
+        "-p",
+        "test_evaluation.py"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "evaluation-validator.log",
+      "outputSha256": "bdc54ab0829c85d1070df3b87ff4c8862a11fa2c1294dd024b605aa8b4ebf0c7",
+      "passed": true
+    },
+    {
+      "name": "held-out-reproduces",
+      "kind": "python-test",
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "services/optimizer",
+        "-p",
+        "test_engines.py"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "held-out-reproduces.log",
+      "outputSha256": "ec6af69d8b44a69b4e63545f2ddde5f8c47a7c904de9cf8dd2e44936d44a8877",
+      "passed": true
+    }
+  ],
+  "mandatoryCheckCount": 2,
+  "executedCheckCount": 2,
+  "reviewer": null,
+  "limits": [
+    "Checks only; independent reviewer and actual runtime/compute capacity remain open"
+  ]
+}

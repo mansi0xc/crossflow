@@ -1,0 +1,39 @@
+{
+  "status": "PASS",
+  "task": "T32",
+  "scope": "LOCAL SERVICE END-TO-END; no devnet, no route, no UI",
+  "cluster": "localnet",
+  "genesis": "2CjjSFHG1k2TeFsxffpCBNT5dgWcVX6Zw8SQ55A1vEPK",
+  "program_id": "CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh",
+  "config": "2Bdqf3WTa2tWmzmKoQ3VT1UFaL8WjgBnd6s9U4jg9xsg",
+  "operator": "7s9SF9pp6Z2W5rwNVwJdBMyy9j28ynTNUSBEoVuWKSrb",
+  "steps": [
+    "health",
+    "deployment",
+    "price",
+    "plans",
+    "intents",
+    "lookup-table",
+    "prepare",
+    "simulate",
+    "height-samples",
+    "local-build-equivalence",
+    "broadcast",
+    "reconciled"
+  ],
+  "funded_intents": 3,
+  "settled_intents": 3,
+  "compute_units": 209617,
+  "serialized_bytes": 350,
+  "lookup_table_entries": 33,
+  "settlement_signature": "bCf1XkqdXiQKTK8tnmDj2SHaM68gh7Msc19xLN1kGyTSHdvuKQ72qKmvP4F6LHEzLTyonFV9if2A4Rpd4SJtqJ9",
+  "hashes": {
+    "manifest": "3641cfe9ba91f0918aba60e12c65b698b0662a313c9c34491ec0e53a36c57366",
+    "env": "8d57f586d3919200ae77fa3a4798f04310e98253a33aacd3c9d47f9786ace2a2"
+  },
+  "limitations": [
+    "Local validator and synthetic TEST PRICES; the plan is a fixture scenario, not a live market.",
+    "The service returns an unsigned transaction: the operator wallet signs and pays the network fee.",
+    "No external residual route and no UI are exercised here; those are T16 and T18–T20."
+  ]
+}

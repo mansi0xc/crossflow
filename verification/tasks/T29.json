@@ -14,7 +14,7 @@
   "checks": [
     {
       "name": "submission-artefacts",
-      "kind": "json-pass",
+      "kind": "submission-pass",
       "command": "node",
       "args": [
         "scripts/check-submission.mjs"

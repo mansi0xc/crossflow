@@ -31,7 +31,7 @@
     },
     {
       "name": "findings-validator",
-      "kind": "json-pass",
+      "kind": "findings-pass",
       "command": "node",
       "args": [
         "scripts/check-review-findings.mjs"
