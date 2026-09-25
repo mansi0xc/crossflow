@@ -1,10 +1,11 @@
 import { createHash, randomBytes } from 'node:crypto';
 import { readFileSync, writeFileSync } from 'node:fs';
 import { AddressLookupTableAccount, AddressLookupTableProgram, ComputeBudgetProgram, Connection, Keypair, PublicKey,
-  SystemProgram, Transaction, TransactionInstruction, VersionedTransaction, sendAndConfirmTransaction } from '@solana/web3.js';
+  SystemProgram, Transaction, TransactionInstruction, TransactionMessage, VersionedTransaction, sendAndConfirmTransaction } from '@solana/web3.js';
 import { assertPreparedDeploymentManifest } from './deployment-manifest.js';
 import { buildCreateAndFundInstruction, deriveFundAccounts, fundingTransaction } from '../packages/client/src/fund.js';
-import { decodeSettlementBody } from '../packages/planner/src/validate.js';
+import { decodeSettlementBody, encodeSettlementBody } from '../packages/planner/src/validate.js';
+import { buildSettleBatchInstruction, deriveBatchAccounts } from '../packages/client/src/build-batch.js';
 
 /**
  * T32 end-to-end: the service path without manually pasting anything.
@@ -221,14 +222,17 @@ if (phase === 'fund') {
     await send(new Transaction().add(AddressLookupTableProgram.extendLookupTable({ lookupTable,
       authority: rentPayer.publicKey, payer: rentPayer.publicKey, addresses: unique.slice(offset, offset + 12) })), [rentPayer]);
   }
+  // The extending slot must be *rooted* before a transaction may reference the table: waiting on
+  // the confirmed slot alone leaves a race in which the leader silently drops the transaction.
   let lookupAccount: AddressLookupTableAccount | null = null;
-  for (let attempt = 0; attempt < 60 && !lookupAccount; attempt++) {
+  for (let attempt = 0; attempt < 90 && !lookupAccount; attempt++) {
     const fetched = await connection.getAddressLookupTable(lookupTable);
     if (fetched.value && fetched.value.state.addresses.length === unique.length &&
-        (await connection.getSlot('confirmed')) > fetched.value.state.lastExtendedSlot) lookupAccount = fetched.value;
+        (await connection.getSlot('finalized')) > fetched.value.state.lastExtendedSlot) lookupAccount = fetched.value;
     else await new Promise(resolve => setTimeout(resolve, 400));
   }
   if (!lookupAccount) throw new Error('lookup table did not activate in time');
+  await new Promise(resolve => setTimeout(resolve, 600));
 
   const prepared = await json('/batches/prepare', { method: 'POST', body: JSON.stringify({
     plan, operator: rentPayer.publicKey.toBase58(), lookupTable: lookupTable.toBase58() }) });
@@ -248,17 +252,74 @@ if (phase === 'fund') {
   // The operator signs what the service returned; the service never sees a key.
   const transaction = VersionedTransaction.deserialize(Buffer.from(String(prepared.body.transaction), 'base64'));
   transaction.sign([signers[0]]);
-  const settleSignature = await connection.sendRawTransaction(transaction.serialize(), { preflightCommitment: 'confirmed', maxRetries: 3 });
-  // Confirm by signature: the transaction's own blockhash was fetched when the service prepared
-  // it, so a block-height strategy measured from here can expire spuriously.
-  const confirmation = await connection.confirmTransaction(settleSignature, 'confirmed');
-  if (confirmation.value.err) throw new Error(`settlement failed on chain: ${JSON.stringify(confirmation.value.err)}`);
+  {
+    // Simulate exactly what will be sent, so a malformed message surfaces here rather than as a
+    // silent drop.
+    const probe = VersionedTransaction.deserialize(transaction.serialize());
+    const simulated = await connection.simulateTransaction(probe, { sigVerify: false, commitment: 'confirmed' });
+    steps.push({ step: 'simulate', detail: { err: simulated.value.err, units: simulated.value.unitsConsumed,
+      logs: (simulated.value.logs ?? []).slice(-6) } });
+    if (simulated.value.err) throw new Error(`prepared transaction does not simulate: ${JSON.stringify(simulated.value.err)}\n${(simulated.value.logs ?? []).join('\n')}`);
+  }
+  const heightSamples: number[] = [];
+  for (let i = 0; i < 6; i++) { heightSamples.push(await connection.getBlockHeight('confirmed')); await new Promise(resolve => setTimeout(resolve, 400)); }
+  steps.push({ step: 'height-samples', detail: { samples: heightSamples, slot: await connection.getSlot('confirmed') } });
+  // The service must have built exactly what a local client would build from the same validated
+  // plan. Comparing the bytes is the strongest available check that it did not improvise.
+  {
+    const localAccounts = deriveBatchAccounts(PROGRAM, config, prices, mints,
+      funded.map(entry => ({ owner: new PublicKey(entry.owner), nonce: BigInt(entry.nonce) })));
+    const localInstruction = buildSettleBatchInstruction(PROGRAM, localAccounts, encodeSettlementBody(
+      { schema_version: '1', expected_snapshot_sequence: snapshotSequence, crosses: [cross], residuals: [] }, funded.length));
+    const localMessage = new TransactionMessage({ payerKey: signers[0].publicKey,
+      recentBlockhash: preparedBytes.length ? transaction.message.recentBlockhash : '',
+      instructions: [ComputeBudgetProgram.setComputeUnitLimit({ units: 1_400_000 }), localInstruction] })
+      .compileToV0Message([lookupAccount]);
+    steps.push({ step: 'local-build-equivalence', detail: {
+      localInstructionAccounts: localInstruction.keys.length,
+      batchCount: decoded.batch_count,
+      sameCompiledInstructions: JSON.stringify(localMessage.compiledInstructions.map(entry => [...entry.data])) ===
+        JSON.stringify(transaction.message.compiledInstructions.map(entry => [...entry.data])),
+      sameStaticKeys: JSON.stringify(localMessage.staticAccountKeys.map(key => key.toBase58())) ===
+        JSON.stringify(transaction.message.staticAccountKeys.map(key => key.toBase58())),
+    } });
+  }
+
+  const heightBefore = await connection.getBlockHeight('confirmed');
+  const settleSignature = await connection.sendRawTransaction(transaction.serialize(), { preflightCommitment: 'confirmed', maxRetries: 5 });
+  const heightAfter = await connection.getBlockHeight('confirmed');
+  steps.push({ step: 'broadcast', detail: {
+    operator: signers[0].publicKey.toBase58(),
+    feePayer: transaction.message.staticAccountKeys[0]?.toBase58(),
+    signatureCount: transaction.signatures.length,
+    signature: settleSignature, heightBefore, heightAfter,
+    serializedBytes: transaction.serialize().length,
+    lookupTables: transaction.message.addressTableLookups.length,
+    blockhash: transaction.message.recentBlockhash } });
+
+  // Poll the signature rather than relying on a timeout strategy, so a failure reports the
+  // program's own logs instead of "unknown whether it succeeded".
+  let confirmed = false;
+  let failure: unknown = null;
+  for (let attempt = 0; attempt < 40 && !confirmed; attempt++) {
+    const statuses = await connection.getSignatureStatuses([settleSignature], { searchTransactionHistory: true });
+    const status = statuses.value[0];
+    if (status?.err) { failure = status.err; break; }
+    if (status?.confirmationStatus === 'confirmed' || status?.confirmationStatus === 'finalized') confirmed = true;
+    else await new Promise(resolve => setTimeout(resolve, 500));
+  }
+  if (!confirmed) {
+    const detail = await connection.getTransaction(settleSignature, { commitment: 'confirmed', maxSupportedTransactionVersion: 0 }).catch(() => null);
+    const logs = detail?.meta?.logMessages ?? [];
+    throw new Error(`settlement did not confirm (err=${JSON.stringify(failure ?? detail?.meta?.err ?? null)})\n${logs.join('\n')}`);
+  }
 
   const reconciled = await json('/intents');
   const after = (reconciled.body.intents ?? []) as { address: string; status: string }[];
   const settled = after.filter(intent => funded.some(entry => entry.address === intent.address) && intent.status === 'Settled');
   steps.push({ step: 'reconciled', detail: { settled: settled.length, statuses: after.map(intent => intent.status) } });
-  if (settled.length !== 2) throw new Error(`expected two settled intents, found ${settled.length}`);
+  // Every funded participant is settled by the batch, not only the two that crossed.
+  if (settled.length !== funded.length) throw new Error(`expected ${funded.length} settled intents, found ${settled.length}`);
 
   const record = {
     status: 'PASS', task: 'T32', scope: 'LOCAL SERVICE END-TO-END; no devnet, no route, no UI',

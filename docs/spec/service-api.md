@@ -49,22 +49,29 @@ Request bodies are capped (default 64 KiB), requests are rate limited per client
 is capped, chain reads have their own timeout, and owners are limited to three. A missing operator,
 a malformed body and an unknown route are refused before any chain read.
 
-## End-to-end status
+## End-to-end status: complete
 
-The HTTP path is exercised by `tests/services/orchestration.test.ts` and `resource-limits.test.ts`
-(guards, decoding, bounds) and the browser specs drive the service for deployment, price and plan.
-A **live** end-to-end run — plan → funded-intent discovery → prepare → operator sign → broadcast →
-reconcile — is written as `scripts/demo-t32-service.ts` and was run repeatedly on a local validator.
-It exercised real defects, all now fixed: the service ignored its documented environment variables
-and served a different deployment; the mandate context carried base58 identities where the
-canonical encoder requires hex (genesis, program id, config, owner, recipient ATA, publisher); the
-prepared transaction carried no compute-budget instruction and would have run on the 200k default;
-and a supplied lookup table was reported in the preview but never actually used to compile a v0
-message.
+`scripts/demo-t32-service.ts` drives the whole path over HTTP on a local validator — plan, funded
+intent discovery, batch preparation, operator signing, broadcast and reconciliation — and
+`scripts/check-t32-local-evidence.mjs` verifies the transcript. A passing run:
 
-It has **not** yet completed: the composed transaction is built, validated, signed and broadcast,
-but in this harness it did not confirm within the window before the run was stopped for time. That
-is recorded as unfinished rather than papered over, and no passing evidence file was written.
+1. `GET /health`, `GET /deployment`, `GET /price` report the configured local deployment;
+2. `POST /plans` runs the real numerical engine and returns all three proposals;
+3. `GET /intents` reads the funded intents from chain, in raw owner-byte order;
+4. the operator publishes an address lookup table (the service never creates or owns it);
+5. `POST /batches/prepare` validates the plan through the independent planner and returns an
+   **unsigned** versioned transaction, which is required to be **byte-equivalent** to one a local
+   client builds from the same validated plan;
+6. the operator wallet signs and broadcasts it, and pays the network fee;
+7. `GET /intents` is re-read and every funded participant must now report `Settled`.
+
+Four defects were found by building this and are fixed: the service ignored its documented
+environment variables and served a different deployment; the mandate context carried base58
+identities where the canonical encoder requires hex (genesis, program id, config, owner, recipient
+ATA and publisher); the prepared transaction carried no compute-budget instruction and would have
+run on the 200k default; and a supplied lookup table was reported in the preview but never used to
+compile the message. A fifth was an address-lookup-table activation race — waiting on the confirmed
+slot instead of the rooted one lets the leader silently drop the transaction.
 
 ## What this service is not
 

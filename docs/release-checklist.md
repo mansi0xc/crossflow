@@ -18,7 +18,7 @@ manifest against this tree; it fails on a changed artifact or a stale commit rat
 | Prepare screen | `verify:task -- T18` | PASS 2/2 |
 | Approval | `verify:task -- T19` | PASS 3/3 |
 | Recovery | `verify:task -- T20` | PASS 2/2 |
-| Service | `verify:task -- T32` | PASS 3/3 |
+| Service | `verify:task -- T32` | PASS 4/4, including the live end-to-end run |
 | Devnet identity | `exec tsx scripts/check-deployment.ts` | PASS, policy matches, zero claims |
 | Release manifest | `verify:release` | PASS |
 

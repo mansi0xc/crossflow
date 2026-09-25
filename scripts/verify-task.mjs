@@ -14,7 +14,7 @@ export function assertManifest(manifest, task) {
   for (const check of manifest.checks) {
     if (!check || typeof check.name !== 'string' || !/^[a-z0-9-]+$/.test(check.name) || names.has(check.name)) throw new Error('invalid/duplicate check name');
     names.add(check.name);
-    if (!['locked-install', 'workspace', 'vitest', 'typecheck', 'json-pass', 'cargo-test', 'anchor-build', 'capacity', 'local-runtime', 't06-runtime', 't07-runtime', 't08-runtime', 't09-runtime', 't10-runtime', 't16-runtime', 'playwright'].includes(check.kind)) throw new Error(`unknown evidence kind ${check.kind}`);
+    if (!['locked-install', 'workspace', 'vitest', 'typecheck', 'json-pass', 'cargo-test', 'anchor-build', 'capacity', 'local-runtime', 't06-runtime', 't07-runtime', 't08-runtime', 't09-runtime', 't10-runtime', 't16-runtime', 't32-runtime', 'playwright'].includes(check.kind)) throw new Error(`unknown evidence kind ${check.kind}`);
     if (typeof check.command !== 'string' || !/^[a-zA-Z0-9_-]+$/.test(check.command)) throw new Error('invalid command');
     if (!Array.isArray(check.args) || check.args.some((arg) => typeof arg !== 'string' || arg.includes('\0'))) throw new Error('invalid command args');
     if (check.args.join(' ').includes('mainnet')) throw new Error('mainnet command rejected');
@@ -159,6 +159,19 @@ export function assertFreshOutput(kind, stdout, stderr, root) {
     const passed = combined.match(/(\d+) passed/);
     if (!passed || Number(passed[1]) < 1 || /(\d+) failed/.test(combined) || /(\d+) flaky/.test(combined)) {
       throw new Error('Playwright selection absent, failed or flaky');
+    }
+  } else if (kind === 't32-runtime') {
+    const result = JSON.parse(stdout.trim());
+    if (result.status !== 'PASS' || result.task !== 'T32' || result.cluster !== 'localnet' ||
+        !/^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(result.genesis) ||
+        result.funded_intents < 2 || result.settled_intents !== result.funded_intents ||
+        !(result.compute_units > 0) || !(result.serialized_bytes > 0) || result.serialized_bytes > 1232 ||
+        !(result.lookup_table_entries >= 1) ||
+        !Array.isArray(result.steps) || result.steps.length < 8 ||
+        !Array.isArray(result.limitations) || result.limitations.length < 2 ||
+        Object.values(result.hashes ?? {}).length < 2 ||
+        Object.values(result.hashes ?? {}).some(value => typeof value !== 'string' || !/^[0-9a-f]{64}$/.test(value))) {
+      throw new Error('T32 live service end-to-end evidence is incomplete');
     }
   } else if (kind === 'capacity') {
     const start = stdout.indexOf('{');

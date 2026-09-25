@@ -1,0 +1,218 @@
+{
+  "status": "PASS",
+  "task": "T32",
+  "scope": "LOCAL SERVICE END-TO-END; no devnet, no route, no UI",
+  "cluster": "localnet",
+  "genesis": "2CjjSFHG1k2TeFsxffpCBNT5dgWcVX6Zw8SQ55A1vEPK",
+  "program_id": "CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh",
+  "config": "2Bdqf3WTa2tWmzmKoQ3VT1UFaL8WjgBnd6s9U4jg9xsg",
+  "service_url": "http://127.0.0.1:8787",
+  "operator": "7s9SF9pp6Z2W5rwNVwJdBMyy9j28ynTNUSBEoVuWKSrb",
+  "settlement_signature": "bCf1XkqdXiQKTK8tnmDj2SHaM68gh7Msc19xLN1kGyTSHdvuKQ72qKmvP4F6LHEzLTyonFV9if2A4Rpd4SJtqJ9",
+  "settle_nonce": "0178f30c",
+  "steps": [
+    {
+      "step": "health",
+      "detail": {
+        "status": "OK",
+        "cluster": "localnet",
+        "genesis": "2CjjSFHG1k2TeFsxffpCBNT5dgWcVX6Zw8SQ55A1vEPK",
+        "programId": "CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh",
+        "config": "2Bdqf3WTa2tWmzmKoQ3VT1UFaL8WjgBnd6s9U4jg9xsg",
+        "routeEnabled": false
+      }
+    },
+    {
+      "step": "deployment",
+      "detail": {
+        "cluster": "localnet",
+        "config": "2Bdqf3WTa2tWmzmKoQ3VT1UFaL8WjgBnd6s9U4jg9xsg",
+        "routeEnabled": false
+      }
+    },
+    {
+      "step": "price",
+      "detail": {
+        "sequence": "2",
+        "label": "TEST PRICES; synthetic fixture oracle; no equity price claim"
+      }
+    },
+    {
+      "step": "plans",
+      "detail": {
+        "scenario": "opposite-01",
+        "status": {
+          "A": "ok",
+          "B": "ok",
+          "C": "ok"
+        }
+      }
+    },
+    {
+      "step": "intents",
+      "detail": {
+        "total": 3,
+        "funded": 3,
+        "statuses": [
+          "Funded",
+          "Funded",
+          "Funded"
+        ]
+      }
+    },
+    {
+      "step": "lookup-table",
+      "detail": {
+        "address": "G9DURma5WT3J5xV2HwjimzqL2HcAGBuURJSJQVRjFqgw",
+        "entries": 33
+      }
+    },
+    {
+      "step": "prepare",
+      "detail": {
+        "preview": {
+          "batchAuthority": "6V9sgWDLsYuoWV24BrKXNGSmNwRcL8wKc1B6g3bjAWeQ",
+          "snapshotSequence": "2",
+          "owners": [
+            "2LDdymgnRNnKrk5pRXTXSGiP1jpgdGiTc6MCMkH2hxJF",
+            "616ZJaqu9J1WDFqUvGgBVYfcitp51YWebTgGD5BFrXXy",
+            "7s9SF9pp6Z2W5rwNVwJdBMyy9j28ynTNUSBEoVuWKSrb"
+          ],
+          "noOp": false,
+          "quoteDependent": false,
+          "settlementBodyBytes": 31,
+          "planHash": "01030200000000000000010102018084",
+          "requiresLookupTable": false,
+          "lookupTableProvided": true,
+          "legacyBytesBeforeCompilation": 350,
+          "decoded": null,
+          "observedAt": "2026-09-25T00:03:45.307Z"
+        },
+        "bodyBatchCount": 3,
+        "outputs": [
+          [
+            "30000000",
+            "0",
+            "0"
+          ],
+          [
+            "20000000",
+            "2000000",
+            "0"
+          ],
+          [
+            "30000000",
+            "2000000",
+            "0"
+          ]
+        ],
+        "debits": [
+          [
+            "0",
+            "0",
+            "0"
+          ],
+          [
+            "20000000",
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "2000000",
+            "0"
+          ]
+        ],
+        "credits": [
+          [
+            "0",
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "2000000",
+            "0"
+          ],
+          [
+            "20000000",
+            "0",
+            "0"
+          ]
+        ]
+      }
+    },
+    {
+      "step": "simulate",
+      "detail": {
+        "err": null,
+        "units": 209617,
+        "logs": [
+          "Program log: Instruction: TransferChecked",
+          "Program TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA consumed 6148 of 1209972 compute units",
+          "Program TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA success",
+          "Program data: 7g67wH9faAkRlSYdkK4bVTLXPsdWzF+N86j2NsSN0CRSP5QgrsbHZwMCAAAAAAAAAAMAAACj0wu803I6w68D+ASCYYwhpClrrNbt/yN11SYQQcfScRDZiaxMQI/TwJzM8N0LyaZUwUR2s03xHQMdeczbqt4KoDX55xj8srMIAgXEBH/j7kL1z+RnQrRZNBljYQKS4jYDAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAC0xAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAhB4AAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgIQeAAAAAAAAAAAAAAAAAAAtMQEAAAAAAAAAAAAAAAAAAAAAAAAAAAMAAACAw8kBAAAAAAAAAAAAAAAAAAAAAAAAAAAALTEBAAAAAICEHgAAAAAAAAAAAAAAAACAw8kBAAAAAICEHgAAAAAAAAAAAAAAAAA=",
+          "Program CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 209467 of 1399850 compute units",
+          "Program CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh success"
+        ]
+      }
+    },
+    {
+      "step": "height-samples",
+      "detail": {
+        "samples": [
+          108,
+          109,
+          110,
+          111,
+          112,
+          113
+        ],
+        "slot": 114
+      }
+    },
+    {
+      "step": "local-build-equivalence",
+      "detail": {
+        "localInstructionAccounts": 31,
+        "batchCount": 3,
+        "sameCompiledInstructions": true,
+        "sameStaticKeys": true
+      }
+    },
+    {
+      "step": "broadcast",
+      "detail": {
+        "operator": "7s9SF9pp6Z2W5rwNVwJdBMyy9j28ynTNUSBEoVuWKSrb",
+        "feePayer": "7s9SF9pp6Z2W5rwNVwJdBMyy9j28ynTNUSBEoVuWKSrb",
+        "signatureCount": 1,
+        "signature": "bCf1XkqdXiQKTK8tnmDj2SHaM68gh7Msc19xLN1kGyTSHdvuKQ72qKmvP4F6LHEzLTyonFV9if2A4Rpd4SJtqJ9",
+        "heightBefore": 114,
+        "heightAfter": 114,
+        "serializedBytes": 350,
+        "lookupTables": 1,
+        "blockhash": "5tvwDSV6NHXQrktTPRzfZW6tg7RfWsSNyi1dhnLxyLy1"
+      }
+    },
+    {
+      "step": "reconciled",
+      "detail": {
+        "settled": 3,
+        "statuses": [
+          "Settled",
+          "Settled",
+          "Settled"
+        ]
+      }
+    }
+  ],
+  "limitations": [
+    "Local validator and synthetic TEST PRICES; the plan is a fixture scenario, not a live market.",
+    "The service returns an unsigned transaction: the operator wallet signs and pays the network fee.",
+    "No external residual route and no UI are exercised here; those are T16 and T18–T20."
+  ],
+  "hashes": {
+    "manifest": "3641cfe9ba91f0918aba60e12c65b698b0662a313c9c34491ec0e53a36c57366",
+    "env": "8d57f586d3919200ae77fa3a4798f04310e98253a33aacd3c9d47f9786ace2a2"
+  }
+}

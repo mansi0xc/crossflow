@@ -10,7 +10,12 @@
     "tests/services/resource-limits.test.ts",
     "docs/spec/service-api.md",
     "tests/services/orchestration.test.ts",
-    "verification/tasks/T32.json"
+    "verification/tasks/T32.json",
+    "scripts/demo-t32-service.ts",
+    "scripts/check-t32-local-evidence.mjs",
+    "scripts/local-runs/run-t32.sh",
+    "verification/evidence/T32-local-service-output.json",
+    "verification/evidence/T32-local-manifest.json"
   ],
   "checks": [
     {
@@ -44,6 +49,17 @@
         "exec",
         "tsc",
         "--noEmit"
+      ]
+    },
+    {
+      "name": "local-service-e2e",
+      "kind": "t32-runtime",
+      "command": "corepack",
+      "args": [
+        "pnpm@10.17.1",
+        "exec",
+        "tsx",
+        "scripts/check-t32-local-evidence.mjs"
       ]
     }
   ]
