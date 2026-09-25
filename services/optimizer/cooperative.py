@@ -16,7 +16,7 @@ from __future__ import annotations
 from itertools import product
 
 from . import fixed_netting, independent
-from .shared import Budget, Proposal, _proposal, admission, grid, ranking, reference
+from .shared import Budget, Proposal, _proposal, admission, grid, per_owner_verdict, ranking, reference
 
 
 def _joint_candidates(scenario: dict, budget: Budget, seed_outputs: dict | None):
@@ -96,6 +96,40 @@ def compare(scenario: dict, budget: Budget | None = None) -> dict:
                            'reason': 'A, B and C must all be feasible before any savings claim',
                            'netting_gain_micro_usd': None, 'cooperative_gain_micro_usd': None},
         }
+    # The individual guarantee is computed before any aggregate claim is made, so a saving can never
+    # be reported without the per-owner verdict that accompanies it.
+    verdict = per_owner_verdict(a.ledger, c.ledger)
+    netting_verdict = per_owner_verdict(a.ledger, b.ledger)
+
+    # The decision, not just the comparison. Crossing is offered only when it leaves nobody worse
+    # off than executing independently; otherwise the engine falls back, and says why. An aggregate
+    # saving is never sufficient.
+    def objective(proposal):
+        return proposal.ledger['totals']['objective_micro_usd'] if proposal.ledger else None
+
+    declined: dict[str, str] = {}
+    recommendation = 'A'
+    reason = 'executing independently is the only method that cannot leave an owner worse off'
+    if c.feasible and verdict['no_worse_than_independent']:
+        if b.feasible and objective(b) is not None and objective(c) is not None and objective(c) > objective(b):
+            declined['C'] = 'the cooperative adjustment does not beat plain netting on the objective'
+        else:
+            recommendation = 'C'
+            reason = 'cooperative adjustment leaves every owner no worse off and beats the alternatives'
+    elif c.feasible:
+        declined['C'] = ('it would leave these owners worse off than executing independently: '
+                         + ', '.join(verdict['harmed_owners'])) if verdict['assessable'] else str(verdict['reason'])
+    else:
+        declined['C'] = 'the cooperative proposal is not executable: ' + '; '.join(c.reasons)
+    if recommendation != 'C':
+        if b.feasible and netting_verdict['no_worse_than_independent']:
+            recommendation = 'B'
+            reason = 'plain netting leaves every owner no worse off'
+        elif b.feasible:
+            declined['B'] = ('it would leave these owners worse off than executing independently: '
+                             + ', '.join(netting_verdict['harmed_owners'])) if netting_verdict['assessable'] else str(netting_verdict['reason'])
+        else:
+            declined['B'] = 'the netting proposal is not executable: ' + '; '.join(b.reasons)
     a_cost = a.ledger['totals']['recurring_micro_usd']
     b_cost = b.ledger['totals']['recurring_micro_usd']
     c_cost = c.ledger['totals']['recurring_micro_usd']
@@ -108,6 +142,9 @@ def compare(scenario: dict, budget: Budget | None = None) -> dict:
             'valid_baselines': True,
             'netting_gain_micro_usd': a_cost - b_cost,
             'cooperative_raw_difference_micro_usd': raw,
+            'per_owner': verdict,
+            'per_owner_under_netting': netting_verdict,
+            'recommendation': {'method': recommendation, 'reason': reason, 'declined': declined},
             'cooperative_gain_micro_usd': raw if eligible else 0,
             'cooperative_trading_benefit_eligible': eligible,
             'attribution': ('both baselines execute nonzero trades under identical mandates'

@@ -16,11 +16,16 @@ test.describe('T19 compare and approve', () => {
   test('the three approaches are compared under identical constraints, with negatives shown', async ({ page }) => {
     await page.goto('/');
     await page.getByTestId('scenario-all-buy-01').click();
+    // The headline is a decision, not a table of totals.
+    await expect(page.getByTestId('recommendation')).toBeVisible();
+    await page.getByTestId('comparison-summary').click();
     await expect(page.getByTestId('comparison-table')).toBeVisible();
     for (const method of ['A', 'B', 'C']) await expect(page.getByTestId(`proposal-${method}`)).toBeVisible();
-    // A scenario whose cooperative gain is not attributable must say so rather than show a number.
-    await expect(page.getByTestId('comparison-attribution')).toContainText(/not attributable|µUSD/);
-    await expect(page.getByTestId('compare')).toContainText('not realized trades');
+    // A method that cannot be executed is named as such rather than silently omitted.
+    const rows = await page.getByTestId('comparison-table').innerText();
+    expect(rows).toMatch(/yes|no —/);
+    // The totals are modelled, not realized, and say so.
+    await expect(page.getByTestId('comparison-details')).toContainText('not realized fills');
   });
 
   test('the signed funding instruction carries exactly the mandate the page displayed', async ({ page }) => {

@@ -143,7 +143,10 @@ def evaluate(s, outputs, mode, enforce_policy=False):
         if mode == 'independent':
             tx_count = F(n['independent_transactions_per_active_owner'] if i in active else 0)
             seconds = wait['independent_seconds'] if i in active else 0
-        elif active:
+        elif i in active:
+            # Membership, not truthiness: `elif active:` tested whether the set was non-empty, which
+            # charged the batch's shared costs to every owner including those that traded nothing —
+            # making a bystander worse off than doing nothing while the aggregate still looked better.
             tx_count = n['batch_funding_transactions_per_owner'] + n['batch_cleanup_transactions_per_owner'] + F(n['batch_settlement_transactions'], len(accounts))
             seconds = wait['batch_seconds']
         else:
@@ -214,14 +217,22 @@ def independent_check(s, result):
             tx=F(n['independent_transactions_per_active_owner'] if own_active else 0)
             seconds=w['independent_seconds'] if own_active else 0
         else:
-            tx=F(n['batch_funding_transactions_per_owner']+n['batch_cleanup_transactions_per_owner'])+F(n['batch_settlement_transactions'],len(src)) if any_active else F(0)
-            seconds=w['batch_seconds'] if any_active else 0
+            # Per-owner, not per-batch: a participant that trades nothing must not be charged the
+            # batch's shared costs. An earlier version tested `any_active`, which mirrored the same
+            # mistake the implementation made and therefore could not catch it.
+            tx=F(n['batch_funding_transactions_per_owner']+n['batch_cleanup_transactions_per_owner'])+F(n['batch_settlement_transactions'],len(src)) if own_active else F(0)
+            seconds=w['batch_seconds'] if own_active else 0
         network=tx*F((n['lamports_per_signature']*n['signatures_per_transaction']+n['priority_lamports_per_transaction'])*n['sol_price_micro_usd'],10**9)
         waiting=F(sum(h[k]*p[k] for k in ASSETS)*w['opportunity_bps_per_hour']*seconds,3600*10000)
         if r['network_micro_usd']!=network or r['waiting_micro_usd']!=waiting or r['expected_retry_micro_usd']!=network*F(n['retry_probability_bps'],10000): errors.append('overhead')
         if error!=r['after_error_micro_usd'] or turnover!=r['turnover_micro_usd']: errors.append('metrics')
         if r['recurring_micro_usd']!=sum(r[k] for k in ('venue_cost_micro_usd','price_difference_micro_usd','network_micro_usd','expected_retry_micro_usd','waiting_micro_usd')): errors.append('recurring_total')
         if r['objective_micro_usd']!=r['recurring_micro_usd']+F(error,2000): errors.append('objective')
+        # A participant that changes nothing must bear no recurring cost at all. This is the
+        # invariant the shared-cost allocation broke, so it is asserted directly rather than left to
+        # follow from the overhead comparison.
+        if not own_active and r['recurring_micro_usd'] != 0: errors.append('bystander_cost/'+r['id'])
+        if not own_active and (r['network_micro_usd'] != 0 or r['waiting_micro_usd'] != 0): errors.append('bystander_overhead/'+r['id'])
     if bool(actual_feasible)!=result['feasible']: errors.append('feasibility_claim')
     if result['noop'] != (not any(any(row['trades_raw'].values()) for row in result['accounts'])): errors.append('noop_claim')
     for k in STOCKS:

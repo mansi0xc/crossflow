@@ -19,6 +19,8 @@ outage recovery exists for.
 What does not exist: any real venue, authenticated Pyth prices, a recorded demo video, any hosting,
 an adversarial runtime matrix against the deployed instruction in a single run, and an
 unfamiliar-user review — which T27's own acceptance test requires and which only a human can do.
+The interface exists and is tested but has never been driven with the real Phantom extension, and
+the optimizer-driven execution path has only ever run on a local validator.
 
 ## The decision a human must take
 

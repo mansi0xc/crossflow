@@ -24,8 +24,9 @@ moving by exactly the leg, and the pools back at zero.
 a cross price outside the committed band both reverting. Then cancel an intent and withdraw each
 asset separately to show recovery needs no solver and no admin.
 
-**2:25–3:00 — Limits.** Say plainly: fixture oracle, not Pyth; synthetic pool, not a market; no
-UI; no audit; devnet probe rather than a released product. Point at the claims ledger.
+**2:25–3:00 — Limits.** Say plainly: fixture oracle, not Pyth; synthetic pool, not a market; the UI
+is local only and has never been driven with the real Phantom extension; no audit; devnet probe
+rather than a released product. Point at the claims ledger.
 
 ## Rehearsal checklist
 

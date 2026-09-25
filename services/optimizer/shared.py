@@ -94,6 +94,56 @@ class Proposal:
         }
 
 
+def per_owner_verdict(independent, proposed) -> dict:
+    """Decide, owner by owner, whether the proposed method leaves anyone worse off.
+
+    "No worse" is defined once and disclosed: an owner is worse off when its **objective** — the
+    recurring cost plus the preference-weighted tracking error — is higher under the proposed method
+    than under executing independently. Components are reported alongside so a reader can apply a
+    different definition, and the aggregate is never allowed to stand in for the individual.
+
+    This is the check the aggregate comparison was missing: a batch can save money in total while one
+    participant funds a worse outcome than doing nothing.
+    """
+    if not proposed or not proposed.get('feasible') or not independent or not independent.get('feasible'):
+        return {'assessable': False, 'reason': 'both methods must be feasible before any owner can be compared',
+                'per_owner': [], 'harmed_owners': [], 'no_worse_than_independent': None}
+    independent_rows = {row['id']: row for row in independent['accounts']}
+    rows = []
+    harmed = []
+    for row in proposed['accounts']:
+        other = independent_rows.get(row['id'])
+        if other is None:
+            return {'assessable': False, 'reason': 'the two ledgers do not cover the same owners',
+                    'per_owner': [], 'harmed_owners': [], 'no_worse_than_independent': None}
+        proposed_objective = row['objective_micro_usd']
+        independent_objective = other['objective_micro_usd']
+        difference = proposed_objective - independent_objective
+        worse = difference > 0
+        if worse:
+            harmed.append(row['id'])
+        rows.append({
+            'owner': row['id'],
+            'independent_objective_micro_usd': encode(independent_objective),
+            'proposed_objective_micro_usd': encode(proposed_objective),
+            'difference_micro_usd': encode(difference),
+            'allocated_cost_micro_usd': encode(row['recurring_micro_usd']),
+            'independent_cost_micro_usd': encode(other['recurring_micro_usd']),
+            'exposure_change_micro_usd': encode(row['after_error_micro_usd'] - other['after_error_micro_usd']),
+            'before_error_micro_usd': encode(row['before_error_micro_usd']),
+            'after_error_micro_usd': encode(row['after_error_micro_usd']),
+            'trades': dict(row['trades_raw']),
+            'worse_than_independent': worse,
+        })
+    return {
+        'assessable': True,
+        'definition': 'worse off means a higher objective (recurring cost plus preference-weighted tracking error) than executing independently',
+        'per_owner': rows,
+        'harmed_owners': harmed,
+        'no_worse_than_independent': len(harmed) == 0,
+    }
+
+
 def residuals(scenario: dict, ledger: dict) -> dict:
     """Worst-case constraint slack per account, derived from the ledger, not from the engine."""
     worst = {'bounds_raw': None, 'tracking_micro_usd': None, 'progress_integer': None,

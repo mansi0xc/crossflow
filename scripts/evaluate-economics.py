@@ -34,7 +34,10 @@ SCHEMA_VERSION = 1
 BUDGET = Budget(max_candidates=16_384, grid_step=1)
 SENSITIVITY = (
     ('external_fee_multiplier_bps', 'scale', (5_000, 10_000, 20_000)),
-    ('batch_wait_seconds', 'waiting', (0, 300, 3600)),
+    # The batch's *additional* delay, with the independent path left at its frozen value. Setting
+    # both clocks to the same number, as an earlier version did, tests nothing: the difference
+    # between the two paths is the quantity that matters.
+    ('batch_extra_wait_seconds', 'waiting', (0, 60, 300, 3600)),
     ('liquidity_depth_multiplier_bps', 'depth', (2_500, 10_000, 40_000)),
 )
 
@@ -132,8 +135,9 @@ def sensitivity_runs(selected: list[dict]) -> list[dict]:
                     perturbed['cost_model']['network']['priority_lamports_per_transaction'] = (
                         perturbed['cost_model']['network']['priority_lamports_per_transaction'] * value // 10_000)
                 elif kind == 'waiting':
-                    perturbed['cost_model']['waiting']['batch_seconds'] = value
-                    perturbed['cost_model']['waiting']['independent_seconds'] = value
+                    # Only the batch waits longer; the alternative is executing now.
+                    perturbed['cost_model']['waiting']['batch_seconds'] = (
+                        perturbed['cost_model']['waiting']['independent_seconds'] + value)
                 else:
                     for curve in perturbed['cost_model']['external_by_asset'].values():
                         curve['depth_micro_usd'] = curve['depth_micro_usd'] * value // 10_000
@@ -167,8 +171,26 @@ def summarise(rows: list[dict], sensitivity: list[dict]) -> dict:
 
     netting_ints = sorted(as_int(value) for value in netting if value is not None)
     co_op_ints = sorted(as_int(value) for value in co_op if value is not None)
-    sensitivity_co_op = [as_int(row['cooperative_gain_micro_usd']) for row in sensitivity
-                         if row['valid_baselines'] and row['cooperative_gain_micro_usd'] is not None]
+    # Robustness is about keeping a gain that exists, so it is measured against each scenario's own
+    # frozen baseline. A scenario whose baseline gain is exactly zero has nothing to preserve: it is
+    # not a failure of robustness, and counting it as one conflated opportunity coverage with
+    # fragility.
+    baseline = {}
+    for row in rows:
+        comparison = row['comparison']
+        if comparison['valid_baselines'] and comparison.get('cooperative_trading_benefit_eligible'):
+            baseline[row['id']] = as_int(comparison.get('cooperative_gain_micro_usd')) or 0
+    at_risk, kept = [], []
+    for row in sensitivity:
+        if not row['valid_baselines'] or not row.get('cooperative_trading_benefit_eligible'):
+            continue
+        gain = as_int(row['cooperative_gain_micro_usd'])
+        if gain is None or baseline.get(row['scenario'], 0) <= 0:
+            continue
+        at_risk.append(gain)
+        if gain > 0:
+            kept.append(gain)
+    sensitivity_co_op = kept
     return {
         'scenarios_evaluated': len(rows),
         'scenarios_with_three_feasible_methods': len(feasible),
@@ -187,9 +209,13 @@ def summarise(rows: list[dict], sensitivity: list[dict]) -> dict:
             'negative_scenarios': sum(1 for value in co_op_ints if value < 0),
         },
         'sensitivity_runs': len(sensitivity),
-        'sensitivity_cooperative_gain_positive': sum(1 for value in sensitivity_co_op if value > 0),
-        'sensitivity_cooperative_gain_negative_or_zero': sum(1 for value in sensitivity_co_op if value <= 0),
-        'holds_under_sensitivity': bool(sensitivity_co_op) and all(value > 0 for value in sensitivity_co_op),
+        # The question a reader wants answered is not "how many of all the runs were positive" — most
+        # runs cannot be positive, because a scenario with no attributable cooperative benefit has
+        # nothing to preserve — but "of the runs that had a benefit to lose, how many kept it".
+        'sensitivity_points_at_risk': len(at_risk),
+        'sensitivity_points_keeping_the_gain': len(kept),
+        'sensitivity_points_losing_the_gain': len(at_risk) - len(kept),
+        'holds_under_sensitivity': bool(at_risk) and len(kept) == len(at_risk),
     }
 
 
@@ -228,7 +254,7 @@ def render_report(split: str, rows: list[dict], summary: dict, sensitivity: list
         f'positive {summary["cooperative_gain_micro_usd"]["positive_scenarios"]}, '
         f'negative {summary["cooperative_gain_micro_usd"]["negative_scenarios"]}',
         f'- holds under every declared sensitivity point: **{summary["holds_under_sensitivity"]}** '
-        f'({summary["sensitivity_cooperative_gain_positive"]} positive of {summary["sensitivity_runs"]})',
+        f'({summary["sensitivity_points_keeping_the_gain"]} of {summary["sensitivity_points_at_risk"]} points at risk kept the gain)',
         '',
         '## Per scenario',
         '',

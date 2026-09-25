@@ -39,3 +39,8 @@ h1, h2, h3, p, li, td, th, label, button { overflow-wrap: anywhere; }
   td { border: none; padding: .15rem .5rem; }
   tr { border: 1px solid #8884; margin-bottom: .5rem; padding: .35rem 0; }
 }
+
+/* The recommendation is the answer; the aggregate table is supporting detail. */
+.recommendation { background: #04361c; color: #d6ffe7; padding: .6rem .8rem; border-radius: 4px; }
+.worse { background: #3a1200; }
+details pre { overflow-x: auto; font-size: .75rem; }

@@ -71,34 +71,34 @@
             "venue_cost_micro_usd": 16200,
             "price_difference_micro_usd": 0,
             "network_micro_usd": {
-              "numerator": 3600,
+              "numerator": 2400,
               "denominator": 1
             },
             "expected_retry_micro_usd": {
-              "numerator": 36,
+              "numerator": 24,
               "denominator": 1
             },
             "waiting_micro_usd": {
-              "numerator": 7925,
-              "denominator": 3
+              "numerator": 1800,
+              "denominator": 1
             },
             "preference_micro_usd": {
               "numerator": 10000,
               "denominator": 1
             },
             "recurring_micro_usd": {
-              "numerator": 67433,
-              "denominator": 3
+              "numerator": 20424,
+              "denominator": 1
             },
             "objective_micro_usd": {
-              "numerator": 97433,
-              "denominator": 3
+              "numerator": 30424,
+              "denominator": 1
             },
             "after_error_micro_usd": 20000000,
             "turnover_micro_usd": 110000000,
             "transactions_allocated": {
-              "numerator": 4,
-              "denominator": 1
+              "numerator": 8,
+              "denominator": 3
             },
             "upfront_recoverable_rent_lamports": 11000000
           }
@@ -114,34 +114,34 @@
             "venue_cost_micro_usd": 0,
             "price_difference_micro_usd": 0,
             "network_micro_usd": {
-              "numerator": 3600,
+              "numerator": 2400,
               "denominator": 1
             },
             "expected_retry_micro_usd": {
-              "numerator": 36,
+              "numerator": 24,
               "denominator": 1
             },
             "waiting_micro_usd": {
-              "numerator": 7925,
-              "denominator": 3
+              "numerator": 1800,
+              "denominator": 1
             },
             "preference_micro_usd": {
               "numerator": 5000,
               "denominator": 1
             },
             "recurring_micro_usd": {
-              "numerator": 18833,
-              "denominator": 3
+              "numerator": 4224,
+              "denominator": 1
             },
             "objective_micro_usd": {
-              "numerator": 33833,
-              "denominator": 3
+              "numerator": 9224,
+              "denominator": 1
             },
             "after_error_micro_usd": 10000000,
             "turnover_micro_usd": 120000000,
             "transactions_allocated": {
-              "numerator": 4,
-              "denominator": 1
+              "numerator": 8,
+              "denominator": 3
             },
             "upfront_recoverable_rent_lamports": 11000000
           }
@@ -150,12 +150,219 @@
       "comparison": {
         "valid_baselines": true,
         "netting_gain_micro_usd": {
-          "numerator": 475621,
-          "denominator": 3
+          "numerator": 160594,
+          "denominator": 1
         },
         "cooperative_raw_difference_micro_usd": {
           "numerator": 16200,
           "denominator": 1
+        },
+        "per_owner": {
+          "assessable": true,
+          "definition": "worse off means a higher objective (recurring cost plus preference-weighted tracking error) than executing independently",
+          "per_owner": [
+            {
+              "owner": "a",
+              "independent_objective_micro_usd": {
+                "numerator": 104109,
+                "denominator": 1
+              },
+              "proposed_objective_micro_usd": {
+                "numerator": 7062,
+                "denominator": 1
+              },
+              "difference_micro_usd": {
+                "numerator": -97047,
+                "denominator": 1
+              },
+              "allocated_cost_micro_usd": {
+                "numerator": 2062,
+                "denominator": 1
+              },
+              "independent_cost_micro_usd": {
+                "numerator": 99109,
+                "denominator": 1
+              },
+              "exposure_change_micro_usd": 0,
+              "before_error_micro_usd": 70000000,
+              "after_error_micro_usd": 10000000,
+              "trades": {
+                "STOCK_A": 6,
+                "STOCK_B": 0
+              },
+              "worse_than_independent": false
+            },
+            {
+              "owner": "b",
+              "independent_objective_micro_usd": {
+                "numerator": 86909,
+                "denominator": 1
+              },
+              "proposed_objective_micro_usd": {
+                "numerator": 2162,
+                "denominator": 1
+              },
+              "difference_micro_usd": {
+                "numerator": -84747,
+                "denominator": 1
+              },
+              "allocated_cost_micro_usd": {
+                "numerator": 2162,
+                "denominator": 1
+              },
+              "independent_cost_micro_usd": {
+                "numerator": 81909,
+                "denominator": 1
+              },
+              "exposure_change_micro_usd": -10000000,
+              "before_error_micro_usd": 60000000,
+              "after_error_micro_usd": 0,
+              "trades": {
+                "STOCK_A": -6,
+                "STOCK_B": 0
+              },
+              "worse_than_independent": false
+            },
+            {
+              "owner": "c",
+              "independent_objective_micro_usd": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "proposed_objective_micro_usd": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "difference_micro_usd": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "allocated_cost_micro_usd": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "independent_cost_micro_usd": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "exposure_change_micro_usd": 0,
+              "before_error_micro_usd": 0,
+              "after_error_micro_usd": 0,
+              "trades": {
+                "STOCK_A": 0,
+                "STOCK_B": 0
+              },
+              "worse_than_independent": false
+            }
+          ],
+          "harmed_owners": [],
+          "no_worse_than_independent": true
+        },
+        "per_owner_under_netting": {
+          "assessable": true,
+          "definition": "worse off means a higher objective (recurring cost plus preference-weighted tracking error) than executing independently",
+          "per_owner": [
+            {
+              "owner": "a",
+              "independent_objective_micro_usd": {
+                "numerator": 104109,
+                "denominator": 1
+              },
+              "proposed_objective_micro_usd": {
+                "numerator": 23262,
+                "denominator": 1
+              },
+              "difference_micro_usd": {
+                "numerator": -80847,
+                "denominator": 1
+              },
+              "allocated_cost_micro_usd": {
+                "numerator": 18262,
+                "denominator": 1
+              },
+              "independent_cost_micro_usd": {
+                "numerator": 99109,
+                "denominator": 1
+              },
+              "exposure_change_micro_usd": 0,
+              "before_error_micro_usd": 70000000,
+              "after_error_micro_usd": 10000000,
+              "trades": {
+                "STOCK_A": 6,
+                "STOCK_B": 0
+              },
+              "worse_than_independent": false
+            },
+            {
+              "owner": "b",
+              "independent_objective_micro_usd": {
+                "numerator": 86909,
+                "denominator": 1
+              },
+              "proposed_objective_micro_usd": {
+                "numerator": 7162,
+                "denominator": 1
+              },
+              "difference_micro_usd": {
+                "numerator": -79747,
+                "denominator": 1
+              },
+              "allocated_cost_micro_usd": {
+                "numerator": 2162,
+                "denominator": 1
+              },
+              "independent_cost_micro_usd": {
+                "numerator": 81909,
+                "denominator": 1
+              },
+              "exposure_change_micro_usd": 0,
+              "before_error_micro_usd": 60000000,
+              "after_error_micro_usd": 10000000,
+              "trades": {
+                "STOCK_A": -5,
+                "STOCK_B": 0
+              },
+              "worse_than_independent": false
+            },
+            {
+              "owner": "c",
+              "independent_objective_micro_usd": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "proposed_objective_micro_usd": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "difference_micro_usd": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "allocated_cost_micro_usd": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "independent_cost_micro_usd": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "exposure_change_micro_usd": 0,
+              "before_error_micro_usd": 0,
+              "after_error_micro_usd": 0,
+              "trades": {
+                "STOCK_A": 0,
+                "STOCK_B": 0
+              },
+              "worse_than_independent": false
+            }
+          ],
+          "harmed_owners": [],
+          "no_worse_than_independent": true
+        },
+        "recommendation": {
+          "method": "C",
+          "reason": "cooperative adjustment leaves every owner no worse off and beats the alternatives",
+          "declined": {}
         },
         "cooperative_gain_micro_usd": {
           "numerator": 16200,
@@ -311,6 +518,160 @@
           "numerator": 0,
           "denominator": 1
         },
+        "per_owner": {
+          "assessable": true,
+          "definition": "worse off means a higher objective (recurring cost plus preference-weighted tracking error) than executing independently",
+          "per_owner": [
+            {
+              "owner": "a",
+              "independent_objective_micro_usd": {
+                "numerator": 111909,
+                "denominator": 1
+              },
+              "proposed_objective_micro_usd": {
+                "numerator": 688633,
+                "denominator": 6
+              },
+              "difference_micro_usd": {
+                "numerator": 17179,
+                "denominator": 6
+              },
+              "allocated_cost_micro_usd": {
+                "numerator": 598633,
+                "denominator": 6
+              },
+              "independent_cost_micro_usd": {
+                "numerator": 96909,
+                "denominator": 1
+              },
+              "exposure_change_micro_usd": 0,
+              "before_error_micro_usd": 90000000,
+              "after_error_micro_usd": 30000000,
+              "trades": {
+                "STOCK_A": 4,
+                "STOCK_B": 1
+              },
+              "worse_than_independent": true
+            },
+            {
+              "owner": "b",
+              "independent_objective_micro_usd": {
+                "numerator": 79509,
+                "denominator": 1
+              },
+              "proposed_objective_micro_usd": {
+                "numerator": 492379,
+                "denominator": 6
+              },
+              "difference_micro_usd": {
+                "numerator": 15325,
+                "denominator": 6
+              },
+              "allocated_cost_micro_usd": {
+                "numerator": 402379,
+                "denominator": 6
+              },
+              "independent_cost_micro_usd": {
+                "numerator": 64509,
+                "denominator": 1
+              },
+              "exposure_change_micro_usd": 0,
+              "before_error_micro_usd": 70000000,
+              "after_error_micro_usd": 30000000,
+              "trades": {
+                "STOCK_A": 2,
+                "STOCK_B": 1
+              },
+              "worse_than_independent": true
+            }
+          ],
+          "harmed_owners": [
+            "a",
+            "b"
+          ],
+          "no_worse_than_independent": false
+        },
+        "per_owner_under_netting": {
+          "assessable": true,
+          "definition": "worse off means a higher objective (recurring cost plus preference-weighted tracking error) than executing independently",
+          "per_owner": [
+            {
+              "owner": "a",
+              "independent_objective_micro_usd": {
+                "numerator": 111909,
+                "denominator": 1
+              },
+              "proposed_objective_micro_usd": {
+                "numerator": 688633,
+                "denominator": 6
+              },
+              "difference_micro_usd": {
+                "numerator": 17179,
+                "denominator": 6
+              },
+              "allocated_cost_micro_usd": {
+                "numerator": 598633,
+                "denominator": 6
+              },
+              "independent_cost_micro_usd": {
+                "numerator": 96909,
+                "denominator": 1
+              },
+              "exposure_change_micro_usd": 0,
+              "before_error_micro_usd": 90000000,
+              "after_error_micro_usd": 30000000,
+              "trades": {
+                "STOCK_A": 4,
+                "STOCK_B": 1
+              },
+              "worse_than_independent": true
+            },
+            {
+              "owner": "b",
+              "independent_objective_micro_usd": {
+                "numerator": 79509,
+                "denominator": 1
+              },
+              "proposed_objective_micro_usd": {
+                "numerator": 492379,
+                "denominator": 6
+              },
+              "difference_micro_usd": {
+                "numerator": 15325,
+                "denominator": 6
+              },
+              "allocated_cost_micro_usd": {
+                "numerator": 402379,
+                "denominator": 6
+              },
+              "independent_cost_micro_usd": {
+                "numerator": 64509,
+                "denominator": 1
+              },
+              "exposure_change_micro_usd": 0,
+              "before_error_micro_usd": 70000000,
+              "after_error_micro_usd": 30000000,
+              "trades": {
+                "STOCK_A": 2,
+                "STOCK_B": 1
+              },
+              "worse_than_independent": true
+            }
+          ],
+          "harmed_owners": [
+            "a",
+            "b"
+          ],
+          "no_worse_than_independent": false
+        },
+        "recommendation": {
+          "method": "A",
+          "reason": "executing independently is the only method that cannot leave an owner worse off",
+          "declined": {
+            "C": "it would leave these owners worse off than executing independently: a, b",
+            "B": "it would leave these owners worse off than executing independently: a, b"
+          }
+        },
         "cooperative_gain_micro_usd": {
           "numerator": 0,
           "denominator": 1
@@ -464,6 +825,151 @@
         "cooperative_raw_difference_micro_usd": {
           "numerator": 50800,
           "denominator": 1
+        },
+        "per_owner": {
+          "assessable": true,
+          "definition": "worse off means a higher objective (recurring cost plus preference-weighted tracking error) than executing independently",
+          "per_owner": [
+            {
+              "owner": "a",
+              "independent_objective_micro_usd": {
+                "numerator": 610109,
+                "denominator": 1
+              },
+              "proposed_objective_micro_usd": {
+                "numerator": 3071681,
+                "denominator": 6
+              },
+              "difference_micro_usd": {
+                "numerator": -588973,
+                "denominator": 6
+              },
+              "allocated_cost_micro_usd": {
+                "numerator": 3041681,
+                "denominator": 6
+              },
+              "independent_cost_micro_usd": {
+                "numerator": 605109,
+                "denominator": 1
+              },
+              "exposure_change_micro_usd": 0,
+              "before_error_micro_usd": 300000000,
+              "after_error_micro_usd": 10000000,
+              "trades": {
+                "STOCK_A": -29,
+                "STOCK_B": 0
+              },
+              "worse_than_independent": false
+            },
+            {
+              "owner": "b",
+              "independent_objective_micro_usd": {
+                "numerator": 37709,
+                "denominator": 1
+              },
+              "proposed_objective_micro_usd": {
+                "numerator": 43181,
+                "denominator": 6
+              },
+              "difference_micro_usd": {
+                "numerator": -183073,
+                "denominator": 6
+              },
+              "allocated_cost_micro_usd": {
+                "numerator": 13181,
+                "denominator": 6
+              },
+              "independent_cost_micro_usd": {
+                "numerator": 32709,
+                "denominator": 1
+              },
+              "exposure_change_micro_usd": 0,
+              "before_error_micro_usd": 30000000,
+              "after_error_micro_usd": 10000000,
+              "trades": {
+                "STOCK_A": 4,
+                "STOCK_B": 0
+              },
+              "worse_than_independent": false
+            }
+          ],
+          "harmed_owners": [],
+          "no_worse_than_independent": true
+        },
+        "per_owner_under_netting": {
+          "assessable": true,
+          "definition": "worse off means a higher objective (recurring cost plus preference-weighted tracking error) than executing independently",
+          "per_owner": [
+            {
+              "owner": "a",
+              "independent_objective_micro_usd": {
+                "numerator": 610109,
+                "denominator": 1
+              },
+              "proposed_objective_micro_usd": {
+                "numerator": 3376481,
+                "denominator": 6
+              },
+              "difference_micro_usd": {
+                "numerator": -284173,
+                "denominator": 6
+              },
+              "allocated_cost_micro_usd": {
+                "numerator": 3346481,
+                "denominator": 6
+              },
+              "independent_cost_micro_usd": {
+                "numerator": 605109,
+                "denominator": 1
+              },
+              "exposure_change_micro_usd": 0,
+              "before_error_micro_usd": 300000000,
+              "after_error_micro_usd": 10000000,
+              "trades": {
+                "STOCK_A": -29,
+                "STOCK_B": 0
+              },
+              "worse_than_independent": false
+            },
+            {
+              "owner": "b",
+              "independent_objective_micro_usd": {
+                "numerator": 37709,
+                "denominator": 1
+              },
+              "proposed_objective_micro_usd": {
+                "numerator": 43181,
+                "denominator": 6
+              },
+              "difference_micro_usd": {
+                "numerator": -183073,
+                "denominator": 6
+              },
+              "allocated_cost_micro_usd": {
+                "numerator": 13181,
+                "denominator": 6
+              },
+              "independent_cost_micro_usd": {
+                "numerator": 32709,
+                "denominator": 1
+              },
+              "exposure_change_micro_usd": 0,
+              "before_error_micro_usd": 30000000,
+              "after_error_micro_usd": 10000000,
+              "trades": {
+                "STOCK_A": 2,
+                "STOCK_B": 0
+              },
+              "worse_than_independent": false
+            }
+          ],
+          "harmed_owners": [],
+          "no_worse_than_independent": true
+        },
+        "recommendation": {
+          "method": "C",
+          "reason": "cooperative adjustment leaves every owner no worse off and beats the alternatives",
+          "declined": {}
         },
         "cooperative_gain_micro_usd": {
           "numerator": 50800,
@@ -619,6 +1125,151 @@
           "numerator": 0,
           "denominator": 1
         },
+        "per_owner": {
+          "assessable": true,
+          "definition": "worse off means a higher objective (recurring cost plus preference-weighted tracking error) than executing independently",
+          "per_owner": [
+            {
+              "owner": "a",
+              "independent_objective_micro_usd": {
+                "numerator": 129309,
+                "denominator": 1
+              },
+              "proposed_objective_micro_usd": {
+                "numerator": 13481,
+                "denominator": 6
+              },
+              "difference_micro_usd": {
+                "numerator": -762373,
+                "denominator": 6
+              },
+              "allocated_cost_micro_usd": {
+                "numerator": 13481,
+                "denominator": 6
+              },
+              "independent_cost_micro_usd": {
+                "numerator": 129309,
+                "denominator": 1
+              },
+              "exposure_change_micro_usd": 0,
+              "before_error_micro_usd": 80000000,
+              "after_error_micro_usd": 0,
+              "trades": {
+                "STOCK_A": 4,
+                "STOCK_B": -2
+              },
+              "worse_than_independent": false
+            },
+            {
+              "owner": "b",
+              "independent_objective_micro_usd": {
+                "numerator": 129309,
+                "denominator": 1
+              },
+              "proposed_objective_micro_usd": {
+                "numerator": 13481,
+                "denominator": 6
+              },
+              "difference_micro_usd": {
+                "numerator": -762373,
+                "denominator": 6
+              },
+              "allocated_cost_micro_usd": {
+                "numerator": 13481,
+                "denominator": 6
+              },
+              "independent_cost_micro_usd": {
+                "numerator": 129309,
+                "denominator": 1
+              },
+              "exposure_change_micro_usd": 0,
+              "before_error_micro_usd": 80000000,
+              "after_error_micro_usd": 0,
+              "trades": {
+                "STOCK_A": -4,
+                "STOCK_B": 2
+              },
+              "worse_than_independent": false
+            }
+          ],
+          "harmed_owners": [],
+          "no_worse_than_independent": true
+        },
+        "per_owner_under_netting": {
+          "assessable": true,
+          "definition": "worse off means a higher objective (recurring cost plus preference-weighted tracking error) than executing independently",
+          "per_owner": [
+            {
+              "owner": "a",
+              "independent_objective_micro_usd": {
+                "numerator": 129309,
+                "denominator": 1
+              },
+              "proposed_objective_micro_usd": {
+                "numerator": 13481,
+                "denominator": 6
+              },
+              "difference_micro_usd": {
+                "numerator": -762373,
+                "denominator": 6
+              },
+              "allocated_cost_micro_usd": {
+                "numerator": 13481,
+                "denominator": 6
+              },
+              "independent_cost_micro_usd": {
+                "numerator": 129309,
+                "denominator": 1
+              },
+              "exposure_change_micro_usd": 0,
+              "before_error_micro_usd": 80000000,
+              "after_error_micro_usd": 0,
+              "trades": {
+                "STOCK_A": 4,
+                "STOCK_B": -2
+              },
+              "worse_than_independent": false
+            },
+            {
+              "owner": "b",
+              "independent_objective_micro_usd": {
+                "numerator": 129309,
+                "denominator": 1
+              },
+              "proposed_objective_micro_usd": {
+                "numerator": 13481,
+                "denominator": 6
+              },
+              "difference_micro_usd": {
+                "numerator": -762373,
+                "denominator": 6
+              },
+              "allocated_cost_micro_usd": {
+                "numerator": 13481,
+                "denominator": 6
+              },
+              "independent_cost_micro_usd": {
+                "numerator": 129309,
+                "denominator": 1
+              },
+              "exposure_change_micro_usd": 0,
+              "before_error_micro_usd": 80000000,
+              "after_error_micro_usd": 0,
+              "trades": {
+                "STOCK_A": -4,
+                "STOCK_B": 2
+              },
+              "worse_than_independent": false
+            }
+          ],
+          "harmed_owners": [],
+          "no_worse_than_independent": true
+        },
+        "recommendation": {
+          "method": "C",
+          "reason": "cooperative adjustment leaves every owner no worse off and beats the alternatives",
+          "declined": {}
+        },
         "cooperative_gain_micro_usd": {
           "numerator": 0,
           "denominator": 1
@@ -772,6 +1423,151 @@
         "cooperative_raw_difference_micro_usd": {
           "numerator": 16200,
           "denominator": 1
+        },
+        "per_owner": {
+          "assessable": true,
+          "definition": "worse off means a higher objective (recurring cost plus preference-weighted tracking error) than executing independently",
+          "per_owner": [
+            {
+              "owner": "a",
+              "independent_objective_micro_usd": {
+                "numerator": 105415,
+                "denominator": 2
+              },
+              "proposed_objective_micro_usd": {
+                "numerator": 356335,
+                "denominator": 12
+              },
+              "difference_micro_usd": {
+                "numerator": -276155,
+                "denominator": 12
+              },
+              "allocated_cost_micro_usd": {
+                "numerator": 296335,
+                "denominator": 12
+              },
+              "independent_cost_micro_usd": {
+                "numerator": 95415,
+                "denominator": 2
+              },
+              "exposure_change_micro_usd": 0,
+              "before_error_micro_usd": 30000000,
+              "after_error_micro_usd": 10000000,
+              "trades": {
+                "STOCK_A": 2,
+                "STOCK_B": 0
+              },
+              "worse_than_independent": false
+            },
+            {
+              "owner": "b",
+              "independent_objective_micro_usd": {
+                "numerator": 74215,
+                "denominator": 2
+              },
+              "proposed_objective_micro_usd": {
+                "numerator": 296935,
+                "denominator": 12
+              },
+              "difference_micro_usd": {
+                "numerator": -148355,
+                "denominator": 12
+              },
+              "allocated_cost_micro_usd": {
+                "numerator": 296935,
+                "denominator": 12
+              },
+              "independent_cost_micro_usd": {
+                "numerator": 64215,
+                "denominator": 2
+              },
+              "exposure_change_micro_usd": -10000000,
+              "before_error_micro_usd": 20000000,
+              "after_error_micro_usd": 0,
+              "trades": {
+                "STOCK_A": -2,
+                "STOCK_B": 0
+              },
+              "worse_than_independent": false
+            }
+          ],
+          "harmed_owners": [],
+          "no_worse_than_independent": true
+        },
+        "per_owner_under_netting": {
+          "assessable": true,
+          "definition": "worse off means a higher objective (recurring cost plus preference-weighted tracking error) than executing independently",
+          "per_owner": [
+            {
+              "owner": "a",
+              "independent_objective_micro_usd": {
+                "numerator": 105415,
+                "denominator": 2
+              },
+              "proposed_objective_micro_usd": {
+                "numerator": 550735,
+                "denominator": 12
+              },
+              "difference_micro_usd": {
+                "numerator": -81755,
+                "denominator": 12
+              },
+              "allocated_cost_micro_usd": {
+                "numerator": 490735,
+                "denominator": 12
+              },
+              "independent_cost_micro_usd": {
+                "numerator": 95415,
+                "denominator": 2
+              },
+              "exposure_change_micro_usd": 0,
+              "before_error_micro_usd": 30000000,
+              "after_error_micro_usd": 10000000,
+              "trades": {
+                "STOCK_A": 2,
+                "STOCK_B": 0
+              },
+              "worse_than_independent": false
+            },
+            {
+              "owner": "b",
+              "independent_objective_micro_usd": {
+                "numerator": 74215,
+                "denominator": 2
+              },
+              "proposed_objective_micro_usd": {
+                "numerator": 356935,
+                "denominator": 12
+              },
+              "difference_micro_usd": {
+                "numerator": -88355,
+                "denominator": 12
+              },
+              "allocated_cost_micro_usd": {
+                "numerator": 296935,
+                "denominator": 12
+              },
+              "independent_cost_micro_usd": {
+                "numerator": 64215,
+                "denominator": 2
+              },
+              "exposure_change_micro_usd": 0,
+              "before_error_micro_usd": 20000000,
+              "after_error_micro_usd": 10000000,
+              "trades": {
+                "STOCK_A": -1,
+                "STOCK_B": 0
+              },
+              "worse_than_independent": false
+            }
+          ],
+          "harmed_owners": [],
+          "no_worse_than_independent": true
+        },
+        "recommendation": {
+          "method": "C",
+          "reason": "cooperative adjustment leaves every owner no worse off and beats the alternatives",
+          "declined": {}
         },
         "cooperative_gain_micro_usd": {
           "numerator": 16200,
@@ -1025,6 +1821,160 @@
           "numerator": 16200,
           "denominator": 1
         },
+        "per_owner": {
+          "assessable": true,
+          "definition": "worse off means a higher objective (recurring cost plus preference-weighted tracking error) than executing independently",
+          "per_owner": [
+            {
+              "owner": "a",
+              "independent_objective_micro_usd": {
+                "numerator": 70280,
+                "denominator": 1
+              },
+              "proposed_objective_micro_usd": {
+                "numerator": 2506620,
+                "denominator": 1
+              },
+              "difference_micro_usd": {
+                "numerator": 2436340,
+                "denominator": 1
+              },
+              "allocated_cost_micro_usd": {
+                "numerator": 2501620,
+                "denominator": 1
+              },
+              "independent_cost_micro_usd": {
+                "numerator": 65280,
+                "denominator": 1
+              },
+              "exposure_change_micro_usd": 0,
+              "before_error_micro_usd": 50000000,
+              "after_error_micro_usd": 10000000,
+              "trades": {
+                "STOCK_A": 4,
+                "STOCK_B": 0
+              },
+              "worse_than_independent": true
+            },
+            {
+              "owner": "b",
+              "independent_objective_micro_usd": {
+                "numerator": 53880,
+                "denominator": 1
+              },
+              "proposed_objective_micro_usd": {
+                "numerator": 2751620,
+                "denominator": 1
+              },
+              "difference_micro_usd": {
+                "numerator": 2697740,
+                "denominator": 1
+              },
+              "allocated_cost_micro_usd": {
+                "numerator": 2751620,
+                "denominator": 1
+              },
+              "independent_cost_micro_usd": {
+                "numerator": 48880,
+                "denominator": 1
+              },
+              "exposure_change_micro_usd": -10000000,
+              "before_error_micro_usd": 40000000,
+              "after_error_micro_usd": 0,
+              "trades": {
+                "STOCK_A": -4,
+                "STOCK_B": 0
+              },
+              "worse_than_independent": true
+            }
+          ],
+          "harmed_owners": [
+            "a",
+            "b"
+          ],
+          "no_worse_than_independent": false
+        },
+        "per_owner_under_netting": {
+          "assessable": true,
+          "definition": "worse off means a higher objective (recurring cost plus preference-weighted tracking error) than executing independently",
+          "per_owner": [
+            {
+              "owner": "a",
+              "independent_objective_micro_usd": {
+                "numerator": 70280,
+                "denominator": 1
+              },
+              "proposed_objective_micro_usd": {
+                "numerator": 2522820,
+                "denominator": 1
+              },
+              "difference_micro_usd": {
+                "numerator": 2452540,
+                "denominator": 1
+              },
+              "allocated_cost_micro_usd": {
+                "numerator": 2517820,
+                "denominator": 1
+              },
+              "independent_cost_micro_usd": {
+                "numerator": 65280,
+                "denominator": 1
+              },
+              "exposure_change_micro_usd": 0,
+              "before_error_micro_usd": 50000000,
+              "after_error_micro_usd": 10000000,
+              "trades": {
+                "STOCK_A": 4,
+                "STOCK_B": 0
+              },
+              "worse_than_independent": true
+            },
+            {
+              "owner": "b",
+              "independent_objective_micro_usd": {
+                "numerator": 53880,
+                "denominator": 1
+              },
+              "proposed_objective_micro_usd": {
+                "numerator": 2756620,
+                "denominator": 1
+              },
+              "difference_micro_usd": {
+                "numerator": 2702740,
+                "denominator": 1
+              },
+              "allocated_cost_micro_usd": {
+                "numerator": 2751620,
+                "denominator": 1
+              },
+              "independent_cost_micro_usd": {
+                "numerator": 48880,
+                "denominator": 1
+              },
+              "exposure_change_micro_usd": 0,
+              "before_error_micro_usd": 40000000,
+              "after_error_micro_usd": 10000000,
+              "trades": {
+                "STOCK_A": -3,
+                "STOCK_B": 0
+              },
+              "worse_than_independent": true
+            }
+          ],
+          "harmed_owners": [
+            "a",
+            "b"
+          ],
+          "no_worse_than_independent": false
+        },
+        "recommendation": {
+          "method": "A",
+          "reason": "executing independently is the only method that cannot leave an owner worse off",
+          "declined": {
+            "C": "it would leave these owners worse off than executing independently: a, b",
+            "B": "it would leave these owners worse off than executing independently: a, b"
+          }
+        },
         "cooperative_gain_micro_usd": {
           "numerator": 16200,
           "denominator": 1
@@ -1176,23 +2126,23 @@
       "method": "B",
       "owner": "c",
       "recurring_micro_usd": {
-        "numerator": 6161,
-        "denominator": 3
+        "numerator": 0,
+        "denominator": 1
       },
       "objective_micro_usd": {
-        "numerator": 6161,
-        "denominator": 3
+        "numerator": 0,
+        "denominator": 1
       },
       "after_error_micro_usd": 0,
       "turnover_micro_usd": 0,
       "venue_cost_micro_usd": 0,
       "network_micro_usd": {
-        "numerator": 1200,
+        "numerator": 0,
         "denominator": 1
       },
       "waiting_micro_usd": {
-        "numerator": 2525,
-        "denominator": 3
+        "numerator": 0,
+        "denominator": 1
       },
       "price_difference_micro_usd": 0,
       "failures": []
@@ -1257,23 +2207,23 @@
       "method": "C",
       "owner": "c",
       "recurring_micro_usd": {
-        "numerator": 6161,
-        "denominator": 3
+        "numerator": 0,
+        "denominator": 1
       },
       "objective_micro_usd": {
-        "numerator": 6161,
-        "denominator": 3
+        "numerator": 0,
+        "denominator": 1
       },
       "after_error_micro_usd": 0,
       "turnover_micro_usd": 0,
       "venue_cost_micro_usd": 0,
       "network_micro_usd": {
-        "numerator": 1200,
+        "numerator": 0,
         "denominator": 1
       },
       "waiting_micro_usd": {
-        "numerator": 2525,
-        "denominator": 3
+        "numerator": 0,
+        "denominator": 1
       },
       "price_difference_micro_usd": 0,
       "failures": []
@@ -2097,8 +3047,8 @@
       "input_sha256": "8f2c9e14368f142bd11707c8b07c05c2086b23c8ebd442eda35d932daabbb451",
       "valid_baselines": true,
       "netting_gain_micro_usd": {
-        "numerator": 472151,
-        "denominator": 6
+        "numerator": 161289,
+        "denominator": 2
       },
       "cooperative_gain_micro_usd": {
         "numerator": 8200,
@@ -2113,8 +3063,8 @@
       "input_sha256": "df8f71aa33c4bde96f40c12fb0e882ff9fdb1047ea474f33fb914a69745dcd1c",
       "valid_baselines": true,
       "netting_gain_micro_usd": {
-        "numerator": 475621,
-        "denominator": 3
+        "numerator": 160594,
+        "denominator": 1
       },
       "cooperative_gain_micro_usd": {
         "numerator": 16200,
@@ -2129,8 +3079,8 @@
       "input_sha256": "c94e4db58a7a44a8fd2283578da93bce991e3bc83bb57d1ee18da0fc3e87f03e",
       "valid_baselines": true,
       "netting_gain_micro_usd": {
-        "numerator": 924712,
-        "denominator": 3
+        "numerator": 310493,
+        "denominator": 1
       },
       "cooperative_gain_micro_usd": {
         "numerator": 31200,
@@ -2140,12 +3090,12 @@
     },
     {
       "scenario": "opposite-02",
-      "parameter": "batch_wait_seconds",
+      "parameter": "batch_extra_wait_seconds",
       "value": 0,
       "input_sha256": "c4a1f1cf0e878a6489962f1ec01eeaf43c08a72b374005e27ab514b5e634227b",
       "valid_baselines": true,
       "netting_gain_micro_usd": {
-        "numerator": 161182,
+        "numerator": 162394,
         "denominator": 1
       },
       "cooperative_gain_micro_usd": {
@@ -2156,13 +3106,29 @@
     },
     {
       "scenario": "opposite-02",
-      "parameter": "batch_wait_seconds",
+      "parameter": "batch_extra_wait_seconds",
+      "value": 60,
+      "input_sha256": "8b5325b8619861bbfe2ab95bf9af831834dc7cf5d6e3dd503b7871d360f82119",
+      "valid_baselines": true,
+      "netting_gain_micro_usd": {
+        "numerator": 158794,
+        "denominator": 1
+      },
+      "cooperative_gain_micro_usd": {
+        "numerator": 16200,
+        "denominator": 1
+      },
+      "cooperative_trading_benefit_eligible": true
+    },
+    {
+      "scenario": "opposite-02",
+      "parameter": "batch_extra_wait_seconds",
       "value": 300,
-      "input_sha256": "dc732c842e8fd2abe0de842bc7e6d853ec247c6354ef988370063f3e3b080b49",
+      "input_sha256": "a29e4308f278dd31986005b154d6f848fb5b1e5b782414cf88b6ba0d7128d9a5",
       "valid_baselines": true,
       "netting_gain_micro_usd": {
-        "numerator": 458296,
-        "denominator": 3
+        "numerator": 144394,
+        "denominator": 1
       },
       "cooperative_gain_micro_usd": {
         "numerator": 16200,
@@ -2172,12 +3138,12 @@
     },
     {
       "scenario": "opposite-02",
-      "parameter": "batch_wait_seconds",
+      "parameter": "batch_extra_wait_seconds",
       "value": 3600,
-      "input_sha256": "dc804fa6cdd604870968128a8def2444f8e1870bacd2ea17a8ffaad0585cb54c",
+      "input_sha256": "8bb593bdbf36777c828f67fe2c565509a9e534b9316f41e4e9081f6200098f3e",
       "valid_baselines": true,
       "netting_gain_micro_usd": {
-        "numerator": 60182,
+        "numerator": -53606,
         "denominator": 1
       },
       "cooperative_gain_micro_usd": {
@@ -2193,8 +3159,8 @@
       "input_sha256": "205ccc54f43d0a60e1535cd05d71b5661c05393f42133f12c98e89b98685a90f",
       "valid_baselines": true,
       "netting_gain_micro_usd": {
-        "numerator": 583621,
-        "denominator": 3
+        "numerator": 196594,
+        "denominator": 1
       },
       "cooperative_gain_micro_usd": {
         "numerator": 16800,
@@ -2209,8 +3175,8 @@
       "input_sha256": "df8f71aa33c4bde96f40c12fb0e882ff9fdb1047ea474f33fb914a69745dcd1c",
       "valid_baselines": true,
       "netting_gain_micro_usd": {
-        "numerator": 475621,
-        "denominator": 3
+        "numerator": 160594,
+        "denominator": 1
       },
       "cooperative_gain_micro_usd": {
         "numerator": 16200,
@@ -2225,8 +3191,8 @@
       "input_sha256": "7871e63a4a233dadc54885a1e0ca8967cd42b0fe870c0cc99cf20bd069e5163a",
       "valid_baselines": true,
       "netting_gain_micro_usd": {
-        "numerator": 448621,
-        "denominator": 3
+        "numerator": 151594,
+        "denominator": 1
       },
       "cooperative_gain_micro_usd": {
         "numerator": 16050,
@@ -2284,7 +3250,7 @@
     },
     {
       "scenario": "all-buy-02",
-      "parameter": "batch_wait_seconds",
+      "parameter": "batch_extra_wait_seconds",
       "value": 0,
       "input_sha256": "d70d84a29cec36fa903290c2daa4573b9bfa5904738bfa62b3659372f64e77b8",
       "valid_baselines": true,
@@ -2300,13 +3266,13 @@
     },
     {
       "scenario": "all-buy-02",
-      "parameter": "batch_wait_seconds",
-      "value": 300,
-      "input_sha256": "3789e317c8f7bb7407d1e56ed5223dbec80aae275550d787924f125f365c9b5a",
+      "parameter": "batch_extra_wait_seconds",
+      "value": 60,
+      "input_sha256": "887a05ec9cfb7008c331eaa378d107e168ae9f3d9eaba34d130df0517f8e98af",
       "valid_baselines": true,
       "netting_gain_micro_usd": {
-        "numerator": -3709,
-        "denominator": 1
+        "numerator": -21377,
+        "denominator": 3
       },
       "cooperative_gain_micro_usd": {
         "numerator": 0,
@@ -2316,12 +3282,28 @@
     },
     {
       "scenario": "all-buy-02",
-      "parameter": "batch_wait_seconds",
-      "value": 3600,
-      "input_sha256": "8cb13bdba4e0a85b0fcf40809ecc4e5c7c5e262af0ca3509bb5820849673e82b",
+      "parameter": "batch_extra_wait_seconds",
+      "value": 300,
+      "input_sha256": "7e2a87209be0a9fb49474d2dd27131f864c2ba3948c1c7a394e298c0de7de6d8",
       "valid_baselines": true,
       "netting_gain_micro_usd": {
-        "numerator": -3709,
+        "numerator": -62377,
+        "denominator": 3
+      },
+      "cooperative_gain_micro_usd": {
+        "numerator": 0,
+        "denominator": 1
+      },
+      "cooperative_trading_benefit_eligible": true
+    },
+    {
+      "scenario": "all-buy-02",
+      "parameter": "batch_extra_wait_seconds",
+      "value": 3600,
+      "input_sha256": "d009ca4967e70096293529c0669ec464b3f56d1a93e1eef9aedf5dabd88c0988",
+      "valid_baselines": true,
+      "netting_gain_micro_usd": {
+        "numerator": -208709,
         "denominator": 1
       },
       "cooperative_gain_micro_usd": {
@@ -2428,7 +3410,7 @@
     },
     {
       "scenario": "asymmetric-02",
-      "parameter": "batch_wait_seconds",
+      "parameter": "batch_extra_wait_seconds",
       "value": 0,
       "input_sha256": "d7c1559fd11e0e5f751dada2bcdf27b29b9f729255411a8386c36e41b28b3cd6",
       "valid_baselines": true,
@@ -2444,13 +3426,13 @@
     },
     {
       "scenario": "asymmetric-02",
-      "parameter": "batch_wait_seconds",
-      "value": 300,
-      "input_sha256": "1d270f447780588d6c0a3f3d09309032052aea3bfcb4132a3a1ca6765c929a88",
+      "parameter": "batch_extra_wait_seconds",
+      "value": 60,
+      "input_sha256": "bc3636f0283ff412c1b3bfad7180230e5cb524ca32daea21f0e0998810fbbde4",
       "valid_baselines": true,
       "netting_gain_micro_usd": {
-        "numerator": 83291,
-        "denominator": 1
+        "numerator": 217373,
+        "denominator": 3
       },
       "cooperative_gain_micro_usd": {
         "numerator": 50800,
@@ -2460,12 +3442,28 @@
     },
     {
       "scenario": "asymmetric-02",
-      "parameter": "batch_wait_seconds",
-      "value": 3600,
-      "input_sha256": "7c0767077233511c94a4689440669162c8f5e00e18ecce78ebda751dc7ed6b04",
+      "parameter": "batch_extra_wait_seconds",
+      "value": 300,
+      "input_sha256": "916c468e9be7addc8000f095da07da66144321a46ea1f753b03a3be7c383ad4a",
       "valid_baselines": true,
       "netting_gain_micro_usd": {
-        "numerator": 83291,
+        "numerator": 87373,
+        "denominator": 3
+      },
+      "cooperative_gain_micro_usd": {
+        "numerator": 50800,
+        "denominator": 1
+      },
+      "cooperative_trading_benefit_eligible": true
+    },
+    {
+      "scenario": "asymmetric-02",
+      "parameter": "batch_extra_wait_seconds",
+      "value": 3600,
+      "input_sha256": "8c985db9203ee44c42eabf452ab95ff6b3561cf51d7eb104e08604d6b8bde2e0",
+      "valid_baselines": true,
+      "netting_gain_micro_usd": {
+        "numerator": -566709,
         "denominator": 1
       },
       "cooperative_gain_micro_usd": {
@@ -2572,7 +3570,7 @@
     },
     {
       "scenario": "tight-02",
-      "parameter": "batch_wait_seconds",
+      "parameter": "batch_extra_wait_seconds",
       "value": 0,
       "input_sha256": "2f8d88a15557243a482365adba53385325e21a3472719e5956e996700e59bb4d",
       "valid_baselines": true,
@@ -2588,13 +3586,13 @@
     },
     {
       "scenario": "tight-02",
-      "parameter": "batch_wait_seconds",
-      "value": 300,
-      "input_sha256": "df1a307701c73652cb1ec3f46db60d48e329992e677de374a4f60cf254e95f29",
+      "parameter": "batch_extra_wait_seconds",
+      "value": 60,
+      "input_sha256": "d3638938e707025505b2b097c1a23fd01fdb44bcc7d8dddeb8c05ea36e181d26",
       "valid_baselines": true,
       "netting_gain_micro_usd": {
-        "numerator": 255891,
-        "denominator": 1
+        "numerator": 757073,
+        "denominator": 3
       },
       "cooperative_gain_micro_usd": {
         "numerator": 0,
@@ -2604,12 +3602,28 @@
     },
     {
       "scenario": "tight-02",
-      "parameter": "batch_wait_seconds",
-      "value": 3600,
-      "input_sha256": "23956132168719f8075887a42f715d14bc0284f347803199a9716d1d1f1e3733",
+      "parameter": "batch_extra_wait_seconds",
+      "value": 300,
+      "input_sha256": "c9a019bf7cbcc47fb06c63fa9e5afa3c1b73ea20e1df9abaa425ea9a472af1b4",
       "valid_baselines": true,
       "netting_gain_micro_usd": {
-        "numerator": 255891,
+        "numerator": 714673,
+        "denominator": 3
+      },
+      "cooperative_gain_micro_usd": {
+        "numerator": 0,
+        "denominator": 1
+      },
+      "cooperative_trading_benefit_eligible": true
+    },
+    {
+      "scenario": "tight-02",
+      "parameter": "batch_extra_wait_seconds",
+      "value": 3600,
+      "input_sha256": "da56fb26a928276ba1ab1be4d5a841de62de6cf4e79825926e91f9b4562aa201",
+      "valid_baselines": true,
+      "netting_gain_micro_usd": {
+        "numerator": 43891,
         "denominator": 1
       },
       "cooperative_gain_micro_usd": {
@@ -2716,7 +3730,7 @@
     },
     {
       "scenario": "high-fee-02",
-      "parameter": "batch_wait_seconds",
+      "parameter": "batch_extra_wait_seconds",
       "value": 0,
       "input_sha256": "02d68a22d10a6280a99495a78d89d51010265ea79505bd4efe125e5b5d5f3fad",
       "valid_baselines": true,
@@ -2732,13 +3746,13 @@
     },
     {
       "scenario": "high-fee-02",
-      "parameter": "batch_wait_seconds",
-      "value": 300,
-      "input_sha256": "d7256011d0963be7db946fbc1f977e4b8562fc46d38cf6dfccf061683795a388",
+      "parameter": "batch_extra_wait_seconds",
+      "value": 60,
+      "input_sha256": "932c63562ca7668d51a39227a5f0e25a4205679d5f0c56c332132a3b1089f0c6",
       "valid_baselines": true,
       "netting_gain_micro_usd": {
-        "numerator": 31785,
-        "denominator": 2
+        "numerator": 74755,
+        "denominator": 6
       },
       "cooperative_gain_micro_usd": {
         "numerator": 16200,
@@ -2748,12 +3762,28 @@
     },
     {
       "scenario": "high-fee-02",
-      "parameter": "batch_wait_seconds",
-      "value": 3600,
-      "input_sha256": "e29e2f56318c805ecd49bdf32b2cd130531da8380c45217752c0df760fcd8fc4",
+      "parameter": "batch_extra_wait_seconds",
+      "value": 300,
+      "input_sha256": "91f8103dc692cc7d36fb960b477d663b53fb438654d869f102b1b58f70e17899",
       "valid_baselines": true,
       "netting_gain_micro_usd": {
-        "numerator": 31785,
+        "numerator": -7645,
+        "denominator": 6
+      },
+      "cooperative_gain_micro_usd": {
+        "numerator": 16200,
+        "denominator": 1
+      },
+      "cooperative_trading_benefit_eligible": true
+    },
+    {
+      "scenario": "high-fee-02",
+      "parameter": "batch_extra_wait_seconds",
+      "value": 3600,
+      "input_sha256": "8baa6d85a565136bfb5c3a740385fd9f72a7319b5388ffbcd7326694d1205d3f",
+      "valid_baselines": true,
+      "netting_gain_micro_usd": {
+        "numerator": -380215,
         "denominator": 2
       },
       "cooperative_gain_micro_usd": {
@@ -2842,7 +3872,7 @@
     },
     {
       "scenario": "noise-02",
-      "parameter": "batch_wait_seconds",
+      "parameter": "batch_extra_wait_seconds",
       "value": 0,
       "input_sha256": "e33d2b4321d04b51a5e1a237d49892612f9d16ae221dec3c3e9c877dfba8ff61",
       "valid_baselines": false,
@@ -2852,9 +3882,9 @@
     },
     {
       "scenario": "noise-02",
-      "parameter": "batch_wait_seconds",
-      "value": 300,
-      "input_sha256": "b3ac9a6c1a3c80c43f08d014f69542590182e77ab98e8ad8da908cc67958cb3d",
+      "parameter": "batch_extra_wait_seconds",
+      "value": 60,
+      "input_sha256": "fd3478c7ed9fb837cab9afd65e0cf169564636707f9508a0f9afa458229b8862",
       "valid_baselines": false,
       "netting_gain_micro_usd": null,
       "cooperative_gain_micro_usd": null,
@@ -2862,9 +3892,19 @@
     },
     {
       "scenario": "noise-02",
-      "parameter": "batch_wait_seconds",
+      "parameter": "batch_extra_wait_seconds",
+      "value": 300,
+      "input_sha256": "e5765e6145d757d63e989fe969885947b69d58af732cc937d9aff2176da83c08",
+      "valid_baselines": false,
+      "netting_gain_micro_usd": null,
+      "cooperative_gain_micro_usd": null,
+      "cooperative_trading_benefit_eligible": false
+    },
+    {
+      "scenario": "noise-02",
+      "parameter": "batch_extra_wait_seconds",
       "value": 3600,
-      "input_sha256": "d8799b6b4be8ef8f4c560d0927cf468c264ff5d30b66e30d50429fba6e7d6104",
+      "input_sha256": "475bcb653bc5fade99b57ba23c0d8d6a940db82e12332ab5d4d9d894417210a7",
       "valid_baselines": false,
       "netting_gain_micro_usd": null,
       "cooperative_gain_micro_usd": null,
@@ -2932,7 +3972,7 @@
     },
     {
       "scenario": "confidence-02",
-      "parameter": "batch_wait_seconds",
+      "parameter": "batch_extra_wait_seconds",
       "value": 0,
       "input_sha256": "d7f1e3a3d1b739f708fcde01834c9d2392f11ff73004c9e17d2d7f67f2a72c75",
       "valid_baselines": false,
@@ -2942,9 +3982,9 @@
     },
     {
       "scenario": "confidence-02",
-      "parameter": "batch_wait_seconds",
-      "value": 300,
-      "input_sha256": "7b01626ca69a07964ab2b218a885ff4eead3686d798586a20d74c6a45b01958f",
+      "parameter": "batch_extra_wait_seconds",
+      "value": 60,
+      "input_sha256": "d8e27f9caea0f01d86720e52694b9d87ff9498e9d42fbb657e15122820b29d84",
       "valid_baselines": false,
       "netting_gain_micro_usd": null,
       "cooperative_gain_micro_usd": null,
@@ -2952,9 +3992,19 @@
     },
     {
       "scenario": "confidence-02",
-      "parameter": "batch_wait_seconds",
+      "parameter": "batch_extra_wait_seconds",
+      "value": 300,
+      "input_sha256": "1fa30ee06cc07b886b275b6d2b09e4861a23a5d092d1666f621aceb4a3204ada",
+      "valid_baselines": false,
+      "netting_gain_micro_usd": null,
+      "cooperative_gain_micro_usd": null,
+      "cooperative_trading_benefit_eligible": false
+    },
+    {
+      "scenario": "confidence-02",
+      "parameter": "batch_extra_wait_seconds",
       "value": 3600,
-      "input_sha256": "a8ed5c3f11b9169eb3d2eb62c49f4c7eebdcddea65edb736cdb6e735d7643176",
+      "input_sha256": "a571179394b4b16570ad4c54ca4b34ce191ad0f1b3fafc787ff47ac1ea6f286f",
       "valid_baselines": false,
       "netting_gain_micro_usd": null,
       "cooperative_gain_micro_usd": null,
@@ -3040,7 +4090,7 @@
     },
     {
       "scenario": "slow-02",
-      "parameter": "batch_wait_seconds",
+      "parameter": "batch_extra_wait_seconds",
       "value": 0,
       "input_sha256": "746dabab31085c242b79858a6df2fa309d03c02d8efa42d1f2755c0d940e7e26",
       "valid_baselines": true,
@@ -3056,12 +4106,12 @@
     },
     {
       "scenario": "slow-02",
-      "parameter": "batch_wait_seconds",
-      "value": 300,
-      "input_sha256": "127fa22c0c71d5e0fcf512f4f8f1516b2f77c49b2bb27cba5fa3ee488acb03c4",
+      "parameter": "batch_extra_wait_seconds",
+      "value": 60,
+      "input_sha256": "b32b7cda46284d7e4ec3382756cf41a0a9b720f1b23abfbe53ecfd18a30c9f6f",
       "valid_baselines": true,
       "netting_gain_micro_usd": {
-        "numerator": 94720,
+        "numerator": -255280,
         "denominator": 1
       },
       "cooperative_gain_micro_usd": {
@@ -3072,12 +4122,28 @@
     },
     {
       "scenario": "slow-02",
-      "parameter": "batch_wait_seconds",
-      "value": 3600,
-      "input_sha256": "b4363a8815ee5340b01ea3ee1c224607009e2efd2c68624dda6ff1c21e2e66a5",
+      "parameter": "batch_extra_wait_seconds",
+      "value": 300,
+      "input_sha256": "506547a753ec6bfe0de9ad7aa659ee678874dd9816519da35379bfe1a0ee4952",
       "valid_baselines": true,
       "netting_gain_micro_usd": {
-        "numerator": 94720,
+        "numerator": -1655280,
+        "denominator": 1
+      },
+      "cooperative_gain_micro_usd": {
+        "numerator": 16200,
+        "denominator": 1
+      },
+      "cooperative_trading_benefit_eligible": true
+    },
+    {
+      "scenario": "slow-02",
+      "parameter": "batch_extra_wait_seconds",
+      "value": 3600,
+      "input_sha256": "fd80f8dd46adc9c427cb4c3ba53d614e64e90c2d7396458e908eafb921e427aa",
+      "valid_baselines": true,
+      "netting_gain_micro_usd": {
+        "numerator": -20905280,
         "denominator": 1
       },
       "cooperative_gain_micro_usd": {
@@ -3166,9 +4232,10 @@
       "positive_scenarios": 4,
       "negative_scenarios": 0
     },
-    "sensitivity_runs": 72,
-    "sensitivity_cooperative_gain_positive": 36,
-    "sensitivity_cooperative_gain_negative_or_zero": 18,
-    "holds_under_sensitivity": false
+    "sensitivity_runs": 80,
+    "sensitivity_points_at_risk": 40,
+    "sensitivity_points_keeping_the_gain": 40,
+    "sensitivity_points_losing_the_gain": 0,
+    "holds_under_sensitivity": true
   }
 }

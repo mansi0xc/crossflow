@@ -47,6 +47,44 @@ export async function signedTransactions(page: Page): Promise<string[]> {
 }
 
 /** Deterministic fixture prices so the approval flow can load them without a validator. */
+/**
+ * A plan response shaped like the real one: a recommendation and a per-owner verdict, with one
+ * account marked worse off so the decline path is exercised.
+ */
+export async function stubPlan(page: Page, options: { harmed?: boolean } = {}): Promise<void> {
+  const harmed = options.harmed ?? false;
+  await page.route('**/plans', async route => {
+    const rows = ['a'.repeat(8), 'b'.repeat(8), 'c'.repeat(8)].map((owner, index) => ({
+      owner, independent_objective_micro_usd: index === 0 ? '70109' : index === 1 ? '53709' : '0',
+      proposed_objective_micro_usd: index === 0 ? '21136/3' : index === 1 ? (harmed ? '999999' : '6386/3') : '0',
+      difference_micro_usd: index === 0 ? '-189191/3' : index === 1 ? (harmed ? '946290' : '-154741/3') : '0',
+      allocated_cost_micro_usd: '2054', exposure_change_micro_usd: index === 2 ? '0' : '-2000000',
+      trades: { STOCK_A: index === 0 ? 4 : index === 1 ? -4 : 0, STOCK_B: 0 },
+      worse_than_independent: harmed && index === 1,
+    }));
+    await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({
+      status: 'OK', scenario_id: 'opposite-01', scenario_sha256: 'ab'.repeat(32),
+      proposals: {
+        A: { method: 'A', status: 'ok', feasible: true, reasons: [], totals: { recurring_micro_usd: '181018', after_error_micro_usd: '20000000' } },
+        B: { method: 'B', status: 'ok', feasible: true, reasons: [], totals: { recurring_micro_usd: '20424', after_error_micro_usd: '20000000' } },
+        C: { method: 'C', status: 'ok', feasible: true, reasons: [], totals: { recurring_micro_usd: '4224', after_error_micro_usd: '20000000' } },
+      },
+      comparison: {
+        valid_baselines: true,
+        netting_gain_micro_usd: '160594',
+        cooperative_gain_micro_usd: '16200',
+        per_owner: { assessable: true, per_owner: rows, harmed_owners: harmed ? [rows[1].owner] : [],
+          no_worse_than_independent: !harmed,
+          definition: 'worse off means a higher objective (recurring cost plus preference-weighted tracking error) than executing independently' },
+        recommendation: { method: harmed ? 'A' : 'C',
+          reason: harmed ? 'executing independently is the only method that cannot leave an owner worse off'
+            : 'cooperative adjustment leaves every owner no worse off and beats the alternatives',
+          declined: harmed ? { C: 'it would leave these owners worse off than executing independently: bbbbbbbb', B: 'it would leave these owners worse off than executing independently: bbbbbbbb' } : {} },
+      },
+    }) });
+  });
+}
+
 export async function stubPrices(page: Page): Promise<void> {
   await page.route('**/price', async route => {
     await route.fulfill({
@@ -205,6 +243,9 @@ export async function stubRpc(page: Page, options: StubRpcOptions = {}): Promise
 export async function reachApproval(page: Page): Promise<void> {
   await expect(page.getByTestId('cluster-label')).toContainText(/DEVNET|LOCALNET/);
   await page.getByTestId('scenario-opposite-01').click();
+  // The decision is the headline; the aggregate comparison is folded away beneath it.
+  await expect(page.getByTestId('recommendation')).toBeVisible();
+  await page.getByTestId('comparison-summary').click();
   await expect(page.getByTestId('comparison-table')).toBeVisible();
   await page.getByTestId('go-approve').click();
   await expect(page.getByTestId('approve')).toBeVisible();

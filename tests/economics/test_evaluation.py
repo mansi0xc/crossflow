@@ -46,10 +46,32 @@ class EvaluationReproductionTests(unittest.TestCase):
         self.assertTrue(any(as_int(value) < 0 for value in gains),
                         'the report must keep the scenario where netting costs more than independent execution')
 
-    def test_sensitivity_does_not_uniformly_support_the_claim(self):
+    def test_robustness_is_measured_against_the_points_that_had_a_gain_to_lose(self):
+        """A scenario whose baseline cooperative gain is exactly zero has nothing to preserve.
+
+        Counting those as failures confused opportunity coverage with fragility, and an earlier
+        version of the sensitivity grid moved both the batch and the independent clock together so it
+        never tested coordination delay at all. Both are asserted here.
+        """
         summary = self.committed['summary']
-        self.assertFalse(summary['holds_under_sensitivity'])
-        self.assertGreater(summary['sensitivity_cooperative_gain_negative_or_zero'], 0)
+        # The gain held at every point where a gain existed to lose.
+        self.assertGreater(summary['sensitivity_points_at_risk'], 0)
+        self.assertEqual(summary['sensitivity_points_keeping_the_gain'], summary['sensitivity_points_at_risk'])
+        self.assertEqual(summary['sensitivity_points_losing_the_gain'], 0)
+        self.assertTrue(summary['holds_under_sensitivity'])
+        # And the coverage limit is still stated: not every eligible scenario has a gain.
+        self.assertLess(summary['cooperative_gain_micro_usd']['positive_scenarios'],
+                        summary['cooperative_trading_benefit_eligible_scenarios'])
+        self.assertEqual(summary['cooperative_gain_micro_usd']['negative_scenarios'], 0)
+
+    def test_the_delay_sensitivity_varies_only_the_batch(self):
+        """The grid must contain the batch's *additional* delay, not a common clock."""
+        parameters = {row['parameter'] for row in self.committed['sensitivity']}
+        self.assertIn('batch_extra_wait_seconds', parameters)
+        self.assertNotIn('batch_wait_seconds', parameters)
+        waits = sorted({row['value'] for row in self.committed['sensitivity']
+                        if row['parameter'] == 'batch_extra_wait_seconds'})
+        self.assertEqual(waits, [0, 60, 300, 3600])
 
 
 class ValidatorRejectionTests(unittest.TestCase):

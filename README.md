@@ -20,6 +20,7 @@ settles the whole bounded batch inside every owner's bounds or reverts it entire
 | Controlled synthetic residual venue (real transfers) | works, local | `verification/evidence/T10-local-venue-output.json` |
 | Isolated three-owner fund → batch settle → reject → recover on public devnet | probe passed | `verification/evidence/T24-devnet-output.json` |
 | Three-engine economic comparison + held-out evaluation | works | `docs/evidence/economic-report.md` |
+| An execution *decision*: recommend crossing, netting or independent, and decline batching that would harm an owner | works | `docs/evidence/economic-report.md`, `services/optimizer/cooperative.py` |
 | Local service serving plans, chain intents and unsigned batches | works | `docs/spec/service-api.md`, `tests/services/resource-limits.test.ts` |
 | Browser review → compare → approve → recover flow with an injected wallet | works (local) | `tests/ui/*.spec.ts` |
 | Per-owner cost disclosure that refuses to hide a fee or excuse a harmed owner | works | `docs/spec/cost-allocation.md`, `tests/planner/cost-allocation.test.ts` |
@@ -31,12 +32,22 @@ settles the whole bounded batch inside every owner's bounds or reverts it entire
 ## The honest headline
 
 On the frozen held-out suite the cooperative engine's gain over plain netting has a median of
-**+16,200 micro-USD** and is never negative — but it is positive in only 4 of 6 eligible scenarios,
-and only **36 of 72** declared sensitivity points keep it positive. One scenario's netting costs
-*more* than independent execution. The cooperative-superiority claim therefore does **not** survive
-modest fee or latency change and is narrowed accordingly in `docs/evidence/economic-report.md`.
-The internal crossing itself is the mechanism that holds up; the "cooperative adjustment adds
-value on top of netting" claim is the one that does not.
+**+16,200 micro-USD** and is never negative, and it survives **40 of 40** sensitivity points where a
+gain existed to lose — including batch delays of up to an hour with the independent path executing
+immediately. Two corrections to what this README previously claimed:
+
+- The earlier "36 of 72" figure confused *opportunity coverage* with *fragility*. Most runs cannot
+  be positive, because a scenario with no attributable cooperative benefit has nothing to preserve.
+  Robustness is now measured against each scenario's own baseline, and the delay test varies only
+  the batch clock rather than moving both together.
+- Plain netting loses money in **two** held-out scenarios, not one: netting's worst case is
+  **−5,155,280 micro-USD** against independent execution. That is the stronger result and it was
+  understated.
+
+What the evidence still does not support: cooperative adjustment is positive in only 4 of 6
+eligible scenarios (the other 2 gain exactly nothing), and the absolute savings are small — the
+incremental benefit is roughly 1.35 basis points of turnover in one case. Volume, liquidity and
+reliable opposing flow are not demonstrated. See `docs/evidence/economic-report.md`.
 
 ## Layout
 

@@ -24,6 +24,10 @@ test.describe('T27 accessibility and clarity', () => {
     }
     await page.getByTestId('scenario-opposite-01').focus();
     await page.keyboard.press('Enter');
+    await expect(page.getByTestId('recommendation')).toBeVisible();
+    // The disclosure must be operable by keyboard too, not only by click.
+    await page.getByTestId('comparison-summary').focus();
+    await page.keyboard.press('Enter');
     await expect(page.getByTestId('comparison-table')).toBeVisible();
     await page.getByTestId('go-approve').focus();
     await page.keyboard.press('Enter');
