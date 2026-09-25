@@ -1,0 +1,13 @@
+
+[stderr]
+file:///Users/mansitibrewal/chronicles/crossflow/scripts/check-t06-runtime-evidence.mjs:33
+  throw new Error('T06 local evidence identity, hashes, transaction signatures, or test-price labels do not match');
+        ^
+
+Error: T06 local evidence identity, hashes, transaction signatures, or test-price labels do not match
+    at file:///Users/mansitibrewal/chronicles/crossflow/scripts/check-t06-runtime-evidence.mjs:33:9
+    at ModuleJob.run (node:internal/modules/esm/module_job:377:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:691:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.10.0

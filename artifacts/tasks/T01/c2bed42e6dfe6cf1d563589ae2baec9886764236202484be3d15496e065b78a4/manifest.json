@@ -1,0 +1,61 @@
+{
+  "task": "T01",
+  "status": "CHECKS_PASS_REVIEW_PENDING",
+  "recordedAt": "2026-09-25T01:27:43.869Z",
+  "sourceCommit": "a0bddbf6384f7bafa28e2a6b32954f9d2f3f33a7",
+  "sourceTreeSha256": "c2bed42e6dfe6cf1d563589ae2baec9886764236202484be3d15496e065b78a4",
+  "sourceFiles": {
+    "research/economics/scenario-spec.md": "465d9d509516e81d4e93814806ae4757f0f403d95710addb792c6478fd44c4a0",
+    "research/economics/scenarios.json": "e268bcf55736c5bc17f98a7c42d2b56e3ef4f0e099d4eb4ab26f5bbbc155d037",
+    "research/economics/split-manifest.json": "898cb972ad12754433e74bdb3463c833b510f76af97e99411606385ef57d0c7c",
+    "scripts/check-scenarios.py": "0f82f7d0da624fbec64ec446a47d617b059d45d9596c8e8b6f4de2696ed718f7",
+    "verification/tasks/T01.json": "2ea0b35226a9442907cbf920b7f1d22eadf79ac56dda8030b7fcf3069fcd42ae"
+  },
+  "policyFixtureSha256": "e31d3209a0556554172821a35f16aeeb406fa1cf27ea01512ea279b4ea370ecf",
+  "environment": "LOCAL_NO_TRANSACTION",
+  "clusterGenesis": null,
+  "transactionCount": 0,
+  "versions": {
+    "node": "v24.10.0",
+    "pnpm": "10.17.1",
+    "anchor": "anchor-cli 1.1.2",
+    "cargo": "cargo 1.89.0 (c24e10642 2025-06-23)"
+  },
+  "checks": [
+    {
+      "name": "scenarios",
+      "kind": "evidence-pass",
+      "command": [
+        "python3",
+        "scripts/check-scenarios.py"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "scenarios.log",
+      "outputSha256": "15f699005940159c0b14b1a81ed7066c9aece13e465197e5c2ef175633ff26b2",
+      "passed": true
+    },
+    {
+      "name": "typescript",
+      "kind": "typecheck",
+      "command": [
+        "corepack",
+        "pnpm@10.17.1",
+        "exec",
+        "tsc",
+        "--noEmit"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "typescript.log",
+      "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "passed": true
+    }
+  ],
+  "mandatoryCheckCount": 2,
+  "executedCheckCount": 2,
+  "reviewer": null,
+  "limits": [
+    "Checks only; independent reviewer and actual runtime/compute capacity remain open"
+  ]
+}

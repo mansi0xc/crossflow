@@ -1,12 +1,12 @@
 {
   "status": "LOCAL_LIFECYCLE_PASS",
-  "genesis": "87iXpApKAgTJWXhqcRMGHky12KK84bKrX5x1XRVtKWqg",
-  "config": "9GDWaHHZPiSERkEPx9LYtFf7aZMPwjCpz2Uie8A2w8m9",
-  "prices": "Bvr5T5nHQzYGJ9HkMS3wqcLDHJc1YYRaf5b2KjPCF1Zc",
-  "intent": "GhvDzvWVJ1GGgk87CBkiCwnQAzVUA6NqpH42nU7coYbT",
-  "prefundSignature": "2mj9CoPHYR7DKgRw5CaUfkAo9YJzTj1mdZiSmX79pmNaAc97drvHUp8Aab2oZtvihwiD7NefHXVu3787EVz7tXZM",
-  "configSignature": "5MuagHWZudke5rCDicnFQsKKfELcYHLHz2y6yN7Gdsf8qutpXH7hqGRzQSwDuZkkEHAgkRqWXNvMtQodpRefxLk6",
-  "publishSignature": "2Yb67zqwNTezTQEKoFF3TB6kSYFPtuwbCfqrLDvuRSDai8wvDGeDkfKUyq3jMqAenRBB4Nev1FKt9PwtsfxSbfTJ",
+  "genesis": "433GDpZ3H5kzNHCn3mX3BAWZxtzBPzzaVwvh7FJXuUut",
+  "config": "Ho15oZ5BvfPSKWchjT2RDQk9m88L8myPFcsd8Hp9bd9",
+  "prices": "fMAHtxps2cWPEguBP1n8M141ZgY97Kt5NcwA1yC448U",
+  "intent": "J2TELTLT6XyXAZAHKC72gqmipUGr84haJUK6K5XRzbsM",
+  "prefundSignature": "4yErwLH3ucr19mRzW5g8p6yuvKtXEBvX1urwpdiUNFG1fQp8HnGHTZak4ffCKr49w9pdKaTfedCaVHzzR8vEUNKJ",
+  "configSignature": "oQ7Lyi42x4HsFAWdQgRm7xrMSdxfK3Jj6Vyuph4Dt6oZWdVr3zAShL22EBZHJN7bZEwCAcZ2dsdUvNnkR4RxFMM",
+  "publishSignature": "5mviyttTNsNC9mJeGmoLacFbdQhUfD4z1WYhCE3ScZ6rWWmuxe8kS6cuibMRBojigoT76QoDdkcL6GYgrSJoQwaT",
   "attackerFirstInitializerRejected": true,
   "duplicateInitializationRejected": true,
   "rollbackCases": [
@@ -20,99 +20,195 @@
     "third-leg-output-bound-rollback",
     "third-leg-output-below-minimum",
     "double-settle",
+    "cancel-after-settle",
+    "wrong-rent-recipient-close",
+    "settlement-paused",
+    "policy-update-with-outstanding-claim",
+    "changed-feed-with-outstanding-claim",
+    "changed-route-with-outstanding-claim",
+    "settlement-after-expiry",
     "double-cancel",
+    "settlement-after-cancel",
     "unauthorized-cancel",
-    "unauthorized-withdraw"
+    "unauthorized-withdraw",
+    "substituted-withdraw-recipient",
+    "completed-withdrawal-replay",
+    "closed-intent-replay",
+    "stale-policy-version",
+    "weakened-oracle-policy",
+    "unauthorized-config-update",
+    "stale-admin-version",
+    "previous-admin-rejected-after-rotation"
   ],
-  "fundingSignature": "uG3TwxUsWRTgBfb2hLMwP8ucisqAXehfLJbFCYGvgq6Yx1fk7yZozGzBLdQYj4Se51UB6WHMRr5g9zwAA9euZsB",
+  "fundingSignature": "4Urz49SmmdEWB7v7FKiysNfdMEto4xBjgFvm21WKPxEyc3aYvWCjSqYg62YCX8x7QGHoxGQ1FAoLyDe3EaC8Kxo6",
   "negativeResults": [
     {
       "label": "attacker-first-initializer",
       "expected": "/Error Code: (?:Initializer|ConstraintInit)|already in use/",
-      "log": "Program CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: InitializeConfig\nProgram 11111111111111111111111111111111 invoke [2]\nProgram 11111111111111111111111111111111 success\nProgram 11111111111111111111111111111111 invoke [2]\nProgram 11111111111111111111111111111111 success\nProgram 11111111111111111111111111111111 invoke [2]\nProgram 11111111111111111111111111111111 success\nProgram log: AnchorError caused by account: initializer. Error Code: Initializer. Error Number: 6102. Error Message: Expected deployment initializer signature required.\nProgram log: Left:\nProgram log: FxLiHj7pGX87KAKHoqFgtm1wyg4ga1PiuUoM2LeLKWPK\nProgram log: Right:\nProgram log: A6piR6JVhhdjz12dfRe9i1Cqp5uSsRPesmMCn6vQs6nC\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 25221 of 400000 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x17d6"
+      "log": "Program CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: InitializeConfig\nProgram 11111111111111111111111111111111 invoke [2]\nProgram 11111111111111111111111111111111 success\nProgram 11111111111111111111111111111111 invoke [2]\nProgram 11111111111111111111111111111111 success\nProgram 11111111111111111111111111111111 invoke [2]\nProgram 11111111111111111111111111111111 success\nProgram log: AnchorError caused by account: initializer. Error Code: Initializer. Error Number: 6102. Error Message: Expected deployment initializer signature required.\nProgram log: Left:\nProgram log: 7xz6kky6hkAUsuFhZCRxC7zoPUbvGthsnRZ45rhz91UC\nProgram log: Right:\nProgram log: 8fZgN7s6oad1tJ9kWodL8HFT5kzvdLPjoLeH7UCZPfXH\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 17779 of 400000 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x17d6"
     },
     {
       "label": "duplicate-initialization",
       "expected": "/already in use|Error Code: ConstraintInit/",
-      "log": "Program CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: InitializeConfig\nProgram 11111111111111111111111111111111 invoke [2]\nAllocate: account Address { address: 9GDWaHHZPiSERkEPx9LYtFf7aZMPwjCpz2Uie8A2w8m9, base: None } already in use\nProgram 11111111111111111111111111111111 failed: custom program error: 0x0\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 13054 of 400000 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x0"
+      "log": "Program CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: InitializeConfig\nProgram 11111111111111111111111111111111 invoke [2]\nAllocate: account Address { address: Ho15oZ5BvfPSKWchjT2RDQk9m88L8myPFcsd8Hp9bd9, base: None } already in use\nProgram 11111111111111111111111111111111 failed: custom program error: 0x0\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 5554 of 400000 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x0"
     },
     {
       "label": "one-raw-unit-reference-mismatch",
       "expected": "/Error Code: ReferenceMove/",
-      "log": "Program ComputeBudget111111111111111111111111111111 invoke [1]\nProgram ComputeBudget111111111111111111111111111111 success\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: CreateAndFund\nProgram 11111111111111111111111111111111 invoke [2]\nProgram 11111111111111111111111111111111 success\nProgram 11111111111111111111111111111111 invoke [2]\nProgram 11111111111111111111111111111111 success\nProgram log: AnchorError thrown in programs/crossflow/src/oracle.rs:317. Error Code: ReferenceMove. Error Number: 6010. Error Message: Price moved beyond the funded reference bound.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 58764 of 599850 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x177a"
+      "log": "Program ComputeBudget111111111111111111111111111111 invoke [1]\nProgram ComputeBudget111111111111111111111111111111 success\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: CreateAndFund\nProgram 11111111111111111111111111111111 invoke [2]\nProgram 11111111111111111111111111111111 success\nProgram 11111111111111111111111111111111 invoke [2]\nProgram 11111111111111111111111111111111 success\nProgram log: AnchorError thrown in programs/crossflow/src/oracle.rs:317. Error Code: ReferenceMove. Error Number: 6010. Error Message: Price moved beyond the funded reference bound.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 72545 of 599850 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x177a"
     },
     {
       "label": "insufficient-source-balance",
       "expected": "/Error Code: InsufficientFunds/",
-      "log": "Program ComputeBudget111111111111111111111111111111 invoke [1]\nProgram ComputeBudget111111111111111111111111111111 success\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: CreateAndFund\nProgram 11111111111111111111111111111111 invoke [2]\nProgram 11111111111111111111111111111111 success\nProgram 11111111111111111111111111111111 invoke [2]\nProgram 11111111111111111111111111111111 success\nProgram ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL invoke [2]\nProgram log: CreateIdempotent\nProgram TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA invoke [3]\nProgram log: Instruction: GetAccountDataSize\nProgram TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA consumed 1569 of 529735 compute units\nProgram return: TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA pQAAAAAAAAA=\nProgram TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA success\nProgram 11111111111111111111111111111111 invoke [3]\nProgram 11111111111111111111111111111111 success\nProgram log: Initialize the associated token account\nProgram TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA invoke [3]\nProgram log: Instruction: InitializeImmutableOwner\nProgram log: Please upgrade to SPL Token 2022 for immutable owner support\nProgram TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA consumed 1405 of 523256 compute units\nProgram TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA success\nProgram TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA invoke [3]\nProgram log: Instruction: InitializeAccount3\nProgram TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA consumed 4188 of 519425 compute units\nProgram TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA success\nProgram ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL consumed 20231 of 535164 compute units\nProgram ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL success\nProgram log: AnchorError thrown in programs/crossflow/src/funding.rs:256. Error Code: InsufficientFunds. Error Number: 6306. Error Message: Insufficient selected slice funding.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 87919 of 599850 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x18a2"
+      "log": "Program ComputeBudget111111111111111111111111111111 invoke [1]\nProgram ComputeBudget111111111111111111111111111111 success\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: CreateAndFund\nProgram 11111111111111111111111111111111 invoke [2]\nProgram 11111111111111111111111111111111 success\nProgram 11111111111111111111111111111111 invoke [2]\nProgram 11111111111111111111111111111111 success\nProgram ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL invoke [2]\nProgram log: CreateIdempotent\nProgram TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA invoke [3]\nProgram log: Instruction: GetAccountDataSize\nProgram TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA consumed 1569 of 511382 compute units\nProgram return: TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA pQAAAAAAAAA=\nProgram TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA success\nProgram 11111111111111111111111111111111 invoke [3]\nProgram 11111111111111111111111111111111 success\nProgram log: Initialize the associated token account\nProgram TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA invoke [3]\nProgram log: Instruction: InitializeImmutableOwner\nProgram log: Please upgrade to SPL Token 2022 for immutable owner support\nProgram TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA consumed 1405 of 504903 compute units\nProgram TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA success\nProgram TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA invoke [3]\nProgram log: Instruction: InitializeAccount3\nProgram TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA consumed 4188 of 501072 compute units\nProgram TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA success\nProgram ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL consumed 21731 of 518311 compute units\nProgram ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL success\nProgram log: AnchorError thrown in programs/crossflow/src/funding.rs:236. Error Code: InsufficientFunds. Error Number: 6306. Error Message: Insufficient selected slice funding.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 106329 of 599850 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x18a2"
     },
     {
       "label": "substituted-source-ata",
       "expected": "/Error Code: (?:AccountOwnedByWrongProgram|ConstraintAssociated)/",
-      "log": "Program ComputeBudget111111111111111111111111111111 invoke [1]\nProgram ComputeBudget111111111111111111111111111111 success\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: CreateAndFund\nProgram log: AnchorError caused by account: source1. Error Code: AccountOwnedByWrongProgram. Error Number: 3007. Error Message: The given account is owned by a different program than expected.\nProgram log: Left:\nProgram log: NativeLoader1111111111111111111111111111111\nProgram log: Right:\nProgram log: TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 10668 of 599850 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0xbbf"
+      "log": "Program ComputeBudget111111111111111111111111111111 invoke [1]\nProgram ComputeBudget111111111111111111111111111111 success\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: CreateAndFund\nProgram log: AnchorError caused by account: source1. Error Code: AccountOwnedByWrongProgram. Error Number: 3007. Error Message: The given account is owned by a different program than expected.\nProgram log: Left:\nProgram log: NativeLoader1111111111111111111111111111111\nProgram log: Right:\nProgram log: TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 10677 of 599850 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0xbbf"
     },
     {
       "label": "substituted-configured-mint",
       "expected": "/Error Code: (?:ConstraintAssociated|Mint)/",
-      "log": "Program ComputeBudget111111111111111111111111111111 invoke [1]\nProgram ComputeBudget111111111111111111111111111111 success\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: CreateAndFund\nProgram 11111111111111111111111111111111 invoke [2]\nProgram 11111111111111111111111111111111 success\nProgram 11111111111111111111111111111111 invoke [2]\nProgram 11111111111111111111111111111111 success\nProgram log: AnchorError caused by account: source1. Error Code: ConstraintAssociated. Error Number: 2009. Error Message: An associated constraint was violated.\nProgram log: Left:\nProgram log: BXYcsTCb5K1JCTS3xUb9U5cckZ7KrrsyQcf8L67RC9tR\nProgram log: Right:\nProgram log: A6D3vVZsu8iVnS88NhPxyVNcB9h4sg6y5rLyLnU9cLgW\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 34216 of 599850 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x7d9"
+      "log": "Program ComputeBudget111111111111111111111111111111 invoke [1]\nProgram ComputeBudget111111111111111111111111111111 success\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: CreateAndFund\nProgram 11111111111111111111111111111111 invoke [2]\nProgram 11111111111111111111111111111111 success\nProgram 11111111111111111111111111111111 invoke [2]\nProgram 11111111111111111111111111111111 success\nProgram log: AnchorError caused by account: source1. Error Code: ConstraintAssociated. Error Number: 2009. Error Message: An associated constraint was violated.\nProgram log: Left:\nProgram log: 8qyNdbAHjZQqfSrSMRkNJar4HvogkM1fwFGaM12F7xnB\nProgram log: Right:\nProgram log: 2kip5S9rMEh3w4U7j9gjZR2uLC8pPzHZMF6NEiY3vPTH\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 46225 of 599850 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x7d9"
     },
     {
       "label": "wrong-funder-signer",
       "expected": "/Error Code: (?:ConstraintSeeds|Nonce)/",
-      "log": "Program ComputeBudget111111111111111111111111111111 invoke [1]\nProgram ComputeBudget111111111111111111111111111111 success\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: CreateAndFund\nProgram log: AnchorError caused by account: owner_state. Error Code: ConstraintSeeds. Error Number: 2006. Error Message: A seeds constraint was violated.\nProgram log: Left:\nProgram log: F4QaYy146id4nWZN9eYCHQcTFVY5qpmViGuGF5NPPqtX\nProgram log: Right:\nProgram log: 9ksFi2WsmjaropPtBQdJnvdx7toPPj1DR81VbHYCuuZH\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 13312 of 599850 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x7d6"
+      "log": "Program ComputeBudget111111111111111111111111111111 invoke [1]\nProgram ComputeBudget111111111111111111111111111111 success\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: CreateAndFund\nProgram log: AnchorError caused by account: owner_state. Error Code: ConstraintSeeds. Error Number: 2006. Error Message: A seeds constraint was violated.\nProgram log: Left:\nProgram log: Fh5etwn9VxYPAPHNkaTFSdtX53J8TTgQ68AkxK9w68W\nProgram log: Right:\nProgram log: 6qhZQB2g2jC3hJGUPsad31TRBDQjp1TyFqZ4PibUwPhn\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 20821 of 599850 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x7d6"
     },
     {
       "label": "duplicate-active-intent-new-nonce",
       "expected": "/Error Code: Nonce/",
-      "log": "Program ComputeBudget111111111111111111111111111111 invoke [1]\nProgram ComputeBudget111111111111111111111111111111 success\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: CreateAndFund\nProgram 11111111111111111111111111111111 invoke [2]\nProgram 11111111111111111111111111111111 success\nProgram log: AnchorError thrown in programs/crossflow/src/funding.rs:192. Error Code: Nonce. Error Number: 6203. Error Message: Owner nonce or active intent is invalid.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 56244 of 599850 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x183b"
+      "log": "Program ComputeBudget111111111111111111111111111111 invoke [1]\nProgram ComputeBudget111111111111111111111111111111 success\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: CreateAndFund\nProgram 11111111111111111111111111111111 invoke [2]\nProgram 11111111111111111111111111111111 success\nProgram log: AnchorError thrown in programs/crossflow/src/funding.rs:172. Error Code: Nonce. Error Number: 6203. Error Message: Owner nonce or active intent is invalid.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 65528 of 599850 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x183b"
     },
     {
       "label": "duplicate-intent-replay",
       "expected": "/already in use|Error Code: ConstraintInit/",
-      "log": "Program ComputeBudget111111111111111111111111111111 invoke [1]\nProgram ComputeBudget111111111111111111111111111111 success\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: CreateAndFund\nProgram 11111111111111111111111111111111 invoke [2]\nAllocate: account Address { address: GhvDzvWVJ1GGgk87CBkiCwnQAzVUA6NqpH42nU7coYbT, base: None } already in use\nProgram 11111111111111111111111111111111 failed: custom program error: 0x0\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 15540 of 599850 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x0"
+      "log": "Program ComputeBudget111111111111111111111111111111 invoke [1]\nProgram ComputeBudget111111111111111111111111111111 success\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: CreateAndFund\nProgram 11111111111111111111111111111111 invoke [2]\nAllocate: account Address { address: J2TELTLT6XyXAZAHKC72gqmipUGr84haJUK6K5XRzbsM, base: None } already in use\nProgram 11111111111111111111111111111111 failed: custom program error: 0x0\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 26049 of 599850 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x0"
     },
     {
       "label": "third-leg-output-bound-rollback",
       "expected": "/Error Code: Output/",
-      "log": "Program CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: SettleThin\nProgram TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA invoke [2]\nProgram log: Instruction: TransferChecked\nProgram TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA consumed 6148 of 341587 compute units\nProgram TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA success\nProgram TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA invoke [2]\nProgram log: Instruction: TransferChecked\nProgram TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA consumed 6148 of 332575 compute units\nProgram TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA success\nProgram log: AnchorError thrown in programs/crossflow/src/settlement.rs:114. Error Code: Output. Error Number: 6401. Error Message: Final output is outside its owner-approved raw bounds.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 76985 of 400000 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x1901"
+      "log": "Program CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: SettleThin\nProgram TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA invoke [2]\nProgram log: Instruction: TransferChecked\nProgram TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA consumed 6148 of 336545 compute units\nProgram TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA success\nProgram TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA invoke [2]\nProgram log: Instruction: TransferChecked\nProgram TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA consumed 6148 of 327514 compute units\nProgram TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA success\nProgram log: AnchorError thrown in programs/crossflow/src/settlement.rs:117. Error Code: Output. Error Number: 6401. Error Message: Final output is outside its owner-approved raw bounds.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 82121 of 400000 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x1901"
     },
     {
       "label": "third-leg-output-below-minimum",
       "expected": "/Error Code: Output/",
-      "log": "Program CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: SettleThin\nProgram TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA invoke [2]\nProgram log: Instruction: TransferChecked\nProgram TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA consumed 6148 of 341587 compute units\nProgram TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA success\nProgram TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA invoke [2]\nProgram log: Instruction: TransferChecked\nProgram TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA consumed 6148 of 332575 compute units\nProgram TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA success\nProgram log: AnchorError thrown in programs/crossflow/src/settlement.rs:114. Error Code: Output. Error Number: 6401. Error Message: Final output is outside its owner-approved raw bounds.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 76983 of 400000 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x1901"
+      "log": "Program CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: SettleThin\nProgram TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA invoke [2]\nProgram log: Instruction: TransferChecked\nProgram TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA consumed 6148 of 336545 compute units\nProgram TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA success\nProgram TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA invoke [2]\nProgram log: Instruction: TransferChecked\nProgram TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA consumed 6148 of 327514 compute units\nProgram TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA success\nProgram log: AnchorError thrown in programs/crossflow/src/settlement.rs:117. Error Code: Output. Error Number: 6401. Error Message: Final output is outside its owner-approved raw bounds.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 82119 of 400000 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x1901"
     },
     {
       "label": "double-settle",
       "expected": "/Error Code: Settle/",
-      "log": "Program CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: SettleThin\nProgram log: AnchorError thrown in programs/crossflow/src/settlement.rs:56. Error Code: Settle. Error Number: 6400. Error Message: Intent is expired, not funded, or violates the thin settlement rules.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 42121 of 400000 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x1900"
+      "log": "Program CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: SettleThin\nProgram log: AnchorError thrown in programs/crossflow/src/settlement.rs:59. Error Code: Settle. Error Number: 6400. Error Message: Intent is expired, not funded, or violates the thin settlement rules.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 45301 of 400000 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x1900"
+    },
+    {
+      "label": "cancel-after-settle",
+      "expected": "/Error Code: RecoveryStatus/",
+      "log": "Program CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: CancelIntent\nProgram log: AnchorError thrown in programs/crossflow/src/recovery.rs:27. Error Code: RecoveryStatus. Error Number: 6405. Error Message: Intent has not reached a recoverable terminal state.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 16572 of 400000 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x1905"
+    },
+    {
+      "label": "wrong-rent-recipient-close",
+      "expected": "/Error Code: ConstraintSeeds/",
+      "log": "Program CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: CloseIntent\nProgram log: AnchorError caused by account: owner_state. Error Code: ConstraintSeeds. Error Number: 2006. Error Message: A seeds constraint was violated.\nProgram log: Left:\nProgram log: Fh5etwn9VxYPAPHNkaTFSdtX53J8TTgQ68AkxK9w68W\nProgram log: Right:\nProgram log: 7NVxduU6cNWZ9GLVd16HbABfV7aK3LuChknL4jfXbSP1\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 12815 of 400000 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x7d6"
+    },
+    {
+      "label": "settlement-paused",
+      "expected": "/Error Code: Paused/",
+      "log": "Program CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: SettleThin\nProgram log: AnchorError thrown in programs/crossflow/src/settlement.rs:51. Error Code: Paused. Error Number: 6300. Error Message: Funding is paused.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 44741 of 400000 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x189c"
+    },
+    {
+      "label": "policy-update-with-outstanding-claim",
+      "expected": "/Error Code: ClaimsOutstanding/",
+      "log": "Program CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: UpdatePolicy\nProgram log: AnchorError thrown in programs/crossflow/src/config.rs:363. Error Code: ClaimsOutstanding. Error Number: 6107. Error Message: Outstanding escrow claims prevent policy/admin rotation.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 15914 of 200000 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x17db"
+    },
+    {
+      "label": "changed-feed-with-outstanding-claim",
+      "expected": "/Error Code: ClaimsOutstanding/",
+      "log": "Program CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: UpdatePolicy\nProgram log: AnchorError thrown in programs/crossflow/src/config.rs:363. Error Code: ClaimsOutstanding. Error Number: 6107. Error Message: Outstanding escrow claims prevent policy/admin rotation.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 15914 of 200000 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x17db"
+    },
+    {
+      "label": "changed-route-with-outstanding-claim",
+      "expected": "/Error Code: ClaimsOutstanding/",
+      "log": "Program CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: UpdatePolicy\nProgram log: AnchorError thrown in programs/crossflow/src/config.rs:363. Error Code: ClaimsOutstanding. Error Number: 6107. Error Message: Outstanding escrow claims prevent policy/admin rotation.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 15914 of 200000 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x17db"
+    },
+    {
+      "label": "settlement-after-expiry",
+      "expected": "/Error Code: Settle/",
+      "log": "Program CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: SettleThin\nProgram log: AnchorError thrown in programs/crossflow/src/settlement.rs:60. Error Code: Settle. Error Number: 6400. Error Message: Intent is expired, not funded, or violates the thin settlement rules.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 45305 of 400000 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x1900"
     },
     {
       "label": "double-cancel",
       "expected": "/Error Code: RecoveryStatus/",
-      "log": "Program CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: CancelIntent\nProgram log: AnchorError thrown in programs/crossflow/src/recovery.rs:26. Error Code: RecoveryStatus. Error Number: 6405. Error Message: Intent has not reached a recoverable terminal state.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 23835 of 400000 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x1905"
+      "log": "Program CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: CancelIntent\nProgram log: AnchorError thrown in programs/crossflow/src/recovery.rs:27. Error Code: RecoveryStatus. Error Number: 6405. Error Message: Intent has not reached a recoverable terminal state.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 16570 of 400000 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x1905"
+    },
+    {
+      "label": "settlement-after-cancel",
+      "expected": "/Error Code: Settle/",
+      "log": "Program CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: SettleThin\nProgram log: AnchorError thrown in programs/crossflow/src/settlement.rs:59. Error Code: Settle. Error Number: 6400. Error Message: Intent is expired, not funded, or violates the thin settlement rules.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 45301 of 400000 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x1900"
     },
     {
       "label": "unauthorized-cancel",
       "expected": "/Error Code: ConstraintSeeds/",
-      "log": "Program CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: CancelIntent\nProgram log: AnchorError caused by account: owner_state. Error Code: ConstraintSeeds. Error Number: 2006. Error Message: A seeds constraint was violated.\nProgram log: Left:\nProgram log: F4QaYy146id4nWZN9eYCHQcTFVY5qpmViGuGF5NPPqtX\nProgram log: Right:\nProgram log: 7tPFEWqKXkXGbQZ8Z366xSsMPMRQa5NrUkhPtotnTWLG\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 9744 of 400000 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x7d6"
+      "log": "Program CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: CancelIntent\nProgram log: AnchorError caused by account: owner_state. Error Code: ConstraintSeeds. Error Number: 2006. Error Message: A seeds constraint was violated.\nProgram log: Left:\nProgram log: Fh5etwn9VxYPAPHNkaTFSdtX53J8TTgQ68AkxK9w68W\nProgram log: Right:\nProgram log: 7NVxduU6cNWZ9GLVd16HbABfV7aK3LuChknL4jfXbSP1\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 9757 of 400000 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x7d6"
     },
     {
       "label": "unauthorized-withdraw",
       "expected": "/Error Code: ConstraintSeeds/",
-      "log": "Program CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: WithdrawAsset\nProgram log: AnchorError caused by account: owner_state. Error Code: ConstraintSeeds. Error Number: 2006. Error Message: A seeds constraint was violated.\nProgram log: Left:\nProgram log: F4QaYy146id4nWZN9eYCHQcTFVY5qpmViGuGF5NPPqtX\nProgram log: Right:\nProgram log: 7tPFEWqKXkXGbQZ8Z366xSsMPMRQa5NrUkhPtotnTWLG\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 17157 of 400000 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x7d6"
+      "log": "Program CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: WithdrawAsset\nProgram log: AnchorError caused by account: owner_state. Error Code: ConstraintSeeds. Error Number: 2006. Error Message: A seeds constraint was violated.\nProgram log: Left:\nProgram log: Fh5etwn9VxYPAPHNkaTFSdtX53J8TTgQ68AkxK9w68W\nProgram log: Right:\nProgram log: 7NVxduU6cNWZ9GLVd16HbABfV7aK3LuChknL4jfXbSP1\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 14029 of 400000 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x7d6"
+    },
+    {
+      "label": "substituted-withdraw-recipient",
+      "expected": "/Error Code: TokenIdentity/",
+      "log": "Program CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: WithdrawAsset\nProgram log: AnchorError thrown in programs/crossflow/src/recovery.rs:95. Error Code: TokenIdentity. Error Number: 6304. Error Message: Token account identity or program is invalid.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 24344 of 400000 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x18a0"
+    },
+    {
+      "label": "completed-withdrawal-replay",
+      "expected": "/Error Code: NothingToWithdraw/",
+      "log": "Program CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: WithdrawAsset\nProgram log: AnchorError thrown in programs/crossflow/src/recovery.rs:98. Error Code: NothingToWithdraw. Error Number: 6403. Error Message: No claim is available for this asset.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 25057 of 400000 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x1903"
+    },
+    {
+      "label": "closed-intent-replay",
+      "expected": "/Error Code: Nonce/",
+      "log": "Program ComputeBudget111111111111111111111111111111 invoke [1]\nProgram ComputeBudget111111111111111111111111111111 success\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: CreateAndFund\nProgram 11111111111111111111111111111111 invoke [2]\nProgram 11111111111111111111111111111111 success\nProgram log: AnchorError thrown in programs/crossflow/src/funding.rs:172. Error Code: Nonce. Error Number: 6203. Error Message: Owner nonce or active intent is invalid.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 69998 of 599850 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x183b"
+    },
+    {
+      "label": "stale-policy-version",
+      "expected": "/Error Code: StaleVersion/",
+      "log": "Program CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: UpdatePolicy\nProgram log: AnchorError thrown in programs/crossflow/src/config.rs:364. Error Code: StaleVersion. Error Number: 6106. Error Message: Expected configuration version is stale.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 15898 of 200000 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x17da"
+    },
+    {
+      "label": "weakened-oracle-policy",
+      "expected": "/Error Code: Policy/",
+      "log": "Program CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: UpdatePolicy\nProgram log: AnchorError thrown in programs/crossflow/src/oracle.rs:93. Error Code: Policy. Error Number: 6001. Error Message: Invalid oracle policy or identity binding.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 18973 of 200000 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x1771"
+    },
+    {
+      "label": "unauthorized-config-update",
+      "expected": "/Error Code: Admin/",
+      "log": "Program CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: SetPause\nProgram log: AnchorError thrown in programs/crossflow/src/config.rs:343. Error Code: Admin. Error Number: 6105. Error Message: Registered config admin signature required.\nProgram log: Left:\nProgram log: kHkExzVGDhrRcWhEcphNgjLSBVjfjDtogez1m4q15gP\nProgram log: Right:\nProgram log: 8fZgN7s6oad1tJ9kWodL8HFT5kzvdLPjoLeH7UCZPfXH\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 11046 of 400000 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x17d9"
+    },
+    {
+      "label": "stale-admin-version",
+      "expected": "/Error Code: StaleVersion/",
+      "log": "Program CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: UpdateAdmin\nProgram log: AnchorError thrown in programs/crossflow/src/config.rs:398. Error Code: StaleVersion. Error Number: 6106. Error Message: Expected configuration version is stale.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 10593 of 400000 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x17da"
+    },
+    {
+      "label": "previous-admin-rejected-after-rotation",
+      "expected": "/Error Code: Admin/",
+      "log": "Program CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: SetPause\nProgram log: AnchorError thrown in programs/crossflow/src/config.rs:343. Error Code: Admin. Error Number: 6105. Error Message: Registered config admin signature required.\nProgram log: Left:\nProgram log: 8fZgN7s6oad1tJ9kWodL8HFT5kzvdLPjoLeH7UCZPfXH\nProgram log: Right:\nProgram log: 526Zz1aXrwfDJ9LiLpHWsTN9WK2XcX81d4KWXkVuqUYP\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 11045 of 400000 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x17d9"
     }
   ],
-  "stored_mandate_hash": "a1225d756212dbe2540b88bb09920cdf69393c67c69305604671b83e19d5dc98",
+  "stored_mandate_hash": "63bb9341a4449a660e5b01cc4dc643ab4dcb89419b80181344701af7a381c8a6",
   "stored_intent_verified": true,
   "sourceBefore": [
-    "110000000",
-    "2000000",
-    "2000000"
+    "500000000",
+    "10000000",
+    "10000000"
   ],
   "sourceAfter": [
-    "10000000",
-    "1000000",
-    "1000000"
+    "400000000",
+    "9000000",
+    "9000000"
   ],
   "vaultBefore": [
     "0",
@@ -145,9 +241,9 @@
       }
     ],
     "sourceAfterSettledReturn": [
-      "110000000",
-      "2000000",
-      "2000000"
+      "500000000",
+      "10000000",
+      "10000000"
     ],
     "vaultsAfterSettledReturn": [
       "0",
@@ -160,21 +256,43 @@
       "1000000"
     ],
     "cancellationAfterExpiry": true,
-    "expiredAtUnixSeconds": "1790194747",
+    "expiredAtUnixSeconds": "1790300516",
     "rentLamportsReclaimedFromSettledIntentAndVaults": "10641840",
     "rentLamportsReclaimedFromCancelledIntentAndVaults": "10641840",
-    "finalNonce": "2",
+    "finalNonce": "3",
     "activeIntentCleared": true,
     "outstandingClaimIntents": "0",
+    "recipientAtaRecreatedByOwner": true,
+    "otherAssetRecoveredWhileRecipientMissing": true,
+    "canonicalAtaRentLamports": "2039280",
+    "devnetWalletRentPrerequisiteLamports": "2039280",
+    "settlementAndFundingPausedDuringOwnerRecovery": true,
+    "policyVersionAfterRotation": 2,
+    "postRotationFundingAndOwnerRecovery": true,
     "lifecycleSignatures": {
-      "settle": "sD1FxUSohiZGQqmWo2iazWwGVsUr5gZbpJRmmpouGuWUNUn9LLapAN74jBYF1qvFPMLCz65JpAYE5hM7TJR2dUQ",
-      "closeSettled": "5UEBAHYVzQgYDJzbG3xtoBSibUvJSbTyXDcK98EeBbU5UQkSS2CbYGfNcaQ6SFUiTkqu3gBQHWrEWqMcTr6TeMLe",
-      "fundForCancel": "2x4L6WVHdr1hrLeaBYCMC31LUkWhZMLFeFUe1YD2bLdByjgjSCEbxcng2nnRU3Td9r3zjg3nkqiN8Rz3gtDSFvTu",
-      "cancel": "4yJVr5tPz5X4RJnuvLgqbeHTHUTroZoaUhwqA63c2GuJPKSkiAnhPVdcnPeiHdWeeMmcXL7RFyeH2tM7nDLvUXkc",
-      "withdraw0": "5wtBW6WqsL9JXtXKqgj1TAAcCTuY32ZLNSy78BsrBmp2frtCaaNqPG5dtqfLztcvLkAxif5ivazvT9WiApNPRzx7",
-      "withdraw1": "45TTfaA9L2RDU9k9MF7yTTsvSyTE6cJvUmbNop8XHs4Yp62p6vzWf81SivhiBQHMY6SvHnbbyAVejzqEg4ysQ6VB",
-      "withdraw2": "7gVLghtak3Bvg1Uo5Ab9sYpsPtGHA2fGjYX5MHbZBTohZ7dvijGN5tSaDUstfsVMyWkBzWJkWA1WDM25538FsrE",
-      "closeCancelled": "4cMxq3vwUfqH483ydh9SE5X6LauF5vYgRJRe4iFbSeBwgXRTk4dM35u2kVoTRG8Ej7ABpiW7fXxrfVqZi1swobTK"
+      "settle": "3dtb79tAQKeT6KBnxuRkf2UusBh6vk9Bihj67JSWMBPqigEC8SDAAkvnexRfJst4snmqReifjyUB7m4cMkG7jSGB",
+      "closeSettled": "GJhq87PKMvtiB8NK45s7uswuTAsfzMZsab5HNsoHiAKM3Em4UeYMUE7oJRm3MwYjcsmnCTGM7UwkELZQ7tC4sNt",
+      "fundForCancel": "3XybN6etCkbLvPJGyEBdvJQMy43xNKoxnnaxRZ4yPyYEHk3ATFqkPNHZcYHwh8CW8dVQDtt4cWgALz7xiUx6VsfT",
+      "pause": "5xQHVkuJCtVC8cGTXBNp4gMw5sFPKmchYkG4Bj8zNXXwN5CccapKah6MRtuBpwaotSepJ9aQSAEBv6EbXzJ8nRUv",
+      "unpauseForExpiryCheck": "4kg7zxiuZoXctA6qzHbEBgN6Py2vio3WBftn76k2XSMb7obaScnUqsZASUzFwypZp6pfjKTt2gAnU9kU9VZUTrFv",
+      "repauseForRecovery": "4M6szg8vYf8LC8nDfUhQhSDFT1Ptm9tvJUyisZXGq57ovYsNYdncpNrr8fMyLRi83aoMenmZDD1cmXVdKmJNzsYd",
+      "cancel": "5Sd6n9n97fw37kC63z15qzk56GgT3WHyC2XujKxgsQNThx8ayjWW5g2HTGmdD8Ks219SZG3oGqTpST84uQWS3ZWu",
+      "unpauseForRaceCheck": "2tqBAzwcUHSBYyAmzNoNX47iVNWmp7GrurUo43uJsWk5fiTfF75Nb1gJodKGit7T5okhA6CWz7GvmdqHH3PT9ari",
+      "repauseForWithdrawals": "2uUBEFMwrwFz823eL2D6fNNUREBx4VnB94aoZFyBnh6uy1YCBi2eNbzYoPxFecowEdcRYTLvp5LukPbRQ9QjBKik",
+      "temporaryAta": "2b3eNTp4DMPeDkcBPu3a7qzTDPa5p3RgfXLqn8xEZoVn5Jh2E8n2QY8xnHbQQWCvToQmUHAx1rJG6HxQYCbUT79f",
+      "withdraw1WhileOtherAtaMissing": "53xYJmc82MJcy3zeygR2zxTpcaomgoYFPwWtfocTKEwFpsqB6VTXZVaYpQogrJob26AV38H5UXbwz6he9NuXZMtB",
+      "withdraw0WithAtaRecreation": "2LmGw2A8ZCuwiSUYFc586ZUMafwvKn85byYxdNZKXvLEMTu66Gai7j7zskGpXm9HAA49cj4LwPBaabpvsJiTEv1A",
+      "withdraw2": "ebmH1pJLZ1PDZQzBE3pS1sGPnXNNxNAwepAbm7YvX9z47cW46rEVfVg7BZWToqR1CsthoJdKAHZMk8yF3ELa7rT",
+      "closeCancelled": "3UiWEr7A4sNgHZtGduCFtHM5ha8doDNZwnvWrx81ok6pfgipKUQDRqLHUqhAKkyXnmaEa24HJ8H5A8eNiLeReEjD",
+      "unpause": "42ySqaTTQxQzURKmTCQS5pUvhAfd3pm9qzaom6dLUnsDDpTWdhBCTKTppo8faPQC5RfzDL7nUqZSKfZfkN74roYr",
+      "policyRotation": "64bTiKFUcv8gyCU53CxmRyUnfboQyvuEmDpfEGQjeMHZfQCWg7YHiWT9FscvrYPAs6g9TvJstQBHPemjfShuZuhi",
+      "fundAfterRotation": "3111rmgtBFf6A4qp6PzHLyMwSZQLg3kyzHt94VAB58pu9jRCKqjJC1m5kiy3QY1CaH5pgX124CKfJojH9gG116UR",
+      "cancelAfterRotation": "49TRqxbvwRujnneF2kcMuuT2b6TZwBKDgveSxM5cH13TAhEFh3E7Ak827Kv3poGqiCrPKfbXiPbBQVbJqjGZTRy4",
+      "withdrawAfterRotation0": "4nazoAgnE4PKr95mmmJYj4tBnqBVTLHLqhSYbJmkT7cRVP79RCMLjP6hZT5pijyDGx8SoNdU56wQ9Fu18ZeXMdLB",
+      "withdrawAfterRotation1": "LSi7aCakmjDGtn3Q2aAhi7dLwqkEg3Vsvg7hzgWpBUHV2ZYeqGbJLvSc5qpPoFHhvgs1h1yBvVoedogwg7B2KrT",
+      "withdrawAfterRotation2": "4BDjRDTtvLcBW3dUgKoCe1rEaspz1qLzV8ZkKzG7YLegtQ8LkoZtEWBbzNfW4fngPozHiJHksJRqj7vrA3XSvijm",
+      "closeAfterRotation": "31BmKBfJw9HbcsvSq16aUFcsk1sHQjFPf7BohS1j3PssxXp5h4B5KRnt7kTfG4yJcwdTAvrY5Sycc4cwsNS4GRnE",
+      "adminRotation": "5WxJULvTtmA65K7bBm438bydrP7QoGsSzRBY2b4RhDTnYPjriJgSzW6rF5CQDKVkeL1ZqQvY5ns21MnRXe5jTeQn"
     }
   }
 }

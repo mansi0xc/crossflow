@@ -1,0 +1,59 @@
+{
+  "task": "T00",
+  "status": "CHECKS_PASS_REVIEW_PENDING",
+  "recordedAt": "2026-09-25T01:27:42.384Z",
+  "sourceCommit": "a0bddbf6384f7bafa28e2a6b32954f9d2f3f33a7",
+  "sourceTreeSha256": "535a94c2d2c21ce798f450466496b923722afc600f0c74b7ee2fdbd3f7fdf103",
+  "sourceFiles": {
+    "scripts/preflight.mjs": "1ef30ba87416b149ea2a32b145910489d2f3b3c450708f950f9c1fca4c7634dd",
+    "docs/decisions/preflight.md": "9db98386b661d79dca4ba0909babd3d66b43e2d71026ecea5bcf44b39195d92f",
+    "docs/decisions/dependencies.csv": "d752651f38446a37e6851a755c922603cb0adfff0e7de88f3694e21f34f7e6bb",
+    "docs/operations/cost-ledger.csv": "6c7afc9566b579501dd19f4de89722f0a08efb6dfb26b0b5b3748f66a06cb0ad",
+    "verification/tasks/T00.json": "2178c8619194f0694844a5c5a44aa20edb046e914dc011adf690b2550e924d18"
+  },
+  "policyFixtureSha256": "e31d3209a0556554172821a35f16aeeb406fa1cf27ea01512ea279b4ea370ecf",
+  "environment": "LOCAL_NO_TRANSACTION",
+  "clusterGenesis": null,
+  "transactionCount": 0,
+  "versions": {
+    "node": "v24.10.0",
+    "pnpm": "10.17.1",
+    "anchor": "anchor-cli 1.1.2",
+    "cargo": "cargo 1.89.0 (c24e10642 2025-06-23)"
+  },
+  "checks": [
+    {
+      "name": "preflight",
+      "kind": "evidence-pass",
+      "command": [
+        "node",
+        "scripts/preflight.mjs"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "preflight.log",
+      "outputSha256": "c15608b666470fa778292833023a49cc375e21ad2936a1c6898874dde1258124",
+      "passed": true
+    },
+    {
+      "name": "verification-harness",
+      "kind": "workspace",
+      "command": [
+        "corepack",
+        "pnpm@10.17.1",
+        "check:workspace"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "verification-harness.log",
+      "outputSha256": "96985920c95e4da0520832114f3e72c9db92cb8534cc81dfd73a4624ea952f8c",
+      "passed": true
+    }
+  ],
+  "mandatoryCheckCount": 2,
+  "executedCheckCount": 2,
+  "reviewer": null,
+  "limits": [
+    "Checks only; independent reviewer and actual runtime/compute capacity remain open"
+  ]
+}

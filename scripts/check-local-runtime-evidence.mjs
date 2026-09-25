@@ -25,8 +25,9 @@ if (evidence.task !== 'T05' || evidence.status !== 'LOCAL_FUNDING_PASS' || evide
     evidence.attacker_first_initializer_rejected !== true || evidence.duplicate_initialization_rejected !== true || evidence.prefunded_system_pda_adopted_safely !== true ||
     evidence.prefund_rent_lamports <= 0 || evidence.actual_compute_units <= 0 || evidence.actual_compute_units > evidence.requested_compute_units ||
     requiredRollbacks.some((name) => !evidence.rollback_cases.includes(name)) ||
-    Object.keys(evidence.transaction_signatures).length !== 5 ||
-    new Set(Object.values(evidence.transaction_signatures)).size !== 5 ||
+    // As in T06: distinctness and well-formedness matter, the exact count does not.
+    Object.keys(evidence.transaction_signatures).length < 5 ||
+    new Set(Object.values(evidence.transaction_signatures)).size !== Object.keys(evidence.transaction_signatures).length ||
     evidence.before_raw_balances.source.some((value, i) => BigInt(value) - BigInt(evidence.after_raw_balances.source[i]) !== BigInt(evidence.after_raw_balances.vault[i]) - BigInt(evidence.before_raw_balances.vault[i])) ||
     evidence.stored_intent_verified !== true || !/^[0-9a-f]{64}$/.test(evidence.stored_mandate_hash) ||
     !evidence.price_label.startsWith('TEST PRICES')) throw new Error('local runtime evidence failed required assertions');

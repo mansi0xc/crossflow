@@ -1,0 +1,61 @@
+{
+  "task": "T03",
+  "status": "CHECKS_PASS_REVIEW_PENDING",
+  "recordedAt": "2026-09-25T01:27:46.400Z",
+  "sourceCommit": "a0bddbf6384f7bafa28e2a6b32954f9d2f3f33a7",
+  "sourceTreeSha256": "7b232798277103f3efbf24e0a5fab59bb409c3de22164293faf962282d88551d",
+  "sourceFiles": {
+    "research/economics/reference.py": "fd6d7c8734dd26fcad396a35398cdbc6e072a07a1bda244dd2ab035a9b4f69d7",
+    "research/economics/test_reference.py": "69705790d685b5c5fd2ecf4c9f5ceb1a758c0bd11a1dd85fdd3fa09f847adb04",
+    "research/economics/opportunity-report.md": "fe56ffae734440e264e039d783895b085c2215a9713f83e45553b40dd916dfae",
+    "research/economics/reference-results.json": "51a7973598d3a664f335a93faa3ef01b6ad75fa52992f6b9fe8a413037a1ab7c",
+    "research/economics/scenario-spec.md": "465d9d509516e81d4e93814806ae4757f0f403d95710addb792c6478fd44c4a0",
+    "verification/tasks/T03.json": "5c45031e9bfcb944f4d6cbb923bba072f6b255fc2ab66966bbca22571d8de349"
+  },
+  "policyFixtureSha256": "e31d3209a0556554172821a35f16aeeb406fa1cf27ea01512ea279b4ea370ecf",
+  "environment": "LOCAL_NO_TRANSACTION",
+  "clusterGenesis": null,
+  "transactionCount": 0,
+  "versions": {
+    "node": "v24.10.0",
+    "pnpm": "10.17.1",
+    "anchor": "anchor-cli 1.1.2",
+    "cargo": "cargo 1.89.0 (c24e10642 2025-06-23)"
+  },
+  "checks": [
+    {
+      "name": "reference-model",
+      "kind": "python-test",
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "research/economics/test_reference.py"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "reference-model.log",
+      "outputSha256": "9c2632edcaaa599085d6de8e048433e56d2a27de0ea1fd23c5a8eb03b61c991d",
+      "passed": true
+    },
+    {
+      "name": "scenarios",
+      "kind": "evidence-pass",
+      "command": [
+        "python3",
+        "scripts/check-scenarios.py"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "scenarios.log",
+      "outputSha256": "15f699005940159c0b14b1a81ed7066c9aece13e465197e5c2ef175633ff26b2",
+      "passed": true
+    }
+  ],
+  "mandatoryCheckCount": 2,
+  "executedCheckCount": 2,
+  "reviewer": null,
+  "limits": [
+    "Checks only; independent reviewer and actual runtime/compute capacity remain open"
+  ]
+}

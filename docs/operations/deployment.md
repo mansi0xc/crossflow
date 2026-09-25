@@ -87,3 +87,21 @@ reviewed build is a different program.
 The check reports `deployed_binary_sha256` and `local_binary_matches_deployed`. On the current
 devnet deployment both the on-chain policy hash and the binary hash match the committed manifest
 and the local build.
+
+
+## What the live deployment is, and is not
+
+The devnet program is deployed under a policy with **routing disabled** (`route_kind = 0`). It
+therefore exercises the internal-crossing path only: funding, an atomic three-owner batch that
+crosses orders between owners, rejection, and owner recovery. The composed residual route (`T16`) has
+**never run on devnet**; its evidence is from an isolated local validator against the synthetic
+venue, and the release manifest says so.
+
+The policy hash stored on chain is compared with the committed manifest on every check, so a
+disagreement — including a change to the route configuration — fails the check rather than being
+reported as a footnote. The deployed bytecode is compared with a local build for the same reason.
+
+Changing the live deployment to a route-enabled policy would require a new deployment identity,
+because a config account carries its policy for the life of the deployment. That has not been done:
+the current identity's evidence is bound to it, and replacing it would invalidate that transcript
+rather than extend it.

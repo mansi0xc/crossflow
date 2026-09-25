@@ -65,3 +65,11 @@ No external residual liquidity, no authenticated oracle, no routed residual, no 
 oracle-plus-route capacity measurement, no independent review of the integrated money path
 (T17/T22), and no production or mainnet readiness. Interest rate, slippage and market-impact
 figures in the economic evaluation are modelled, not observed.
+
+
+## Scope of this deployment
+
+This deployment's committed policy has routing disabled, so the probe exercises the internal
+crossing path only. The composed residual route has never run on devnet; its evidence is local
+(`verification/evidence/T16-local-route-output.json`). The live policy hash and the deployed
+bytecode are both checked against the committed manifest, so this scope cannot drift silently.

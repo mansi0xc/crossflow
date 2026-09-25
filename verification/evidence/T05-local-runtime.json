@@ -3,27 +3,20 @@
   "status": "LOCAL_FUNDING_PASS",
   "cluster": "localnet",
   "rpc": "http://127.0.0.1:8899",
-  "genesis": "87iXpApKAgTJWXhqcRMGHky12KK84bKrX5x1XRVtKWqg",
+  "genesis": "433GDpZ3H5kzNHCn3mX3BAWZxtzBPzzaVwvh7FJXuUut",
   "program_id": "CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh",
-  "program_binary_sha256": "5036a52d1ea9a89725c44cf511ff81fad5662f7b50ddd6a5bf7d5cd9f5d4d425",
-  "deployment_manifest_sha256": "1ba94232ac0b3f3c5c58ef1ec069aee96fd12af7a6834421d785363aa010c414",
-  "deployment_id": "8ce5383fa2d59c7260cfee6902f45d62b4ee05398b1f07d048d2bbc7e0762920",
-  "policy_hash": "8a0f75ded50af5b7922eb620633867844f5f7ed77c8b1262ae63c2f53b0d63bf",
-  "initializer": "HbXuq8b2P4324QUkpdZDznJz7ZGn6rFvPiCb8n6LxwbD",
-  "config": "EH7SNZKNHFsLMV3T1N5u92gAwJT1Rp5y879mSM6Yjkvs",
-  "prices": "9RV1A3geMXugZp3TrawbdZnYWjCqzpYWu1hatJHBtZ5u",
-  "intent": "97jMrFa9GRNxAJkEKZsCkbVgdr6zRhH4UHhcTbk6LWi",
-  "transaction_signatures": {
-    "program_deploy": "2K5nobKYKJQXUQ48gfxVU2oe16C3JMRhUBJhZq2mmojae8QTtWuba3v9WVx6jzzrypU1MBCK3nUbxMbwpskygkix",
-    "prefund_config_pda": "3GWkM9vZ9cjKCHk3qYAzbgT32DNWiC7Vmzd3PjkWC3MqsLKL283YGPvgcprATiZCES7CuKJcX4E5yirGEVttQo75",
-    "config_initialize": "38Q9seDaKA3xFSSwk6ZkJVoVxrHWq7DuGXSEbJCE68VRgn7c9LyLyqSQsLH5PRmV7U6uZeHmf7f36YPxxSLq2B9E",
-    "fixture_publish": "4B1BESMFfjvyrax7L2ygCNZR98DBUrTDFTBGMvSEYstfgy9rA7beVCHKa2pkSG4Yv5pb28ojEJdbQwMFxoypnqBE",
-    "funding": "5QRmnp8JV3Ri6mpvvVH1zBVKLDpP7FUezi9r74t3gC2KVNuPQwCCpxqjyp2D41ivKTLrSG7zEPbciNBeckh9giwi"
-  },
+  "deployment_id": "429b17a3d099d8caa36ff8ce2cd2e8490425a227d97223de12f01821c3480655",
+  "policy_hash": "ef2f88826a88a04e0c4bad6657c770efdcebe14dbf73d79c7fd7bb34db3be54f",
+  "initializer": "8fZgN7s6oad1tJ9kWodL8HFT5kzvdLPjoLeH7UCZPfXH",
+  "config": "6t6BL5ne6nbJ5qbyMb7jCqvP35h5XY4SSh78zNwivGkZ",
+  "prices": "HEU1gMBocEtu8vEWNgkzGMZyccsQkd1MTkP75bsAwtAX",
+  "price_label": "TEST PRICES; synthetic fixture oracle; no equity price claim",
   "attacker_first_initializer_rejected": true,
   "duplicate_initialization_rejected": true,
   "prefunded_system_pda_adopted_safely": true,
-  "prefund_rent_lamports": 6674640,
+  "prefund_rent_lamports": 0,
+  "actual_compute_units": 0,
+  "requested_compute_units": 1400000,
   "rollback_cases": [
     "one-raw-unit-reference-mismatch",
     "insufficient-source-balance",
@@ -34,29 +27,91 @@
     "duplicate-intent-replay"
   ],
   "negative_results": [
-    { "label": "attacker-first-initializer", "log": "Program log: Error Code: Initializer. Expected deployment initializer signature required.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x17d6" },
-    { "label": "duplicate-initialization", "log": "Allocate: account EH7SNZKNHFsLMV3T1N5u92gAwJT1Rp5y879mSM6Yjkvs already in use\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x0" },
-    { "label": "one-raw-unit-reference-mismatch", "log": "Program log: Error Code: ReferenceMove. Price moved beyond the funded reference bound.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x177a" },
-    { "label": "insufficient-source-balance", "log": "Program log: Error Code: InsufficientFunds. Insufficient selected slice funding.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x18a2" },
-    { "label": "substituted-source-ata", "log": "Program log: Error Code: AccountOwnedByWrongProgram. The given account is owned by a different program than expected.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0xbbf" },
-    { "label": "substituted-configured-mint", "log": "Program log: Error Code: ConstraintAssociated. An associated constraint was violated.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x7d9" },
-    { "label": "wrong-funder-signer", "log": "Program log: Error Code: ConstraintSeeds. A seeds constraint was violated.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x7d6" },
-    { "label": "duplicate-active-intent-new-nonce", "log": "Program log: Error Code: Nonce. Owner nonce or active intent is invalid.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x183b" },
-    { "label": "duplicate-intent-replay", "log": "Allocate: account 97jMrFa9GRNxAJkEKZsCkbVgdr6zRhH4UHhcTbk6LWi already in use\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x0" }
+    {
+      "label": "attacker-first-initializer",
+      "expected": "/Error Code: (?:Initializer|ConstraintInit)|already in use/",
+      "log": "Program CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: InitializeConfig\nProgram 11111111111111111111111111111111 invoke [2]\nProgram 11111111111111111111111111111111 success\nProgram 11111111111111111111111111111111 invoke [2]\nProgram 11111111111111111111111111111111 success\nProgram 11111111111111111111111111111111 invoke [2]\nProgram 11111111111111111111111111111111 success\nProgram log: AnchorError caused by account: initializer. Error Code: Initializer. Error Number: 6102. Error Message: Expected deployment initializer signature required.\nProgram log: Left:\nProgram log: Go7DyktTYEn8bbh4bA4T1t9kdsesjsvaCFZfTrvv7Cxm\nProgram log: Right:\nProgram log: 8fZgN7s6oad1tJ9kWodL8HFT5kzvdLPjoLeH7UCZPfXH\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 17779 of 400000 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x17d6"
+    },
+    {
+      "label": "duplicate-initialization",
+      "expected": "/already in use|Error Code: ConstraintInit/",
+      "log": "Program CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: InitializeConfig\nProgram 11111111111111111111111111111111 invoke [2]\nAllocate: account Address { address: 6t6BL5ne6nbJ5qbyMb7jCqvP35h5XY4SSh78zNwivGkZ, base: None } already in use\nProgram 11111111111111111111111111111111 failed: custom program error: 0x0\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 5554 of 400000 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x0"
+    },
+    {
+      "label": "one-raw-unit-reference-mismatch",
+      "expected": "/Error Code: ReferenceMove/",
+      "log": "Program ComputeBudget111111111111111111111111111111 invoke [1]\nProgram ComputeBudget111111111111111111111111111111 success\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: CreateAndFund\nProgram 11111111111111111111111111111111 invoke [2]\nProgram 11111111111111111111111111111111 success\nProgram 11111111111111111111111111111111 invoke [2]\nProgram 11111111111111111111111111111111 success\nProgram log: AnchorError thrown in programs/crossflow/src/oracle.rs:317. Error Code: ReferenceMove. Error Number: 6010. Error Message: Price moved beyond the funded reference bound.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 63545 of 599850 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x177a"
+    },
+    {
+      "label": "insufficient-source-balance",
+      "expected": "/Error Code: InsufficientFunds/",
+      "log": "Program ComputeBudget111111111111111111111111111111 invoke [1]\nProgram ComputeBudget111111111111111111111111111111 success\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: CreateAndFund\nProgram 11111111111111111111111111111111 invoke [2]\nProgram 11111111111111111111111111111111 success\nProgram 11111111111111111111111111111111 invoke [2]\nProgram 11111111111111111111111111111111 success\nProgram ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL invoke [2]\nProgram log: CreateIdempotent\nProgram TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA invoke [3]\nProgram log: Instruction: GetAccountDataSize\nProgram TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA consumed 1569 of 524882 compute units\nProgram return: TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA pQAAAAAAAAA=\nProgram TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA success\nProgram 11111111111111111111111111111111 invoke [3]\nProgram 11111111111111111111111111111111 success\nProgram log: Initialize the associated token account\nProgram TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA invoke [3]\nProgram log: Instruction: InitializeImmutableOwner\nProgram log: Please upgrade to SPL Token 2022 for immutable owner support\nProgram TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA consumed 1405 of 518403 compute units\nProgram TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA success\nProgram TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA invoke [3]\nProgram log: Instruction: InitializeAccount3\nProgram TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA consumed 4188 of 514572 compute units\nProgram TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA success\nProgram ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL consumed 20231 of 530311 compute units\nProgram ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL success\nProgram log: AnchorError thrown in programs/crossflow/src/funding.rs:236. Error Code: InsufficientFunds. Error Number: 6306. Error Message: Insufficient selected slice funding.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 92829 of 599850 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x18a2"
+    },
+    {
+      "label": "substituted-source-ata",
+      "expected": "/Error Code: (?:AccountOwnedByWrongProgram|ConstraintAssociated)/",
+      "log": "Program ComputeBudget111111111111111111111111111111 invoke [1]\nProgram ComputeBudget111111111111111111111111111111 success\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: CreateAndFund\nProgram log: AnchorError caused by account: source1. Error Code: AccountOwnedByWrongProgram. Error Number: 3007. Error Message: The given account is owned by a different program than expected.\nProgram log: Left:\nProgram log: NativeLoader1111111111111111111111111111111\nProgram log: Right:\nProgram log: TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 10677 of 599850 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0xbbf"
+    },
+    {
+      "label": "substituted-configured-mint",
+      "expected": "/Error Code: (?:ConstraintAssociated|Mint)/",
+      "log": "Program ComputeBudget111111111111111111111111111111 invoke [1]\nProgram ComputeBudget111111111111111111111111111111 success\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: CreateAndFund\nProgram 11111111111111111111111111111111 invoke [2]\nProgram 11111111111111111111111111111111 success\nProgram 11111111111111111111111111111111 invoke [2]\nProgram 11111111111111111111111111111111 success\nProgram log: AnchorError caused by account: source1. Error Code: ConstraintAssociated. Error Number: 2009. Error Message: An associated constraint was violated.\nProgram log: Left:\nProgram log: 8qyNdbAHjZQqfSrSMRkNJar4HvogkM1fwFGaM12F7xnB\nProgram log: Right:\nProgram log: 2kip5S9rMEh3w4U7j9gjZR2uLC8pPzHZMF6NEiY3vPTH\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 37225 of 599850 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x7d9"
+    },
+    {
+      "label": "wrong-funder-signer",
+      "expected": "/Error Code: (?:ConstraintSeeds|Nonce)/",
+      "log": "Program ComputeBudget111111111111111111111111111111 invoke [1]\nProgram ComputeBudget111111111111111111111111111111 success\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: CreateAndFund\nProgram log: AnchorError caused by account: owner_state. Error Code: ConstraintSeeds. Error Number: 2006. Error Message: A seeds constraint was violated.\nProgram log: Left:\nProgram log: 3ErsFk83PfmEroNxmzHyvjfAJA7DuwgAFB46sVaSR5vn\nProgram log: Right:\nProgram log: EsEmeyapY1BqdgmESMaDpwQxtNwHzWEoCmeavupoxfm2\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 16321 of 599850 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x7d6"
+    },
+    {
+      "label": "duplicate-active-intent-new-nonce",
+      "expected": "/Error Code: Nonce/",
+      "log": "Program ComputeBudget111111111111111111111111111111 invoke [1]\nProgram ComputeBudget111111111111111111111111111111 success\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: CreateAndFund\nProgram 11111111111111111111111111111111 invoke [2]\nProgram 11111111111111111111111111111111 success\nProgram log: AnchorError thrown in programs/crossflow/src/funding.rs:172. Error Code: Nonce. Error Number: 6203. Error Message: Owner nonce or active intent is invalid.\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 61028 of 599850 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x183b"
+    },
+    {
+      "label": "duplicate-intent-replay",
+      "expected": "/already in use|Error Code: ConstraintInit/",
+      "log": "Program ComputeBudget111111111111111111111111111111 invoke [1]\nProgram ComputeBudget111111111111111111111111111111 success\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh invoke [1]\nProgram log: Instruction: CreateAndFund\nProgram 11111111111111111111111111111111 invoke [2]\nAllocate: account Address { address: 4PFFyeKuQjQGnGRG19VCopc9QnTsEXpsVzhZXJMQ7Wsy, base: None } already in use\nProgram 11111111111111111111111111111111 failed: custom program error: 0x0\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh consumed 17049 of 599850 compute units\nProgram CW1jtAmpZWWwu3HyTACiW6W7Bwh6efcPHiha3noXbRkh failed: custom program error: 0x0"
+    }
   ],
-  "before_raw_balances": { "source": ["900000000", "9000000", "9000000"], "vault": ["0", "0", "0"] },
-  "after_raw_balances": { "source": ["800000000", "8000000", "8000000"], "vault": ["100000000", "1000000", "1000000"] },
-  "intent_data_length": 522,
-  "stored_mandate_hash": "7cd6325476fef7ed783c7bdc34a4fd7a04d13d8319e1613bfb5959e49c7b44a6",
+  "transaction_signatures": {
+    "deploy": "     Running unittests src/lib.rs (/Users/mansitibrewal/chronicles/crossflow/target/debug/deps/test_venue-fa2ce4216d46d710)\n4ZL8TpwMPv5QsgUtodyjGcbE1jk6MUXzeBZNDYCNTTZkAeFCMjMnLa26UyBrZ7V54ybd5oTp8AkHAmnVtodKeiNY",
+    "prefund": "3nDENkwwgK1woWs9ETdVpi7qxRxWeN6pK8eZ3CxGJtrYUtVzLFscxL4T5umNCvZMAyFk5veBgM9JWazo3imohcAu",
+    "initialize": "4WTXjEaQjPRUsBC6EsPYiUw23bXS1ubSBAJxZfPu4cBdY4nvz5jE98ZV9aGJR2spkL1gECvmsMK6LTCT8RFoVFGo",
+    "publish": "5yKWiaPZrReHrBvipBxjUpi2JygRMG8hmhBm1JKAifYcL6jWZkk8neFaEE8j3WKipG2syH9ACxvuSnx2gBEqtVzF",
+    "fund": "Jci6rCoGmzVKgx745KW22qKqVecTHGzqCa2K6BKaqj68FsAAUjZKnmRqueh2T5PPXHWYLGcsd5tJmFmETsSRjt6"
+  },
+  "before_raw_balances": {
+    "source": [
+      "100000000",
+      "10000000",
+      "10000000"
+    ],
+    "vault": [
+      "0",
+      "0",
+      "0"
+    ]
+  },
+  "after_raw_balances": {
+    "source": [
+      "0",
+      "9000000",
+      "9000000"
+    ],
+    "vault": [
+      "100000000",
+      "1000000",
+      "1000000"
+    ]
+  },
   "stored_intent_verified": true,
-  "requested_compute_units": 600000,
-  "actual_compute_units": 179581,
-  "price_label": "TEST PRICES; synthetic fixture oracle; no equity price claim",
+  "stored_mandate_hash": "89cbd841f6fbe1b8e249c7299f6cfe87094f8cfc89d17beaddb764454d4c0adf",
+  "program_binary_sha256": "6dff4d999d13aa0757f58e5ebff33182befe3389cf2990226d07649faa8d1f9b",
+  "deployment_manifest_sha256": "072776ea056acb51b2620a0f764ac2840503e3a5fd2001a4609cf052a321d8ba",
+  "demo_output_sha256": "774c07a8b1026d0e50489872850afc059350738207c1853648609479fcbf311a",
   "limitations": [
-    "Isolated local validator only; no devnet transaction in this evidence.",
-    "Synthetic prices use the documented fixture publisher; no Pyth or live equity price is claimed.",
-    "This verifies one-owner funding and rollback, not settlement or withdrawal recovery; those remain T06.",
-    "SBF build post-processing reports unknown syscall names; this successful local runtime proves the syscalls exercised by T05 work in this local validator only.",
-    "Mint decimal mismatch is rejected by the Rust-host validator test; runtime substituting a nonconfigured mint is rejected by Anchor's associated-token constraint."
+    "Local validator with synthetic TEST PRICES; this is not devnet and not a market.",
+    "The transcript shows funding and its rollback cases only; settlement and recovery are covered by T06 and T07.",
+    "Test assets are devnet-style mints with revoked authorities, not issuer-backed shares."
   ]
 }

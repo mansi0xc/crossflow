@@ -1,0 +1,139 @@
+{
+  "task": "T04",
+  "status": "CHECKS_PASS_REVIEW_PENDING",
+  "recordedAt": "2026-09-25T01:28:00.244Z",
+  "sourceCommit": "a0bddbf6384f7bafa28e2a6b32954f9d2f3f33a7",
+  "sourceTreeSha256": "853aaaffcd2fd00325674a469cf53d9052af7b7156884acf1416d41afed1d352",
+  "sourceFiles": {
+    ".env.example": "d0b5cb1b4c50b4908afba3428d1e0fce446707ff0c84d51c4922246746e0786d",
+    "package.json": "15efdc9e5442dce0e2f083abf0cba25851475921bcd15869a77b7aac92b562bd",
+    "pnpm-lock.yaml": "c7f448b95f5353b62a8ef43f64f92037d6f3a9e123e77dcbc0cc2a9933b71809",
+    "pnpm-workspace.yaml": "af261372097773546d4000a74b771c8c09c4114ca5e9dd715c95018b44e1fbe3",
+    "tsconfig.json": "3ecbad51f49a3f520d97305a1e563d59807cf5574ce0ee21063a856eeda6b852",
+    "Cargo.toml": "1d92d53c62df8f99c76b6d7309471a455f828c39d973e8830d08eff1ce30a046",
+    "Cargo.lock": "ab891565c7cbc74fc67dd73644ef9e498261e6d230742e926630877979217113",
+    "rust-toolchain.toml": "852202cf583a8d7142295dafcf949668d90a0a2dcd85e3e09cefd7bc1f530150",
+    "Anchor.toml": "870e9066086e34f807ab3d35c056bc4c6926027f537ec692d93597993d5b0f59",
+    "docs/decisions/workspace.md": "1efbfcd6267b2e3fa59d8cba3fb0d3e4f68a5c240a407cf8a2143077dfb18468",
+    ".github/workflows/check.yml": "cb4282c1a2841c98206f52d395be84eed82913dd5881d1a742c6724506e2bf34",
+    "programs/crossflow/Cargo.toml": "baa14901bf4d57b29baf07dc5ffc869989a4a41353e16d187d5c9ee69f7d6e80",
+    "programs/crossflow/src/lib.rs": "ebaa572c86aaa7531f41a6992511cc86ac81b8e1a8aa587f297c1fcb61a9ae0d",
+    "packages/contracts/package.json": "4833c534d91bbb2d5656115419bd56ef5bf2d659d41cace7f4c349e8f7d3d982",
+    "packages/contracts/src/index.ts": "5bc1f3ecf587270f35af65d87242371e2017a1fec635a6f2f4972bd7063eb26d",
+    "scripts/check-workspace.mjs": "3d8485b0bbc89506ad7a632ff4e1d754e7c82c7457341d7a595109d314477774",
+    "scripts/network-guard.mjs": "f05b8319efeff4e6713d4b9bdbe98a165592ee3bf4853bfce47e5241544790cb",
+    "scripts/probe-capacity.ts": "828f14f1c2fd19ad6642fc8777c5ad951b515d48e6807611f6fa203a298d1215",
+    "scripts/verify-task.mjs": "1581a4c28fcc970594abf4ef13afb4886ff0f1868aeab7e046189875e3898920",
+    "tests/workspace/policy.test.mjs": "6007c0a4b179dc2407cf251e7cfb01a16aa562e82ad4e5654584f98a2a58c8f1",
+    "tests/workspace/network-guard.test.mjs": "cb6b31e69647a0096ef956656b119c5dcb0ebfeede2e553a8fde5529cf04aa0e",
+    "tests/workspace/verify-task.test.mjs": "b9159dfd4f2c6bbe5a1bac9a8d32bd3d0b22a3ef11331c991094a0fa844109c1",
+    "tests/spec/wire-vectors.test.ts": "adc28b88065e32cfe334abe57b8bafd6b4416e76a04d75ae08368a77ac0e30d3",
+    "verification/tasks/T04.json": "54d91af24945fa25bef431561cc606589e04f854518b529ff167f2828eb0d6ba"
+  },
+  "policyFixtureSha256": "e31d3209a0556554172821a35f16aeeb406fa1cf27ea01512ea279b4ea370ecf",
+  "environment": "LOCAL_NO_TRANSACTION",
+  "clusterGenesis": null,
+  "transactionCount": 0,
+  "versions": {
+    "node": "v24.10.0",
+    "pnpm": "10.17.1",
+    "anchor": "anchor-cli 1.1.2",
+    "cargo": "cargo 1.89.0 (c24e10642 2025-06-23)"
+  },
+  "checks": [
+    {
+      "name": "locked-install",
+      "kind": "locked-install",
+      "command": [
+        "corepack",
+        "pnpm@10.17.1",
+        "install",
+        "--ignore-scripts",
+        "--frozen-lockfile",
+        "--offline"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "locked-install.log",
+      "outputSha256": "98588f76d51e6bd2ca0098570e279b4a6556749632edcb8cff341532ed508160",
+      "passed": true
+    },
+    {
+      "name": "workspace",
+      "kind": "workspace",
+      "command": [
+        "corepack",
+        "pnpm@10.17.1",
+        "run",
+        "check:workspace"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "workspace.log",
+      "outputSha256": "8e83a35d562f57ff6c5ab28cdb9ec83010bec87e3835c06ed86c28117017133d",
+      "passed": true
+    },
+    {
+      "name": "wire-spec",
+      "kind": "json-pass",
+      "command": [
+        "python3",
+        "docs/spec/check-wire-vectors.py"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "wire-spec.log",
+      "outputSha256": "4ba0c74daf803caec22b7ce0dfdf7f25b077c3b00595a17953d98a725c46ee5f",
+      "passed": true
+    },
+    {
+      "name": "rust-tests",
+      "kind": "cargo-test",
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--offline"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "rust-tests.log",
+      "outputSha256": "ce132a8479f4a82583db8e49eaf9cf53a52a82d1471a67733553e27dc04c882d",
+      "passed": true
+    },
+    {
+      "name": "sbf-build",
+      "kind": "anchor-build",
+      "command": [
+        "anchor",
+        "build"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "sbf-build.log",
+      "outputSha256": "84dc05a144a38cf1034eea5e4e32dc523e5eb3ba5a91311c25123ae3db5d1ab1",
+      "passed": true
+    },
+    {
+      "name": "capacity-estimate",
+      "kind": "capacity",
+      "command": [
+        "corepack",
+        "pnpm@10.17.1",
+        "run",
+        "probe:capacity"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "capacity-estimate.log",
+      "outputSha256": "0b3dba1506dda22d85ec3ad03ef22bce0f4799baa823d32f89aa17b9797514ae",
+      "passed": true
+    }
+  ],
+  "mandatoryCheckCount": 6,
+  "executedCheckCount": 6,
+  "reviewer": null,
+  "limits": [
+    "Checks only; independent reviewer and actual runtime/compute capacity remain open"
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "task": "T02",
+  "status": "CHECKS_PASS_REVIEW_PENDING",
+  "recordedAt": "2026-09-25T01:27:45.768Z",
+  "sourceCommit": "a0bddbf6384f7bafa28e2a6b32954f9d2f3f33a7",
+  "sourceTreeSha256": "f0f8782c0d51ea3d9d959432279eeb85fd374c7493496564bc30cd31a7a0bcef",
+  "sourceFiles": {
+    "docs/spec/intent-contract.md": "3263fe5eb0bc17b7ad550b601134f879b19ce9b71ca3dc4acbb2ac05f9756f1d",
+    "docs/spec/settlement-accounting.md": "2cfbbf7efd2edde1e10f63e092ea21adaeef7b79fe45afafa95b54ad28f9bd4f",
+    "docs/spec/threat-model.md": "6342bf719ff79412489ab32b320a34381e12f8e497c025aa8ed3281109adbda2",
+    "docs/spec/wire-vectors.json": "e31d3209a0556554172821a35f16aeeb406fa1cf27ea01512ea279b4ea370ecf",
+    "tests/spec/wire-vectors.test.ts": "adc28b88065e32cfe334abe57b8bafd6b4416e76a04d75ae08368a77ac0e30d3",
+    "packages/contracts/src/index.ts": "5bc1f3ecf587270f35af65d87242371e2017a1fec635a6f2f4972bd7063eb26d",
+    "packages/contracts/src/amounts.ts": "1ea67d6c74ef9887b9ea8bd5afe0efe9dfde17a3d60eec30d429689ca99a9477",
+    "verification/tasks/T02.json": "7fd889b597675ecf6838deadc72558fa29f8e0ee49689d9a01cb62b8789255d0"
+  },
+  "policyFixtureSha256": "e31d3209a0556554172821a35f16aeeb406fa1cf27ea01512ea279b4ea370ecf",
+  "environment": "LOCAL_NO_TRANSACTION",
+  "clusterGenesis": null,
+  "transactionCount": 0,
+  "versions": {
+    "node": "v24.10.0",
+    "pnpm": "10.17.1",
+    "anchor": "anchor-cli 1.1.2",
+    "cargo": "cargo 1.89.0 (c24e10642 2025-06-23)"
+  },
+  "checks": [
+    {
+      "name": "wire-vectors",
+      "kind": "vitest",
+      "command": [
+        "corepack",
+        "pnpm@10.17.1",
+        "exec",
+        "vitest",
+        "run",
+        "tests/spec/wire-vectors.test.ts"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "wire-vectors.log",
+      "outputSha256": "431f5382f68bcec20ae8189312b0233e83b2a906eca4d6398668bc563aecb6cc",
+      "passed": true
+    },
+    {
+      "name": "wire-vectors-recompute",
+      "kind": "json-pass",
+      "command": [
+        "python3",
+        "docs/spec/check-wire-vectors.py"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "wire-vectors-recompute.log",
+      "outputSha256": "4ba0c74daf803caec22b7ce0dfdf7f25b077c3b00595a17953d98a725c46ee5f",
+      "passed": true
+    },
+    {
+      "name": "typescript",
+      "kind": "typecheck",
+      "command": [
+        "corepack",
+        "pnpm@10.17.1",
+        "exec",
+        "tsc",
+        "--noEmit"
+      ],
+      "exit": 0,
+      "signal": null,
+      "output": "typescript.log",
+      "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "passed": true
+    }
+  ],
+  "mandatoryCheckCount": 3,
+  "executedCheckCount": 3,
+  "reviewer": null,
+  "limits": [
+    "Checks only; independent reviewer and actual runtime/compute capacity remain open"
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "task": "T00",
+  "timestamp": "2026-09-25T01:27:39.889Z",
+  "scope": "Environment and policy preflight only; no transaction is submitted",
+  "configSha256": "33f26eeba8de96e22f0017e2ea0eb3aa11c85893375283bddf190ef9aac550a4",
+  "policy": "PASS",
+  "cluster": "devnet",
+  "spendAuthorized": 0,
+  "oracleMode": "fixture",
+  "tools": {
+    "node": {
+      "status": "PASS",
+      "value": "v24.10.0"
+    },
+    "pnpm": {
+      "status": "PASS",
+      "value": "10.17.1"
+    },
+    "anchor": {
+      "status": "PASS",
+      "value": "anchor-cli 1.1.2"
+    },
+    "solana": {
+      "status": "PASS",
+      "value": "solana-cli 3.1.10 (src:7bc9c805; feat:1620780344, client:Agave)"
+    },
+    "cargo": {
+      "status": "PASS",
+      "value": "cargo 1.89.0 (c24e10642 2025-06-23)"
+    },
+    "sbf": {
+      "status": "PASS",
+      "value": "solana-cargo-build-sbf 3.1.10\nplatform-tools v1.52\nrustc 1.89.0"
+    },
+    "python": {
+      "status": "PASS",
+      "value": "Python 3.9.6"
+    }
+  },
+  "rpc": {
+    "status": "PASS",
+    "genesis": "EtWTRABZaYq6iMfeYKouRu166VU2xqa1wcaWoxPkrZBG",
+    "health": "ok",
+    "version": {
+      "feature-set": 3383571666,
+      "solana-core": "4.3.0"
+    },
+    "methods": [
+      "getGenesisHash",
+      "getHealth",
+      "getVersion"
+    ]
+  },
+  "overall": "PASS"
+}

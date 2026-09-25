@@ -1,0 +1,1 @@
+{"expected_rejections": 5, "holdout": 8, "optimizer_runs": 0, "references": 41, "scenarios": 20, "status": "PASS", "suite_sha256": "f8ce9388d0280a9faa92327d9f341fc9f265f22cc271f25f4d106ae60d7b59e7", "train": 12}
